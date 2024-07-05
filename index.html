@@ -19,9 +19,9 @@
     </div>
     <button id="connectBluetooth">Bluetooth Cihazına Bağlan</button>
     <script>
-        // Jiroskop verilerini dinlemek için event listener ekleyin
+        
         window.addEventListener('deviceorientation', function(event) {
-            // Alfa, beta ve gamma değerlerini alın
+            
             const alpha = event.alpha;
             const beta = event.beta;
             const gamma = event.gamma;
@@ -31,18 +31,18 @@
             document.getElementById('beta').textContent = beta.toFixed(2);
             document.getElementById('gamma').textContent = gamma.toFixed(2);
 
-            // Beta açısı 90 dereceden büyükse kamera açılır, küçükse kapanır
-            if (beta >= 90) {
+           
+            if (beta >= 75) {
                 startCamera();
             } else {
                 stopCamera();
             }
         });
 
-        // Kamera akışını başlatmak için fonksiyon
+        
         function startCamera() {
             const video = document.getElementById('video');
-            if (!video.srcObject) { // Kamera zaten açıksa tekrar açma
+            if (!video.srcObject) { 
                 navigator.mediaDevices.getUserMedia({ video: true })
                 .then(function(stream) {
                     video.srcObject = stream;
@@ -54,7 +54,7 @@
             }
         }
 
-        // Kamera akışını durdurmak için fonksiyon
+       
         function stopCamera() {
             const video = document.getElementById('video');
             if (video.srcObject) {
@@ -70,7 +70,7 @@
             }
         }
 
-        // Bluetooth cihazına bağlanmak için event listener ekleyin
+        
         document.getElementById('connectBluetooth').addEventListener('click', function() {
             navigator.bluetooth.requestDevice({ acceptAllDevices: true })
             .then(device => {
@@ -78,7 +78,7 @@
                 return device.gatt.connect();
             })
             .then(server => {
-                // Servis ve karakteristikleri buradan belirleyin
+              
                 return server.getPrimaryService('battery_service');
             })
             .then(service => {
@@ -88,8 +88,8 @@
                 return characteristic.readValue();
             })
             .then(value => {
-                // RSSI değerini buradan okuyun
-                let rssi = value.getInt8(0); // Bu, örnek bir karakteristik okuma işlemidir
+               
+                let rssi = value.getInt8(0);
                 document.getElementById('rssi').textContent = rssi + ' dBm';
             })
             .catch(error => {
