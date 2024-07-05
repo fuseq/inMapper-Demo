@@ -21,8 +21,7 @@
     <a-scene vr-mode-ui="enabled: false" embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
 
-        <a-entity gps-entity-place="latitude: 44.4908615; longitude: 11.3326416;"
-            gltf-model="./assets/magnemite/scene.gltf" rotation="0 180 0" animation-mixer scale="0.15 0.15 0.15" />
+        <a-entity gltf-model="./assets/magnemite/scene.gltf" rotation="0 180 0" animation-mixer scale="0.15 0.15 0.15" />
         <a-camera gps-camera rotation-reader></a-camera>
     </a-scene>
     <div id="data">
@@ -46,6 +45,7 @@
             document.getElementById('beta').textContent = beta.toFixed(2);
             document.getElementById('gamma').textContent = gamma.toFixed(2);
 
+            const camera = document.querySelector('a-camera');
 
             if (beta >= 75) {
                 startCamera();
@@ -54,25 +54,15 @@
             }
         });
 
-
-
-
-
-        function stopCamera() {
-            const video = document.getElementById('video');
-            if (video.srcObject) {
-                let stream = video.srcObject;
-                let tracks = stream.getTracks();
-
-                tracks.forEach(function (track) {
-                    track.stop();
-                });
-
-                video.srcObject = null;
-                video.style.display = 'none';
-            }
+        function startCamera() {
+            const camera = document.querySelector('a-camera');
+            camera.setAttribute('gps-camera', 'enabled', true);
         }
 
+        function stopCamera() {
+            const camera = document.querySelector('a-camera');
+            camera.setAttribute('gps-camera', 'enabled', false);
+        }
 
         document.getElementById('connectBluetooth').addEventListener('click', function () {
             navigator.bluetooth.requestDevice({ acceptAllDevices: true })
