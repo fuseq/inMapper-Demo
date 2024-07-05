@@ -9,27 +9,15 @@
             margin: 20px;
         }
     </style>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>GeoAR.js demo</title>
-    <script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
-    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 </head>
 
 <body>
-    <a-scene vr-mode-ui="enabled: false" embedded
-        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-
-        <a-entity gltf-model="./assets/magnemite/scene.gltf" rotation="0 180 0" animation-mixer scale="0.15 0.15 0.15" />
-        <a-camera gps-camera rotation-reader></a-camera>
-    </a-scene>
+    <video id="video" autoplay style="display: none;"></video>
     <div id="data">
         <p>Alfa: <span id="alpha">0</span></p>
         <p>Beta: <span id="beta">0</span></p>
         <p>Gamma: <span id="gamma">0</span></p>
         <p>Bluetooth Sinyal Gücü: <span id="rssi">Bağlanmadı</span></p>
-
     </div>
     <button id="connectBluetooth">Bluetooth Cihazına Bağlan</button>
     <script>
@@ -45,7 +33,6 @@
             document.getElementById('beta').textContent = beta.toFixed(2);
             document.getElementById('gamma').textContent = gamma.toFixed(2);
 
-            const camera = document.querySelector('a-camera');
 
             if (beta >= 75) {
                 startCamera();
@@ -54,15 +41,37 @@
             }
         });
 
+
         function startCamera() {
-            const camera = document.querySelector('a-camera');
-            camera.setAttribute('gps-camera', 'enabled', true);
+            const video = document.getElementById('video');
+            if (!video.srcObject) {
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
+                    .then(function (stream) {
+                        video.srcObject = stream;
+                        video.style.display = 'block';
+                    })
+                    .catch(function (error) {
+                        console.error('Kamera erişimi başarısız: ', error);
+                    });
+            }
         }
 
+
         function stopCamera() {
-            const camera = document.querySelector('a-camera');
-            camera.setAttribute('gps-camera', 'enabled', false);
+            const video = document.getElementById('video');
+            if (video.srcObject) {
+                let stream = video.srcObject;
+                let tracks = stream.getTracks();
+
+                tracks.forEach(function (track) {
+                    track.stop();
+                });
+
+                video.srcObject = null;
+                video.style.display = 'none';
+            }
         }
+
 
         document.getElementById('connectBluetooth').addEventListener('click', function () {
             navigator.bluetooth.requestDevice({ acceptAllDevices: true })
@@ -91,5 +100,3 @@
         });
     </script>
 </body>
-
-</html>
