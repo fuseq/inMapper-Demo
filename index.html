@@ -1,27 +1,22 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Jiroskop ve Bluetooth Verileri</title>
+    <title>Jiroskop ve AR ile Bluetooth Verileri</title>
     <style>
         #data {
             font-size: 20px;
             margin: 20px;
         }
     </style>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js'></script>
 </head>
-<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-<script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex-location-only.js'></script>
-<script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js'></script>
 <body>
-    
-    <video id="video" autoplay style="display: none;">
-        <a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
-            <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera>
-            <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: <add-your-latitude>; longitude: <add-your-longitude>" scale="10 10 10"></a-entity>
-        </a-scene>
+    <a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
+        <a-camera gps-camera='gpsMinDistance: 5'></a-camera>
+        <a-entity material='color: red' geometry='primitive: box' gps-entity-place="latitude: <add-your-latitude>; longitude: <add-your-longitude>" scale="10 10 10"></a-entity>
+    </a-scene>
 
-    </video>
     <div id="data">
         <p>Alfa: <span id="alpha">0</span></p>
         <p>Beta: <span id="beta">0</span></p>
@@ -29,10 +24,9 @@
         <p>Bluetooth Sinyal Gücü: <span id="rssi">Bağlanmadı</span></p>
     </div>
     <button id="connectBluetooth">Bluetooth Cihazına Bağlan</button>
+
     <script>
-
         window.addEventListener('deviceorientation', function (event) {
-
             const alpha = event.alpha;
             const beta = event.beta;
             const gamma = event.gamma;
@@ -42,14 +36,12 @@
             document.getElementById('beta').textContent = beta.toFixed(2);
             document.getElementById('gamma').textContent = gamma.toFixed(2);
 
-
             if (beta >= 75) {
                 startCamera();
             } else {
                 stopCamera();
             }
         });
-
 
         function startCamera() {
             const video = document.getElementById('video');
@@ -64,7 +56,6 @@
                     });
             }
         }
-
 
         function stopCamera() {
             const video = document.getElementById('video');
@@ -81,7 +72,6 @@
             }
         }
 
-
         document.getElementById('connectBluetooth').addEventListener('click', function () {
             navigator.bluetooth.requestDevice({ acceptAllDevices: true })
                 .then(device => {
@@ -89,7 +79,6 @@
                     return device.gatt.connect();
                 })
                 .then(server => {
-
                     return server.getPrimaryService('battery_service');
                 })
                 .then(service => {
@@ -99,7 +88,6 @@
                     return characteristic.readValue();
                 })
                 .then(value => {
-
                     let rssi = value.getInt8(0);
                     document.getElementById('rssi').textContent = rssi + ' dBm';
                 })
@@ -109,5 +97,4 @@
         });
     </script>
 </body>
-
 </html>
