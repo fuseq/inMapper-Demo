@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jiroskop ve Bluetooth Verileri</title>
+    <style>
+        #data {
+            font-size: 20px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <video id="video" autoplay style="display: none;"></video>
+    <div id="data">
+        <p>Alfa: <span id="alpha">0</span></p>
+        <p>Beta: <span id="beta">0</span></p>
+        <p>Gamma: <span id="gamma">0</span></p>
+        <p>Bluetooth Sinyal Gücü: <span id="rssi">Bağlanmadı</span></p>
+    </div>
+    <button id="connectBluetooth">Bluetooth Cihazına Bağlan</button>
+    <script>
+        // Jiroskop verilerini dinlemek için event listener ekleyin
+        window.addEventListener('deviceorientation', function(event) {
+            // Alfa, beta ve gamma değerlerini alın
+            const alpha = event.alpha;
+            const beta = event.beta;
+            const gamma = event.gamma;
+
+            // Değerleri ekranda güncelleyin
+            document.getElementById('alpha').textContent = alpha.toFixed(2);
+            document.getElementById('beta').textContent = beta.toFixed(2);
+            document.getElementById('gamma').textContent = gamma.toFixed(2);
+
+            // Beta açısı 90 dereceden büyükse kamera açılır, küçükse kapanır
+            if (beta >= 90) {
+                startCamera();
+            } else {
+                stopCamera();
+            }
+        });
+
+        // Kamera akışını başlatmak için fonksiyon
+        function startCamera() {
+            const video = document.getElementById('video');
+            if (!video.srcObject) { // Kamera zaten açıksa tekrar açma
+                navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.style.display = 'block';
+                })
+                .catch(function(error) {
+                    console.error('Kamera erişimi başarısız: ', error);
+                });
+            }
+        }
+
+        // Kamera akışını durdurmak için fonksiyon
+        function stopCamera() {
+            const video = document.getElementById('video');
+            if (video.srcObject) {
+                let stream = video.srcObject;
+                let tracks = stream.getTracks();
+
+                tracks.forEach(function(track) {
+                    track.stop();
+                });
+
+                video.srcObject = null;
+                video.style.display = 'none';
+            }
+        }
+
+        // Bluetooth cihazına bağlanmak için event listener ekleyin
+        document.getElementById('connectBluetooth').addEventListener('click', function() {
+            navigator.bluetooth.requestDevice({ acceptAllDevices: true })
+            .then(device => {
+                console.log('Bağlandı: ' + device.name);
+                return device.gatt.connect();
+            })
+            .then(server => {
+                // Servis ve karakteristikleri buradan belirleyin
+                return server.getPrimaryService('battery_service');
+            })
+            .then(service => {
+                return service.getCharacteristic('battery_level');
+            })
+            .then(characteristic => {
+                return characteristic.readValue();
+            })
+            .then(value => {
+                // RSSI değerini buradan okuyun
+                let rssi = value.getInt8(0); // Bu, örnek bir karakteristik okuma işlemidir
+                document.getElementById('rssi').textContent = rssi + ' dBm';
+            })
+            .catch(error => {
+                console.error('Bluetooth bağlantısı başarısız: ', error);
+            });
+        });
+    </script>
+</body>
+</html>
