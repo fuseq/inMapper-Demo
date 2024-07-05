@@ -1,116 +1,104 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>AR Yön Oku</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <title>Jiroskop ve Bluetooth Verileri</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
         #data {
             font-size: 20px;
             margin: 20px;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            color: white;
-            z-index: 2;
-            display: none; /* Başlangıçta gizlenmiş olacak */
-        }
-        #connectBluetooth {
-            display: none; /* Bluetooth butonunu kaldır */
-        }
-        a-scene {
-            width: 100vw;
-            height: 80vh;
-            position: absolute;
-            top: 10vh;
-            z-index: 1;
         }
     </style>
 </head>
+
 <body>
+    <video id="video" autoplay style="display: none;"></video>
     <div id="data">
         <p>Alfa: <span id="alpha">0</span></p>
         <p>Beta: <span id="beta">0</span></p>
         <p>Gamma: <span id="gamma">0</span></p>
+        <p>Bluetooth Sinyal Gücü: <span id="rssi">Bağlanmadı</span></p>
     </div>
-    <a-scene embedded arjs='sourceType: webcam;'>
-        <a-marker preset="hiro" id="marker">
-            <!-- Animasyonlu Yön Oku -->
-            <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 3000">
-                <a-cone position="0 0.5 0" radius-bottom="0.25" radius-top="0" height="1" color="#FF0000"></a-cone>
-                <a-cylinder position="0 0 0" radius="0.1" height="1" color="#FF0000"></a-cylinder>
-            </a-entity>
-        </a-marker>
-        <a-entity camera></a-entity>
-    </a-scene>
+    <button id="connectBluetooth">Bluetooth Cihazına Bağlan</button>
     <script>
-        // Jiroskop verilerini dinlemek için event listener ekleyin
-        window.addEventListener('deviceorientation', function(event) {
+
+        window.addEventListener('deviceorientation', function (event) {
+
             const alpha = event.alpha;
             const beta = event.beta;
             const gamma = event.gamma;
 
-            // Kamera açıksa verileri güncelle, değilse gösterme
-            if (isCameraOpen()) {
-                document.getElementById('alpha').textContent = alpha.toFixed(2);
-                document.getElementById('beta').textContent = beta.toFixed(2);
-                document.getElementById('gamma').textContent = gamma.toFixed(2);
+            // Değerleri ekranda güncelleyin
+            document.getElementById('alpha').textContent = alpha.toFixed(2);
+            document.getElementById('beta').textContent = beta.toFixed(2);
+            document.getElementById('gamma').textContent = gamma.toFixed(2);
+
+
+            if (beta >= 75) {
+                startCamera();
+            } else {
+                stopCamera();
             }
         });
 
-        // Kamerayı başlatma fonksiyonu
+
         function startCamera() {
             const video = document.getElementById('video');
             if (!video.srcObject) {
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
-                .then(function(stream) {
-                    video.srcObject = stream;
-                    video.style.display = 'block';
-                    document.getElementById('data').style.display = 'block'; // Verileri göster
-                })
-                .catch(function(error) {
-                    console.error('Kamera erişimi başarısız: ', error);
-                });
+                    .then(function (stream) {
+                        video.srcObject = stream;
+                        video.style.display = 'block';
+                    })
+                    .catch(function (error) {
+                        console.error('Kamera erişimi başarısız: ', error);
+                    });
             }
         }
 
-        // Kamerayı durdurma fonksiyonu
+
         function stopCamera() {
             const video = document.getElementById('video');
             if (video.srcObject) {
                 let stream = video.srcObject;
                 let tracks = stream.getTracks();
 
-                tracks.forEach(function(track) {
+                tracks.forEach(function (track) {
                     track.stop();
                 });
 
                 video.srcObject = null;
                 video.style.display = 'none';
-                document.getElementById('data').style.display = 'none'; // Verileri gizle
             }
         }
 
-        // Kamera açık mı kontrolü
-        function isCameraOpen() {
-            const video = document.getElementById('video');
-            return video.srcObject !== null;
-        }
 
-        // A-Frame AR.js ile marker görünümünü kontrol et
-        document.getElementById('marker').addEventListener('markerFound', function() {
-            // Marker algılandığında kamerayı aç
-            startCamera();
-        });
+        document.getElementById('connectBluetooth').addEventListener('click', function () {
+            navigator.bluetooth.requestDevice({ acceptAllDevices: true })
+                .then(device => {
+                    console.log('Bağlandı: ' + device.name);
+                    return device.gatt.connect();
+                })
+                .then(server => {
 
-        document.getElementById('marker').addEventListener('markerLost', function() {
-            // Marker kaybolduğunda kamerayı kapat
-            stopCamera();
+                    return server.getPrimaryService('battery_service');
+                })
+                .then(service => {
+                    return service.getCharacteristic('battery_level');
+                })
+                .then(characteristic => {
+                    return characteristic.readValue();
+                })
+                .then(value => {
+
+                    let rssi = value.getInt8(0);
+                    document.getElementById('rssi').textContent = rssi + ' dBm';
+                })
+                .catch(error => {
+                    console.error('Bluetooth bağlantısı başarısız: ', error);
+                });
         });
     </script>
 </body>
+
 </html>
