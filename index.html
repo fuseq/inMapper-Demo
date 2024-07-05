@@ -9,15 +9,28 @@
             margin: 20px;
         }
     </style>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>GeoAR.js demo</title>
+    <script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 </head>
 
 <body>
-    <video id="video" autoplay style="display: none;"></video>
+    <a-scene vr-mode-ui="enabled: false" embedded
+        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+
+        <a-entity gps-entity-place="latitude: 44.4908615; longitude: 11.3326416;"
+            gltf-model="./assets/magnemite/scene.gltf" rotation="0 180 0" animation-mixer scale="0.15 0.15 0.15" />
+        <a-camera gps-camera rotation-reader></a-camera>
+    </a-scene>
     <div id="data">
         <p>Alfa: <span id="alpha">0</span></p>
         <p>Beta: <span id="beta">0</span></p>
         <p>Gamma: <span id="gamma">0</span></p>
         <p>Bluetooth Sinyal Gücü: <span id="rssi">Bağlanmadı</span></p>
+
     </div>
     <button id="connectBluetooth">Bluetooth Cihazına Bağlan</button>
     <script>
@@ -42,19 +55,7 @@
         });
 
 
-        function startCamera() {
-            const video = document.getElementById('video');
-            if (!video.srcObject) {
-                navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
-                    .then(function (stream) {
-                        video.srcObject = stream;
-                        video.style.display = 'block';
-                    })
-                    .catch(function (error) {
-                        console.error('Kamera erişimi başarısız: ', error);
-                    });
-            }
-        }
+
 
 
         function stopCamera() {
