@@ -43,18 +43,48 @@
 
 
         function startCamera() {
-            const video = document.getElementById('video');
-            if (!video.srcObject) {
-                navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
-                    .then(function (stream) {
-                        video.srcObject = stream;
-                        video.style.display = 'block';
-                    })
-                    .catch(function (error) {
-                        console.error('Kamera erişimi başarısız: ', error);
-                    });
-            }
-        }
+    const video = document.getElementById('video');
+    if (!video.srcObject) {
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
+            .then(function (stream) {
+                video.srcObject = stream;
+                video.style.display = 'block';
+
+                // Yön okunu eklemek için canvas oluştur
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                document.body.appendChild(canvas);
+
+                // Yön okunu çiz
+                function drawArrow(alpha) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.save();
+                    ctx.translate(canvas.width / 2, canvas.height / 2);
+                    ctx.rotate((alpha - 90) * Math.PI / 180);
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(20, 60);
+                    ctx.lineTo(0, 50);
+                    ctx.lineTo(-20, 60);
+                    ctx.closePath();
+                    ctx.fillStyle = 'red';
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                // DeviceOrientation event listener
+                window.addEventListener('deviceorientation', function (event) {
+                    const alpha = event.alpha || 0; // Yatay eksene göre yönü al
+                    drawArrow(alpha);
+                });
+            })
+            .catch(function (error) {
+                console.error('Kamera erişimi başarısız: ', error);
+            });
+    }
+}
 
 
         function stopCamera() {
