@@ -19,16 +19,33 @@
         justify-content: center;
         align-items: center;
       }
+      #directionArrows {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 100;
+      }
+      .arrow {
+        width: 50px;
+        height: 50px;
+        opacity: 0.7;
+      }
     </style>
   </head>
   <body style="margin: 0; overflow: hidden;">
     <div id="cameraPermission">Lütfen cihazınızı 75 derece üzerinde tutun</div>
+    <div id="directionArrows">
+      <img src="left-arrow.png" id="leftArrow" class="arrow" style="display: none;">
+      <img src="right-arrow.png" id="rightArrow" class="arrow" style="display: none;">
+    </div>
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
      
       <a-entity camera></a-entity>
 
-  
-      <a-entity id="arrow" position="0 0 -5" direction="left">
+    
+      <a-entity id="arrow" position="0 0 -5">
         <a-box color="red" depth="0.1" height="0.1" width="2"></a-box>
         <a-box color="red" position="0 0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 45"></a-box>
         <a-box color="red" position="0 -0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 -45"></a-box>
@@ -38,38 +55,48 @@
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const arrow = document.getElementById('arrow');
-        const direction = arrow.getAttribute('direction');
         const arScene = document.getElementById('arScene');
         const cameraPermission = document.getElementById('cameraPermission');
-
-        let rotation = "0 0 0"; 
-
-        switch (direction) {
-          case 'left':
-            rotation = "0 -90 0";
-            break;
-          case 'right':
-            rotation = "0 90 0";
-            break;
-          case 'up':
-            rotation = "-90 0 0";
-            break;
-          case 'down':
-            rotation = "90 0 0";
-            break;
-        }
-
-        arrow.setAttribute('rotation', rotation);
+        const leftArrow = document.getElementById('leftArrow');
+        const rightArrow = document.getElementById('rightArrow');
+        const directionArrows = document.getElementById('directionArrows');
+        
+        const targetDirection = 0; 
 
         window.addEventListener('deviceorientation', (event) => {
           const beta = event.beta;
+          const alpha = event.alpha;
 
           if (beta > 75) {
             arScene.style.display = 'block';
             cameraPermission.style.display = 'none';
+
+            let directionDiff = (alpha - targetDirection + 360) % 360;
+            if (directionDiff > 180) {
+              directionDiff -= 360;
+            }
+
+            if (Math.abs(directionDiff) < 15) {
+              
+              arrow.setAttribute('rotation', `0 0 0`);
+              leftArrow.style.display = 'none';
+              rightArrow.style.display = 'none';
+            } else if (directionDiff > 0) {
+             
+              arrow.setAttribute('rotation', `0 -90 0`);
+              leftArrow.style.display = 'block';
+              rightArrow.style.display = 'none';
+            } else {
+              
+              arrow.setAttribute('rotation', `0 90 0`);
+              leftArrow.style.display = 'none';
+              rightArrow.style.display = 'block';
+            }
+            directionArrows.style.display = 'block';
           } else {
             arScene.style.display = 'none';
             cameraPermission.style.display = 'flex';
+            directionArrows.style.display = 'none';
           }
         });
       });
