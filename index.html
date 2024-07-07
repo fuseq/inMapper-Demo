@@ -1,102 +1,34 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>AR.js & Three.js</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+      <!-- AR Kamerası -->
+      <a-entity camera></a-entity>
 
-<head>
-    <title>Jiroskop ve Bluetooth Verileri</title>
-    <style>
-        #data {
-            font-size: 20px;
-            margin: 20px;
-        }
-    </style>
-</head>
+      <!-- Yön Oku -->
+      <a-entity id="arrow" position="0 0 -5">
+        <a-box color="red" depth="0.1" height="0.1" width="2"></a-box>
+        <a-box color="red" position="0 0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 45"></a-box>
+        <a-box color="red" position="0 -0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 -45"></a-box>
+      </a-entity>
+    </a-scene>
 
-<body>
-    <video id="video" autoplay style="display: none;"></video>
-    <div id="data">
-        <p>Alfa: <span id="alpha">0</span></p>
-        <p>Beta: <span id="beta">0</span></p>
-        <p>Gamma: <span id="gamma">0</span></p>
-        <p>Bluetooth Sinyal Gücü: <span id="rssi">Bağlanmadı</span></p>
-    </div>
-    <button id="connectBluetooth">Bluetooth Cihazına Bağlan</button>
     <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const arrow = document.getElementById('arrow');
 
-        window.addEventListener('deviceorientation', function (event) {
-
-            const alpha = event.alpha;
-            const beta = event.beta;
-            const gamma = event.gamma;
-
-            // Değerleri ekranda güncelleyin
-            document.getElementById('alpha').textContent = alpha.toFixed(2);
-            document.getElementById('beta').textContent = beta.toFixed(2);
-            document.getElementById('gamma').textContent = gamma.toFixed(2);
-
-
-            if (beta >= 75) {
-                startCamera();
-            } else {
-                stopCamera();
-            }
-        });
-
-
-        function startCamera() {
-            const video = document.getElementById('video');
-            if (!video.srcObject) {
-                navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
-                    .then(function (stream) {
-                        video.srcObject = stream;
-                        video.style.display = 'block';
-                    })
-                    .catch(function (error) {
-                        console.error('Kamera erişimi başarısız: ', error);
-                    });
-            }
-        }
-
-
-        function stopCamera() {
-            const video = document.getElementById('video');
-            if (video.srcObject) {
-                let stream = video.srcObject;
-                let tracks = stream.getTracks();
-
-                tracks.forEach(function (track) {
-                    track.stop();
-                });
-
-                video.srcObject = null;
-                video.style.display = 'none';
-            }
-        }
-
-
-        document.getElementById('connectBluetooth').addEventListener('click', function () {
-            navigator.bluetooth.requestDevice({ acceptAllDevices: true })
-                .then(device => {
-                    console.log('Bağlandı: ' + device.name);
-                    return device.gatt.connect();
-                })
-                .then(server => {
-
-                    return server.getPrimaryService('battery_service');
-                })
-                .then(service => {
-                    return service.getCharacteristic('battery_level');
-                })
-                .then(characteristic => {
-                    return characteristic.readValue();
-                })
-                .then(value => {
-
-                    let rssi = value.getInt8(0);
-                    document.getElementById('rssi').textContent = rssi + ' dBm';
-                })
-                .catch(error => {
-                    console.error('Bluetooth bağlantısı başarısız: ', error);
-                });
-        });
+        // Basit bir döndürme animasyonu ekleyelim
+        let rotation = 0;
+        setInterval(() => {
+          rotation += 1;
+          arrow.setAttribute('rotation', `0 ${rotation} 0`);
+        }, 100);
+      });
     </script>
-</body>
+  </body>
+</html>
