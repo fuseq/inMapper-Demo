@@ -1,214 +1,70 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>AR.js & Three.js</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <style>
-      #cameraPermission {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        color: white;
-        text-align: center;
-        font-size: 24px;
-        justify-content: center;
-        align-items: center;
-      }
-      #directionArrows {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 100;
-      }
-      .arrow {
-        width: 50px;
-        height: 50px;
-        opacity: 0.7;
-      }
-    </style>
-  </head>
-  <body style="margin: 0; overflow: hidden;">
-    <div id="cameraPermission">Lütfen cihazınızı 75 derece üzerinde tutun</div>
-    <div id="directionArrows">
-      <img src="left-arrow.png" id="leftArrow" class="arrow" style="display: none;">
-      <img src="right-arrow.png" id="rightArrow" class="arrow" style="display: none;">
-    </div>
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
-     
-      <a-entity camera></a-entity>
-
-    
-      <a-entity id="arrow" position="0 0 -5">
-        <a-box color="red" depth="0.1" height="0.1" width="2"></a-box>
-        <a-box color="red" position="0 0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 45"></a-box>
-        <a-box color="red" position="0 -0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 -45"></a-box>
-      </a-entity>
-    </a-scene>
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Compass with Three.js and AR.js</title>
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- AR.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/ar.js"></script>
+    <!-- A-Frame CDN (required for AR.js) -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <!-- AR.js ile AR kamera -->
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const arrow = document.getElementById('arrow');
-        const arScene = document.getElementById('arScene');
-        const cameraPermission = document.getElementById('cameraPermission');
-        const leftArrow = document.getElementById('leftArrow');
-        const rightArrow = document.getElementById('rightArrow');
-        const directionArrows = document.getElementById('directionArrows');
-        
-        const targetDirection = 0; 
+        // AR.js ile AR kamera ayarları
+        AFRAME.registerComponent('ar-tracking', {
+            init: function () {
+                this.markerFound = false;
+                this.camera = document.querySelector('[gps-camera]');
+                this.scene = this.el.sceneEl.object3D;
 
-        window.addEventListener('deviceorientation', (event) => {
-          const beta = event.beta;
-          const alpha = event.alpha;
+                // Yön oku için animasyonlu 3D ok modeli oluştur
+                const arrowGeometry = new THREE.ConeGeometry(0.1, 0.5, 32);
+                const arrowMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+                this.arrowModel = new THREE.Mesh(arrowGeometry, arrowMaterial);
+                this.arrowModel.rotation.x = Math.PI / 2; // Yatay düzlemde
+                this.arrowModel.scale.set(0.5, 0.5, 0.5); // Boyut ayarı
+                this.scene.add(this.arrowModel);
 
-          if (beta > 75) {
-            arScene.style.display = 'block';
-            cameraPermission.style.display = 'none';
+                // Beta açısını kontrol etmek için cihazın döndürme sensörünü kullan
+                window.addEventListener('deviceorientation', (event) => {
+                    let beta = event.beta;   // Beta açısı (eğim açısı)
+                    let gamma = event.gamma; // Gamma açısı (yatay düzlemdeki eğim)
 
-            let directionDiff = (alpha - targetDirection + 360) % 360;
-            if (directionDiff > 180) {
-              directionDiff -= 360;
+                    // Beta açısı 75 derecenin üzerindeyse AR kamerayı aç
+                    if (beta > 75 && !this.markerFound) {
+                        this.camera.setAttribute('gps-camera', 'enabled', true);
+                        this.markerFound = true;
+                    } else if (beta <= 75 && this.markerFound) {
+                        this.camera.setAttribute('gps-camera', 'enabled', false);
+                        this.markerFound = false;
+                    }
+
+                    // Yön okunun yönünü gamma açısına göre ayarla
+                    if (gamma !== null && gamma !== undefined) {
+                        let angle = gamma * Math.PI / 180; // Radyan cinsinden açıya dönüştür
+                        this.arrowModel.rotation.z = -angle; // Z ekseni etrafında dönme
+                    }
+                });
             }
-            <!DOCTYPE html>
-<html>
-  <head>
-    <title>AR.js & Three.js</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <style>
-      #cameraPermission {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        color: white;
-        text-align: center;
-        font-size: 24px;
-        justify-content: center;
-        align-items: center;
-      }
-      #directionArrows {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 100;
-      }
-      .arrow {
-        width: 50px;
-        height: 50px;
-        opacity: 0.7;
-      }
-    </style>
-  </head>
-  <body style="margin: 0; overflow: hidden;">
-    <div id="cameraPermission">Lütfen cihazınızı 75 derece üzerinde tutun</div>
-    <div id="directionArrows">
-      <img src="left-arrow.png" id="leftArrow" class="arrow" style="display: none;">
-      <img src="right-arrow.png" id="rightArrow" class="arrow" style="display: none;">
-      <img src="up-arrow.png" id="upArrow" class="arrow" style="display: none;">
-    </div>
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
-      <!-- AR Kamerası -->
-      <a-entity camera></a-entity>
+        });
+    </script>
 
-      <!-- Yön Oku -->
-      <a-entity id="arrow" position="0 0 -5">
-        <a-box color="red" depth="0.1" height="0.1" width="2"></a-box>
-        <a-box color="red" position="0 0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 45"></a-box>
-        <a-box color="red" position="0 -0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 -45"></a-box>
-      </a-entity>
+    <!-- AR içerik gösterilecek alan -->
+    <a-scene embedded arjs='sourceType: webcam; debugUIEnabled: false;'>
+        <!-- AR kamera -->
+        <a-camera gps-camera rotation-reader ar-tracking></a-camera>
+
+        <!-- AR markerı veya AR hedefi -->
+        <!-- Burada genellikle bir GPS koordinatı ile belirtilen bir marker veya hedef kullanılır -->
+
+        <!-- Yön oku için A-Frame entity -->
+        <a-entity position="0 0 -2" rotation="90 0 0" scale="0.5 0.5 0.5">
+            <a-cone color="red" radius-bottom="0.1" radius-top="0" height="0.5"></a-cone>
+        </a-entity>
     </a-scene>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const arrow = document.getElementById('arrow');
-        const arScene = document.getElementById('arScene');
-        const cameraPermission = document.getElementById('cameraPermission');
-        const leftArrow = document.getElementById('leftArrow');
-        const rightArrow = document.getElementById('rightArrow');
-        const upArrow = document.getElementById('upArrow');
-        const directionArrows = document.getElementById('directionArrows');
-
-        const targetDirection = 0; // Hedef yön (kuzey)
-
-        window.addEventListener('deviceorientation', (event) => {
-          const beta = event.beta;
-          const alpha = event.alpha;
-
-          if (beta > 75) {
-            arScene.style.display = 'block';
-            cameraPermission.style.display = 'none';
-
-            let directionDiff = (alpha - targetDirection + 360) % 360;
-            if (directionDiff > 180) {
-              directionDiff -= 360;
-            }
-
-            if (Math.abs(directionDiff) < 15) {
-              // İleri oku göster
-              arrow.setAttribute('rotation', `0 0 0`);
-              upArrow.style.display = 'block';
-              leftArrow.style.display = 'none';
-              rightArrow.style.display = 'none';
-            } else if (directionDiff > 0) {
-              // Sola dön oku göster
-              arrow.setAttribute('rotation', `0 -90 0`);
-              upArrow.style.display = 'none';
-              leftArrow.style.display = 'block';
-              rightArrow.style.display = 'none';
-            } else {
-              // Sağa dön oku göster
-              arrow.setAttribute('rotation', `0 90 0`);
-              upArrow.style.display = 'none';
-              leftArrow.style.display = 'none';
-              rightArrow.style.display = 'block';
-            }
-            directionArrows.style.display = 'block';
-          } else {
-            arScene.style.display = 'none';
-            cameraPermission.style.display = 'flex';
-            directionArrows.style.display = 'none';
-          }
-        });
-      });
-    </script>
-  </body>
-</html>
-            if (Math.abs(directionDiff) < 15) {
-              
-              arrow.setAttribute('rotation', `0 0 0`);
-              leftArrow.style.display = 'none';
-              rightArrow.style.display = 'none';
-            } else if (directionDiff > 0) {
-             
-              arrow.setAttribute('rotation', `0 -90 0`);
-              leftArrow.style.display = 'block';
-              rightArrow.style.display = 'none';
-            } else {
-              
-              arrow.setAttribute('rotation', `0 90 0`);
-              leftArrow.style.display = 'none';
-              rightArrow.style.display = 'block';
-            }
-            directionArrows.style.display = 'block';
-          } else {
-            arScene.style.display = 'none';
-            cameraPermission.style.display = 'flex';
-            directionArrows.style.display = 'none';
-          }
-        });
-      });
-    </script>
-  </body>
+</body>
 </html>
