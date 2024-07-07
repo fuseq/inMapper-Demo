@@ -73,7 +73,7 @@
             arScene.style.display = 'block';
             cameraPermission.style.display = 'none';
 
-            let directionDiff = (alpha - targetDirection + 360) % 360;
+            let directionDiff = (gamma - targetDirection + 360) % 360;
             if (directionDiff > 180) {
               directionDiff -= 360;
             }
