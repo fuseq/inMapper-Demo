@@ -39,12 +39,11 @@
     <div id="directionArrows">
       <img src="left-arrow.png" id="leftArrow" class="arrow" style="display: none;">
       <img src="right-arrow.png" id="rightArrow" class="arrow" style="display: none;">
+      <img src="down-arrow.png" id="downArrow" class="arrow" style="display: none;">
+      <img src="up-arrow.png" id="upArrow" class="arrow" style="display: none;">
     </div>
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
-      
       <a-entity camera></a-entity>
-
-      
       <a-entity id="arrow" position="0 0 -5">
         <a-box color="red" depth="0.1" height="0.1" width="2"></a-box>
         <a-box color="red" position="0 0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 45"></a-box>
@@ -59,12 +58,15 @@
         const cameraPermission = document.getElementById('cameraPermission');
         const leftArrow = document.getElementById('leftArrow');
         const rightArrow = document.getElementById('rightArrow');
+        const upArrow = document.getElementById('upArrow');
+        const downArrow = document.getElementById('downArrow');
         const directionArrows = document.getElementById('directionArrows');
         
         const targetDirection = 0; 
 
         window.addEventListener('deviceorientation', (event) => {
           const beta = event.beta;
+          const gamma = event.gamma;
           const alpha = event.alpha;
 
           if (beta > 75) {
@@ -77,21 +79,37 @@
             }
 
             if (Math.abs(directionDiff) < 15) {
-             
               arrow.setAttribute('rotation', `0 0 0`);
               leftArrow.style.display = 'none';
               rightArrow.style.display = 'none';
-            } else if (directionDiff > 0) {
-              
+              downArrow.style.display = 'none';
+              upArrow.style.display = 'none';
+            } else if (directionDiff > 0 && directionDiff <= 90) {
               arrow.setAttribute('rotation', `0 -90 0`);
               leftArrow.style.display = 'block';
               rightArrow.style.display = 'none';
-            } else {
-              
+              downArrow.style.display = 'none';
+              upArrow.style.display = 'none';
+            } else if (directionDiff > 90 && directionDiff <= 180) {
+              arrow.setAttribute('rotation', `0 -180 0`);
+              leftArrow.style.display = 'none';
+              rightArrow.style.display = 'none';
+              downArrow.style.display = 'block';
+              upArrow.style.display = 'none';
+            } else if (directionDiff < 0 && directionDiff >= -90) {
               arrow.setAttribute('rotation', `0 90 0`);
               leftArrow.style.display = 'none';
               rightArrow.style.display = 'block';
+              downArrow.style.display = 'none';
+              upArrow.style.display = 'none';
+            } else {
+              arrow.setAttribute('rotation', `0 180 0`);
+              leftArrow.style.display = 'none';
+              rightArrow.style.display = 'none';
+              downArrow.style.display = 'none';
+              upArrow.style.display = 'block';
             }
+
             directionArrows.style.display = 'block';
           } else {
             arScene.style.display = 'none';
