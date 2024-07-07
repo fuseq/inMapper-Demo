@@ -39,12 +39,13 @@
     <div id="directionArrows">
       <img src="left-arrow.png" id="leftArrow" class="arrow" style="display: none;">
       <img src="right-arrow.png" id="rightArrow" class="arrow" style="display: none;">
+      <img src="up-arrow.png" id="upArrow" class="arrow" style="display: none;">
     </div>
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
-     
+    
       <a-entity camera></a-entity>
 
-    
+      
       <a-entity id="arrow" position="0 0 -5">
         <a-box color="red" depth="0.1" height="0.1" width="2"></a-box>
         <a-box color="red" position="0 0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 45"></a-box>
@@ -59,8 +60,9 @@
         const cameraPermission = document.getElementById('cameraPermission');
         const leftArrow = document.getElementById('leftArrow');
         const rightArrow = document.getElementById('rightArrow');
+        const upArrow = document.getElementById('upArrow');
         const directionArrows = document.getElementById('directionArrows');
-        
+
         const targetDirection = 0; 
 
         window.addEventListener('deviceorientation', (event) => {
@@ -77,18 +79,21 @@
             }
 
             if (Math.abs(directionDiff) < 15) {
-              
+             
               arrow.setAttribute('rotation', `0 0 0`);
+              upArrow.style.display = 'block';
               leftArrow.style.display = 'none';
               rightArrow.style.display = 'none';
             } else if (directionDiff > 0) {
-             
+              
               arrow.setAttribute('rotation', `0 -90 0`);
+              upArrow.style.display = 'none';
               leftArrow.style.display = 'block';
               rightArrow.style.display = 'none';
             } else {
               
               arrow.setAttribute('rotation', `0 90 0`);
+              upArrow.style.display = 'none';
               leftArrow.style.display = 'none';
               rightArrow.style.display = 'block';
             }
