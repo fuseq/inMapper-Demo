@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>AR.js & Three.js</title>
+  <title>AR.js & Three.js Compass</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
@@ -30,25 +30,67 @@
       z-index: 100;
     }
 
-    #sensorValues {
+    #compassContainer {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .arrow {
+      position: absolute;
+      width: 50px;
+      height: 50px;
       background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 50px;
       color: white;
-      padding: 10px;
-      font-size: 16px;
+      font-size: 24px;
+    }
+
+    .arrow.north {
+      top: -60px;
+      left: 0;
+    }
+
+    .arrow.south {
+      bottom: -60px;
+      left: 0;
+    }
+
+    .arrow.east {
+      top: 0;
+      right: -60px;
+    }
+
+    .arrow.west {
+      top: 0;
+      left: -60px;
     }
   </style>
 </head>
 
 <body style="margin: 0; overflow: hidden;">
   <div id="cameraPermission">Lütfen cihazınızı 30 derece üzerinde tutun</div>
-  <div id="sensorValues">Alpha: 0<br>Beta: 0<br>Gamma: 0</div>
-  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
-    <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000">
-      <a-sphere position="5 0 0" color="mediumseagreen"></a-sphere>
-    </a-entity>
+  <div id="directionIndicator">
+    <div id="compassContainer">
+      <div class="arrow north">N</div>
+      <div class="arrow south">S</div>
+      <div class="arrow east">E</div>
+      <div class="arrow west">W</div>
+    </div>
+  </div>
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene">
+    <a-marker preset="hiro">
+      <!-- Pusula okları a-entity içinde -->
+      <a-entity position="0 0 0">
+        <a-entity class="arrow north" position="0 0 -0.5" text="value: N; color: white; width: 4;"></a-entity>
+        <a-entity class="arrow south" position="0 0 0.5" text="value: S; color: white; width: 4;"></a-entity>
+        <a-entity class="arrow east" position="0.5 0 0" text="value: E; color: white; width: 4;"></a-entity>
+        <a-entity class="arrow west" position="-0.5 0 0" text="value: W; color: white; width: 4;"></a-entity>
+      </a-entity>
+    </a-marker>
   </a-scene>
 
   <script>
@@ -76,15 +118,24 @@
             directionDiff -= 360;
           }
 
-          if (Math.abs(directionDiff) < 15) {
-            directionIndicator.setAttribute('visible', true);
-          } else {
-            directionIndicator.setAttribute('visible', false);
+          // Determine arrow visibility based on directionDiff
+          const arrows = document.querySelectorAll('.arrow');
+          arrows.forEach(arrow => arrow.style.display = 'none');
+
+          if (Math.abs(directionDiff) < 45) {
+            document.querySelector('.arrow.north').style.display = 'block';
+          } else if (Math.abs(directionDiff - 90) < 45) {
+            document.querySelector('.arrow.east').style.display = 'block';
+          } else if (Math.abs(directionDiff - 180) < 45) {
+            document.querySelector('.arrow.south').style.display = 'block';
+          } else if (Math.abs(directionDiff + 90) < 45) {
+            document.querySelector('.arrow.west').style.display = 'block';
           }
+
         } else {
           arScene.style.display = 'none';
           cameraPermission.style.display = 'flex';
-          directionIndicator.setAttribute('visible', false);
+          document.querySelectorAll('.arrow').forEach(arrow => arrow.style.display = 'none');
         }
       });
     });
