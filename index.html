@@ -4,14 +4,31 @@
     <title>AR.js & Three.js</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <style>
+      #cameraPermission {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        text-align: center;
+        font-size: 24px;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
   </head>
   <body style="margin: 0; overflow: hidden;">
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-      <!-- AR Kamerası -->
+    <div id="cameraPermission">Lütfen cihazınızı 75 derece üzerinde tutun</div>
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
+     
       <a-entity camera></a-entity>
 
-      <!-- Yön Oku -->
-      <a-entity id="arrow" position="0 0 -5">
+  
+      <a-entity id="arrow" position="0 0 -5" direction="left">
         <a-box color="red" depth="0.1" height="0.1" width="2"></a-box>
         <a-box color="red" position="0 0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 45"></a-box>
         <a-box color="red" position="0 -0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 -45"></a-box>
@@ -21,13 +38,40 @@
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const arrow = document.getElementById('arrow');
+        const direction = arrow.getAttribute('direction');
+        const arScene = document.getElementById('arScene');
+        const cameraPermission = document.getElementById('cameraPermission');
 
-        // Basit bir döndürme animasyonu ekleyelim
-        let rotation = 0;
-        setInterval(() => {
-          rotation += 1;
-          arrow.setAttribute('rotation', `0 ${rotation} 0`);
-        }, 100);
+        let rotation = "0 0 0"; 
+
+        switch (direction) {
+          case 'left':
+            rotation = "0 -90 0";
+            break;
+          case 'right':
+            rotation = "0 90 0";
+            break;
+          case 'up':
+            rotation = "-90 0 0";
+            break;
+          case 'down':
+            rotation = "90 0 0";
+            break;
+        }
+
+        arrow.setAttribute('rotation', rotation);
+
+        window.addEventListener('deviceorientation', (event) => {
+          const beta = event.beta;
+
+          if (beta > 75) {
+            arScene.style.display = 'block';
+            cameraPermission.style.display = 'none';
+          } else {
+            arScene.style.display = 'none';
+            cameraPermission.style.display = 'flex';
+          }
+        });
       });
     </script>
   </body>
