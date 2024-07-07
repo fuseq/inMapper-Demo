@@ -46,11 +46,9 @@
   <div id="cameraPermission">Lütfen cihazınızı 30 derece üzerinde tutun</div>
   <div id="sensorValues">Alpha: 0<br>Beta: 0<br>Gamma: 0</div>
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
-    <a-entity position="0 1.6 -3" rotation="0 0 0">
-      <a-cone color="#ff0000" height="0.2" radius-bottom="0.1" radius-top="0" position="0 0 0"></a-cone>
-      <a-cylinder color="#ff0000" height="1" radius="0.05" position="0 0.5 0"></a-cylinder>
-    </a-entity>
-    <a-sky color="#888"></a-sky>
+    <a-entity rotation="0 0 0" animation="property: rotation;">
+      <a-cone position="5 0 0" color="mediumseagreen"></a-sphere>
+      </a-entity>
   </a-scene>
 
   <script>
