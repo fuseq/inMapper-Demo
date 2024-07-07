@@ -5,23 +5,7 @@
   <title>AR.js & Three.js</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  <script>
-    AFRAME.registerComponent('modify-materials', {
-      init: function () {
-        // Wait for model to load.
-        this.el.addEventListener('model-loaded', () => {
-          // Grab the mesh / scene.
-          const obj = this.el.getObject3D('mesh');
-          // Go over the submeshes and modify materials we want.
-          obj.traverse(node => {
-            if (node.name.indexOf('ship') !== -1) {
-              node.material.color.set('red');
-            }
-          });
-        });
-      }
-    });
-  </script>
+
   <style>
     #cameraPermission {
       display: none;
@@ -69,7 +53,7 @@
         const gamma = event.gamma;
         const alpha = event.alpha;
 
-        if (beta > 75) {
+        if (beta >5) {
           arScene.style.display = 'block';
           cameraPermission.style.display = 'none';
 
