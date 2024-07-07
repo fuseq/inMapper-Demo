@@ -19,42 +19,27 @@
         justify-content: center;
         align-items: center;
       }
-      #directionArrows {
+      #directionIndicator {
         display: none;
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: 10px;
+        left: 10px;
         z-index: 100;
-      }
-      .arrow {
-        width: 50px;
-        height: 50px;
-        opacity: 0.7;
       }
     </style>
   </head>
   <body style="margin: 0; overflow: hidden;">
     <div id="cameraPermission">Lütfen cihazınızı 75 derece üzerinde tutun</div>
-    <div id="directionArrows">
-      <img src="up-arrow.png" id="upArrow" class="arrow" style="display: none;">
-    </div>
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
       <a-entity camera></a-entity>
-      <a-entity id="arrow" position="0 0 -5">
-        <a-box color="red" depth="0.1" height="0.1" width="2"></a-box>
-        <a-box color="red" position="0 0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 45"></a-box>
-        <a-box color="red" position="0 -0.05 0" depth="0.1" height="0.1" width="0.5" rotation="0 0 -45"></a-box>
-      </a-entity>
+      <a-entity id="directionIndicator" position="0 0 -5" geometry="primitive: box" material="color: red" light="type: point; intensity: 2.0"></a-entity>
     </a-scene>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        const arrow = document.getElementById('arrow');
+        const directionIndicator = document.getElementById('directionIndicator');
         const arScene = document.getElementById('arScene');
         const cameraPermission = document.getElementById('cameraPermission');
-        const upArrow = document.getElementById('upArrow');
-        const directionArrows = document.getElementById('directionArrows');
         
         const targetDirection = 0; 
 
@@ -73,18 +58,14 @@
             }
 
             if (Math.abs(directionDiff) < 15) {
-              arrow.setAttribute('rotation', `0 0 0`);
-              upArrow.style.display = 'block';
+              directionIndicator.setAttribute('visible', true);
             } else {
-              arrow.setAttribute('rotation', `0 180 0`);
-              upArrow.style.display = 'none';
+              directionIndicator.setAttribute('visible', false);
             }
-
-            directionArrows.style.display = 'block';
           } else {
             arScene.style.display = 'none';
             cameraPermission.style.display = 'flex';
-            directionArrows.style.display = 'none';
+            directionIndicator.setAttribute('visible', false);
           }
         });
       });
