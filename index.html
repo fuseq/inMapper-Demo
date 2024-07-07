@@ -32,21 +32,11 @@
         height: 50px;
         opacity: 0.7;
       }
-      #gammaValue {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 18px;
-        color: white;
-      }
     </style>
   </head>
   <body style="margin: 0; overflow: hidden;">
     <div id="cameraPermission">Lütfen cihazınızı 75 derece üzerinde tutun</div>
     <div id="directionArrows">
-      <img src="left-arrow.png" id="leftArrow" class="arrow" style="display: none;">
-      <img src="right-arrow.png" id="rightArrow" class="arrow" style="display: none;">
-      <img src="down-arrow.png" id="downArrow" class="arrow" style="display: none;">
       <img src="up-arrow.png" id="upArrow" class="arrow" style="display: none;">
     </div>
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
@@ -58,19 +48,13 @@
       </a-entity>
     </a-scene>
 
-    <div id="gammaValue">Gamma: 0</div>
-
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const arrow = document.getElementById('arrow');
         const arScene = document.getElementById('arScene');
         const cameraPermission = document.getElementById('cameraPermission');
-        const leftArrow = document.getElementById('leftArrow');
-        const rightArrow = document.getElementById('rightArrow');
         const upArrow = document.getElementById('upArrow');
-        const downArrow = document.getElementById('downArrow');
         const directionArrows = document.getElementById('directionArrows');
-        const gammaValue = document.getElementById('gammaValue');
         
         const targetDirection = 0; 
 
@@ -78,9 +62,6 @@
           const beta = event.beta;
           const gamma = event.gamma;
           const alpha = event.alpha;
-
-          // Update gamma value display
-          gammaValue.textContent = `Gamma: ${gamma.toFixed(2)}`;
 
           if (beta > 75) {
             arScene.style.display = 'block';
@@ -93,34 +74,10 @@
 
             if (Math.abs(directionDiff) < 15) {
               arrow.setAttribute('rotation', `0 0 0`);
-              leftArrow.style.display = 'none';
-              rightArrow.style.display = 'none';
-              downArrow.style.display = 'none';
-              upArrow.style.display = 'none';
-            } else if (directionDiff > 0 && directionDiff <= 90) {
-              arrow.setAttribute('rotation', `0 -90 0`);
-              leftArrow.style.display = 'block';
-              rightArrow.style.display = 'none';
-              downArrow.style.display = 'none';
-              upArrow.style.display = 'none';
-            } else if (directionDiff > 90 && directionDiff <= 180) {
-              arrow.setAttribute('rotation', `0 -180 0`);
-              leftArrow.style.display = 'none';
-              rightArrow.style.display = 'none';
-              downArrow.style.display = 'block';
-              upArrow.style.display = 'none';
-            } else if (directionDiff < 0 && directionDiff >= -90) {
-              arrow.setAttribute('rotation', `0 90 0`);
-              leftArrow.style.display = 'none';
-              rightArrow.style.display = 'block';
-              downArrow.style.display = 'none';
-              upArrow.style.display = 'none';
+              upArrow.style.display = 'block';
             } else {
               arrow.setAttribute('rotation', `0 180 0`);
-              leftArrow.style.display = 'none';
-              rightArrow.style.display = 'none';
-              downArrow.style.display = 'none';
-              upArrow.style.display = 'block';
+              upArrow.style.display = 'none';
             }
 
             directionArrows.style.display = 'block';
