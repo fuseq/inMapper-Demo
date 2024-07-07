@@ -51,11 +51,9 @@
 <body style="margin: 0; overflow: hidden;">
   <div id="cameraPermission">Lütfen cihazınızı 75 derece üzerinde tutun</div>
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
-    <a-assets>
-      <a-asset-item id="cityModel"
-        src="https://cdn.aframe.io/test-models/models/glTF-2.0/virtualcity/VC.gltf"></a-asset-item>
-    </a-assets>
-    <a-entity gltf-model="#cityModel" modify-materials></a-entity>
+    <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000">
+      <a-sphere position="5 0 0" color="mediumseagreen"></a-sphere>
+    </a-entity>
   </a-scene>
 
   <script>
