@@ -46,9 +46,7 @@
   <div id="cameraPermission">Lütfen cihazınızı 30 derece üzerinde tutun</div>
   <div id="sensorValues">Alpha: 0<br>Beta: 0<br>Gamma: 0</div>
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
-    <a-entity rotation="0 0 0" animation="property: rotation;">
-      <a-sphere position="5 0 0" color="mediumseagreen"></a-sphere>
-    </a-entity>
+    <a-entity gltf-model="url(arrow.gltf)" scale="1 1 1" position="0 0 0"></a-entity>
   </a-scene>
 
   <script>
@@ -77,14 +75,14 @@
           }
 
           if (Math.abs(directionDiff) < 15) {
-            directionIndicator.setAttribute('visible', true);
+            directionIndicator.style.display = 'block';
           } else {
-            directionIndicator.setAttribute('visible', false);
+            directionIndicator.style.display = 'none';
           }
         } else {
           arScene.style.display = 'none';
           cameraPermission.style.display = 'flex';
-          directionIndicator.setAttribute('visible', false);
+          directionIndicator.style.display = 'none';
         }
       });
     });
