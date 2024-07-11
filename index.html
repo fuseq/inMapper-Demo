@@ -58,7 +58,7 @@
 
       const targetDirection = 0;
 
-      window.addEventListener('deviceorientation', (event) => {
+      function handleOrientation(event) {
         const beta = event.beta;
         const gamma = event.gamma;
         const alpha = event.alpha;
@@ -84,7 +84,25 @@
           cameraPermission.style.display = 'flex';
           directionIndicator.style.display = 'none';
         }
-      });
+      }
+
+      function requestPermission() {
+        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+          DeviceMotionEvent.requestPermission()
+            .then(permissionState => {
+              if (permissionState === 'granted') {
+                window.addEventListener('deviceorientation', handleOrientation);
+              } else {
+                alert('Permission denied');
+              }
+            })
+            .catch(console.error);
+        } else {
+          window.addEventListener('deviceorientation', handleOrientation);
+        }
+      }
+
+      requestPermission();
     });
   </script>
 </body>
