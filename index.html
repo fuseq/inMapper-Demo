@@ -39,18 +39,6 @@
       padding: 10px;
       font-size: 16px;
     }
-    button {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #88f;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
   </style>
 </head>
 
@@ -60,7 +48,6 @@
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
     <a-entity gltf-model="url(arrow.gltf)" scale="0.5 0.5 0.5" position="5 0 0"></a-entity>
   </a-scene>
-  <button onclick="location.href='ocr.html'">Go to OCR Page</button>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
