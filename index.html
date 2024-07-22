@@ -39,18 +39,26 @@
       padding: 10px;
       font-size: 16px;
     }
+    #button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px;
+      font-size: 16px;
+    }
   </style>
 </head>
 
 <body style="margin: 0; overflow: hidden;">
   <div id="cameraPermission">Lütfen cihazınızı 30 derece üzerinde tutun</div>
-  <div id="sensorValues">Alpha: 0<br>Beta: 0<br>Gamma: 0 <br>
-    <button onclick="location.href='ocr.html'">Go to OCR Page</button>
-  </div>
+  <div id="sensorValues">Alpha: 0<br>Beta: 0<br>Gamma: 0</div>
+  <div id="button"><button onclick="location.href='ocr.html'">Go to OCR Page</button></div>
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
     <a-entity gltf-model="url(arrow.gltf)" scale="0.5 0.5 0.5" position="5 0 0"></a-entity>
   </a-scene>
-
+  
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
