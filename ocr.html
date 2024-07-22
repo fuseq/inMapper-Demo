@@ -17,6 +17,7 @@
             display: block;
             margin-top: 10px;
         }
+
         button {
             position: absolute;
             bottom: 10px;
@@ -43,8 +44,12 @@
             const snapshotZone = document.getElementById('snapshot');
             const result = document.getElementById('result');
 
-            navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+            navigator.mediaDevices.getUserMedia({ 
+                video: { facingMode: { exact: "environment" } } 
+            }).then(stream => {
                 player.srcObject = stream;
+            }).catch(error => {
+                console.error("Error accessing the rear camera: ", error);
             });
 
             setInterval(() => {
@@ -54,7 +59,7 @@
                     .then(({ data: { text } }) => {
                         result.value = text;
                     });
-            }, 1000); 
+            }, 1000);
         });
     </script>
 </body>
