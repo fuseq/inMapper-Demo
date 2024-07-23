@@ -1,4 +1,3 @@
-
 window.onload = () => {
     let method = 'dynamic';
 
@@ -34,8 +33,8 @@ function staticLoadPlaces() {
         {
             name: "Park",
             location: {
-                lat: 37.425682, // change here latitude if using static data
-                lng: 31.852666, // change here longitude if using static data
+                lat: 37.425682,
+                lng: 31.852666,
             }
         },
     ];
@@ -44,10 +43,10 @@ function staticLoadPlaces() {
 // getting places from REST APIs
 function dynamicLoadPlaces(position) {
     let params = {
-        radius: 1000,    // search places not farther than this value (in meters)
+        radius: 1000,
         clientId: 'HZIJGI4COHQ4AI45QXKCDFJWFJ1SFHYDFCCWKPIJDWHLVQVZ',
         clientSecret: '',
-        version: '20300101',    // foursquare versioning, required but unuseful for this demo
+        version: '20300101',
     };
 
     // CORS Proxy to avoid CORS problems
