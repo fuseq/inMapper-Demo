@@ -47,8 +47,8 @@
   <div id="cameraPermission">Lütfen cihazınızı 30 derece üzerinde tutun</div>
   <div id="sensorValues">Alpha: 0<br>Beta: 0<br>Gamma: 0</div>
   <div id="button"><button onclick="location.href='ocr.html'">Go to OCR Page</button></div>
-  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
-    <a-entity gltf-model="url(pin.gltf)" scale="0.5 0.5 0.5" look-at="[gps-camera]" scale="50 50 50" gps-entity-place="latitude: 37.425717; longitude: 31.852222;"></a-entity>
+  <a-scene embedded arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;" vr-mode-ui="enabled: false" id="arScene" style="display: none;">
+    <a-box material="color: yellow" gps-new-entity-place="latitude: 37.425717; longitude: 31.852222;" position="0 30 0"/>
   </a-scene>
 
   <script>
