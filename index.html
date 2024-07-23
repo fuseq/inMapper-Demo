@@ -1,22 +1,121 @@
-<script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
-<!-- include ar.js for aframe -->
-<script src='vendor/ar.js/aframe/build/aframe-ar.js'></script>
-<script>ARjs.Context.baseURL = 'vendor/ar.js/three.js/'</script>
-<!-- include gps-ar.js -->
-<script src="../src/gps-camera-debug.js"></script>
-<script src="../src/gps-camera-position.js"></script>
-<script src="../src/gps-camera-rotation.js"></script>
-<script src="../src/gps-entity-place.js"></script>
+<!DOCTYPE html>
+<html>
 
-<body style='margin: 0px; overflow: hidden;'>
-	<a-scene embedded arjs='sourceType: webcam;'>
-		<!-- <a-sphere gps-entity-place="longitude: 37.470155; latitude: 55.153565"></a-sphere>
-		<a-sphere gps-entity-place="longitude: 37.469820; latitude: 55.153653"></a-sphere> -->
-		<!-- <a-sphere gps-entity-place="longitude:-6.2343797; latitude: 53.3431803" radius=2 color=red></a-sphere> -->
+<head>
+  <title>AR.js & Three.js</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
-		<a-sphere gps-entity-place="latitude: 37.425682; longitude: 31.852666;"  radius=5 color=red></a-sphere>
-		<a-sphere gps-entity-place="latitude: 37.425682; longitude: 31.852666;"  radius=5 color=green></a-sphere>
-		
-		<a-camera id="camera" user-height="1.6" gps-camera-position gps-camera-rotation gps-camera-debug></a-camera>
-	</a-scene>
+  <style>
+    #cameraPermission {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      text-align: center;
+      font-size: 24px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #directionIndicator {
+      display: none;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 100;
+    }
+
+    #sensorValues {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body style="margin: 0; overflow: hidden;">
+  <div id="cameraPermission">Lütfen cihazınızı 30 derece üzerinde tutun</div>
+  <div id="sensorValues">Alpha: 0<br>Beta: 0<br>Gamma: 0</div>
+  <div id="button"><button onclick="location.href='ocr.html'">Go to OCR Page</button></div>
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" id="arScene" style="display: none;">
+    <a-entity gltf-model="url(arrow.gltf)" scale="0.5 0.5 0.5" position="5 0 0"></a-entity>
+  </a-scene>
+  
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const directionIndicator = document.getElementById('directionIndicator');
+      const arScene = document.getElementById('arScene');
+      const cameraPermission = document.getElementById('cameraPermission');
+      const sensorValues = document.getElementById('sensorValues');
+
+      const targetDirection = 0;
+
+      function handleOrientation(event) {
+        const beta = event.beta;
+        const gamma = event.gamma;
+        const alpha = event.alpha;
+
+        sensorValues.innerHTML = `Alpha: ${alpha.toFixed(2)}<br>Beta: ${beta.toFixed(2)}<br>Gamma: ${gamma.toFixed(2)}`;
+
+        if (beta > 30) {
+          arScene.style.display = 'block';
+          cameraPermission.style.display = 'none';
+
+          let directionDiff = (alpha - targetDirection + 360) % 360;
+          if (directionDiff > 180) {
+            directionDiff -= 360;
+          }
+
+          if (Math.abs(directionDiff) < 15) {
+            directionIndicator.style.display = 'block';
+          } else {
+            directionIndicator.style.display = 'none';
+          }
+        } else {
+          arScene.style.display = 'none';
+          cameraPermission.style.display = 'flex';
+          directionIndicator.style.display = 'none';
+        }
+      }
+
+      function requestPermission() {
+        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+          DeviceMotionEvent.requestPermission()
+            .then(permissionState => {
+              if (permissionState === 'granted') {
+                window.addEventListener('deviceorientation', handleOrientation);
+              } else {
+                alert('Permission denied');
+              }
+            })
+            .catch(console.error);
+        } else {
+          window.addEventListener('deviceorientation', handleOrientation);
+        }
+      }
+
+      requestPermission();
+    });
+  </script>
 </body>
+
+</html>
