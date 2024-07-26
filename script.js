@@ -85,16 +85,15 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
 function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
-    
-    if (direction < 10 || direction > 350) {
-        leftArrow.style.display = 'none';
-        rightArrow.style.display = 'none';
-    } else if (direction > 180) {
-        leftArrow.style.display = 'block';
-        rightArrow.style.display = 'none';
-    } else {
+
+    if (direction >= 0 && direction <= 180) {
+        
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'block';
+    } else {
+        
+        leftArrow.style.display = 'block';
+        rightArrow.style.display = 'none';
     }
 }
 
