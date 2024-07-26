@@ -88,15 +88,15 @@ function showArrow(direction) {
     const directionIndicator = document.getElementById('direction-indicator');
 
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
-    if (direction < 10 || direction > 350) {
+    if (direction < 20 || direction > 340) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
     } else if (direction > 180) {
-        leftArrow.style.display = 'block';
-        rightArrow.style.display = 'none';
-    } else {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'block';
+    } else {
+        leftArrow.style.display = 'block';
+        rightArrow.style.display = 'none';
     }
 }
 
