@@ -11,7 +11,7 @@ function staticLoadPlaces() {
         {
             name: 'Park',
             location: {
-                lat: 37.42555, 
+                lat: 37.42555,
                 lng: 31.85266
             },
         },
@@ -86,30 +86,28 @@ function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
-    
-    
-    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    
-    if (direction >= 0 && direction <= 180) {
-        
+    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+    if (direction < 10 || direction > 350) {
         leftArrow.style.display = 'none';
-        rightArrow.style.display = 'block';
-    } else {
-        
+        rightArrow.style.display = 'none';
+    } else if (direction > 180) {
         leftArrow.style.display = 'block';
         rightArrow.style.display = 'none';
+    } else {
+        leftArrow.style.display = 'none';
+        rightArrow.style.display = 'block';
     }
 }
 
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
-    const targetLat = 37.42555; 
-    const targetLon = 31.85266; 
+    const targetLat = 37.42555;
+    const targetLon = 31.85266;
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
 
     window.addEventListener('deviceorientation', event => {
-        const alpha = event.alpha; 
+        const alpha = event.alpha;
         const directionToTurn = (bearingToTarget - alpha + 360) % 360;
         showArrow(directionToTurn);
     });
