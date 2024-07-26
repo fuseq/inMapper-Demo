@@ -1,4 +1,3 @@
-
 window.onload = () => {
     const button = document.querySelector('button[data-action="change"]');
     button.innerText = '﹖';
@@ -10,9 +9,8 @@ window.onload = () => {
 function staticLoadPlaces() {
     return [
         {
-            name: 'Pokèmon',
+            name: 'Park',
             location: {
-                // decomment the following and add coordinates:
                 lat: 37.42555, 
                 lng: 31.85266
             },
@@ -22,22 +20,10 @@ function staticLoadPlaces() {
 
 var models = [
     {
-        url: './assets/magnemite/scene.gltf',
+        url: './assets/pin.gltf',
         scale: '0.5 0.5 0.5',
-        info: 'Magnemite, Lv. 5, HP 10/10',
+        info: 'Park',
         rotation: '0 180 0',
-    },
-    {
-        url: './assets/articuno/scene.gltf',
-        scale: '0.2 0.2 0.2',
-        rotation: '0 180 0',
-        info: 'Articuno, Lv. 80, HP 100/100',
-    },
-    {
-        url: './assets/dragonite/scene.gltf',
-        scale: '0.08 0.08 0.08',
-        rotation: '0 180 0',
-        info: 'Dragonite, Lv. 99, HP 150/150',
     },
 ];
 
@@ -85,3 +71,42 @@ function renderPlaces(places) {
         scene.appendChild(model);
     });
 }
+
+function calculateBearing(lat1, lon1, lat2, lon2) {
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    lat1 = lat1 * Math.PI / 180;
+    lat2 = lat2 * Math.PI / 180;
+    const y = Math.sin(dLon) * Math.cos(lat2);
+    const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+    const brng = Math.atan2(y, x) * (180 / Math.PI);
+    return (brng + 360) % 360;
+}
+
+function showArrow(direction) {
+    const leftArrow = document.getElementById('left-arrow');
+    const rightArrow = document.getElementById('right-arrow');
+    
+    if (direction < 10 || direction > 350) {
+        leftArrow.style.display = 'none';
+        rightArrow.style.display = 'none';
+    } else if (direction > 180) {
+        leftArrow.style.display = 'block';
+        rightArrow.style.display = 'none';
+    } else {
+        leftArrow.style.display = 'none';
+        rightArrow.style.display = 'block';
+    }
+}
+
+navigator.geolocation.watchPosition(position => {
+    const { latitude, longitude } = position.coords;
+    const targetLat = 37.42555; 
+    const targetLon = 31.85266; 
+    const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
+
+    window.addEventListener('deviceorientation', event => {
+        const alpha = event.alpha; 
+        const directionToTurn = (bearingToTarget - alpha + 360) % 360;
+        showArrow(directionToTurn);
+    });
+});

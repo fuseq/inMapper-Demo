@@ -13,17 +13,42 @@
     </script>
     <script src="./script.js"></script>
     <link rel="stylesheet" type="text/css" href="./style.css"/>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 30px solid red;
+            display: none;
+        }
+        .left {
+            left: 10px;
+            transform: translateY(-50%) rotate(270deg);
+        }
+        .right {
+            right: 10px;
+            transform: translateY(-50%) rotate(90deg);
+        }
+    </style>
 </head>
 
-<body style='margin: 0; overflow: hidden;'>
+<body>
     <div class="centered instructions"></div>
+    <div class="arrow left" id="left-arrow"></div>
+    <div class="arrow right" id="right-arrow"></div>
     <a-scene 
         vr-mode-ui='enabled: false' 
         embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
     <a-camera gps-camera rotation-reader></a-camera>
-</a-scene>
-<div class="centered">
-    <button data-action="change"></button>
-</div>
+    </a-scene>
 </body>
+</html>
