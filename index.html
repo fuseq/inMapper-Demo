@@ -37,6 +37,16 @@
             right: 10px;
             transform: translateY(-50%) rotate(90deg);
         }
+        .direction-indicator {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -44,11 +54,12 @@
     <div class="centered instructions"></div>
     <div class="arrow left" id="left-arrow"></div>
     <div class="arrow right" id="right-arrow"></div>
+    <div class="direction-indicator" id="direction-indicator">Direction: 0</div>
     <a-scene 
         vr-mode-ui='enabled: false' 
         embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-    <a-camera gps-camera rotation-reader></a-camera>
+        <a-camera gps-camera rotation-reader></a-camera>
     </a-scene>
 </body>
 </html>

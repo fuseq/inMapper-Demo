@@ -85,7 +85,12 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
 function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
+    const directionIndicator = document.getElementById('direction-indicator');
+    
+    
+    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
+    
     if (direction >= 0 && direction <= 180) {
         
         leftArrow.style.display = 'none';
