@@ -41,6 +41,8 @@ button {
 .arrow {
     position: absolute;
     top: 50%;
+    margin: 30px;
+    padding: 30px;
     transform: translateY(-50%);
     cursor: pointer;
 }
@@ -110,8 +112,8 @@ button {
     }
 
     .arrow span {
-        width: 3vw;
-        height: 3vw;
+        width: 5vw;
+        height: 5vw;
         border-bottom: 3px solid white;
         border-right: 3px solid white;
     }
