@@ -98,3 +98,26 @@ button {
     padding: 10px;
     border-radius: 5px;
 }
+
+
+@media (max-width: 768px) {
+    .arrow.left {
+        left: 5px;
+    }
+
+    .arrow.right {
+        right: 5px;
+    }
+
+    .arrow span {
+        width: 3vw;
+        height: 3vw;
+        border-bottom: 3px solid white;
+        border-right: 3px solid white;
+    }
+
+    .direction-indicator {
+        font-size: 0.75em;
+        padding: 5px;
+    }
+}
