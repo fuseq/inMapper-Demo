@@ -9,14 +9,18 @@
     <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
     <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
     <div id="map-container">
-        <iframe src="https://inmapper.com/tr/" frameborder="0"
+        <iframe src="https://inmapper.com/demo/fairground/" frameborder="0"
             style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0%;left:0px;right:0px;bottom:0px"
             height="100%" width="100%"></iframe>
-        <button id="ar-button">Start AR</button>
+            <div class="container" id="ar-button">
+                <div class="bg"></div>
+                <div class="button"><a href="https://codepen.io/sashatran/" target="_blank"><i class="fa fa-map-pin" aria-hidden="true"></i></a></div>
+              </div>
     </div>
     <div id="ar-container" style="display: none;">
       
