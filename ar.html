@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>GeoAR.js demo</title>
+    <script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
+    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div id="ar-container">
+        <div class="arrow left" id="left-arrow">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="arrow right" id="right-arrow">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="direction-indicator" id="direction-indicator">Direction: 0</div>
+        <a-scene vr-mode-ui='enabled: false' embedded arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+            <a-camera gps-camera rotation-reader></a-camera>
+        </a-scene>
+    </div>
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                x1: params.get('x1'),
+                y1: params.get('y1'),
+                x2: params.get('x2'),
+                y2: params.get('y2')
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const coords = getQueryParams();
+            console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
+        });
+    </script>
+    <script src="./script.js"></script>
+</body>
+
+</html>
