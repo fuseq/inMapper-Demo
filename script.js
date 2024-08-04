@@ -2,21 +2,20 @@ window.onload = () => {
     const button = document.querySelector('button[data-action="change"]');
     button.innerText = '﹖';
 
-    let places = staticLoadPlaces();
+    let places = staticLoadPlaces(window.coords); // Koordinatları kullanarak yerleri yükle
     renderPlaces(places);
 };
 
-
-
-function staticLoadPlaces() {
+function staticLoadPlaces(coords) {
     return [
         {
-            name: 'Park',
+            name: 'Station-1',
             location: {
-                lat: 37.42555,
-                lng: 31.85266
+                lat: parseFloat(coords.x2), 
+                lng: parseFloat(coords.y2)  
             },
         },
+      
     ];
 }
 
@@ -27,6 +26,7 @@ var models = [
         info: 'Park',
         rotation: '0 180 0',
     },
+
 ];
 
 var modelIndex = 0;
@@ -104,8 +104,8 @@ function showArrow(direction) {
 
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
-    const targetLat = 37.42555;
-    const targetLon = 31.85266;
+    const targetLat = coords.x2;
+    const targetLon = coords.y2;
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
 
     window.addEventListener('deviceorientation', event => {

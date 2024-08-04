@@ -13,6 +13,7 @@
 </head>
 
 <body>
+
     <div id="ar-container">
         <div class="arrow left" id="left-arrow">
             <span></span>
@@ -43,6 +44,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             const coords = getQueryParams();
             console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
+
+            window.coords = coords; 
+
+            window.onload = function() {
+                initializeAR(coords);
+            };
         });
     </script>
     <script src="./script.js"></script>
