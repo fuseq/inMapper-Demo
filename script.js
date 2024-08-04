@@ -22,7 +22,7 @@ function staticLoadPlaces(coords) {
 var models = [
     {
         url: './assets/pin.gltf',
-        scale: '0.5 0.5 0.5',
+        scale: '5 5 5',
         info: 'Park',
         rotation: '0 180 0',
     },
