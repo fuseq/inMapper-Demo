@@ -107,7 +107,7 @@ navigator.geolocation.watchPosition(position => {
     const sourceLon = coords.y1;
     const targetLat = coords.x2;
     const targetLon = coords.y2;
-    const bearingToTarget = calculateBearing(sourceLat, sourceLon,  targetLat, targetLon);
+    const bearingToTarget = calculateBearing(targetLat, targetLon,  sourceLat, sourceLon);
 
     window.addEventListener('deviceorientation', event => {
         const alpha = event.alpha;
