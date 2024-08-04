@@ -20,17 +20,17 @@
             border: 10px solid yellow;
             box-sizing: border-box;
             display: none;
-            animation: fill-up 3s linear forwards;
         }
 
-        @keyframes fill-up {
-            0% {
-                border-color: yellow;
-            }
-
-            100% {
-                border-color: green;
-            }
+        .progress-frame .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: green;
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 3s linear;
         }
     </style>
 </head>
@@ -49,6 +49,7 @@
         </div>
         <div class="direction-indicator" id="direction-indicator">Direction: 0</div>
         <div class="progress-frame" id="progress-frame">
+            <div class="progress-bar"></div>
             <a-scene vr-mode-ui="enabled: false" embedded
                 arjs="sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;">
                 <a-camera gps-camera rotation-reader></a-camera>
