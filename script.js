@@ -2,7 +2,7 @@ window.onload = () => {
     const button = document.querySelector('button[data-action="change"]');
     button.innerText = '﹖';
 
-    let places = staticLoadPlaces(window.coords); // Koordinatları kullanarak yerleri yükle
+    let places = staticLoadPlaces(window.coords); 
     renderPlaces(places);
 };
 
@@ -26,7 +26,6 @@ var models = [
         info: 'Park',
         rotation: '0 180 0',
     },
-
 ];
 
 var modelIndex = 0;
@@ -84,6 +83,25 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     return (brng + 360) % 360;
 }
 
+let progressBar = document.getElementById('progress-bar');
+let progress = 0;
+let lookingAtTarget = false;
+let progressInterval;
+
+function resetProgress() {
+    clearInterval(progressInterval);
+    progress = 0;
+    progressBar.style.transform = `rotate(${progress}deg)`;
+}
+
+function updateProgress() {
+    progress += 3.6; 
+    progressBar.style.transform = `rotate(${progress}deg)`;
+    if (progress >= 360) {
+        window.location.href = 'index.html';
+    }
+}
+
 function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
@@ -93,12 +111,20 @@ function showArrow(direction) {
     if (direction < 20 || direction > 340) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
-    } else if (direction > 180) {
-        leftArrow.style.display = 'none';
-        rightArrow.style.display = 'block';
+        if (!lookingAtTarget) {
+            lookingAtTarget = true;
+            progressInterval = setInterval(updateProgress, 100);
+        }
     } else {
-        leftArrow.style.display = 'block';
-        rightArrow.style.display = 'none';
+        resetProgress();
+        lookingAtTarget = false;
+        if (direction > 180) {
+            leftArrow.style.display = 'none';
+            rightArrow.style.display = 'block';
+        } else {
+            leftArrow.style.display = 'block';
+            rightArrow.style.display = 'none';
+        }
     }
 }
 
