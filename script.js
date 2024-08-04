@@ -2,18 +2,17 @@ window.onload = () => {
     const button = document.querySelector('button[data-action="change"]');
     button.innerText = '﹖';
 
-    let places = staticLoadPlaces(window.coords); 
+    let places = staticLoadPlaces(window.coords); // Koordinatları kullanarak yerleri yükle
     renderPlaces(places);
-    calculateAndShowDirection(window.coords);
 };
 
 function staticLoadPlaces(coords) {
     return [
         {
-            name: 'Park',
+            name: 'Station-1',
             location: {
-                lat: parseFloat(coords.x1), 
-                lng: parseFloat(coords.y1)  
+                lat: parseFloat(coords.x2), 
+                lng: parseFloat(coords.y2)  
             },
         },
       
@@ -27,12 +26,7 @@ var models = [
         info: 'Park',
         rotation: '0 180 0',
     },
-    {
-        url: './assets/other.gltf',
-        scale: '0.5 0.5 0.5',
-        info: 'Diğer Yer',
-        rotation: '0 180 0',
-    },
+
 ];
 
 var modelIndex = 0;
@@ -90,31 +84,34 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     return (brng + 360) % 360;
 }
 
-function calculateAndShowDirection(coords) {
-    const sourceLat = parseFloat(coords.x1);
-    const sourceLon = parseFloat(coords.y1);
-    const targetLat = parseFloat(coords.x2);
-    const targetLon = parseFloat(coords.y2);
-    const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
+function showArrow(direction) {
+    const leftArrow = document.getElementById('left-arrow');
+    const rightArrow = document.getElementById('right-arrow');
+    const directionIndicator = document.getElementById('direction-indicator');
+
+    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+    if (direction < 20 || direction > 340) {
+        leftArrow.style.display = 'none';
+        rightArrow.style.display = 'none';
+    } else if (direction > 180) {
+        leftArrow.style.display = 'none';
+        rightArrow.style.display = 'block';
+    } else {
+        leftArrow.style.display = 'block';
+        rightArrow.style.display = 'none';
+    }
+}
+
+navigator.geolocation.watchPosition(position => {
+    const sourceLat = coords.x1;
+    const sourceLon = coords.y1;
+    const targetLat = coords.x2;
+    const targetLon = coords.y2;
+    const bearingToTarget = calculateBearing(sourceLat, sourceLon,  targetLat, targetLon);
 
     window.addEventListener('deviceorientation', event => {
         const alpha = event.alpha;
         const directionToTurn = (bearingToTarget - alpha + 360) % 360;
         showArrow(directionToTurn);
     });
-}
-
-function showArrow(direction) {
-    const leftArrow = document.getElementById('left-arrow');
-    const rightArrow = document.getElementById('right-arrow');
-
-    if (direction < 180) {
-        leftArrow.style.display = 'block';
-        rightArrow.style.display = 'none';
-    } else {
-        leftArrow.style.display = 'none';
-        rightArrow.style.display = 'block';
-    }
-
-    document.getElementById('direction-indicator').innerText = `Direction: ${direction}`;
-}
+});
