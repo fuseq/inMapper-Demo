@@ -103,11 +103,10 @@ function showArrow(direction) {
 }
 
 navigator.geolocation.watchPosition(position => {
-    const sourceLat = coords.x1;
-    const sourceLon = coords.y1;
+    const { latitude, longitude } = position.coords;
     const targetLat = coords.x2;
     const targetLon = coords.y2;
-    const bearingToTarget = calculateBearing(targetLat, targetLon,  sourceLat, sourceLon);
+    const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
 
     window.addEventListener('deviceorientation', event => {
         const alpha = event.alpha;
