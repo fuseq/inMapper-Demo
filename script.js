@@ -2,17 +2,18 @@ window.onload = () => {
     const button = document.querySelector('button[data-action="change"]');
     button.innerText = '﹖';
 
-    let places = staticLoadPlaces(window.coords); // Koordinatları kullanarak yerleri yükle
+    let places = staticLoadPlaces(window.coords); 
     renderPlaces(places);
+    calculateAndShowDirection(window.coords);
 };
 
 function staticLoadPlaces(coords) {
     return [
         {
-            name: 'Station-1',
+            name: 'Park',
             location: {
-                lat: parseFloat(coords.x2), 
-                lng: parseFloat(coords.y2)  
+                lat: parseFloat(coords.x1), 
+                lng: parseFloat(coords.y1)  
             },
         },
       
@@ -26,7 +27,12 @@ var models = [
         info: 'Park',
         rotation: '0 180 0',
     },
-
+    {
+        url: './assets/other.gltf',
+        scale: '0.5 0.5 0.5',
+        info: 'Diğer Yer',
+        rotation: '0 180 0',
+    },
 ];
 
 var modelIndex = 0;
@@ -75,42 +81,45 @@ function renderPlaces(places) {
 }
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    lat1 = lat1 * Math.PI / 180;
-    lat2 = lat2 * Math.PI / 180;
-    const y = Math.sin(dLon) * Math.cos(lat2);
-    const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
-    const brng = Math.atan2(y, x) * (180 / Math.PI);
-    return (brng + 360) % 360;
+    const toRadians = degrees => degrees * Math.PI / 180;
+    const toDegrees = radians => radians * 180 / Math.PI;
+
+    const φ1 = toRadians(lat1);
+    const φ2 = toRadians(lat2);
+    const Δλ = toRadians(lon2 - lon1);
+
+    const y = Math.sin(Δλ) * Math.cos(φ2);
+    const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+    const θ = Math.atan2(y, x);
+
+    return (toDegrees(θ) + 360) % 360; 
 }
 
-function showArrow(direction) {
-    const leftArrow = document.getElementById('left-arrow');
-    const rightArrow = document.getElementById('right-arrow');
-    const directionIndicator = document.getElementById('direction-indicator');
-
-    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
-    if (direction < 20 || direction > 340) {
-        leftArrow.style.display = 'none';
-        rightArrow.style.display = 'none';
-    } else if (direction > 180) {
-        leftArrow.style.display = 'none';
-        rightArrow.style.display = 'block';
-    } else {
-        leftArrow.style.display = 'block';
-        rightArrow.style.display = 'none';
-    }
-}
-
-navigator.geolocation.watchPosition(position => {
-    const { latitude, longitude } = position.coords;
-    const targetLat = coords.x2;
-    const targetLon = coords.y2;
-    const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
+function calculateAndShowDirection(coords) {
+    const sourceLat = parseFloat(coords.x1);
+    const sourceLon = parseFloat(coords.y1);
+    const targetLat = parseFloat(coords.x2);
+    const targetLon = parseFloat(coords.y2);
+    const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
 
     window.addEventListener('deviceorientation', event => {
         const alpha = event.alpha;
         const directionToTurn = (bearingToTarget - alpha + 360) % 360;
         showArrow(directionToTurn);
     });
-});
+}
+
+function showArrow(direction) {
+    const leftArrow = document.getElementById('left-arrow');
+    const rightArrow = document.getElementById('right-arrow');
+
+    if (direction < 180) {
+        leftArrow.style.display = 'block';
+        rightArrow.style.display = 'none';
+    } else {
+        leftArrow.style.display = 'none';
+        rightArrow.style.display = 'block';
+    }
+
+    document.getElementById('direction-indicator').innerText = `Direction: ${direction}`;
+}
