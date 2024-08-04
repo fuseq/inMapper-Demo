@@ -23,7 +23,7 @@ var models = [
     {
         url: './assets/pin.gltf',
         scale: '5 5 5',
-        info: 'Park',
+        info: 'Station-1',
         rotation: '0 180 0',
     },
 
@@ -75,7 +75,7 @@ function renderPlaces(places) {
 }
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
-    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const dLon = (lon2 - lat1) * Math.PI / 180;
     lat1 = lat1 * Math.PI / 180;
     lat2 = lat2 * Math.PI / 180;
     const y = Math.sin(dLon) * Math.cos(lat2);
@@ -88,18 +88,35 @@ function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
+    const progressFrame = document.getElementById('progress-frame');
 
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+
     if (direction < 20 || direction > 340) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
+        progressFrame.style.display = 'block';
+        progressFrame.style.animation = 'fill-up 3s linear forwards';
+        
+        clearTimeout(progressFrame.redirectTimeout);
+        progressFrame.redirectTimeout = setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 3000);
     } else if (direction > 180) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'block';
+        resetProgressFrame(progressFrame);
     } else {
         leftArrow.style.display = 'block';
         rightArrow.style.display = 'none';
+        resetProgressFrame(progressFrame);
     }
+}
+
+function resetProgressFrame(progressFrame) {
+    progressFrame.style.display = 'none';
+    progressFrame.style.animation = 'none';
+    clearTimeout(progressFrame.redirectTimeout);
 }
 
 navigator.geolocation.watchPosition(position => {
