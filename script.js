@@ -15,6 +15,7 @@ function staticLoadPlaces(coords) {
                 lng: parseFloat(coords.y2)  
             },
         },
+      
     ];
 }
 
@@ -25,6 +26,7 @@ var models = [
         info: 'Station-1',
         rotation: '0 180 0',
     },
+
 ];
 
 var modelIndex = 0;
@@ -73,7 +75,7 @@ function renderPlaces(places) {
 }
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
-    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const dLon = (lon2 - lat1) * Math.PI / 180;
     lat1 = lat1 * Math.PI / 180;
     lat2 = lat2 * Math.PI / 180;
     const y = Math.sin(dLon) * Math.cos(lat2);
@@ -87,7 +89,6 @@ function showArrow(direction) {
     const rightArrow = document.getElementById('right-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
     const progressFrame = document.getElementById('progress-frame');
-    const progressBar = document.querySelector('.progress-bar');
 
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
@@ -95,8 +96,8 @@ function showArrow(direction) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
         progressFrame.style.display = 'block';
-        progressBar.style.transform = 'scaleX(1)';
-
+        progressFrame.style.animation = 'fill-up 3s linear forwards';
+        
         clearTimeout(progressFrame.redirectTimeout);
         progressFrame.redirectTimeout = setTimeout(() => {
             window.location.href = 'index.html';
@@ -114,14 +115,14 @@ function showArrow(direction) {
 
 function resetProgressFrame(progressFrame) {
     progressFrame.style.display = 'none';
-    document.querySelector('.progress-bar').style.transform = 'scaleX(0)';
+    progressFrame.style.animation = 'none';
     clearTimeout(progressFrame.redirectTimeout);
 }
 
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
-    const targetLat = parseFloat(window.coords.x2);
-    const targetLon = parseFloat(window.coords.y2);
+    const targetLat = coords.x2;
+    const targetLon = coords.y2;
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
 
     window.addEventListener('deviceorientation', event => {
