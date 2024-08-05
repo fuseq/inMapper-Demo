@@ -170,7 +170,7 @@ button {
 
 .direction-indicator {
     position: absolute;
-    top: 10px;
+    top: 4%;
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.5);
@@ -180,8 +180,8 @@ button {
 }
 .position-indicator {
     position: absolute;
-    top: 10px;
-    left: 25%;
+    top: 1%;
+    left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
@@ -190,8 +190,8 @@ button {
 }
 .distance-indicator {
     position: absolute;
-    top: 10px;
-    left: 75%;
+    top: 7%;
+    left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
@@ -221,7 +221,7 @@ button {
         padding: 5px;
     }
     .position-indicator {
-        font-size: 0.75em;
+        font-size: 0.80em;
         padding: 5px;
     }
     .distance-indicator {
