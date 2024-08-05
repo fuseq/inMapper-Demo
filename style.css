@@ -170,7 +170,7 @@ button {
 
 .direction-indicator {
     position: absolute;
-    top: 4%;
+    top: 5%;
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.5);
@@ -190,7 +190,7 @@ button {
 }
 .distance-indicator {
     position: absolute;
-    top: 7%;
+    top: 9%;
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.5);
@@ -221,7 +221,7 @@ button {
         padding: 5px;
     }
     .position-indicator {
-        font-size: 0.80em;
+        font-size: 0.75em;
         padding: 5px;
     }
     .distance-indicator {
