@@ -92,7 +92,7 @@ function showArrow(direction) {
 
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    if (direction < 20 || direction > 340) {
+    if (direction < 50 || direction > 310) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
         progressFrame.style.display = 'block';
