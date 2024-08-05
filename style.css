@@ -201,3 +201,29 @@ button {
         padding: 5px;
     }
 }
+.progress-frame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 10px solid yellow;
+    box-sizing: border-box;
+    display: none;
+    animation: fill-up 3s linear forwards;
+    outline-width: 1px;
+    outline-offset: 0;
+    outline-color: rgba(0, 130, 206, 0.75);
+    outline-style: solid;
+    animation: animateOutline 4s ease infinite;
+}
+
+@keyframes fill-up {
+    0% {
+        border-color: yellow;
+    }
+
+    100% {
+        border-color: green;
+    }
+}

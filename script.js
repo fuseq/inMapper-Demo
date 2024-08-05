@@ -2,8 +2,10 @@ window.onload = () => {
     const button = document.querySelector('button[data-action="change"]');
     button.innerText = '﹖';
 
-    let places = staticLoadPlaces(window.coords); 
+    let places = staticLoadPlaces(window.coords);
     renderPlaces(places);
+
+    startDistanceCheck(window.coords);
 };
 
 function staticLoadPlaces(coords) {
@@ -11,11 +13,10 @@ function staticLoadPlaces(coords) {
         {
             name: 'Station-1',
             location: {
-                lat: parseFloat(coords.x2), 
-                lng: parseFloat(coords.y2)  
+                lat: parseFloat(coords.x2),
+                lng: parseFloat(coords.y2)
             },
         },
-      
     ];
 }
 
@@ -26,7 +27,6 @@ var models = [
         info: 'Station-1',
         rotation: '0 180 0',
     },
-
 ];
 
 var modelIndex = 0;
@@ -97,7 +97,7 @@ function showArrow(direction) {
         rightArrow.style.display = 'none';
         progressFrame.style.display = 'block';
         progressFrame.style.animation = 'fill-up 3s linear forwards';
-        
+
         clearTimeout(progressFrame.redirectTimeout);
         progressFrame.redirectTimeout = setTimeout(() => {
             window.location.href = 'index.html';
@@ -131,3 +131,34 @@ navigator.geolocation.watchPosition(position => {
         showArrow(directionToTurn);
     });
 });
+
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371e3; 
+    const φ1 = lat1 * Math.PI / 180;
+    const φ2 = lat2 * Math.PI / 180;
+    const Δφ = (lat2 - lat1) * Math.PI / 180;
+    const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+              Math.cos(φ1) * Math.cos(φ2) *
+              Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c;
+    return distance;
+}
+
+function startDistanceCheck(coords) {
+    const maxDistance = 50; 
+
+    navigator.geolocation.watchPosition(position => {
+        const { latitude, longitude } = position.coords;
+        const distance = calculateDistance(latitude, longitude, coords.x1, coords.y1);
+
+        if (distance > maxDistance) {
+            alert('You went out of area');
+            window.location.href = 'index.html';
+        }
+    });
+}
