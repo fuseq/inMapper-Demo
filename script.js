@@ -139,17 +139,36 @@ navigator.geolocation.watchPosition(position => {
     });
 });
 
+// Objenin uzaklığa göre boyutunu değiştirme
+/* navigator.geolocation.watchPosition((position) => {
+    const userLatitude = position.coords.latitude;
+    const userLongitude = position.coords.longitude;
+
+    const distance = calculateDistance(userLatitude, userLongitude, objectLatitude, objectLongitude);
+
+    
+    const scaleFactor = Math.max(0.1, Math.min(10, 100 / distance)); // Example scaling logic
+    arObject.setAttribute('scale', `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
+}, (err) => {
+    console.error('Error getting geolocation: ', err);
+}, {
+    enableHighAccuracy: true,
+    maximumAge: 0,
+    timeout: 27000
+}); */
+
+
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371e3; 
+    const R = 6371e3;
     const φ1 = lat1 * Math.PI / 180;
     const φ2 = lat2 * Math.PI / 180;
     const Δφ = (lat2 - lat1) * Math.PI / 180;
     const Δλ = (lon2 - lon1) * Math.PI / 180;
 
     const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-              Math.cos(φ1) * Math.cos(φ2) *
-              Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        Math.cos(φ1) * Math.cos(φ2) *
+        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     const distance = R * c;
@@ -157,7 +176,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 }
 
 function startDistanceCheck(coords) {
-    const maxDistance = 50; 
+    const maxDistance = 50;
 
     navigator.geolocation.watchPosition(position => {
         const { latitude, longitude } = position.coords;
@@ -169,3 +188,5 @@ function startDistanceCheck(coords) {
         }
     });
 }
+
+
