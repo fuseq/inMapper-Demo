@@ -92,7 +92,7 @@ function showArrow(direction) {
 
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    if (direction < 50 || direction > 310) {
+    if (direction < 20 || direction > 340) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
         progressFrame.style.display = 'block';
@@ -124,6 +124,13 @@ navigator.geolocation.watchPosition(position => {
     const targetLat = coords.x2;
     const targetLon = coords.y2;
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
+
+    const positionIndicator = document.getElementById('position-indicator');
+    const distanceIndicator = document.getElementById('distance-indicator');
+
+    positionIndicator.innerText = `Position: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+    const distance = calculateDistance(latitude, longitude, coords.x2, coords.y2);
+    distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
 
     window.addEventListener('deviceorientation', event => {
         const alpha = event.alpha;
@@ -157,7 +164,7 @@ function startDistanceCheck(coords) {
         const distance = calculateDistance(latitude, longitude, coords.x1, coords.y1);
 
         if (distance > maxDistance) {
-            alert('You went out of area');
+            alert('Alan dışına çıktınız');
             window.location.href = 'index.html';
         }
     });

@@ -178,6 +178,26 @@ button {
     padding: 10px;
     border-radius: 5px;
 }
+.position-indicator {
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+.distance-indicator {
+    position: absolute;
+    top: 10px;
+    left: 75%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
 
 
 @media (max-width: 768px) {
@@ -197,6 +217,14 @@ button {
     }
 
     .direction-indicator {
+        font-size: 0.75em;
+        padding: 5px;
+    }
+    .position-indicator {
+        font-size: 0.75em;
+        padding: 5px;
+    }
+    .distance-indicator {
         font-size: 0.75em;
         padding: 5px;
     }
