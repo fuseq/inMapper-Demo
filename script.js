@@ -75,13 +75,19 @@ function renderPlaces(places) {
 }
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
-    const dLon = (lon2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
     lat1 = lat1 * Math.PI / 180;
     lat2 = lat2 * Math.PI / 180;
     const y = Math.sin(dLon) * Math.cos(lat2);
     const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
     const brng = Math.atan2(y, x) * (180 / Math.PI);
     return (brng + 360) % 360;
+}
+
+function getDirectionFromBearing(bearing) {
+    const directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    const index = Math.round(bearing / 22.5) % 16;
+    return directions[index];
 }
 
 function showArrow(direction) {
@@ -121,16 +127,19 @@ function resetProgressFrame(progressFrame) {
 
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
-    const targetLat = coords.x2;
-    const targetLon = coords.y2;
+    const targetLat = parseFloat(window.coords.x2);
+    const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
 
     const positionIndicator = document.getElementById('position-indicator');
     const distanceIndicator = document.getElementById('distance-indicator');
+    const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
 
     positionIndicator.innerText = `Position: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-    const distance = calculateDistance(latitude, longitude, coords.x2, coords.y2);
+    const distance = calculateDistance(latitude, longitude, parseFloat(window.coords.x1), parseFloat(window.coords.y1));
     distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
+    const directionFromStart = getDirectionFromBearing(bearingToTarget);
+    directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
     window.addEventListener('deviceorientation', event => {
         const alpha = event.alpha;
@@ -138,26 +147,6 @@ navigator.geolocation.watchPosition(position => {
         showArrow(directionToTurn);
     });
 });
-
-// Objenin uzaklığa göre boyutunu değiştirme
-/* navigator.geolocation.watchPosition((position) => {
-    const userLatitude = position.coords.latitude;
-    const userLongitude = position.coords.longitude;
-
-    const distance = calculateDistance(userLatitude, userLongitude, objectLatitude, objectLongitude);
-
-    
-    const scaleFactor = Math.max(0.1, Math.min(10, 100 / distance)); // Example scaling logic
-    arObject.setAttribute('scale', `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
-}, (err) => {
-    console.error('Error getting geolocation: ', err);
-}, {
-    enableHighAccuracy: true,
-    maximumAge: 0,
-    timeout: 27000
-}); */
-
-
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371e3;
@@ -180,7 +169,7 @@ function startDistanceCheck(coords) {
 
     navigator.geolocation.watchPosition(position => {
         const { latitude, longitude } = position.coords;
-        const distance = calculateDistance(latitude, longitude, coords.x1, coords.y1);
+        const distance = calculateDistance(latitude, longitude, parseFloat(coords.x1), parseFloat(coords.y1));
 
         if (distance > maxDistance) {
             alert('Alan dışına çıktınız');
@@ -188,5 +177,3 @@ function startDistanceCheck(coords) {
         }
     });
 }
-
-
