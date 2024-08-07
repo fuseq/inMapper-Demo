@@ -129,8 +129,10 @@ navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
+    const sourceLat = parseFloat(window.coords.x2);
+    const sourceLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
-
+    const bearingToSource = calculateBearing(latitude, longitude, sourceLat, sourceLon);
     const positionIndicator = document.getElementById('position-indicator');
     const distanceIndicator = document.getElementById('distance-indicator');
     const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
@@ -138,7 +140,7 @@ navigator.geolocation.watchPosition(position => {
     positionIndicator.innerText = `Position: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
     const distance = calculateDistance(latitude, longitude, parseFloat(window.coords.x1), parseFloat(window.coords.y1));
     distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
-    const directionFromStart = getDirectionFromBearing(bearingToTarget);
+    const directionFromStart = getDirectionFromBearing(bearingToSource);
     directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
     window.addEventListener('deviceorientation', event => {
