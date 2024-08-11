@@ -1,3 +1,8 @@
+let stepCount = 0;
+let lastAlpha = null;
+let movementThreshold = 1.2; // İvme eşiği
+let directionMatches = false;
+
 window.onload = () => {
     const button = document.querySelector('button[data-action="change"]');
     button.innerText = '﹖';
@@ -102,31 +107,14 @@ function showArrow(direction) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
         progressFrame.style.display = 'block';
-        progressFrame.style.animation = 'fill-up 3s linear forwards';
-
-        clearTimeout(progressFrame.redirectTimeout);
-        progressFrame.redirectTimeout = setTimeout(() => {
-            window.location.href = 'index.html';
-        }, 3000);
-    } else if (direction > 180) {
-        leftArrow.style.display = 'none';
-        rightArrow.style.display = 'block';
-        resetProgressFrame(progressFrame);
+        directionMatches = true;
     } else {
-        leftArrow.style.display = 'block';
-        rightArrow.style.display = 'none';
-        resetProgressFrame(progressFrame);
+        leftArrow.style.display = direction > 180 ? 'none' : 'block';
+        rightArrow.style.display = direction > 180 ? 'block' : 'none';
+        progressFrame.style.display = 'none';
+        directionMatches = false;
     }
 }
-
-function resetProgressFrame(progressFrame) {
-    progressFrame.style.display = 'none';
-    progressFrame.style.animation = 'none';
-    clearTimeout(progressFrame.redirectTimeout);
-}
-
-let stepCount = 0;
-let isStepCounterActive = false;
 
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
@@ -151,19 +139,17 @@ navigator.geolocation.watchPosition(position => {
         const directionToTurn = (bearingToTarget - alpha + 360) % 360;
         showArrow(directionToTurn);
 
-        if (directionToTurn < 10 || directionToTurn > 350) {
-            isStepCounterActive = true;
-        } else {
-            isStepCounterActive = false;
-        }
+        lastAlpha = alpha;
     });
 });
 
-window.addEventListener('devicemotion', (event) => {
-    if (isStepCounterActive) {
-        const acceleration = event.accelerationIncludingGravity;
+// İvmeölçer verilerini kullanarak adım sayacı
+window.addEventListener('devicemotion', event => {
+    if (directionMatches && event.acceleration && lastAlpha !== null) {
+        const acc = event.acceleration;
+        const totalAcc = Math.sqrt(acc.x ** 2 + acc.y ** 2 + acc.z ** 2);
 
-        if (acceleration && Math.abs(acceleration.z) > 1.2) {
+        if (totalAcc > movementThreshold) {
             stepCount++;
             console.log(`Adım sayısı: ${stepCount}`);
             document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
@@ -172,7 +158,7 @@ window.addEventListener('devicemotion', (event) => {
 });
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371e3; 
+    const R = 6371e3; // Earth radius in meters
     const φ1 = lat1 * Math.PI / 180;
     const φ2 = lat2 * Math.PI / 180;
     const Δφ = (lat2 - lat1) * Math.PI / 180;
