@@ -2,6 +2,7 @@ let stepCount = 0;
 let lastAlpha = null;
 let movementThreshold = 1.2; // İvme eşiği
 let directionMatches = false;
+let stepIncreaseAllowed = true;
 
 window.onload = () => {
     const button = document.querySelector('button[data-action="change"]');
@@ -145,7 +146,7 @@ navigator.geolocation.watchPosition(position => {
 
 // İvmeölçer verilerini kullanarak adım sayacı
 window.addEventListener('devicemotion', event => {
-    if (directionMatches && event.acceleration && lastAlpha !== null) {
+    if (directionMatches && event.acceleration && lastAlpha !== null && stepIncreaseAllowed) {
         const acc = event.acceleration;
         const totalAcc = Math.sqrt(acc.x ** 2 + acc.y ** 2 + acc.z ** 2);
 
@@ -153,6 +154,11 @@ window.addEventListener('devicemotion', event => {
             stepCount++;
             console.log(`Adım sayısı: ${stepCount}`);
             document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
+
+            stepIncreaseAllowed = false;
+            setTimeout(() => {
+                stepIncreaseAllowed = true;
+            }, 1000); // Saniyede bir artış
         }
     }
 });
