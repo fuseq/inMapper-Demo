@@ -125,6 +125,9 @@ function resetProgressFrame(progressFrame) {
     clearTimeout(progressFrame.redirectTimeout);
 }
 
+let stepCount = 0;
+let isStepCounterActive = false;
+
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
     const targetLat = parseFloat(window.coords.x2);
@@ -147,11 +150,29 @@ navigator.geolocation.watchPosition(position => {
         const alpha = event.alpha;
         const directionToTurn = (bearingToTarget - alpha + 360) % 360;
         showArrow(directionToTurn);
+
+        if (directionToTurn < 10 || directionToTurn > 350) {
+            isStepCounterActive = true;
+        } else {
+            isStepCounterActive = false;
+        }
     });
 });
 
+window.addEventListener('devicemotion', (event) => {
+    if (isStepCounterActive) {
+        const acceleration = event.accelerationIncludingGravity;
+
+        if (acceleration && Math.abs(acceleration.z) > 1.2) {
+            stepCount++;
+            console.log(`Adım sayısı: ${stepCount}`);
+            document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
+        }
+    }
+});
+
 function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371e3;
+    const R = 6371e3; 
     const φ1 = lat1 * Math.PI / 180;
     const φ2 = lat2 * Math.PI / 180;
     const Δφ = (lat2 - lat1) * Math.PI / 180;
@@ -162,20 +183,21 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
         Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    const distance = R * c;
-    return distance;
+    return R * c;
 }
 
 function startDistanceCheck(coords) {
-    const maxDistance = 50;
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(function (position) {
+            const currentLatitude = position.coords.latitude;
+            const currentLongitude = position.coords.longitude;
+            const destinationLatitude = parseFloat(coords.x2);
+            const destinationLongitude = parseFloat(coords.y2);
 
-    navigator.geolocation.watchPosition(position => {
-        const { latitude, longitude } = position.coords;
-        const distance = calculateDistance(latitude, longitude, parseFloat(coords.x1), parseFloat(coords.y1));
-
-        if (distance > maxDistance) {
-            alert('Alan dışına çıktınız');
-            window.location.href = 'index.html';
-        }
-    });
+            const distance = calculateDistance(currentLatitude, currentLongitude, destinationLatitude, destinationLongitude);
+            document.getElementById('distance-indicator').innerText = `Distance: ${distance.toFixed(2)} meters`;
+        });
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
 }

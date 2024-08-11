@@ -205,6 +205,7 @@ button {
     padding: 10px;
     border-radius: 5px;
 }
+
 .position-indicator {
     position: absolute;
     top: 1%;
@@ -225,7 +226,16 @@ button {
     padding: 10px;
     border-radius: 5px;
 }
-
+.step-counter {
+    position: absolute;
+    top: 17%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
 .direction-from-start-indicator {
     position: absolute;
     top: 13%;
@@ -265,6 +275,10 @@ button {
         padding: 5px;
     }
     .direction-from-start-indicator {
+        font-size: 0.75em;
+        padding: 5px;
+    }
+    .step-counter  {
         font-size: 0.75em;
         padding: 5px;
     }
