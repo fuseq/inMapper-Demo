@@ -356,7 +356,7 @@ button {
 
 @keyframes vignette-animation {
     from {
-        box-shadow: 0 0 20px 20px rgba(228, 231, 41, 0.7) inset;
+        box-shadow: 0 0 1px 1px rgba(228, 231, 41, 0.7) inset;
     }
     to {
         box-shadow: 0 0 300px 300px rgba(95, 228, 62, 0.7) inset;
