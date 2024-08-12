@@ -1,6 +1,6 @@
 let stepCount = 0;
 let lastAlpha = null;
-let movementThreshold = 1.2; // İvme eşiği
+let movementThreshold = 1.2; 
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 
@@ -144,7 +144,7 @@ navigator.geolocation.watchPosition(position => {
     });
 });
 
-// İvmeölçer verilerini kullanarak adım sayacı
+
 window.addEventListener('devicemotion', event => {
     if (directionMatches && event.acceleration && lastAlpha !== null && stepIncreaseAllowed) {
         const acc = event.acceleration;
@@ -158,10 +158,12 @@ window.addEventListener('devicemotion', event => {
             stepIncreaseAllowed = false;
             setTimeout(() => {
                 stepIncreaseAllowed = true;
-            }, 1000); // Saniyede bir artış
+            }, 1000); 
         }
     }
 });
+
+
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371e3; // Earth radius in meters
