@@ -20,8 +20,8 @@ function staticLoadPlaces() {
         {
             name: 'Pokèmon',
             location: {
-                lat: window.coords.x1,
-                lng: window.coords.y1,
+                lat: window.coords.x2,
+                lng: window.coords.y2,
             },
         },
     ];
@@ -115,10 +115,10 @@ function showArrow(direction) {
 
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
-    const targetLat = parseFloat(window.coords.x2);
-    const targetLon = parseFloat(window.coords.y2);
-    const sourceLat = parseFloat(window.coords.x1);
-    const sourceLon = parseFloat(window.coords.y1);
+    const targetLat = parseFloat(window.coords.x1);
+    const targetLon = parseFloat(window.coords.y1);
+    const sourceLat = parseFloat(window.coords.x2);
+    const sourceLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
     const bearingToSource = calculateBearing(latitude, longitude, sourceLat, sourceLon);
     const positionIndicator = document.getElementById('position-indicator');
@@ -126,7 +126,7 @@ navigator.geolocation.watchPosition(position => {
     const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
 
     positionIndicator.innerText = `Position: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-    const distance = calculateDistance(latitude, longitude, parseFloat(window.coords.x1), parseFloat(window.coords.y1));
+    const distance = calculateDistance(latitude, longitude, parseFloat(window.coords.x2), parseFloat(window.coords.y2));
     distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
     const directionFromStart = getDirectionFromBearing(bearingToSource);
     directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
