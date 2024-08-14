@@ -96,6 +96,7 @@ function showArrow(direction) {
     const rightArrow = document.getElementById('right-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
     const progressFrame = document.getElementById('progress-frame');
+    const popup = document.getElementById('popup');
 
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
@@ -111,6 +112,15 @@ function showArrow(direction) {
         directionMatches = false;
     }
 }
+
+
+function onAnimationEnd() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'block';
+}
+
+document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
+
 // Kullanıcının konumunu izler ve hedefe göre yön hesaplar
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
