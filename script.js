@@ -103,6 +103,7 @@ function showArrow(direction) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
         progressFrame.style.display = 'block';
+        document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
         directionMatches = true;
     } else {
         leftArrow.style.display = direction > 180 ? 'none' : 'block';
@@ -197,4 +198,3 @@ function onAnimationEnd() {
     popup.style.display = 'block';
 }
 
-document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
