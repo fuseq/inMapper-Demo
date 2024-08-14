@@ -31,7 +31,7 @@ function staticLoadPlaces() {
 var models = [
     {
         url: './assets/pin/scene.gltf',
-        scale: '5 5 5',
+        scale: '2 2 2',
         info: 'Pin, Lv. 5, HP 10/10',
         rotation: '0 0 0',
     },
@@ -106,7 +106,7 @@ function showArrow(direction) {
 
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    if (direction < 30 || direction > 320) {
+    if (direction < 5 || direction > 300) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
         progressFrame.style.display = 'block';
