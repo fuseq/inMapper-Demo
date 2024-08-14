@@ -28,10 +28,10 @@ function staticLoadPlaces(coords) {
 
 var models = [
     {
-        url: './assets/pin.gltf',
+        url: './assets/pin/scene.gltf',
         scale: '5 5 5',
-        info: 'Station-1',
-        rotation: '0 180 0',
+        info: 'Pin, Lv. 5, HP 10/10',
+        rotation: '0 0 0',
     },
 ];
 
