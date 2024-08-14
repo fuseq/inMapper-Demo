@@ -4,12 +4,16 @@ let movementThreshold = 1.2;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 
+
+
 window.onload = () => {
     const button = document.querySelector('button[data-action="change"]');
     button.innerText = '﹖';
 
-    let places = staticLoadPlaces();
+    let places = staticLoadPlaces(window.coords);
     renderPlaces(places);
+
+    startDistanceCheck(window.coords);
 };
 
 function staticLoadPlaces() {
@@ -30,18 +34,6 @@ var models = [
         scale: '5 5 5',
         info: 'Pin, Lv. 5, HP 10/10',
         rotation: '0 0 0',
-    },
-    {
-        url: './assets/pin/scene.gltf',
-        scale: '0.2 0.2 0.2',
-        rotation: '0 180 0',
-        info: 'Pin, Lv. 80, HP 100/100',
-    },
-    {
-        url: './assets/pin/scene.gltf',
-        scale: '0.08 0.08 0.08',
-        rotation: '0 180 0',
-        info: 'Pin, Lv. 99, HP 150/150',
     },
 ];
 
@@ -89,7 +81,6 @@ function renderPlaces(places) {
         scene.appendChild(model);
     });
 }
-
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;

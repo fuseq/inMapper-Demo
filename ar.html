@@ -16,6 +16,7 @@
 </head>
 
 <body style='margin: 0; overflow: hidden;'>
+    <div class="centered instructions"></div>
     <div class="arrow left" id="left-arrow">
         <span></span>
         <span></span>
@@ -26,7 +27,6 @@
         <span></span>
         <span></span>
     </div>
-    <div class="centered instructions"></div>
     <div class="position-indicator" id="position-indicator">Position: 0</div>
     <div class="direction-indicator" id="direction-indicator">Direction: 0</div>
     <div class="distance-indicator" id="distance-indicator">Distance: 0</div>
@@ -41,5 +41,24 @@
 <div class="centered">
     <button data-action="change"></button>
 </div>
-</body>
+<script>
+    function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            x1: params.get('x1'),
+            y1: params.get('y1'),
+            x2: params.get('x2'),
+            y2: params.get('y2')
+        };
+    }
 
+    document.addEventListener('DOMContentLoaded', function () {
+        const coords = getQueryParams();
+        console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
+
+        window.coords = coords;
+
+        
+    });
+</script>
+</body>
