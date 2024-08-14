@@ -102,19 +102,13 @@ function showArrow(direction) {
     if (direction < 30 || direction > 320) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
-
-       
         progressFrame.style.display = 'block';
-        progressFrame.style.animation = 'vignette-animation-in 5s forwards';
+        directionMatches = true;
     } else {
         leftArrow.style.display = direction > 180 ? 'none' : 'block';
         rightArrow.style.display = direction > 180 ? 'block' : 'none';
-
-        
-        progressFrame.style.animation = 'vignette-animation-out 5s forwards';
-        setTimeout(() => {
-            progressFrame.style.display = 'none';
-        }, 5000); 
+        progressFrame.style.display = 'none';
+        directionMatches = false;
     }
 }
 // Kullanıcının konumunu izler ve hedefe göre yön hesaplar
