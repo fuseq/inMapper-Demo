@@ -8,16 +8,14 @@ window.onload = () => {
     const button = document.querySelector('button[data-action="change"]');
     button.innerText = '﹖';
 
-    let places = staticLoadPlaces(window.coords);
+    let places = staticLoadPlaces();
     renderPlaces(places);
-
-    startDistanceCheck(window.coords);
 };
 
-function staticLoadPlaces(coords) {
+function staticLoadPlaces() {
     return [
         {
-            name: 'Station-1',
+            name: 'Pokèmon',
             location: {
                 lat: 37.42555,
                 lng: 31.85118,
@@ -32,6 +30,18 @@ var models = [
         scale: '5 5 5',
         info: 'Pin, Lv. 5, HP 10/10',
         rotation: '0 0 0',
+    },
+    {
+        url: './assets/pin/scene.gltf',
+        scale: '0.2 0.2 0.2',
+        rotation: '0 180 0',
+        info: 'Pin, Lv. 80, HP 100/100',
+    },
+    {
+        url: './assets/pin/scene.gltf',
+        scale: '0.08 0.08 0.08',
+        rotation: '0 180 0',
+        info: 'Pin, Lv. 99, HP 150/150',
     },
 ];
 
