@@ -7,14 +7,13 @@ let stepIncreaseAllowed = true;
 
 
 window.onload = () => {
-   
-
+   // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
     renderPlaces(places);
 
     startDistanceCheck(window.coords);
 };
-
+// Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükler
 function staticLoadPlaces() {
     return [
         {
@@ -35,7 +34,7 @@ var models = [
         rotation: '0 0 0',
     },
 ];
-
+// Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
 var modelIndex = 0;
 var setModel = function (model, entity) {
     if (model.scale) {
@@ -55,7 +54,7 @@ var setModel = function (model, entity) {
     const div = document.querySelector('.instructions');
     div.innerText = model.info;
 };
-
+// Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
     let scene = document.querySelector('a-scene');
 
@@ -75,7 +74,7 @@ function renderPlaces(places) {
         scene.appendChild(model);
     });
 }
-
+// İki koordinat arasındaki yönü hesaplar
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
     lat1 = lat1 * Math.PI / 180;
@@ -85,13 +84,13 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     const brng = Math.atan2(y, x) * (180 / Math.PI);
     return (brng + 360) % 360;
 }
-
+// Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
 function getDirectionFromBearing(bearing) {
     const directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
     const index = Math.round(bearing / 22.5) % 16;
     return directions[index];
 }
-
+// Yönlendirme oklarını ve doğru yön indikatörünü gösterir
 function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
@@ -103,16 +102,22 @@ function showArrow(direction) {
     if (direction < 30 || direction > 320) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
+
+       
         progressFrame.style.display = 'block';
-        directionMatches = true;
+        progressFrame.style.animation = 'vignette-animation-in 5s forwards';
     } else {
         leftArrow.style.display = direction > 180 ? 'none' : 'block';
         rightArrow.style.display = direction > 180 ? 'block' : 'none';
-        progressFrame.style.display = 'none';
-        directionMatches = false;
+
+        
+        progressFrame.style.animation = 'vignette-animation-out 5s forwards';
+        setTimeout(() => {
+            progressFrame.style.display = 'none';
+        }, 5000); 
     }
 }
-
+// Kullanıcının konumunu izler ve hedefe göre yön hesaplar
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
     const targetLat = parseFloat(window.coords.x1);
@@ -140,7 +145,7 @@ navigator.geolocation.watchPosition(position => {
     });
 });
 
-
+// Cihazın hareketlerini izler ve koşullara göre adım sayısını artırır
 window.addEventListener('devicemotion', event => {
     if (directionMatches && event.acceleration && lastAlpha !== null && stepIncreaseAllowed) {
         const acc = event.acceleration;
@@ -160,7 +165,7 @@ window.addEventListener('devicemotion', event => {
 });
 
 
-
+// İki konum arasındaki mesafeyi hesaplar
 function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371e3; // Earth radius in meters
     const φ1 = lat1 * Math.PI / 180;
@@ -175,7 +180,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 
     return R * c;
 }
-
+// Kullanıcının mesafesini sürekli kontrol eder
 function startDistanceCheck(coords) {
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(function (position) {
