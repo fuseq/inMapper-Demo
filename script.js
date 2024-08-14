@@ -19,8 +19,8 @@ function staticLoadPlaces(coords) {
         {
             name: 'Station-1',
             location: {
-                lat: parseFloat(coords.x2),
-                lng: parseFloat(coords.y2)
+                lat: 37.42555,
+                lng: 31.85118,
             },
         },
     ];
