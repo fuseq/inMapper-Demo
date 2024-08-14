@@ -7,8 +7,7 @@ let stepIncreaseAllowed = true;
 
 
 window.onload = () => {
-    const button = document.querySelector('button[data-action="change"]');
-    button.innerText = '﹖';
+   
 
     let places = staticLoadPlaces(window.coords);
     renderPlaces(places);
@@ -32,7 +31,7 @@ var models = [
     {
         url: './assets/pin/scene.gltf',
         scale: '2 2 2',
-        info: 'Pin, Lv. 5, HP 10/10',
+        info: '',
         rotation: '0 0 0',
     },
 ];
@@ -69,14 +68,9 @@ function renderPlaces(places) {
 
         setModel(models[modelIndex], model);
 
-        model.setAttribute('animation-mixer', '');
+        model.removeAttribute('animation-mixer');
 
-        document.querySelector('button[data-action="change"]').addEventListener('click', function () {
-            var entity = document.querySelector('[gps-entity-place]');
-            modelIndex++;
-            var newIndex = modelIndex % models.length;
-            setModel(models[newIndex], entity);
-        });
+     
 
         scene.appendChild(model);
     });
