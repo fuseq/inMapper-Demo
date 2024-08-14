@@ -112,12 +112,7 @@ function showArrow(direction) {
     }
 }
 
-function onAnimationEnd() {
-    const popup = document.getElementById('popup');
-    popup.style.display = 'block';
-}
 
-document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
 // Kullanıcının konumunu izler ve hedefe göre yön hesaplar
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
@@ -197,3 +192,9 @@ function startDistanceCheck(coords) {
         console.log("Geolocation is not supported by this browser.");
     }
 }
+function onAnimationEnd() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'block';
+}
+
+document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
