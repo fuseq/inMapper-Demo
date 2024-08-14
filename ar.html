@@ -1,71 +1,29 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>GeoAR.js demo</title>
-    <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+    <script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
     <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
     <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
     <script>
         THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
     </script>
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./script.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css"/>
 </head>
 
 <body style='margin: 0; overflow: hidden;'>
-    <div id="ar-container">
-        <div class="arrow left" id="left-arrow">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="arrow right" id="right-arrow">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="position-indicator" id="position-indicator">Position: 0</div>
-        <div class="direction-indicator" id="direction-indicator">Direction: 0</div>
-        <div class="distance-indicator" id="distance-indicator">Distance: 0</div>
-        <div class="direction-from-start-indicator" id="direction-from-start-indicator">Direction from Start: 0</div>
-        <div class="step-counter" id="step-counter">Number of Steps: 0</div>
-        <div class="progress-frame" id="progress-frame">
-            <div class="centered instructions"></div>
-            <a-scene vr-mode-ui='enabled: false' embedded
-                arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-                <a-camera gps-camera rotation-reader></a-camera>
-            </a-scene>
-            <div class="centered">
-                <button data-action="change"></button>
-            </div>
-        </div>
-    </div>
-    <script>
-        function getQueryParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                x1: params.get('x1'),
-                y1: params.get('y1'),
-                x2: params.get('x2'),
-                y2: params.get('y2')
-            };
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const coords = getQueryParams();
-            console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
-
-            window.coords = coords;
-
-            window.onload = function () {
-                initializeAR(coords);
-            };
-        });
-    </script>
-    <script src="./script.js"></script>
+    <div class="centered instructions"></div>
+    <a-scene 
+        vr-mode-ui='enabled: false' 
+        embedded
+        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+    <a-camera gps-camera rotation-reader></a-camera>
+</a-scene>
+<div class="centered">
+    <button data-action="change"></button>
+</div>
 </body>
-
-</html>
