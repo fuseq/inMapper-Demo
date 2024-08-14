@@ -1,6 +1,6 @@
 let stepCount = 0;
 let lastAlpha = null;
-let movementThreshold = 1.2; 
+let movementThreshold = 2.5; 
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 
@@ -100,7 +100,7 @@ function showArrow(direction) {
 
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    if (direction < 5 || direction > 300) {
+    if (direction < 30 || direction > 320) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
         progressFrame.style.display = 'block';
