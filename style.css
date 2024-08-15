@@ -405,7 +405,6 @@ button {
     padding: 20px;
     display: none; /* Hidden by default */
     z-index: 10000;
-    display: flex;
     justify-content: center;
     align-items: center;
 }
