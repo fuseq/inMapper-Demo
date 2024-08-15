@@ -393,21 +393,26 @@ button {
 }
 
 
+/* Full-screen popup */
 .popup {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.1); 
-    backdrop-filter: blur(10px); 
+    background: rgba(255, 255, 255, 0.1); /* Transparent background */
+    backdrop-filter: blur(10px); /* Blur effect */
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    display: none;
+    display: none; /* Hidden by default */
     z-index: 10000;
+    display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Center content inside the popup */
+.popup-content {
+    text-align: center;
 }
 
 /* Popup message */
