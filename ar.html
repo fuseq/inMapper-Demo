@@ -63,8 +63,29 @@
         
     });
 </script>
-<div class="popup" id="popup">
-    <div class="popup-message">Gidiceğiniz yönü buldunuz. Harita ekranına dönülüyor...</div>
-    <a href="index.html" class="popup-button">Tamam</a>
+
+<div class="popup-overlay" id="popup-overlay" style="display: none;"></div>
+
+
+<div class="popup" id="popup" style="display: none;">
+   
+    <div class="popup-icon">✔️</div>
+    
+    
+    <div class="popup-message">Hedef Noktanızı Tespit Ettiniz</div>
+
+    <p>Harita Ekranına Dönmek İçin Tamam Butonuna Basabilir<br>
+    Veya Tekrar Butonuna Basarak Hedef Noktanızı Tekrar Görebilirsiniz</p>
+    
+    <p>Hiçbir Şey Yapmadığınız Takdirde Harita Ekranına Dönülecektir</p>
+
+    <!-- Buttons -->
+    <div class="popup-buttons">
+        <a href="index.html" class="popup-button tamam">Tamam</a>
+        <a href="#" class="popup-button tekrar">Tekrar</a>
+    </div>
 </div>
+
+
+<div id="progress-frame">Progress Animation...</div>
 </body>

@@ -96,6 +96,8 @@ function showArrow(direction) {
     const rightArrow = document.getElementById('right-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
     const progressFrame = document.getElementById('progress-frame');
+    const popupOverlay = document.getElementById('popup-overlay'); // Blur background
+    const popup = document.getElementById('popup'); // Popup content
 
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
@@ -103,12 +105,16 @@ function showArrow(direction) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
         progressFrame.style.display = 'block';
-        document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
+
+        // Start the animation and listen for its completion
+        progressFrame.addEventListener('animationend', onAnimationEnd);
+
         directionMatches = true;
     } else {
         leftArrow.style.display = direction > 180 ? 'none' : 'block';
         rightArrow.style.display = direction > 180 ? 'block' : 'none';
         progressFrame.style.display = 'none';
+
         directionMatches = false;
     }
 }
@@ -198,3 +204,11 @@ function onAnimationEnd() {
     popup.style.display = 'block';
 }
 
+function onAnimationEnd() {
+    progressFrame.removeEventListener('animationend', onAnimationEnd); // Remove the event listener
+
+    // Hide the progress frame and show the blur and popup content
+    progressFrame.style.display = 'none';
+    popupOverlay.style.display = 'block';
+    popup.style.display = 'block';
+}
