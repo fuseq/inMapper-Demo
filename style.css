@@ -393,34 +393,38 @@ button {
 }
 
 
-/* Full-screen popup */
+
 .popup {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.1); /* Transparent background */
-    backdrop-filter: blur(10px); /* Blur effect */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px); 
     padding: 20px;
-    display: none; /* Hidden by default */
+    display: none; 
     z-index: 10000;
     justify-content: center;
     align-items: center;
 }
 
-/* Center content inside the popup */
+
 .popup-content {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
     text-align: center;
+    height: 100%;            
 }
 
-/* Popup message */
+
 .popup-message {
     font-size: 16px;
     margin-bottom: 20px;
 }
 
-/* Popup button */
+
 .popup-button {
     display: inline-block;
     padding: 10px 20px;
