@@ -4,14 +4,16 @@ let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 
+
+
 window.onload = () => {
-    // Load places and start distance check
+   // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
     renderPlaces(places);
+
     startDistanceCheck(window.coords);
 };
-
-// Load static places with predefined coordinates
+// Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükler
 function staticLoadPlaces() {
     return [
         {
@@ -33,27 +35,27 @@ var models = [
         position: '0 0 0',
     },
 ];
-
+// Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
 var modelIndex = 0;
-
-// Set model properties (scale, rotation, position) and display it in the AR scene
 var setModel = function (model, entity) {
     if (model.scale) {
         entity.setAttribute('scale', model.scale);
     }
+
     if (model.rotation) {
         entity.setAttribute('rotation', model.rotation);
     }
+
     if (model.position) {
         entity.setAttribute('position', model.position);
     }
+
     entity.setAttribute('gltf-model', model.url);
 
     const div = document.querySelector('.instructions');
     div.innerText = model.info;
 };
-
-// Render places in the scene and add a circular progress bar around each pin
+// Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
     let scene = document.querySelector('a-scene');
 
@@ -66,20 +68,14 @@ function renderPlaces(places) {
 
         setModel(models[modelIndex], model);
 
-        // Add circular progress bar
-        let progressCircle = document.createElement('a-entity');
-        progressCircle.setAttribute('id', 'progress-circle');
-        progressCircle.innerHTML = `
-            <a-circle id="progress-background" radius="1.5" color="#CCC" opacity="0.5" position="0 0 -0.01"></a-circle>
-            <a-circle id="progress-foreground" radius="1.5" theta-start="0" theta-length="0" color="#4CAF50" opacity="0.8" position="0 0 0"></a-circle>
-        `;
-        model.appendChild(progressCircle);
+        model.removeAttribute('animation-mixer');
+
+     
 
         scene.appendChild(model);
     });
 }
-
-// Calculate bearing between two coordinates
+// İki koordinat arasındaki yönü hesaplar
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
     lat1 = lat1 * Math.PI / 180;
@@ -89,15 +85,13 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     const brng = Math.atan2(y, x) * (180 / Math.PI);
     return (brng + 360) % 360;
 }
-
-// Convert bearing to compass direction
+// Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
 function getDirectionFromBearing(bearing) {
     const directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
     const index = Math.round(bearing / 22.5) % 16;
     return directions[index];
 }
-
-// Show arrow and progress bar based on direction
+// Yönlendirme oklarını ve doğru yön indikatörünü gösterir
 function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
@@ -118,7 +112,8 @@ function showArrow(direction) {
     }
 }
 
-// Track user's position and calculate bearing and distance
+
+// Kullanıcının konumunu izler ve hedefe göre yön hesaplar
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
     const targetLat = parseFloat(window.coords.x1);
@@ -137,57 +132,89 @@ navigator.geolocation.watchPosition(position => {
     const directionFromStart = getDirectionFromBearing(bearingToSource);
     directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
-    if (directionMatches) {
-        updateProgressBar(distance / 100); // Update progress bar based on distance
-    } else {
-        resetProgressBar();
+    window.addEventListener('deviceorientation', event => {
+        const alpha = event.alpha;
+        const directionToTurn = (bearingToTarget - alpha + 360) % 360;
+        showArrow(directionToTurn);
+
+        lastAlpha = alpha;
+    });
+});
+
+// Cihazın hareketlerini izler ve koşullara göre adım sayısını artırır
+window.addEventListener('devicemotion', event => {
+    if (directionMatches && event.acceleration && lastAlpha !== null && stepIncreaseAllowed) {
+        const acc = event.acceleration;
+        const totalAcc = Math.sqrt(acc.x ** 2 + acc.y ** 2 + acc.z ** 2);
+
+        if (totalAcc > movementThreshold) {
+            stepCount++;
+            console.log(`Adım sayısı: ${stepCount}`);
+            document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
+
+            stepIncreaseAllowed = false;
+            setTimeout(() => {
+                stepIncreaseAllowed = true;
+            }, 1000); 
+        }
     }
 });
 
-function updateProgressBar(increment) {
-    const progressCircle = document.querySelector('#progress-foreground');
-    let currentThetaLength = parseFloat(progressCircle.getAttribute('theta-length')) || 0;
-    let newThetaLength = Math.min(360, currentThetaLength + increment);
-    progressCircle.setAttribute('theta-length', newThetaLength);
-}
 
-function resetProgressBar() {
-    const progressCircle = document.querySelector('#progress-foreground');
-    progressCircle.setAttribute('theta-length', 0);
-}
 
-// Handle animation end event
-function onAnimationEnd() {
-    document.getElementById('popup').style.display = 'block';
-}
 
-// Calculate distance between two geographical points
+// İki konum arasındaki mesafeyi hesaplar
 function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371e3; // meters
+    const R = 6371e3; // Earth radius in meters
     const φ1 = lat1 * Math.PI / 180;
     const φ2 = lat2 * Math.PI / 180;
     const Δφ = (lat2 - lat1) * Math.PI / 180;
     const Δλ = (lon2 - lon1) * Math.PI / 180;
+
     const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
         Math.cos(φ1) * Math.cos(φ2) *
         Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
     return R * c;
 }
-
-// Initialize and start AR context
+// Kullanıcının mesafesini sürekli kontrol eder
 function startDistanceCheck(coords) {
-    const lat1 = parseFloat(coords.x1);
-    const lon1 = parseFloat(coords.y1);
-    const lat2 = parseFloat(coords.x2);
-    const lon2 = parseFloat(coords.y2);
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(function (position) {
+            const currentLatitude = position.coords.latitude;
+            const currentLongitude = position.coords.longitude;
+            const destinationLatitude = parseFloat(coords.x2);
+            const destinationLongitude = parseFloat(coords.y2);
 
-    navigator.geolocation.watchPosition(position => {
-        const { latitude, longitude } = position.coords;
-        const distance = calculateDistance(latitude, longitude, lat2, lon2);
+            const distance = calculateDistance(currentLatitude, currentLongitude, destinationLatitude, destinationLongitude);
+            document.getElementById('distance-indicator').innerText = `Distance: ${distance.toFixed(2)} meters`;
+        });
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+}
+function onAnimationEnd() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'block';
+}
 
-        if (distance < 10) {
-            document.getElementById('popup').style.display = 'block';
-        }
-    });
+
+directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+if (direction < 30 || direction > 320) {
+    leftArrow.style.display = 'none';
+    rightArrow.style.display = 'none';
+    progressFrame.style.display = 'block';
+    document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
+    directionMatches = true;
+} else {
+    leftArrow.style.display = direction > 180 ? 'none' : 'block';
+    rightArrow.style.display = direction > 180 ? 'block' : 'none';
+    progressFrame.style.display = 'none';
+    directionMatches = false;
+}
+
+function onAnimationEnd() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'block';
 }

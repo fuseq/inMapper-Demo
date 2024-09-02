@@ -12,7 +12,7 @@
         THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
     </script>
     <script src="./script.js"></script>
-    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="stylesheet" type="text/css" href="./style.css"/>
 </head>
 
 <body style='margin: 0; overflow: hidden;'>
@@ -33,35 +33,37 @@
     <div class="direction-from-start-indicator" id="direction-from-start-indicator">Direction from Start: 0</div>
     <div class="step-counter" id="step-counter">Number of Steps: 0</div>
     <div class="progress-frame" id="progress-frame"></div>
-    <a-scene vr-mode-ui='enabled: false' embedded
+    <a-scene 
+        vr-mode-ui='enabled: false' 
+        embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-        <a-camera gps-camera rotation-reader></a-camera>
-    </a-scene>
+    <a-camera gps-camera rotation-reader></a-camera>
+</a-scene>
 
-    <div class="centered">
+<div class="centered">
+  
+</div>
+<script>
+    function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            x1: params.get('x1'),
+            y1: params.get('y1'),
+            x2: params.get('x2'),
+            y2: params.get('y2')
+        };
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const coords = getQueryParams();
+        console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
+
+        window.coords = coords;  
+    });
+</script>
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <div class="popup-message">Gideceğiniz yönü buldunuz. Harita ekranına dönülüyor...</div><br>
+        <div><a href="index.html" class="popup-button">Tamam</a></div>
     </div>
-    <script>
-        function getQueryParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                x1: params.get('x1'),
-                y1: params.get('y1'),
-                x2: params.get('x2'),
-                y2: params.get('y2')
-            };
-        }
-        document.addEventListener('DOMContentLoaded', function () {
-            const coords = getQueryParams();
-            console.log(`Coordinates: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
-            window.coords = coords;
-        });
-    </script>
-    <div class="popup" id="popup">
-        <div class="popup-content">
-            <div class="popup-message">You have found the direction. Redirecting to the map screen...</div><br>
-            <div><a href="index.html" class="popup-button">OK</a></div>
-        </div>
-    </div>
+</div>
 </body>
-
-</html>

@@ -29,13 +29,6 @@ label {
     margin-top: 20px;
 }
 
-#progress-circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 .ar-button {
     display: flex;
     align-items: center;
