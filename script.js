@@ -3,7 +3,8 @@ let lastAlpha = null;
 let movementThreshold = 2.5; 
 let directionMatches = false;
 let stepIncreaseAllowed = true;
-
+let filteredAlpha = null;
+const alphaSmoothing = 0.1; // Filtreleme oranı
 
 
 window.onload = () => {
@@ -133,6 +134,7 @@ navigator.geolocation.watchPosition(position => {
     const sourceLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
     const bearingToSource = calculateBearing(latitude, longitude, sourceLat, sourceLon);
+    
     const positionIndicator = document.getElementById('position-indicator');
     const distanceIndicator = document.getElementById('distance-indicator');
     const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
@@ -144,11 +146,16 @@ navigator.geolocation.watchPosition(position => {
     directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
     window.addEventListener('deviceorientation', event => {
-        const alpha = event.alpha;
-        const directionToTurn = (bearingToTarget - alpha + 360) % 360;
+        if (filteredAlpha === null) {
+            filteredAlpha = event.alpha;
+        } else {
+            filteredAlpha = alphaSmoothing * event.alpha + (1 - alphaSmoothing) * filteredAlpha;
+        }
+
+        const directionToTurn = (bearingToTarget - filteredAlpha + 360) % 360;
         showArrow(directionToTurn);
 
-        lastAlpha = alpha;
+        lastAlpha = filteredAlpha;
     });
 });
 
