@@ -4,10 +4,6 @@ let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 
-const positionHistory = [];
-const orientationHistory = [];
-const maxHistoryLength = 10; 
-
 
 
 window.onload = () => {
@@ -67,17 +63,15 @@ function renderPlaces(places) {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
 
-        // Pozisyon verilerini stabilize ederek hesapla
-        addToHistory(positionHistory, { latitude, longitude });
-        const averagePosition = averageHistory(positionHistory.map(p => p.latitude));
-        const averageLongitude = averageHistory(positionHistory.map(p => p.longitude));
-
         let model = document.createElement('a-entity');
-        model.setAttribute('gps-entity-place', `latitude: ${averagePosition}; longitude: ${averageLongitude};`);
+        model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
 
         setModel(models[modelIndex], model);
 
         model.removeAttribute('animation-mixer');
+
+     
+
         scene.appendChild(model);
     });
 }
@@ -103,22 +97,16 @@ function showArrow(direction) {
     const rightArrow = document.getElementById('right-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
     const progressFrame = document.getElementById('progress-frame');
-
-    // Yön verilerini stabilize ederek kullan
-    addToHistory(orientationHistory, direction);
-    const averageDirection = averageHistory(orientationHistory);
-
-    directionIndicator.innerText = `Direction: ${averageDirection.toFixed(2)}`;
-
-    if (averageDirection < 30 || averageDirection > 320) {
+    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+    if (direction < 30 || direction > 320) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
         progressFrame.style.display = 'block';
         document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
         directionMatches = true;
     } else {
-        leftArrow.style.display = averageDirection > 180 ? 'none' : 'block';
-        rightArrow.style.display = averageDirection > 180 ? 'block' : 'none';
+        leftArrow.style.display = direction > 180 ? 'none' : 'block';
+        rightArrow.style.display = direction > 180 ? 'block' : 'none';
         progressFrame.style.display = 'none';
         directionMatches = false;
     }
@@ -172,18 +160,7 @@ window.addEventListener('devicemotion', event => {
     }
 });
 
-function addToHistory(history, value) {
-    history.push(value);
-    if (history.length > maxHistoryLength) {
-        history.shift();
-    }
-}
 
-// Dizi içindeki tüm verilerin ortalamasını döndürür
-function averageHistory(history) {
-    const sum = history.reduce((acc, val) => acc + val, 0);
-    return sum / history.length;
-}
 
 
 // İki konum arasındaki mesafeyi hesaplar
