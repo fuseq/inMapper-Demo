@@ -109,7 +109,7 @@ function showArrow(direction) {
     const directionIndicator = document.getElementById('direction-indicator');
     const progressFrame = document.getElementById('progress-frame');
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
-    if (direction < 30 || direction > 320) {
+    if (direction < 50 || direction > 300) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
         progressFrame.style.display = 'block';
