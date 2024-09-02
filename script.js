@@ -17,7 +17,7 @@ window.onload = () => {
 function staticLoadPlaces() {
     return [
         {
-            name: 'Pokèmon',
+            name: 'Pin',
             location: {
                 lat: window.coords.x2,
                 lng: window.coords.y2,
@@ -32,6 +32,7 @@ var models = [
         scale: '2 2 2',
         info: '',
         rotation: '0 0 0',
+        position: '0 0 0',
     },
 ];
 // Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
@@ -160,6 +161,8 @@ window.addEventListener('devicemotion', event => {
 });
 
 
+
+
 // İki konum arasındaki mesafeyi hesaplar
 function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371e3; // Earth radius in meters
@@ -194,6 +197,21 @@ function startDistanceCheck(coords) {
 function onAnimationEnd() {
     const popup = document.getElementById('popup');
     popup.style.display = 'block';
+}
+
+
+directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+if (direction < 30 || direction > 320) {
+    leftArrow.style.display = 'none';
+    rightArrow.style.display = 'none';
+    progressFrame.style.display = 'block';
+    document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
+    directionMatches = true;
+} else {
+    leftArrow.style.display = direction > 180 ? 'none' : 'block';
+    rightArrow.style.display = direction > 180 ? 'block' : 'none';
+    progressFrame.style.display = 'none';
+    directionMatches = false;
 }
 
 function onAnimationEnd() {
