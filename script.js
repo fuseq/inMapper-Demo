@@ -63,14 +63,29 @@ function renderPlaces(places) {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
 
+        // Pin modelinin etrafında bir border oluşturun
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
 
-        setModel(models[modelIndex], model);
-
-        model.removeAttribute('animation-mixer');
-
-     
+        // Pin modelini oluşturun ve border ile birlikte ekleyin
+        let pinModel = document.createElement('a-entity');
+        pinModel.setAttribute('gltf-model', models[modelIndex].url);
+        pinModel.setAttribute('scale', models[modelIndex].scale);
+        pinModel.setAttribute('rotation', models[modelIndex].rotation);
+        pinModel.setAttribute('position', models[modelIndex].position);
+        
+        // Border'ı oluşturun ve pin modelinin etrafında konumlandırın
+        let border = document.createElement('a-box');
+        border.setAttribute('depth', '0.1');
+        border.setAttribute('height', '1.2');
+        border.setAttribute('width', '1.2');
+        border.setAttribute('color', 'red');
+        border.setAttribute('opacity', '0.5');
+        border.setAttribute('position', '0 0 0');
+        
+        // Border'ı ve pin modelini aynı `a-entity` içine ekleyin
+        model.appendChild(border);
+        model.appendChild(pinModel);
 
         scene.appendChild(model);
     });
