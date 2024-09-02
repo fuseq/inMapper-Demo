@@ -3,8 +3,7 @@ let lastAlpha = null;
 let movementThreshold = 2.5; 
 let directionMatches = false;
 let stepIncreaseAllowed = true;
-let filteredAlpha = null;
-const alphaSmoothing = 0.1; // Filtreleme oranı
+
 
 
 window.onload = () => {
@@ -128,13 +127,12 @@ function showArrow(direction) {
 // Kullanıcının konumunu izler ve hedefe göre yön hesaplar
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
-    const targetLat = parseFloat(window.coords.x2);
-    const targetLon = parseFloat(window.coords.y2);
-    const sourceLat = parseFloat(window.coords.x1);
-    const sourceLon = parseFloat(window.coords.y1);
+    const targetLat = parseFloat(window.coords.x1);
+    const targetLon = parseFloat(window.coords.y1);
+    const sourceLat = parseFloat(window.coords.x2);
+    const sourceLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
     const bearingToSource = calculateBearing(latitude, longitude, sourceLat, sourceLon);
-    
     const positionIndicator = document.getElementById('position-indicator');
     const distanceIndicator = document.getElementById('distance-indicator');
     const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
@@ -146,19 +144,13 @@ navigator.geolocation.watchPosition(position => {
     directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
     window.addEventListener('deviceorientation', event => {
-        if (filteredAlpha === null) {
-            filteredAlpha = event.alpha;
-        } else {
-            filteredAlpha = alphaSmoothing * event.alpha + (1 - alphaSmoothing) * filteredAlpha;
-        }
-
-        const directionToTurn = (bearingToTarget - filteredAlpha + 360) % 360;
+        const alpha = event.alpha;
+        const directionToTurn = (bearingToTarget - alpha + 180 + 360) % 360; // 180 derece ekleyin
         showArrow(directionToTurn);
 
-        lastAlpha = filteredAlpha;
+        lastAlpha = alpha;
     });
 });
-
 // Cihazın hareketlerini izler ve koşullara göre adım sayısını artırır
 window.addEventListener('devicemotion', event => {
     if (directionMatches && event.acceleration && lastAlpha !== null && stepIncreaseAllowed) {
