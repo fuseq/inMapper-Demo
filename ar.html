@@ -39,7 +39,6 @@
     </a-scene>
 
     <div class="centered">
-
     </div>
     <script>
         function getQueryParams() {
@@ -53,15 +52,16 @@
         }
         document.addEventListener('DOMContentLoaded', function () {
             const coords = getQueryParams();
-            console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
-
+            console.log(`Coordinates: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
             window.coords = coords;
         });
     </script>
     <div class="popup" id="popup">
         <div class="popup-content">
-            <div class="popup-message">Gideceğiniz yönü buldunuz. Harita ekranına dönülüyor...</div><br>
-            <div><a href="index.html" class="popup-button">Tamam</a></div>
+            <div class="popup-message">You have found the direction. Redirecting to the map screen...</div><br>
+            <div><a href="index.html" class="popup-button">OK</a></div>
         </div>
     </div>
 </body>
+
+</html>
