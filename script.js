@@ -108,36 +108,18 @@ function showArrow(direction) {
     const rightArrow = document.getElementById('right-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
     const progressFrame = document.getElementById('progress-frame');
-    
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
-    
-    let modelVisible = false;
-    let scene = document.querySelector('a-scene');
-    let models = scene.querySelectorAll('[gps-entity-place]');
-    
-    models.forEach(model => {
-        if (checkModelVisibility(model)) {
-            modelVisible = true;
-        }
-    });
-
-    if (modelVisible) {
+    if (direction < 30 || direction > 320) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
-        progressFrame.style.display = 'none';
+        progressFrame.style.display = 'block';
+        document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
+        directionMatches = true;
     } else {
-        if (direction < 30 || direction > 320) {
-            leftArrow.style.display = 'none';
-            rightArrow.style.display = 'none';
-            progressFrame.style.display = 'block';
-            document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
-            directionMatches = true;
-        } else {
-            leftArrow.style.display = direction > 180 ? 'none' : 'block';
-            rightArrow.style.display = direction > 180 ? 'block' : 'none';
-            progressFrame.style.display = 'none';
-            directionMatches = false;
-        }
+        leftArrow.style.display = direction > 180 ? 'none' : 'block';
+        rightArrow.style.display = direction > 180 ? 'block' : 'none';
+        progressFrame.style.display = 'none';
+        directionMatches = false;
     }
 }
 
