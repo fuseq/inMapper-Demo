@@ -91,24 +91,53 @@ function getDirectionFromBearing(bearing) {
     const index = Math.round(bearing / 22.5) % 16;
     return directions[index];
 }
+
+function checkModelVisibility(model) {
+    // A-Frame'ın 'gps-entity-place' bileşenini kullanarak görünürlük kontrolü yapın
+    const modelPosition = model.object3D.position;
+    const camera = document.querySelector('a-camera').object3D;
+
+    const modelScreenPosition = modelPosition.clone().project(camera);
+    return modelScreenPosition.z > 0 && modelScreenPosition.x >= -1 && modelScreenPosition.x <= 1 && modelScreenPosition.y >= -1 && modelScreenPosition.y <= 1;
+}
+
+
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
 function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
     const progressFrame = document.getElementById('progress-frame');
+    
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
-    if (direction < 30 || direction > 320) {
+    
+    let modelVisible = false;
+    let scene = document.querySelector('a-scene');
+    let models = scene.querySelectorAll('[gps-entity-place]');
+    
+    models.forEach(model => {
+        if (checkModelVisibility(model)) {
+            modelVisible = true;
+        }
+    });
+
+    if (modelVisible) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
-        progressFrame.style.display = 'block';
-        document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
-        directionMatches = true;
-    } else {
-        leftArrow.style.display = direction > 180 ? 'none' : 'block';
-        rightArrow.style.display = direction > 180 ? 'block' : 'none';
         progressFrame.style.display = 'none';
-        directionMatches = false;
+    } else {
+        if (direction < 30 || direction > 320) {
+            leftArrow.style.display = 'none';
+            rightArrow.style.display = 'none';
+            progressFrame.style.display = 'block';
+            document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
+            directionMatches = true;
+        } else {
+            leftArrow.style.display = direction > 180 ? 'none' : 'block';
+            rightArrow.style.display = direction > 180 ? 'block' : 'none';
+            progressFrame.style.display = 'none';
+            directionMatches = false;
+        }
     }
 }
 
