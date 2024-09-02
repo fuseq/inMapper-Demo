@@ -144,11 +144,16 @@ navigator.geolocation.watchPosition(position => {
     directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
     window.addEventListener('deviceorientation', event => {
-        const alpha = event.alpha;
-        const directionToTurn = (bearingToTarget - alpha + 360) % 360;
+        const gamma = event.gamma; // Dikey eğilme açısı
+    
+        // Hedefe olan yönü hesaplayın (eğilme açısını dikkate alarak)
+        const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
+    
+        // `gamma` değerini kullanarak yön hesaplama
+        const directionToTurn = (bearingToTarget - gamma + 360) % 360;
         showArrow(directionToTurn);
-
-        lastAlpha = alpha;
+    
+        lastGamma = gamma;
     });
 });
 
