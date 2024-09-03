@@ -444,11 +444,15 @@ button {
     position: absolute;
     bottom: 0;
     width: 100%;
+    height: 40%;
     background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Tüm elemanları dikeyde ortala */
 }
 
 .map-section {
-    height: 60%;
+    height: 80%;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -461,7 +465,7 @@ button {
 }
 
 .info-section {
-    height: 40%;
+    height: 20%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -477,8 +481,14 @@ button {
 }
 
 .destination {
+    display: flex;
+    align-items: center; /* Dikeyde ortala */
     font-weight: bold;
     font-size: 18px;
+}
+
+.destination i {
+    margin-right: 8px; /* İkon ile metin arasına boşluk ekle */
 }
 
 .time-info {

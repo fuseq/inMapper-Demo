@@ -12,8 +12,10 @@
     <script>
         THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="./script.js"></script>
     <link rel="stylesheet" type="text/css" href="./style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body style='margin: 0; overflow: hidden;'>
@@ -41,20 +43,18 @@
     <div class="bottom-container">
         <!-- Second Section (Map) -->
         <div class="map-section">
-            <iframe src="https://inmapper.com/demo/fairground/" frameborder="0" class="map-iframe"></iframe>
+            <iframe src="https://cbaines.github.io/leaflet-indoor/examples/" frameborder="0" class="map-iframe"></iframe>
         </div>
 
         <!-- First Section (Info) -->
-       <div class="info-section">
-    <div class="destination">
-        <i class="fa-regular fa-circle-xmark large-icon"></i>
-        Destination Name
-    </div>
-    <div class="time-info">
-        <i class="fa-solid fa-person-walking"></i>
-        5 min
-    </div>
-</div>
+        <div class="info-section">
+            
+            <div class="destination"><a style="color: black;" href="index.html"><i style="font-size: 32px;" class="fa-regular fa-circle-xmark"></i></a> Destination Name</div>
+            <div class="time-info">
+                <i class="fa-solid fa-person-running"></i>
+                5 min
+            </div>
+        </div>
     </div>
 
     <div class="popup" id="popup">
