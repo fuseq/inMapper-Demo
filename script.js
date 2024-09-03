@@ -1,13 +1,13 @@
 let stepCount = 0;
 let lastAlpha = null;
-let movementThreshold = 2.5; 
+let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 
 
 
 window.onload = () => {
-   // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
+    // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
     renderPlaces(places);
 
@@ -31,7 +31,7 @@ var models = [
         url: './assets/pin/scene.gltf',
         scale: '2 2 2',
         info: '',
-        rotation: '0 0 0',
+        rotation: '0 90 0',
         position: '0 0 0',
     },
 ];
@@ -54,9 +54,11 @@ function setModel(model, entity) {
 
     // Create an SVG element and convert it to a data URL
     const svg = `
-        <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="40" stroke="red" stroke-width="2" fill="none" opacity="0.5"/>
-        </svg>
+        <svg width="200" height="200" viewBox="-25 -25 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-90deg)">
+    <circle r="90" cx="100" cy="100" fill="transparent" stroke="#e0e0e0" stroke-width="16px" stroke-dasharray="565.48px" stroke-dashoffset="0"></circle>
+    <circle r="90" cx="100" cy="100" stroke="#76e5b1" stroke-width="16px" stroke-linecap="round" stroke-dashoffset="118.692px" fill="transparent" stroke-dasharray="565.48px"></circle>
+    <text x="100px" y="100px" fill="#6bdba7" font-size="0px" font-weight="bold" style="transform:rotate(90deg) translate(0px, -196px)">79</text>
+  </svg>
     `;
     const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
 
@@ -66,8 +68,8 @@ function setModel(model, entity) {
     border.setAttribute('width', '6'); // Adjust the width and height
     border.setAttribute('height', '6');
     border.setAttribute('position', '0 2 0'); // Adjust position
-    border.setAttribute('rotation', '0 0 0'); // Adjust rotation
-    
+    border.setAttribute('rotation', '0 90 0'); // Adjust rotation
+
     // Append the border to the entity
     entity.appendChild(border);
 }
@@ -179,7 +181,7 @@ window.addEventListener('devicemotion', event => {
             stepIncreaseAllowed = false;
             setTimeout(() => {
                 stepIncreaseAllowed = true;
-            }, 1000); 
+            }, 1000);
         }
     }
 });
