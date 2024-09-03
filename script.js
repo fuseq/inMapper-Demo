@@ -67,7 +67,7 @@ function setModel(model, entity) {
         borderPlane.setAttribute('position', `${x} 2 ${z}`);
         borderPlane.setAttribute('width', borderThickness);
         borderPlane.setAttribute('height', borderRadius * 2);
-        borderPlane.setAttribute('rotation', `0 ${-angle * 180 / Math.PI} 0`);
+        borderPlane.setAttribute('rotation', `-90 ${-angle * 180 / Math.PI} 0`);
         borderPlane.setAttribute('material', 'color: red; opacity: 0.5; side: double');
 
         // Append the border plane to the entity
