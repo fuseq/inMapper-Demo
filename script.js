@@ -64,7 +64,7 @@ function setModel(model, entity) {
     // Add a plane with the SVG as its texture
     let border = document.createElement('a-image');
     border.setAttribute('src', svgDataUrl);
-    border.setAttribute('width', '12'); // Increase width to make the SVG larger
+    border.setAttribute('width', '16'); // Increase width to make the SVG larger
     border.setAttribute('height', '12'); // Increase height to make the SVG larger
     border.setAttribute('position', '0 2 0'); // Adjust position
     border.setAttribute('rotation', '0 0 0'); // Adjust rotation
