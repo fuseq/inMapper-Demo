@@ -52,61 +52,34 @@ function setModel(model, entity) {
 
     entity.setAttribute('gltf-model', model.url);
 
-    // Create a Three.js texture from the Lottie animation
-    createLottieTexture('https://lottie.host/embed/d6deddaa-d48d-4109-8d6e-219e81563c5d/gnodoqSPDW.json', 500, 400, (canvas) => {
-        // Create a Three.js texture from the canvas
-        const texture = new THREE.CanvasTexture(canvas);
-
-        // Create a Three.js material with the texture
-        const material = new THREE.MeshBasicMaterial({ map: texture });
-
-        // Create a plane geometry and apply the material
-        const geometry = new THREE.PlaneGeometry(24, 12); // Adjust size as needed
-        const mesh = new THREE.Mesh(geometry, material);
-
-        // Convert the Three.js mesh to an A-Frame entity
-        const aMesh = document.createElement('a-entity');
-        aMesh.setObject3D('mesh', mesh);
-        aMesh.setAttribute('position', '0 2 0'); // Adjust position
-        aMesh.setAttribute('rotation', '0 0 0'); // Adjust rotation
-
-        // Append the A-Frame entity to the existing entity
-        entity.appendChild(aMesh);
-    });
-}
-
-function createLottieTexture(url, width, height, callback) {
     // Create a canvas element
     const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = 512; // Set the desired width
+    canvas.height = 512; // Set the desired height
     const context = canvas.getContext('2d');
 
-    // Create a div to hold the Lottie animation
-    const lottieContainer = document.createElement('div');
-    lottieContainer.style.position = 'absolute';
-    lottieContainer.style.width = width + 'px';
-    lottieContainer.style.height = height + 'px';
-    lottieContainer.style.visibility = 'hidden';
-    document.body.appendChild(lottieContainer);
-
-    // Load and play the Lottie animation
-    lottie.loadAnimation({
-        container: lottieContainer,
+    // Load the Lottie animation
+    const animation = bodymovin.loadAnimation({
+        container: canvas,
         renderer: 'canvas',
         loop: true,
         autoplay: true,
-        path: url
-    }).addEventListener('DOMLoaded', () => {
-        // When Lottie is ready, start drawing on the canvas
-        function draw() {
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(lottieContainer.querySelector('canvas'), 0, 0);
-            requestAnimationFrame(draw);
-        }
-        draw();
-        callback(canvas);
+        path: "https://assets5.lottiefiles.com/packages/lf20_mb9ka7yz.json"
     });
+
+    // Convert canvas to data URL
+    const canvasDataUrl = canvas.toDataURL();
+
+    // Create an a-image element with the canvas texture
+    let lottieImage = document.createElement('a-image');
+    lottieImage.setAttribute('src', canvasDataUrl);
+    lottieImage.setAttribute('width', '24'); // Adjust the size as needed
+    lottieImage.setAttribute('height', '12'); // Adjust the size as needed
+    lottieImage.setAttribute('position', '0 2 0'); // Adjust the position as needed
+    lottieImage.setAttribute('rotation', '0 0 0'); // Adjust the rotation as needed
+
+    // Append the Lottie image to the entity
+    entity.appendChild(lottieImage);
 }
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
