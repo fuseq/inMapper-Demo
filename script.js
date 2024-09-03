@@ -31,7 +31,7 @@ var models = [
         url: './assets/pin/scene.gltf',
         scale: '2 2 2',
         info: '',
-        rotation: '0 0 0',
+        rotation: '0 90 0',
         position: '0 0 0',
     },
 ];
@@ -57,7 +57,7 @@ function setModel(model, entity) {
     border.setAttribute('position', '0 2 0');
     border.setAttribute('radius-inner', '2.95'); // Adjust the inner radius
     border.setAttribute('radius-outer', '3'); // Adjust the outer radius
-    border.setAttribute('rotation', '0 0 0'); // Adjust rotation as needed
+    border.setAttribute('rotation', '0 90 0'); // Adjust rotation as needed
     border.setAttribute('material', 'color: red; opacity: 0.5; wireframe: true'); // Styling
     
     // Append the border to the entity
