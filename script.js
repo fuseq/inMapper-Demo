@@ -68,7 +68,7 @@ function setModel(model, entity) {
     border.setAttribute('width', '6'); // Adjust the width and height
     border.setAttribute('height', '6');
     border.setAttribute('position', '0 2 0'); // Adjust position
-    border.setAttribute('rotation', '0 90 0'); // Adjust rotation
+    border.setAttribute('rotation', '0 0 0'); // Adjust rotation
 
     // Append the border to the entity
     entity.appendChild(border);
