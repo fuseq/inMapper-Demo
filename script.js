@@ -56,15 +56,13 @@ function setModel(model, entity) {
     const svg = `
     <svg width="500" height="400" viewBox="-25 -25 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg">
         <circle id="background-circle" r="90" cx="100" cy="100" fill="transparent" stroke="#e0e0e0" stroke-width="16px" stroke-dasharray="565.48px" stroke-dashoffset="0"></circle>
-        <circle id="progress-circle" r="90" cx="100" cy="100" stroke="#76e5b1" stroke-width="16px" stroke-linecap="round" stroke-dashoffset="565.48px" fill="transparent" stroke-dasharray="565.48px">
-            <animate attributeName="stroke-dashoffset" from="565.48" to="0" dur="5s" fill="freeze" />
-        </circle>
+        <circle id="progress-circle" r="90" cx="100" cy="100" stroke="#76e5b1" stroke-width="16px" stroke-linecap="round" stroke-dashoffset="565.48px" fill="transparent" stroke-dasharray="565.48px"></circle>
     </svg>
     `;
     const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
 
     // Add a plane with the SVG as its texture
-    let border = document.createElement('a-image');
+    let border = document.createElement('a-plane');
     border.setAttribute('src', svgDataUrl);
     border.setAttribute('width', '24'); // Increase width to make the SVG larger
     border.setAttribute('height', '12'); // Increase height to make the SVG larger
@@ -73,9 +71,27 @@ function setModel(model, entity) {
 
     // Append the border to the entity
     entity.appendChild(border);
+
+    // Animate the progress bar manually
+    const progressCircle = document.querySelector('#progress-circle');
+    const totalLength = 565.48;
+    const animationDuration = 5000; // 5 seconds
+
+    let startTime;
+    function animate(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / animationDuration, 1);
+        const dashOffset = totalLength * (1 - progress);
+        progressCircle.setAttribute('stroke-dashoffset', dashOffset);
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        }
+    }
+    requestAnimationFrame(animate);
 }
 
-// Yerleri sahnede render eder (görüntüler)
+// Render the places in the scene
 function renderPlaces(places) {
     let scene = document.querySelector('a-scene');
 
