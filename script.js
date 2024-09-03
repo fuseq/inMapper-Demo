@@ -52,27 +52,16 @@ function setModel(model, entity) {
 
     entity.setAttribute('gltf-model', model.url);
 
-    // Parameters for the circular border
-    const borderThickness = 0.1; // Thickness of the border
-    const borderRadius = 3; // Radius of the circular border
-    const segments = 30; // Number of segments to create the circle
-
-    // Create multiple planes to form a circular border
-    for (let i = 0; i < segments; i++) {
-        let angle = (i / segments) * 2 * Math.PI;
-        let x = Math.cos(angle) * borderRadius;
-        let z = Math.sin(angle) * borderRadius;
-
-        let borderPlane = document.createElement('a-plane');
-        borderPlane.setAttribute('position', `${x} 2 ${z}`);
-        borderPlane.setAttribute('width', borderThickness);
-        borderPlane.setAttribute('height', borderRadius * 2);
-        borderPlane.setAttribute('rotation', `-90 90 0`);
-        borderPlane.setAttribute('material', 'color: red; opacity: 0.5; side: double');
-
-        // Append the border plane to the entity
-        entity.appendChild(borderPlane);
-    }
+    // Add a torus for the border with a smaller thickness
+    let border = document.createElement('a-torus');
+    border.setAttribute('position', '0 2 0');
+    border.setAttribute('radius', '3'); // Adjust the radius
+    border.setAttribute('tube', '0.01'); // Smaller tube radius for thinner border
+    border.setAttribute('rotation', '0 90 0'); // Adjust rotation as needed
+    border.setAttribute('material', 'color: red; opacity: 0.5; wireframe: true'); // Styling
+    
+    // Append the border to the entity
+    entity.appendChild(border);
 }
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
