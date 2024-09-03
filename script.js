@@ -52,33 +52,18 @@ function setModel(model, entity) {
 
     entity.setAttribute('gltf-model', model.url);
 
-    // Create an SVG element and convert it to a data URL
-    const svg = `
-    <svg width="200" height="180" xmlns="http://www.w3.org/2000/svg">
-        <rect x="30" y="30" height="110" width="110" style="stroke:green;fill:red">
-            <animateTransform
-            attributeName="transform"
-            begin="0s"
-            dur="10s"
-            type="rotate"
-            from="0 85 85"
-            to="360 85 85"
-            repeatCount="indefinite" />
-        </rect>
-    </svg>
-`;
-    const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
+    // Create an Lottie animation element
+    let progressAnimation = document.createElement('a-lottie');
+    progressAnimation.setAttribute('src', 'https://assets2.lottiefiles.com/packages/lf20_gz2yfcg0.json'); // URL to your Lottie JSON
+    progressAnimation.setAttribute('width', '2'); // Adjust size as needed
+    progressAnimation.setAttribute('height', '2'); // Adjust size as needed
+    progressAnimation.setAttribute('position', '0 2 0'); // Adjust position
+    progressAnimation.setAttribute('rotation', '0 0 0'); // Adjust rotation
+    progressAnimation.setAttribute('loop', 'true'); // Set to false if you don't want it to loop
+    progressAnimation.setAttribute('autoplay', 'true'); // Automatically play the animation
 
-    // Add a plane with the SVG as its texture
-    let border = document.createElement('a-image');
-    border.setAttribute('src', svgDataUrl);
-    border.setAttribute('width', '24'); // Increase width to make the SVG larger
-    border.setAttribute('height', '12'); // Increase height to make the SVG larger
-    border.setAttribute('position', '0 2 0'); // Adjust position
-    border.setAttribute('rotation', '0 0 0'); // Adjust rotation
-
-    // Append the border to the entity
-    entity.appendChild(border);
+    // Append the Lottie animation to the entity
+    entity.appendChild(progressAnimation);
 }
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
