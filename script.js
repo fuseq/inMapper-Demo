@@ -55,8 +55,8 @@ function setModel(model, entity) {
     // Add a ring for the border with a thinner thickness
     let border = document.createElement('a-ring');
     border.setAttribute('position', '0 2 0');
-    border.setAttribute('radius-inner', '2.95'); // Adjust the inner radius
-    border.setAttribute('radius-outer', '3'); // Adjust the outer radius
+    border.setAttribute('radius-inner', '3.50'); // Adjust the inner radius
+    border.setAttribute('radius-outer', '4'); // Adjust the outer radius
     border.setAttribute('rotation', '0 90 0'); // Adjust rotation as needed
     border.setAttribute('material', 'color: red; opacity: 0.5; wireframe: true'); // Styling
     
