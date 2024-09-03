@@ -13,33 +13,6 @@ window.onload = () => {
 
     startDistanceCheck(window.coords);
 };
-document.addEventListener('DOMContentLoaded', function () {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512; // Set width of the canvas
-    canvas.height = 512; // Set height of the canvas
-    const context = canvas.getContext('2d');
-
-    const animation = bodymovin.loadAnimation({
-        container: canvas,
-        renderer: 'canvas',
-        loop: true,
-        autoplay: true,
-        path: "https://assets5.lottiefiles.com/packages/lf20_mb9ka7yz.json" // Lottie animation URL
-    });
-
-    // Convert canvas to data URL and create an a-image element
-    const canvasDataUrl = canvas.toDataURL();
-
-    // Append a-plane with the canvas texture to A-Frame scene
-    const plane = document.createElement('a-plane');
-    plane.setAttribute('src', canvasDataUrl);
-    plane.setAttribute('width', '4'); // Adjust width
-    plane.setAttribute('height', '4'); // Adjust height
-    plane.setAttribute('position', '0 2 -4'); // Adjust position
-
-    // Add plane to A-Frame scene
-    document.querySelector('a-scene').appendChild(plane);
-});
 // Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükler
 function staticLoadPlaces() {
     return [
@@ -79,34 +52,25 @@ function setModel(model, entity) {
 
     entity.setAttribute('gltf-model', model.url);
 
-    // Create a canvas element
-    const canvas = document.createElement('canvas');
-    canvas.width = 512; // Set the desired width
-    canvas.height = 512; // Set the desired height
-    const context = canvas.getContext('2d');
+    // Create an SVG element and convert it to a data URL
+    const svg = `
+    <svg width="500" height="400" viewBox="-25 -25 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-90deg)">
+        <circle r="90" cx="100" cy="100" fill="transparent" stroke="#e0e0e0" stroke-width="16px" stroke-dasharray="565.48px" stroke-dashoffset="0"></circle>
+        <circle r="90" cx="100" cy="100" stroke="#76e5b1" stroke-width="16px" stroke-linecap="round" stroke-dashoffset="118.692px" fill="transparent" stroke-dasharray="565.48px"></circle>
+    </svg>
+`;
+    const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
 
-    // Load the Lottie animation
-    const animation = bodymovin.loadAnimation({
-        container: canvas,
-        renderer: 'canvas',
-        loop: true,
-        autoplay: true,
-        path: "https://assets5.lottiefiles.com/packages/lf20_mb9ka7yz.json"
-    });
+    // Add a plane with the SVG as its texture
+    let border = document.createElement('a-image');
+    border.setAttribute('src', svgDataUrl);
+    border.setAttribute('width', '24'); // Increase width to make the SVG larger
+    border.setAttribute('height', '12'); // Increase height to make the SVG larger
+    border.setAttribute('position', '0 2 0'); // Adjust position
+    border.setAttribute('rotation', '0 0 0'); // Adjust rotation
 
-    // Convert canvas to data URL
-    const canvasDataUrl = canvas.toDataURL();
-
-    // Create an a-image element with the canvas texture
-    let lottieImage = document.createElement('a-image');
-    lottieImage.setAttribute('src', canvasDataUrl);
-    lottieImage.setAttribute('width', '24'); // Adjust the size as needed
-    lottieImage.setAttribute('height', '12'); // Adjust the size as needed
-    lottieImage.setAttribute('position', '0 2 0'); // Adjust the position as needed
-    lottieImage.setAttribute('rotation', '0 0 0'); // Adjust the rotation as needed
-
-    // Append the Lottie image to the entity
-    entity.appendChild(lottieImage);
+    // Append the border to the entity
+    entity.appendChild(border);
 }
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
