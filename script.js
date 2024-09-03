@@ -54,11 +54,13 @@ function setModel(model, entity) {
 
     // Create an SVG element and convert it to a data URL
     const svg = `
-    <svg width="500" height="400" viewBox="-25 -25 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-90deg)">
-        <circle r="90" cx="100" cy="100" fill="transparent" stroke="#e0e0e0" stroke-width="16px" stroke-dasharray="565.48px" stroke-dashoffset="0"></circle>
-        <circle r="90" cx="100" cy="100" stroke="#76e5b1" stroke-width="16px" stroke-linecap="round" stroke-dashoffset="118.692px" fill="transparent" stroke-dasharray="565.48px"></circle>
+    <svg width="500" height="400" viewBox="-25 -25 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <circle id="background-circle" r="90" cx="100" cy="100" fill="transparent" stroke="#e0e0e0" stroke-width="16px" stroke-dasharray="565.48px" stroke-dashoffset="0"></circle>
+        <circle id="progress-circle" r="90" cx="100" cy="100" stroke="#76e5b1" stroke-width="16px" stroke-linecap="round" stroke-dashoffset="565.48px" fill="transparent" stroke-dasharray="565.48px">
+            <animate attributeName="stroke-dashoffset" from="565.48" to="0" dur="5s" fill="freeze" />
+        </circle>
     </svg>
-`;
+    `;
     const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
 
     // Add a plane with the SVG as its texture
@@ -72,6 +74,7 @@ function setModel(model, entity) {
     // Append the border to the entity
     entity.appendChild(border);
 }
+
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
     let scene = document.querySelector('a-scene');
