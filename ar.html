@@ -12,7 +12,35 @@
     <script>
         THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
     </script>
-    <script src="./script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512; // Set width of the canvas
+            canvas.height = 512; // Set height of the canvas
+            const context = canvas.getContext('2d');
+
+            const animation = bodymovin.loadAnimation({
+                container: canvas,
+                renderer: 'canvas',
+                loop: true,
+                autoplay: true,
+                path: "https://assets5.lottiefiles.com/packages/lf20_mb9ka7yz.json" // Lottie animation URL
+            });
+
+            // Convert canvas to data URL and create an a-image element
+            const canvasDataUrl = canvas.toDataURL();
+
+            // Append a-plane with the canvas texture to A-Frame scene
+            const plane = document.createElement('a-plane');
+            plane.setAttribute('src', canvasDataUrl);
+            plane.setAttribute('width', '4'); // Adjust width
+            plane.setAttribute('height', '4'); // Adjust height
+            plane.setAttribute('position', '0 2 -4'); // Adjust position
+
+            // Add plane to A-Frame scene
+            document.querySelector('a-scene').appendChild(plane);
+        });
+    </script>
     <link rel="stylesheet" type="text/css" href="./style.css"/>
 </head>
 
@@ -39,33 +67,31 @@
         embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
     <a-camera gps-camera='gpsMinDistance: 5' rotation-reader  arjs-device-orientation-controls='smoothingFactor: 0.9'></a-camera>
-</a-scene>
+    </a-scene>
 
-<div class="centered">
-  
-</div>
-<script>
-    function getQueryParams() {
-        const params = new URLSearchParams(window.location.search);
-        return {
-            x1: params.get('x1'),
-            y1: params.get('y1'),
-            x2: params.get('x2'),
-            y2: params.get('y2')
-        };
-    }
-    document.addEventListener('DOMContentLoaded', function () {
-        const coords = getQueryParams();
-        console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
+    <div class="centered"></div>
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                x1: params.get('x1'),
+                y1: params.get('y1'),
+                x2: params.get('x2'),
+                y2: params.get('y2')
+            };
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const coords = getQueryParams();
+            console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
 
-        window.coords = coords;  
-    });
-</script>
-<div class="popup" id="popup">
-    <div class="popup-content">
-        <div class="popup-message">Gideceğiniz yönü buldunuz. Harita ekranına dönülüyor...</div><br>
-        <div><a href="index.html" class="popup-button">Tamam</a></div>
+            window.coords = coords;  
+        });
+    </script>
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <div class="popup-message">Gideceğiniz yönü buldunuz. Harita ekranına dönülüyor...</div><br>
+            <div><a href="index.html" class="popup-button">Tamam</a></div>
+        </div>
     </div>
-</div>
 </body>
 </html>
