@@ -13,6 +13,33 @@ window.onload = () => {
 
     startDistanceCheck(window.coords);
 };
+document.addEventListener('DOMContentLoaded', function () {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512; // Set width of the canvas
+    canvas.height = 512; // Set height of the canvas
+    const context = canvas.getContext('2d');
+
+    const animation = bodymovin.loadAnimation({
+        container: canvas,
+        renderer: 'canvas',
+        loop: true,
+        autoplay: true,
+        path: "https://assets5.lottiefiles.com/packages/lf20_mb9ka7yz.json" // Lottie animation URL
+    });
+
+    // Convert canvas to data URL and create an a-image element
+    const canvasDataUrl = canvas.toDataURL();
+
+    // Append a-plane with the canvas texture to A-Frame scene
+    const plane = document.createElement('a-plane');
+    plane.setAttribute('src', canvasDataUrl);
+    plane.setAttribute('width', '4'); // Adjust width
+    plane.setAttribute('height', '4'); // Adjust height
+    plane.setAttribute('position', '0 2 -4'); // Adjust position
+
+    // Add plane to A-Frame scene
+    document.querySelector('a-scene').appendChild(plane);
+});
 // Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükler
 function staticLoadPlaces() {
     return [
