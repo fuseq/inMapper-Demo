@@ -37,7 +37,7 @@ var models = [
 ];
 // Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
 var modelIndex = 0;
-var setModel = function (model, entity) {
+function setModel(model, entity) {
     if (model.scale) {
         entity.setAttribute('scale', model.scale);
     }
@@ -52,9 +52,18 @@ var setModel = function (model, entity) {
 
     entity.setAttribute('gltf-model', model.url);
 
+    // Sınır (border) için bir a-box ekleyin
+    let border = document.createElement('a-box');
+    border.setAttribute('position', model.position);
+    border.setAttribute('scale', '2.2 2.2 2.2'); // Pin nesnesinin biraz daha büyük
+    border.setAttribute('material', 'color: red; opacity: 0.5'); // Kırmızı renk ve yarı saydam
+
+    // Entity'nin child'ı olarak ekleyin
+    entity.appendChild(border);
+
     const div = document.querySelector('.instructions');
     div.innerText = model.info;
-};
+}
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
     let scene = document.querySelector('a-scene');
@@ -69,8 +78,6 @@ function renderPlaces(places) {
         setModel(models[modelIndex], model);
 
         model.removeAttribute('animation-mixer');
-
-     
 
         scene.appendChild(model);
     });
