@@ -31,7 +31,7 @@ var models = [
         url: './assets/pin/scene.gltf',
         scale: '2 2 2',
         info: '',
-        rotation: '0 90 0',
+        rotation: '0 0 0',
         position: '0 0 0',
     },
 ];
@@ -52,13 +52,21 @@ function setModel(model, entity) {
 
     entity.setAttribute('gltf-model', model.url);
 
-    // Add a ring for the border with a thinner thickness
-    let border = document.createElement('a-ring');
-    border.setAttribute('position', '0 2 0');
-    border.setAttribute('radius-inner', '3.50'); // Adjust the inner radius
-    border.setAttribute('radius-outer', '4'); // Adjust the outer radius
-    border.setAttribute('rotation', '0 90 0'); // Adjust rotation as needed
-    border.setAttribute('material', 'color: red; opacity: 0.5; wireframe: true'); // Styling
+    // Create an SVG element and convert it to a data URL
+    const svg = `
+        <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="40" stroke="red" stroke-width="2" fill="none" opacity="0.5"/>
+        </svg>
+    `;
+    const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
+
+    // Add a plane with the SVG as its texture
+    let border = document.createElement('a-image');
+    border.setAttribute('src', svgDataUrl);
+    border.setAttribute('width', '6'); // Adjust the width and height
+    border.setAttribute('height', '6');
+    border.setAttribute('position', '0 2 0'); // Adjust position
+    border.setAttribute('rotation', '0 0 0'); // Adjust rotation
     
     // Append the border to the entity
     entity.appendChild(border);
