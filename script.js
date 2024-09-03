@@ -56,7 +56,7 @@ function setModel(model, entity) {
     let border = document.createElement('a-circle');
     border.setAttribute('position', '0 2 0');
     border.setAttribute('radius', '3'); // Dairenin yarıçapını ayarlayın
-    border.setAttribute('rotation', '-90 0 0'); // Dairenin düz görünmesi için rotation ayarı
+    border.setAttribute('rotation', '0 -90 0'); // Dairenin düz görünmesi için rotation ayarı
     border.setAttribute('material', 'color: red; opacity: 0.5; wireframe: true'); // Sadece kenarları görünür yap
 
     // Entity'nin child'ı olarak ekleyin
