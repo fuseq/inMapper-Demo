@@ -72,14 +72,19 @@ function setModel(model, entity) {
     // Append the border to the entity
     entity.appendChild(border);
 
-    // Animate the SVG circle
-    animateSVGCircle();
+    // Use a timeout to ensure the SVG is rendered before starting the animation
+    setTimeout(() => {
+        animateSVGCircle();
+    }, 100); // 100 ms delay to allow for rendering
 }
 
 // Animate the SVG circle from 0% to 100%
 function animateSVGCircle() {
     const circle = document.querySelector('#progress-circle');
-    if (!circle) return;
+    if (!circle) {
+        console.error('SVG circle with ID "progress-circle" not found.');
+        return;
+    }
 
     const totalLength = circle.getTotalLength();
     let start = null;
