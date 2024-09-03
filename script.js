@@ -52,18 +52,35 @@ function setModel(model, entity) {
 
     entity.setAttribute('gltf-model', model.url);
 
-    // Create an Lottie animation element
-    let progressAnimation = document.createElement('a-lottie');
-    progressAnimation.setAttribute('src', 'https://assets2.lottiefiles.com/packages/lf20_gz2yfcg0.json'); // URL to your Lottie JSON
-    progressAnimation.setAttribute('width', '2'); // Adjust size as needed
-    progressAnimation.setAttribute('height', '2'); // Adjust size as needed
-    progressAnimation.setAttribute('position', '0 2 0'); // Adjust position
-    progressAnimation.setAttribute('rotation', '0 0 0'); // Adjust rotation
-    progressAnimation.setAttribute('loop', 'true'); // Set to false if you don't want it to loop
-    progressAnimation.setAttribute('autoplay', 'true'); // Automatically play the animation
+    // Create a container for the Lottie animation
+    const lottieContainer = document.createElement('a-plane');
+    lottieContainer.setAttribute('width', '24'); // Adjust width as needed
+    lottieContainer.setAttribute('height', '12'); // Adjust height as needed
+    lottieContainer.setAttribute('position', '0 2 0'); // Adjust position as needed
+    lottieContainer.setAttribute('rotation', '0 0 0'); // Adjust rotation as needed
 
-    // Append the Lottie animation to the entity
-    entity.appendChild(progressAnimation);
+    // Append the container to the entity
+    entity.appendChild(lottieContainer);
+
+    // Create a div element to hold the Lottie animation
+    const lottieDiv = document.createElement('div');
+    lottieDiv.id = 'lottie-animation';
+    lottieDiv.style.width = '100%';
+    lottieDiv.style.height = '100%';
+
+    // Append the div to the Lottie container
+    lottieContainer.appendChild(lottieDiv);
+
+    // Initialize Lottie animation
+    const animation = lottie.loadAnimation({
+        container: lottieDiv, // the DOM element that will contain the animation
+        renderer: 'svg', // or 'canvas' or 'html'
+        loop: true, // or false
+        autoplay: true, // or false
+        path: 'https://lottie.host/embed/d6deddaa-d48d-4109-8d6e-219e81563c5d/gnodoqSPDW.json' // path to the animation JSON
+    });
+
+    animation.setSpeed(1); // Set animation speed, if needed
 }
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
