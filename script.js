@@ -54,19 +54,19 @@ function setModel(model, entity) {
 
     // Create an SVG element and convert it to a data URL
     const svg = `
-        <svg width="200" height="200" viewBox="-25 -25 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-90deg)">
-    <circle r="90" cx="100" cy="100" fill="transparent" stroke="#e0e0e0" stroke-width="16px" stroke-dasharray="565.48px" stroke-dashoffset="0"></circle>
-    <circle r="90" cx="100" cy="100" stroke="#76e5b1" stroke-width="16px" stroke-linecap="round" stroke-dashoffset="118.692px" fill="transparent" stroke-dasharray="565.48px"></circle>
-    <text x="100px" y="100px" fill="#6bdba7" font-size="0px" font-weight="bold" style="transform:rotate(90deg) translate(0px, -196px)">79</text>
-  </svg>
-    `;
+    <svg width="400" height="400" viewBox="-25 -25 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-90deg)">
+        <circle r="90" cx="100" cy="100" fill="transparent" stroke="#e0e0e0" stroke-width="16px" stroke-dasharray="565.48px" stroke-dashoffset="0"></circle>
+        <circle r="90" cx="100" cy="100" stroke="#76e5b1" stroke-width="16px" stroke-linecap="round" stroke-dashoffset="118.692px" fill="transparent" stroke-dasharray="565.48px"></circle>
+        <text x="100px" y="100px" fill="#6bdba7" font-size="50px" font-weight="bold" text-anchor="middle" dominant-baseline="middle">79</text>
+    </svg>
+`;
     const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
 
     // Add a plane with the SVG as its texture
     let border = document.createElement('a-image');
     border.setAttribute('src', svgDataUrl);
-    border.setAttribute('width', '6'); // Adjust the width and height
-    border.setAttribute('height', '6');
+    border.setAttribute('width', '10'); // Increase width to make the SVG larger
+    border.setAttribute('height', '10'); // Increase height to make the SVG larger
     border.setAttribute('position', '0 2 0'); // Adjust position
     border.setAttribute('rotation', '0 0 0'); // Adjust rotation
 
