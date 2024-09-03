@@ -55,7 +55,7 @@ function setModel(model, entity) {
     // Sınır (border) için bir a-box ekleyin
     let border = document.createElement('a-box');
     border.setAttribute('position', model.position);
-    border.setAttribute('scale', '3 3 3'); // Pin nesnesinin biraz daha büyük
+    border.setAttribute('scale', '5 5 5'); // Pin nesnesinin biraz daha büyük
     border.setAttribute('material', 'color: red; opacity: 0.5'); // Kırmızı renk ve yarı saydam
 
     // Entity'nin child'ı olarak ekleyin
