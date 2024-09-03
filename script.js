@@ -52,11 +52,11 @@ function setModel(model, entity) {
 
     entity.setAttribute('gltf-model', model.url);
 
-    // Add a torus for the border
+    // Add a torus for the border with a smaller thickness
     let border = document.createElement('a-torus');
     border.setAttribute('position', '0 2 0');
     border.setAttribute('radius', '3'); // Adjust the radius
-    border.setAttribute('tube', '0.1'); // Adjust the tube radius for thickness
+    border.setAttribute('tube', '0.01'); // Smaller tube radius for thinner border
     border.setAttribute('rotation', '0 90 0'); // Adjust rotation as needed
     border.setAttribute('material', 'color: red; opacity: 0.5; wireframe: true'); // Styling
     
