@@ -54,11 +54,19 @@ function setModel(model, entity) {
 
     // Create an SVG element and convert it to a data URL
     const svg = `
-    <svg width="500" height="400" viewBox="-25 -25 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-90deg)">
-        <circle r="90" cx="100" cy="100" fill="transparent" stroke="#e0e0e0" stroke-width="16px" stroke-dasharray="565.48px" stroke-dashoffset="0"></circle>
-        <circle id="progress-circle" r="90" cx="100" cy="100" stroke="#76e5b1" stroke-width="16px" stroke-linecap="round" stroke-dashoffset="565.48px" fill="transparent" stroke-dasharray="565.48px"></circle>
+    <svg width="200" height="180" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="30" height="110" width="110" style="stroke:green;fill:red">
+            <animateTransform
+            attributeName="transform"
+            begin="0s"
+            dur="10s"
+            type="rotate"
+            from="0 85 85"
+            to="360 85 85"
+            repeatCount="indefinite" />
+        </rect>
     </svg>
-    `;
+`;
     const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
 
     // Add a plane with the SVG as its texture
@@ -71,38 +79,6 @@ function setModel(model, entity) {
 
     // Append the border to the entity
     entity.appendChild(border);
-
-    // Use a timeout to ensure the SVG is rendered before starting the animation
-    setTimeout(() => {
-        animateSVGCircle();
-    }, 100); // 100 ms delay to allow for rendering
-}
-
-// Animate the SVG circle from 0% to 100%
-function animateSVGCircle() {
-    const circle = document.querySelector('#progress-circle');
-    if (!circle) {
-        console.error('SVG circle with ID "progress-circle" not found.');
-        return;
-    }
-
-    const totalLength = circle.getTotalLength();
-    let start = null;
-
-    function step(timestamp) {
-        if (!start) start = timestamp;
-        const progress = timestamp - start;
-        const percentage = Math.min(progress / 2000, 1); // 2000 ms for full animation
-
-        // Update stroke-dashoffset
-        circle.style.strokeDashoffset = totalLength * (1 - percentage);
-
-        if (percentage < 1) {
-            requestAnimationFrame(step);
-        }
-    }
-
-    requestAnimationFrame(step);
 }
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
