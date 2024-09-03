@@ -52,18 +52,16 @@ function setModel(model, entity) {
 
     entity.setAttribute('gltf-model', model.url);
 
-    // Sınır (border) için bir a-circle ekleyin
-    let border = document.createElement('a-circle');
+    // Add a torus for the border
+    let border = document.createElement('a-torus');
     border.setAttribute('position', '0 2 0');
-    border.setAttribute('radius', '3'); // Dairenin yarıçapını ayarlayın
-    border.setAttribute('rotation', '0 -90 0'); // Dairenin düz görünmesi için rotation ayarı
-    border.setAttribute('material', 'color: red; opacity: 0.5; wireframe: true'); // Sadece kenarları görünür yap
-
-    // Entity'nin child'ı olarak ekleyin
+    border.setAttribute('radius', '3'); // Adjust the radius
+    border.setAttribute('tube', '0.1'); // Adjust the tube radius for thickness
+    border.setAttribute('rotation', '0 90 0'); // Adjust rotation as needed
+    border.setAttribute('material', 'color: red; opacity: 0.5; wireframe: true'); // Styling
+    
+    // Append the border to the entity
     entity.appendChild(border);
-
-    const div = document.querySelector('.instructions');
-    div.innerText = model.info;
 }
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
