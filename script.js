@@ -52,10 +52,10 @@ function setModel(model, entity) {
 
     entity.setAttribute('gltf-model', model.url);
 
-    // Sınır (border) için bir a-box ekleyin
-    let border = document.createElement('a-box');
+    // Sınır (border) için bir a-circle ekleyin
+    let border = document.createElement('a-circle');
     border.setAttribute('position', '0 2 0');
-    border.setAttribute('scale', '5 5 5'); // Pin nesnesinin biraz daha büyük
+    border.setAttribute('radius', '3'); // Dairenin yarıçapını ayarlayın
     border.setAttribute('material', 'color: red; opacity: 0.5; wireframe: true'); // Sadece kenarları görünür yap
 
     // Entity'nin child'ı olarak ekleyin
