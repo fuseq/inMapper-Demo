@@ -128,7 +128,7 @@ function showArrow(direction) {
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    if (direction < 30 || direction > 320) {
+    if (direction < 50 || direction > 300) {
         // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
