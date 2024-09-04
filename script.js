@@ -122,19 +122,24 @@ function checkModelVisibility(model) {
 function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
+    const upArrow = document.getElementById('up-arrow'); // Yeni up-arrow elementi
     const directionIndicator = document.getElementById('direction-indicator');
-    const progressFrame = document.getElementById('progress-frame');
+
+    // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+
     if (direction < 50 || direction > 300) {
+        // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
-        progressFrame.style.display = 'block';
-        document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
+        upArrow.style.display = 'block';
+        upArrow.addEventListener('animationend', onAnimationEnd);
         directionMatches = true;
     } else {
+        // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
         leftArrow.style.display = direction > 180 ? 'none' : 'block';
         rightArrow.style.display = direction > 180 ? 'block' : 'none';
-        progressFrame.style.display = 'none';
+        upArrow.style.display = 'none';
         directionMatches = false;
     }
 }

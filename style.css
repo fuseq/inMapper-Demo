@@ -158,7 +158,7 @@ button {
         opacity: 0;
     }
 }
-
+/*
 .arrow {
     position: absolute;
     top: 50%;
@@ -212,7 +212,102 @@ button {
         transform: rotate(45deg) translate(20px, 20px);
     }
 }
+*/
 
+/* Genel arrow stili */
+.arrow {
+    position: absolute;
+    top: 60%;
+    transform: translateY(-50%);
+}
+
+.arrow-icon {
+    font-size: 60px;
+}
+
+/* Sol ok için konumlandırma */
+.left {
+    left: 20px;
+    color: #36a2eb;
+    
+}
+
+/* Sağ ok için konumlandırma */
+.right {
+    right: 20px;
+    color: #36a2eb;
+}
+
+/* Yukarı (ileri) ok için konumlandırma */
+.up {
+    left: 50%;
+    color: #ff6384;
+    top:65%;
+    transform: translate(-50%, -50%);
+}
+  
+  /* Sola giden ok için animasyon */
+  .left-arrow {
+    animation: moveLeftArrow 2s ease-in-out infinite;
+  }
+  
+  @keyframes moveLeftArrow {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(-20px); 
+    }
+    100% {
+      transform: translateX(0); 
+    }
+  }
+  
+  /* Sağa giden ok için animasyon */
+  .right-arrow {
+    animation: moveRightArrow 2s ease-in-out infinite;
+  }
+  
+  @keyframes moveRightArrow {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(20px); /* Sağa doğru hareket */
+    }
+    100% {
+      transform: translateX(0); /* Eski yerine geri döner */
+    }
+  }
+  
+  /* Yukarıya (ileriye) bakan ok için animasyon + shake effect */
+  .up-arrow {
+    animation: moveUpArrow 1s ease-in-out infinite, shakeEffect 0.15s ease-in-out infinite;
+  }
+  
+  @keyframes moveUpArrow {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-100px); /* Yukarı doğru hareket */
+    }
+    100% {
+      transform: translateY(0); /* Eski yerine geri döner */
+    }
+  }
+  
+  @keyframes shakeEffect {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-5px);
+    }
+    75% {
+      transform: translateX(5px);
+    }
+  }
 .direction-indicator {
     position: absolute;
     top: 5%;
@@ -269,6 +364,7 @@ button {
 }
 
 @media (max-width: 768px) {
+    /*
     .arrow.left {
         left: 5px;
     }
@@ -283,7 +379,7 @@ button {
         border-bottom: 3px solid white;
         border-right: 3px solid white;
     }
-
+*/
     .direction-indicator {
         font-size: 0.75em;
         padding: 5px;
@@ -445,31 +541,31 @@ button {
     bottom: 0;
     width: 100%;
     height: 35%;
-    background-color: rgba(255, 255, 255, 0); /* Şeffaf arka plan */
+    background-color: rgba(255, 255, 255, 0); 
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Tüm elemanları dikeyde ortala */
+    justify-content: center; 
 }
 .compass-section {
     height: 20%;
     display: flex;
     justify-content: end;
     align-items: end;
-    background-color: rgba(255, 255, 255, 0); /* Şeffaf arka plan */
+    background-color: rgba(255, 255, 255, 0); 
 }
 
 .compass-circle {
-    width: 30px; /* Çemberin genişliği */
-    height: 30px; /* Çemberin yüksekliği */
-    border-radius: 50%; /* Çember şeklinde yapmak için */
-    background-color: #fff; /* Beyaz arka plan */
-    border: 2px solid #000; /* Siyah kenar */
+    width: 30px; 
+    height: 30px; 
+    border-radius: 50%; 
+    background-color: #fff; 
+    border: 2px solid #000; 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
-    margin: 5px; /* Padding ekledik */
+    margin: 5px; 
 }
 
 .compass-arrow {
@@ -477,15 +573,15 @@ button {
     height: 0;
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-bottom: 8px solid #000; /* Okun rengi */
+    border-bottom: 8px solid #000; 
     position: absolute;
-    top: 8px; /* Yukarıdan mesafe */
+    top: 8px; 
 }
 
 .compass-direction {
-    font-size: 11px; /* Yön yazısının boyutu */
+    font-size: 11px; 
     font-weight: bold;
-    margin-top: 16px; /* Ok ile metin arasına boşluk */
+    margin-top: 16px; 
 }
 .map-section {
     height: 60%;
