@@ -128,18 +128,29 @@ function showArrow(direction) {
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
+    // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
+    leftArrow.classList.remove('fade-in', 'fade-out');
+    rightArrow.classList.remove('fade-in', 'fade-out');
+    upArrow.classList.remove('fade-in', 'fade-out');
+
     if (direction < 50 || direction > 300) {
         // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
-        leftArrow.style.display = 'none';
-        rightArrow.style.display = 'none';
-        upArrow.style.display = 'block';
-        upArrow.addEventListener('animationend', onAnimationEnd);
+        leftArrow.classList.add('fade-out');
+        rightArrow.classList.add('fade-out');
+        upArrow.classList.add('fade-in');
         directionMatches = true;
     } else {
         // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
-        leftArrow.style.display = direction > 180 ? 'none' : 'block';
-        rightArrow.style.display = direction > 180 ? 'block' : 'none';
-        upArrow.style.display = 'none';
+        if (direction > 180) {
+            // Sağ ok görünür
+            leftArrow.classList.add('fade-out');
+            rightArrow.classList.add('fade-in');
+        } else {
+            // Sol ok görünür
+            leftArrow.classList.add('fade-in');
+            rightArrow.classList.add('fade-out');
+        }
+        upArrow.classList.add('fade-out');
         directionMatches = false;
     }
 }

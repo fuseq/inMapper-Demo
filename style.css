@@ -158,6 +158,7 @@ button {
         opacity: 0;
     }
 }
+
 /*
 .arrow {
     position: absolute;
@@ -217,8 +218,12 @@ button {
 /* Genel arrow stili */
 .arrow {
     position: absolute;
-    top: 40%;
+    top: 50%;
     transform: translateY(-50%);
+    opacity: 0;
+    /* Başlangıçta görünmez */
+    transition: opacity 1s ease-in-out;
+    /* Opaklık değişimi için geçiş */
 }
 
 .arrow-icon {
@@ -229,7 +234,7 @@ button {
 .left {
     left: 20px;
     color: #ff6384;
-    
+
 }
 
 /* Sağ ok için konumlandırma */
@@ -242,56 +247,79 @@ button {
 .up {
     left: 50%;
     color: #36a2eb;
-    top:65%;
+    top: 65%;
     transform: translate(-50%, -50%);
 }
-  
-  /* Sola giden ok için animasyon */
-  .left-arrow {
+
+.fade-in {
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+/* Sola giden ok için animasyon */
+.left-arrow {
     animation: moveLeftArrow 2s ease-in-out infinite;
-    
-  }
-  
-  @keyframes moveLeftArrow {
+
+}
+
+@keyframes moveLeftArrow {
     0% {
-      transform: translateX(0);
+        transform: translateX(0);
     }
+
     50% {
-      transform: translateX(-20px); 
+        transform: translateX(-20px);
     }
+
     100% {
-      transform: translateX(0); 
+        transform: translateX(0);
     }
-  }
-  
-  /* Sağa giden ok için animasyon */
-  .right-arrow {
+}
+
+/* Sağa giden ok için animasyon */
+.right-arrow {
     animation: moveRightArrow 2s ease-in-out infinite;
-  }
-  
-  @keyframes moveRightArrow {
+}
+
+@keyframes moveRightArrow {
     0% {
-      transform: translateX(0);
+        transform: translateX(0);
     }
+
     50% {
-      transform: translateX(20px); /* Sağa doğru hareket */
+        transform: translateX(20px);
+        /* Sağa doğru hareket */
     }
+
     100% {
-      transform: translateX(0); /* Eski yerine geri döner */
+        transform: translateX(0);
+        /* Eski yerine geri döner */
     }
-  }
-  
-  /* Yukarıya (ileriye) bakan ok için animasyon + shake effect */
+}
+
+/* Yukarıya (ileriye) bakan ok için animasyon + shake effect */
 .up-arrow {
     animation: jump 1s ease infinite;
     transform-origin: 50% 50%;
 }
 
 @keyframes jump {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0); }
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
+
 .direction-indicator {
     position: absolute;
     top: 5%;
@@ -348,6 +376,7 @@ button {
 }
 
 @media (max-width: 768px) {
+
     /*
     .arrow.left {
         left: 5px;
@@ -481,8 +510,8 @@ button {
     width: 100vw;
     height: 100vh;
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px); 
-    display: none; 
+    backdrop-filter: blur(10px);
+    display: none;
     z-index: 10000;
     justify-content: center;
     align-items: center;
@@ -491,15 +520,16 @@ button {
 
 .popup-content {
     display: flex;
-    flex-direction: column;  
-    justify-content: center; 
-    align-items: center;    
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    height: 100%;            
+    height: 100%;
 }
 
-.popup-message, .popup-button {
-    margin-bottom: 10px; 
+.popup-message,
+.popup-button {
+    margin-bottom: 10px;
 }
 
 
@@ -525,31 +555,32 @@ button {
     bottom: 0;
     width: 100%;
     height: 35%;
-    background-color: rgba(255, 255, 255, 0); 
+    background-color: rgba(255, 255, 255, 0);
     display: flex;
     flex-direction: column;
-    justify-content: center; 
+    justify-content: center;
 }
+
 .compass-section {
     height: 20%;
     display: flex;
     justify-content: end;
     align-items: end;
-    background-color: rgba(255, 255, 255, 0); 
+    background-color: rgba(255, 255, 255, 0);
 }
 
 .compass-circle {
-    width: 30px; 
-    height: 30px; 
-    border-radius: 50%; 
-    background-color: #fff; 
-    border: 2px solid #000; 
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #000;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
-    margin: 5px; 
+    margin: 5px;
 }
 
 .compass-arrow {
@@ -557,16 +588,17 @@ button {
     height: 0;
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-bottom: 8px solid #000; 
+    border-bottom: 8px solid #000;
     position: absolute;
-    top: 8px; 
+    top: 8px;
 }
 
 .compass-direction {
-    font-size: 11px; 
+    font-size: 11px;
     font-weight: bold;
-    margin-top: 16px; 
+    margin-top: 16px;
 }
+
 .map-section {
     height: 60%;
     width: 100%;
@@ -598,13 +630,15 @@ button {
 
 .destination {
     display: flex;
-    align-items: center; /* Dikeyde ortala */
+    align-items: center;
+    /* Dikeyde ortala */
     font-weight: bold;
     font-size: 18px;
 }
 
 .destination i {
-    margin-right: 8px; /* İkon ile metin arasına boşluk ekle */
+    margin-right: 8px;
+    /* İkon ile metin arasına boşluk ekle */
 }
 
 .time-info {
