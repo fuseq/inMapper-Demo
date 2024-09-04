@@ -217,7 +217,7 @@ button {
 /* Genel arrow stili */
 .arrow {
     position: absolute;
-    top: 60%;
+    top: 40%;
     transform: translateY(-50%);
 }
 
@@ -228,20 +228,20 @@ button {
 /* Sol ok için konumlandırma */
 .left {
     left: 20px;
-    color: #36a2eb;
+    color: #ff6384;
     
 }
 
 /* Sağ ok için konumlandırma */
 .right {
     right: 20px;
-    color: #36a2eb;
+    color: #ff6384;
 }
 
 /* Yukarı (ileri) ok için konumlandırma */
 .up {
     left: 50%;
-    color: #ff6384;
+    color: #36a2eb;
     top:65%;
     transform: translate(-50%, -50%);
 }
@@ -282,21 +282,16 @@ button {
   }
   
   /* Yukarıya (ileriye) bakan ok için animasyon + shake effect */
-  .up-arrow {
-    animation: shake-animation 4.72s ease infinite;
+.up-arrow {
+    animation: jump 1s ease infinite;
     transform-origin: 50% 50%;
 }
 
-@keyframes shake-animation {
-    0% { transform:translate(0,0) }
-   1.78571% { transform:translate(5px,0) }
-   3.57143% { transform:translate(0,0) }
-   5.35714% { transform:translate(5px,0) }
-   7.14286% { transform:translate(0,0) }
-   8.92857% { transform:translate(5px,0) }
-   10.71429% { transform:translate(0,0) }
-   100% { transform:translate(0,0) }
- }
+@keyframes jump {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+}
 .direction-indicator {
     position: absolute;
     top: 5%;
