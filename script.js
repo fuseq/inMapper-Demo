@@ -3,20 +3,18 @@ let lastAlpha = null;
 let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
-let initialAlpha = null; // Variable to store the initial heading
+let direction
+
+
 
 window.onload = () => {
-    // Load places and start distance check on page load
+    // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
     renderPlaces(places);
 
     startDistanceCheck(window.coords);
-
-    // Initialize initialAlpha to 0 degrees
-    initialAlpha = 0; // Default initial heading
 };
-
-// Load static places with predefined latitude and longitude values
+// Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükler
 function staticLoadPlaces() {
     return [
         {
@@ -38,9 +36,8 @@ var models = [
         position: '0 0 0',
     },
 ];
-
+// Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
 var modelIndex = 0;
-
 function setModel(model, entity) {
     if (model.scale) {
         entity.setAttribute('scale', model.scale);
@@ -56,24 +53,27 @@ function setModel(model, entity) {
 
     entity.setAttribute('gltf-model', model.url);
 
+    // Create an SVG element and convert it to a data URL
     const svg = `
     <svg width="500" height="400" viewBox="-25 -25 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-90deg)">
         <circle r="90" cx="100" cy="100" fill="transparent" stroke="#e0e0e0" stroke-width="16px" stroke-dasharray="565.48px" stroke-dashoffset="0"></circle>
         <circle r="90" cx="100" cy="100" stroke="#76e5b1" stroke-width="16px" stroke-linecap="round" stroke-dashoffset="118.692px" fill="transparent" stroke-dasharray="565.48px"></circle>
     </svg>
-    `;
+`;
     const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
 
+    // Add a plane with the SVG as its texture
     let border = document.createElement('a-image');
     border.setAttribute('src', svgDataUrl);
-    border.setAttribute('width', '24');
-    border.setAttribute('height', '12');
-    border.setAttribute('position', '0 2 0');
-    border.setAttribute('rotation', '0 0 0');
+    border.setAttribute('width', '24'); // Increase width to make the SVG larger
+    border.setAttribute('height', '12'); // Increase height to make the SVG larger
+    border.setAttribute('position', '0 2 0'); // Adjust position
+    border.setAttribute('rotation', '0 0 0'); // Adjust rotation
 
+    // Append the border to the entity
     entity.appendChild(border);
 }
-
+// Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
     let scene = document.querySelector('a-scene');
 
@@ -91,7 +91,7 @@ function renderPlaces(places) {
         scene.appendChild(model);
     });
 }
-
+// İki koordinat arasındaki yönü hesaplar
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
     lat1 = lat1 * Math.PI / 180;
@@ -101,7 +101,7 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     const brng = Math.atan2(y, x) * (180 / Math.PI);
     return (brng + 360) % 360;
 }
-
+// Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
 function getDirectionFromBearing(bearing) {
     const directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
     const index = Math.round(bearing / 22.5) % 16;
@@ -109,6 +109,7 @@ function getDirectionFromBearing(bearing) {
 }
 
 function checkModelVisibility(model) {
+    // A-Frame'ın 'gps-entity-place' bileşenini kullanarak görünürlük kontrolü yapın
     const modelPosition = model.object3D.position;
     const camera = document.querySelector('a-camera').object3D;
 
@@ -116,55 +117,74 @@ function checkModelVisibility(model) {
     return modelScreenPosition.z > 0 && modelScreenPosition.x >= -1 && modelScreenPosition.x <= 1 && modelScreenPosition.y >= -1 && modelScreenPosition.y <= 1;
 }
 
+
+// Yönlendirme oklarını ve doğru yön indikatörünü gösterir
 function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
-    const uiBox = document.querySelector('.ui-box');
-    const popup = document.querySelector('.popup');
+    const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
+    const popup = document.querySelector('.popup'); // .popup elementini seç
 
+    // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
+    // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
 
-    if (direction < 50 || direction > 310) {
+    if (direction < 50 || direction > 300) {
+        // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
         directionMatches = true;
 
+        // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
 
+       
+       
+        // Animasyonun %80'inde popup'ı göster
         uiBox.addEventListener('animationstart', () => {
-            const animationDuration = 5000;
+            const animationDuration = 5000; // Animasyon süresi (5 saniye)
             popupTimeout = setTimeout(() => {
                 if (!upArrow.classList.contains('fade-out')) {
-                    popup.style.display = 'flex';
+                    popup.style.display = 'flex'; // Popup'ı görünür yap
                 }
-            }, animationDuration * 0.8);
-        }, { once: true });
+            }, animationDuration * 0.8); // Animasyon süresinin %80'i
+        }, { once: true }); // Olayı sadece bir kez dinle
 
     } else {
+        // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
         if (direction > 180) {
+            // Sağ ok görünür
             leftArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
+            // Sol ok görünür
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
         }
         upArrow.classList.add('fade-out');
         directionMatches = false;
 
+        // border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
+
+        // Popup zamanlayıcısını temizle
         clearTimeout(popupTimeout);
+
+        // Popup'ı gizle
         popup.style.display = 'none';
     }
 }
 
 function getCompassDirection(alpha) {
+    // Assuming alpha is in degrees and ranges from 0 to 360
+    // You can adjust these conditions based on your specific requirements
     if (alpha >= 337.5 || alpha < 22.5) return 'N';
     if (alpha >= 22.5 && alpha < 67.5) return 'NE';
     if (alpha >= 67.5 && alpha < 112.5) return 'E';
@@ -174,6 +194,7 @@ function getCompassDirection(alpha) {
     if (alpha >= 247.5 && alpha < 292.5) return 'W';
     if (alpha >= 292.5 && alpha < 337.5) return 'NW';
 }
+
 
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
@@ -195,22 +216,16 @@ navigator.geolocation.watchPosition(position => {
 
     window.addEventListener('deviceorientation', event => {
         const alpha = event.alpha;
-
-        if (initialAlpha === null) {
-            initialAlpha = alpha; // Set initial alpha to the first detected value
-        }
-
         const directionElement = document.getElementById('direction');
-        const adjustedAlpha = (alpha - initialAlpha + 360) % 360;
-        const direction = getCompassDirection(adjustedAlpha);
+        const direction = getCompassDirection(alpha);
         directionElement.textContent = direction;
-        const directionToTurn = (bearingToTarget - adjustedAlpha + 180 + 360) % 360;
+        const directionToTurn = (bearingToTarget - alpha) % 360; // 180 derece ekleyin
         showArrow(directionToTurn);
 
         lastAlpha = alpha;
     });
 });
-
+// Cihazın hareketlerini izler ve koşullara göre adım sayısını artırır
 window.addEventListener('devicemotion', event => {
     if (directionMatches && event.acceleration && lastAlpha !== null && stepIncreaseAllowed) {
         const acc = event.acceleration;
@@ -218,7 +233,9 @@ window.addEventListener('devicemotion', event => {
 
         if (totalAcc > movementThreshold) {
             stepCount++;
-            document.getElementById('step-count').textContent = `Steps: ${stepCount}`;
+            console.log(`Adım sayısı: ${stepCount}`);
+            document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
+
             stepIncreaseAllowed = false;
             setTimeout(() => {
                 stepIncreaseAllowed = true;
@@ -226,3 +243,62 @@ window.addEventListener('devicemotion', event => {
         }
     }
 });
+
+
+
+
+// İki konum arasındaki mesafeyi hesaplar
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371e3; // Earth radius in meters
+    const φ1 = lat1 * Math.PI / 180;
+    const φ2 = lat2 * Math.PI / 180;
+    const Δφ = (lat2 - lat1) * Math.PI / 180;
+    const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+        Math.cos(φ1) * Math.cos(φ2) *
+        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
+}
+// Kullanıcının mesafesini sürekli kontrol eder
+function startDistanceCheck(coords) {
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(function (position) {
+            const currentLatitude = position.coords.latitude;
+            const currentLongitude = position.coords.longitude;
+            const destinationLatitude = parseFloat(coords.x2);
+            const destinationLongitude = parseFloat(coords.y2);
+
+            const distance = calculateDistance(currentLatitude, currentLongitude, destinationLatitude, destinationLongitude);
+            document.getElementById('distance-indicator').innerText = `Distance: ${distance.toFixed(2)} meters`;
+        });
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+}
+function onAnimationEnd() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'block';
+}
+
+
+directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+if (direction < 30 || direction > 320) {
+    leftArrow.style.display = 'none';
+    rightArrow.style.display = 'none';
+    progressFrame.style.display = 'block';
+    document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
+    directionMatches = true;
+} else {
+    leftArrow.style.display = direction > 180 ? 'none' : 'block';
+    rightArrow.style.display = direction > 180 ? 'block' : 'none';
+    progressFrame.style.display = 'none';
+    directionMatches = false;
+}
+
+function onAnimationEnd() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'block';
+}
