@@ -122,7 +122,7 @@ function checkModelVisibility(model) {
 function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
-    const upArrow = document.getElementById('up-arrow'); // Yeni up-arrow elementi
+    const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.getElementById('ui-box');
 
@@ -139,6 +139,8 @@ function showArrow(direction) {
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
+        uiBox.classList.add('hidden');
+        uiBox.classList.remove('show-border');
         directionMatches = true;
     } else {
         // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek

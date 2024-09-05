@@ -658,14 +658,16 @@ button {
     width: 100%;
     height: 71.5%;
     z-index: 9999;
-    display: none;
+    opacity: 0; /* Başlangıçta görünmez */
+    visibility: hidden; /* Başlangıçta görünmez */
+    transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-
-.ui-box.show-border::before {
-    animation: draw-border 5s forwards;
-    display: block;
+.ui-box.show-border {
+    opacity: 1;
+    visibility: visible;
 }
+
 .ui-box::before {
     content: "";
     position: absolute;
@@ -727,5 +729,4 @@ button {
         border-bottom-color: #82de94;
         border-left-color: #82de94;
     }
-    
 }
