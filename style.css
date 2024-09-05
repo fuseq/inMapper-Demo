@@ -659,13 +659,11 @@ button {
     height: 71.5%;
     z-index: 9999;
     opacity: 0; /* Başlangıçta görünmez */
-    visibility: hidden; /* Başlangıçta görünmez */
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity 0.5s; /* Geçiş efekti */
 }
 
-.ui-box.show-border {
-    opacity: 1;
-    visibility: visible;
+.ui-box.visible {
+    opacity: 1; /* Görünür hale getirilir */
 }
 
 .ui-box::before {
@@ -711,6 +709,7 @@ button {
         border-bottom-color: #82de94;
         border-left-color: #82de94;
     }
+
     75% {
         width: 100%;
         height: 100%;
@@ -720,6 +719,7 @@ button {
         border-bottom-color: #82de94;
         border-left-color: #82de94;
     }
+
     100% {
         width: 100%;
         height: 100%;
