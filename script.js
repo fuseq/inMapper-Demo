@@ -145,9 +145,8 @@ function showArrow(direction) {
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
 
-        // Önceki popup zamanlayıcısını temizle
-        clearTimeout(popupTimeout);
-
+       
+       
         // Animasyonun %80'inde popup'ı göster
         uiBox.addEventListener('animationstart', () => {
             const animationDuration = 5000; // Animasyon süresi (5 saniye)
