@@ -182,17 +182,14 @@ function showArrow(direction) {
     }
 }
 
-function getCompassDirection(alpha) {
-    // Assuming alpha is in degrees and ranges from 0 to 360
-    // You can adjust these conditions based on your specific requirements
-    if (alpha >= 337.5 || alpha < 22.5) return 'N';
-    if (alpha >= 22.5 && alpha < 67.5) return 'NE';
-    if (alpha >= 67.5 && alpha < 112.5) return 'E';
-    if (alpha >= 112.5 && alpha < 157.5) return 'SE';
-    if (alpha >= 157.5 && alpha < 202.5) return 'S';
-    if (alpha >= 202.5 && alpha < 247.5) return 'SW';
-    if (alpha >= 247.5 && alpha < 292.5) return 'W';
-    if (alpha >= 292.5 && alpha < 337.5) return 'NW';
+function getCompassDirection() {
+    window.addEventListener("DOMContentLoaded", async() => {
+  const compass = new Compass();
+  await compass.init();
+
+  const bearingToNorth = compass.getBearingToNorth();
+  return bearingToNorth;
+})
 }
 
 
