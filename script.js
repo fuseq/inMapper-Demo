@@ -124,60 +124,51 @@ function showArrow(direction) {
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
-    const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
-    const popup = document.querySelector('.popup'); // .popup elementini seç
+    const uiBox = document.querySelector('.ui-box');
+    const popup = document.querySelector('.popup');
 
-    // Direction bilgisi ekranında güncelleniyor
-    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+    // Pin objesinin yönü 0 derece olarak kabul ediliyor
+    const pinDirection = 0;
 
-    // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
+    // Mevcut yönü pin objesine göre ayarla
+    const adjustedDirection = (direction - pinDirection + 360) % 360;
+
+    directionIndicator.innerText = `Direction: ${adjustedDirection.toFixed(2)}`;
+
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
 
-    if (direction < 50 || direction > 300) {
-        // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
+    if (adjustedDirection < 50 || adjustedDirection > 300) {
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
         directionMatches = true;
 
-        // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
 
-       
-       
-        // Animasyonun %80'inde popup'ı göster
         uiBox.addEventListener('animationstart', () => {
-            const animationDuration = 5000; // Animasyon süresi (5 saniye)
+            const animationDuration = 5000;
             popupTimeout = setTimeout(() => {
                 if (!upArrow.classList.contains('fade-out')) {
-                    popup.style.display = 'flex'; // Popup'ı görünür yap
+                    popup.style.display = 'flex';
                 }
-            }, animationDuration * 0.8); // Animasyon süresinin %80'i
-        }, { once: true }); // Olayı sadece bir kez dinle
+            }, animationDuration * 0.8);
+        }, { once: true });
 
     } else {
-        // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
-        if (direction > 180) {
-            // Sağ ok görünür
+        if (adjustedDirection > 180) {
             leftArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
-            // Sol ok görünür
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
         }
         upArrow.classList.add('fade-out');
         directionMatches = false;
 
-        // border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
-
-        // Popup zamanlayıcısını temizle
         clearTimeout(popupTimeout);
-
-        // Popup'ı gizle
         popup.style.display = 'none';
     }
 }
@@ -219,7 +210,7 @@ navigator.geolocation.watchPosition(position => {
         const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(alpha);
         directionElement.textContent = direction;
-        const directionToTurn = bearingToTarget; // 180 derece ekleyin
+        const directionToTurn = (bearingToTarget - alpha + 360) % 360; // 180 derece ekleyin
         showArrow(directionToTurn);
 
         lastAlpha = alpha;
