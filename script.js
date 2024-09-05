@@ -125,6 +125,7 @@ function showArrow(direction) {
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
+    const popup = document.querySelector('.popup'); // .popup elementini seç
 
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
@@ -141,17 +142,21 @@ function showArrow(direction) {
         upArrow.classList.add('fade-in');
         directionMatches = true;
 
-        // border animasyonunu başlat
+        // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
+
+        // Önceki popup zamanlayıcısını temizle
+        clearTimeout(popupTimeout);
 
         // Animasyonun %80'inde popup'ı göster
         uiBox.addEventListener('animationstart', () => {
             const animationDuration = 5000; // Animasyon süresi (5 saniye)
-            setTimeout(() => {
-                popup.style.display = 'flex'; // Popup'ı görünür yap
+            popupTimeout = setTimeout(() => {
+                if (!upArrow.classList.contains('fade-out')) {
+                    popup.style.display = 'flex'; // Popup'ı görünür yap
+                }
             }, animationDuration * 0.8); // Animasyon süresinin %80'i
         }, { once: true }); // Olayı sadece bir kez dinle
-
 
     } else {
         // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
@@ -169,6 +174,12 @@ function showArrow(direction) {
 
         // border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
+
+        // Popup zamanlayıcısını temizle
+        clearTimeout(popupTimeout);
+
+        // Popup'ı gizle
+        popup.style.display = 'none';
     }
 }
 
