@@ -122,9 +122,9 @@ function checkModelVisibility(model) {
 function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
-    const upArrow = document.getElementById('up-arrow'); // Yeni up-arrow elementi
+    const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
-    const uiBox = document.querySelector('.ui-box');
+    const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
 
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
@@ -139,10 +139,12 @@ function showArrow(direction) {
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
-        uiBox.classList.add('animate-border');
         directionMatches = true;
+
+        // border animasyonunu başlat
+        uiBox.classList.add('border-animation');
     } else {
-        uiBox.classList.remove('animate-border');
+        // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
         if (direction > 180) {
             // Sağ ok görünür
             leftArrow.classList.add('fade-out');
@@ -153,8 +155,10 @@ function showArrow(direction) {
             rightArrow.classList.add('fade-out');
         }
         upArrow.classList.add('fade-out');
-
         directionMatches = false;
+
+        // border animasyonunu kaldır
+        uiBox.classList.remove('border-animation');
     }
 }
 

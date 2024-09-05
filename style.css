@@ -658,13 +658,9 @@ button {
     width: 100%;
     height: 71.5%;
     z-index: 9999;
-    display: none;
- 
 }
 
-
-.ui-box.animate-border::before {
-    display: block;
+.ui-box::before {
     content: "";
     position: absolute;
     top: 0;
@@ -673,9 +669,12 @@ button {
     height: 100%;
     border: 3px solid transparent; /* Başlangıçta görünmez */
     box-sizing: border-box;
-    animation: draw-border 5s forwards; /* Sınırın çizilme animasyonu */
+    border-radius: 3px;
 }
 
+.border-animation::before {
+    animation: draw-border 5s forwards;
+}
 /* Border'ın çizilme animasyonu */
 @keyframes draw-border {
     0% {
