@@ -134,6 +134,13 @@ function showArrow(direction) {
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
 
+    // ui-box animasyonunu sıfırla
+    uiBox.classList.remove('animate-border');
+    
+    // Bu işlem, CSS sınıfının kaldırılıp tekrar eklenmesiyle animasyonun yeniden başlamasını sağlar
+    void uiBox.offsetWidth; // Bu satır animasyonu sıfırlar
+    uiBox.classList.add('animate-border');
+
     if (direction < 50 || direction > 300) {
         // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');

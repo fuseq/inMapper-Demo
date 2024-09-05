@@ -666,7 +666,7 @@ button {
     opacity: 1; /* Görünür hale getirilir */
 }
 
-.ui-box::before {
+.ui-box.animate-border::before {
     content: "";
     position: absolute;
     top: 0;
