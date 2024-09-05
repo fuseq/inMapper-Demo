@@ -143,6 +143,15 @@ function showArrow(direction) {
 
         // border animasyonunu başlat
         uiBox.classList.add('border-animation');
+
+        uiBox.addEventListener('animationiteration', (event) => {
+            const animationDuration = 5000; 
+            const percentage = 80; 
+
+            setTimeout(() => {
+                popup.style.display = 'flex'; 
+            }, (animationDuration * percentage) / 100); 
+        });
     } else {
         // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
         if (direction > 180) {
