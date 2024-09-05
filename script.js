@@ -142,15 +142,22 @@ function showArrow(direction) {
         directionMatches = true;
 
         // border animasyonunu başlat
-        uiBox.classList.add('border-animation');
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const uiBox = document.querySelector('.ui-box');
+            const popup = document.querySelector('.popup');
 
-        uiBox.addEventListener('animationiteration', (event) => {
-            const animationDuration = 5000; 
-            const percentage = 80; 
+            // Border animasyonunu başlat
+            uiBox.classList.add('border-animation');
 
-            setTimeout(() => {
-                popup.style.display = 'flex'; 
-            }, (animationDuration * percentage) / 100); 
+            // Border animasyonu %80 tamamlandığında popup'ı göster
+            uiBox.addEventListener('animationiteration', (event) => {
+                const animationDuration = 5000; // Animasyon süresi (5 saniye)
+                const percentage = 80; // Animasyonun tamamlanma yüzdesi
+
+                setTimeout(() => {
+                    popup.style.display = 'flex'; // Popup'ı görünür yap
+                }, (animationDuration * percentage) / 100); // %80 tamamlanma süresi
+            });
         });
     } else {
         // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
