@@ -122,9 +122,9 @@ function checkModelVisibility(model) {
 function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
-    const upArrow = document.getElementById('up-arrow');
+    const upArrow = document.getElementById('up-arrow'); // Yeni up-arrow elementi
     const directionIndicator = document.getElementById('direction-indicator');
-    const uiBox = document.querySelector('.ui-box'); // ui-box elementini seç
+    
 
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
@@ -134,19 +134,11 @@ function showArrow(direction) {
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
 
-    // ui-box animasyonunu sıfırla
-    uiBox.classList.remove('animate-border');
-    
-    // Bu işlem, CSS sınıfının kaldırılıp tekrar eklenmesiyle animasyonun yeniden başlamasını sağlar
-    void uiBox.offsetWidth; // Bu satır animasyonu sıfırlar
-    uiBox.classList.add('animate-border');
-
     if (direction < 50 || direction > 300) {
         // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
-        uiBox.classList.add('visible'); // ui-box'ı görünür yap
         directionMatches = true;
     } else {
         // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
@@ -160,7 +152,7 @@ function showArrow(direction) {
             rightArrow.classList.add('fade-out');
         }
         upArrow.classList.add('fade-out');
-        uiBox.classList.remove('visible'); // ui-box'ı görünmez yap
+
         directionMatches = false;
     }
 }
