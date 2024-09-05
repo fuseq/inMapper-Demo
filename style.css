@@ -670,6 +670,7 @@ button {
     border: 3px solid transparent; /* Başlangıçta görünmez */
     box-sizing: border-box;
     border-radius: 3px;
+    
 }
 
 .border-animation::before {

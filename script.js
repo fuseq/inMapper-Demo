@@ -182,16 +182,38 @@ function showArrow(direction) {
     }
 }
 
-function getCompassDirection() {
-    window.addEventListener("DOMContentLoaded", async() => {
-  const compass = new Compass();
-  await compass.init();
-
-  const bearingToNorth = compass.getBearingToNorth();
-  return bearingToNorth;
-})
+async function getCompassDirection() {
+    return new Promise((resolve, reject) => {
+        window.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const compass = new Compass();
+                await compass.init(); // Initialize the compass
+                const bearingToNorth = compass.getBearingToNorth(); // Get the bearing
+                resolve(bearingToNorth); // Resolve with the bearing
+            } catch (error) {
+                reject(error); // Reject with an error if something goes wrong
+            }
+        });
+    });
 }
+async function initializeDirection(bearingToTarget) {
+    try {
+        const directionElement = document.getElementById('direction');
 
+        // Handle device orientation event
+        window.addEventListener('deviceorientation', async event => {
+            const alpha = event.alpha;
+            const direction = await getCompassDirection();
+            directionElement.textContent = `Compass Direction: ${direction}`;
+            
+            // Calculate direction to turn
+            const directionToTurn = (bearingToTarget - alpha + 360) % 360;
+            showArrow(directionToTurn);
+        });
+    } catch (error) {
+        console.error('Error initializing direction:', error);
+    }
+}
 
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
@@ -211,16 +233,7 @@ navigator.geolocation.watchPosition(position => {
     const directionFromStart = getDirectionFromBearing(bearingToSource);
     directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
-    window.addEventListener('deviceorientation', event => {
-        const alpha = event.alpha;
-        const directionElement = document.getElementById('direction');
-        const direction = getCompassDirection();
-        directionElement.textContent = direction;
-        const directionToTurn = (bearingToTarget - alpha + 360) % 360; // 180 derece ekleyin
-        showArrow(directionToTurn);
-
-        lastAlpha = alpha;
-    });
+    initializeDirection(bearingToTarget);
 });
 // Cihazın hareketlerini izler ve koşullara göre adım sayısını artırır
 window.addEventListener('devicemotion', event => {
