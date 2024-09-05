@@ -124,6 +124,7 @@ function showArrow(direction) {
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow'); // Yeni up-arrow elementi
     const directionIndicator = document.getElementById('direction-indicator');
+    const uiBox = document.getElementById('ui-box');
 
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
@@ -151,6 +152,8 @@ function showArrow(direction) {
             rightArrow.classList.add('fade-out');
         }
         upArrow.classList.add('fade-out');
+        uiBox.classList.remove('hidden');
+        uiBox.classList.add('show-border');
         directionMatches = false;
     }
 }
