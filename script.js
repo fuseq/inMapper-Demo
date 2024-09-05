@@ -124,7 +124,7 @@ function showArrow(direction) {
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow'); // Yeni up-arrow elementi
     const directionIndicator = document.getElementById('direction-indicator');
-    
+    const uiBox = document.querySelector('.ui-box');
 
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
@@ -139,9 +139,10 @@ function showArrow(direction) {
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
+        uiBox.classList.add('animate-border');
         directionMatches = true;
     } else {
-        // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
+        uiBox.classList.remove('animate-border');
         if (direction > 180) {
             // Sağ ok görünür
             leftArrow.classList.add('fade-out');
