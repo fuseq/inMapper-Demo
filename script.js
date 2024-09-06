@@ -207,10 +207,10 @@ function getCompassDirection(alpha) {
 
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
-    const targetLat = parseFloat(window.coords.x1);
-    const targetLon = parseFloat(window.coords.y1);
-    const sourceLat = parseFloat(window.coords.x2);
-    const sourceLon = parseFloat(window.coords.y2);
+    const targetLat = parseFloat(window.coords.x2);
+    const targetLon = parseFloat(window.coords.y2);
+    const sourceLat = parseFloat(window.coords.x1);
+    const sourceLon = parseFloat(window.coords.y1);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
     const bearingToSource = calculateBearing(latitude, longitude, sourceLat, sourceLon);
     const positionIndicator = document.getElementById('position-indicator');
