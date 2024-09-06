@@ -93,35 +93,25 @@ function renderPlaces(places) {
 }
 // İki koordinat arasındaki yönü hesaplar
 function calculateBearing(latA, lonA, latB, lonB) {
-    // Convert degrees to radians
     const toRadians = (degrees) => degrees * (Math.PI / 180);
     const latA_rad = toRadians(latA);
     const lonA_rad = toRadians(lonA);
     const latB_rad = toRadians(latB);
     const lonB_rad = toRadians(lonB);
 
-    // Calculate Δφ
     const tan_latA = Math.tan(latA_rad / 2 + Math.PI / 4);
     const tan_latB = Math.tan(latB_rad / 2 + Math.PI / 4);
     const delta_phi = Math.log(tan_latB / tan_latA);
 
-    // Calculate Δlon
     let delta_lon = Math.abs(lonA_rad - lonB_rad);
     if (delta_lon > Math.PI) {
         delta_lon -= 2 * Math.PI;
     }
-
-    // Calculate bearing
     const bearing_rad = Math.atan2(delta_lon, delta_phi);
-
-    // Convert bearing from radians to degrees
     let bearing_deg = bearing_rad * (180 / Math.PI);
-
-    // Normalize bearing to [0, 360) degrees
     if (bearing_deg < 0) {
         bearing_deg += 360;
     }
-
     return bearing_deg;
 }
 
@@ -151,8 +141,8 @@ function showArrow(direction,directionToTurn) {
     const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
     const popup = document.querySelector('.popup'); // .popup elementini seç
     
-    const directionElement = document.getElementById('direction');
-    directionElement.textContent = directionToTurn;
+
+    
 
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
@@ -241,7 +231,7 @@ navigator.geolocation.watchPosition(position => {
     window.addEventListener('deviceorientationabsolute', event => {
         const alpha = event.alpha;
         const directionElement = document.getElementById('direction');
-        const direction = getCompassDirection(alpha);
+        directionElement.textContent = getCompassDirection(directionToTurn);
         directionIndicator.innerText = `Direction: ${event.alpha.toFixed(2)}`;
         const directionToTurn = bearingToTarget; 
         showArrow(event.alpha,directionToTurn);
