@@ -159,7 +159,7 @@ function showArrow(direction,directionToTurn) {
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
 
-    if (direction >= (directionToTurn-20) && direction <= (directionToTurn+20)) {
+    if (direction >= (directionToTurn-30) && direction <= (directionToTurn+30)) {
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
