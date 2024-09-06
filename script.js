@@ -214,12 +214,12 @@ navigator.geolocation.watchPosition(position => {
     const directionFromStart = getDirectionFromBearing(bearingToSource);
     directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
-    window.addEventListener('deviceorientation', event => {
+    window.addEventListener('deviceorientationabsolute', event => {
         const alpha = event.alpha;
         const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(alpha);
         directionElement.textContent = direction;
-        const directionToTurn = (bearingToTarget - alpha + 180 + 360) % 360; // 180 derece ekleyin
+        const directionToTurn = (bearingToTarget - alpha + 360) % 360; // 180 derece ekleyin
         showArrow(directionToTurn);
 
         lastAlpha = alpha;
