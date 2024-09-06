@@ -143,23 +143,21 @@ function checkModelVisibility(model) {
 
 
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
-function showArrow(direction) {
+function showArrow(direction,directionToTurn) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
-    const directionIndicator = document.getElementById('direction-indicator');
+    
     const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
     const popup = document.querySelector('.popup'); // .popup elementini seç
 
-    // Direction bilgisi ekranında güncelleniyor
-    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
 
-    if (direction < 50 || direction > 300) {
+    if (direction <=directionToTurn-50 || direction >= directionToTurn+50) {
         // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
@@ -231,6 +229,7 @@ navigator.geolocation.watchPosition(position => {
     const positionIndicator = document.getElementById('position-indicator');
     const distanceIndicator = document.getElementById('distance-indicator');
     const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
+    const directionIndicator = document.getElementById('direction-indicator');
 
     positionIndicator.innerText = `Position: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
     const distance = calculateDistance(latitude, longitude, parseFloat(window.coords.x2), parseFloat(window.coords.y2));
@@ -242,9 +241,9 @@ navigator.geolocation.watchPosition(position => {
         const alpha = event.alpha;
         const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(alpha);
-        directionElement.textContent = bearingToTarget+180;
-        const directionToTurn = (bearingToTarget - alpha + 360) % 360; // 180 derece ekleyin
-        showArrow(directionToTurn);
+        directionIndicator.innerText = `Direction: ${event.alpha.toFixed(2)}`;
+        const directionToTurn = bearingToTarget; // 180 derece ekleyin
+        showArrow(event.alpha,directionToTurn);
 
         lastAlpha = alpha;
     });
