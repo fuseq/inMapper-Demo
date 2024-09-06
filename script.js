@@ -150,7 +150,9 @@ function showArrow(direction,directionToTurn) {
     
     const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
     const popup = document.querySelector('.popup'); // .popup elementini seç
-
+    
+    const directionElement = document.getElementById('direction');
+    directionElement.textContent = directionToTurn;
 
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
