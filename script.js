@@ -159,8 +159,7 @@ function showArrow(direction,directionToTurn) {
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
 
-    if (direction >= (directionToTurn-20) || direction <= (directionToTurn+20)) {
-        // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
+    if (direction >= (directionToTurn-20) && direction <= (directionToTurn+20)) {
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
@@ -181,29 +180,7 @@ function showArrow(direction,directionToTurn) {
             }, animationDuration * 0.8); // Animasyon süresinin %80'i
         }, { once: true }); // Olayı sadece bir kez dinle
 
-    } else {
-        // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
-        if (direction > 180) {
-            // Sağ ok görünür
-            leftArrow.classList.add('fade-out');
-            rightArrow.classList.add('fade-in');
-        } else {
-            // Sol ok görünür
-            leftArrow.classList.add('fade-in');
-            rightArrow.classList.add('fade-out');
-        }
-        upArrow.classList.add('fade-out');
-        directionMatches = false;
-
-        // border animasyonunu kaldır
-        uiBox.classList.remove('border-animation');
-
-        // Popup zamanlayıcısını temizle
-        clearTimeout(popupTimeout);
-
-        // Popup'ı gizle
-        popup.style.display = 'none';
-    }
+    } 
 }
 
 function getCompassDirection(alpha) {
