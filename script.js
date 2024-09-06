@@ -159,7 +159,7 @@ function showArrow(direction,directionToTurn) {
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
 
-    if (direction >= (directionToTurn-50) || direction <= (directionToTurn+50)) {
+    if (direction >= (directionToTurn-20) || direction <= (directionToTurn+20)) {
         // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
