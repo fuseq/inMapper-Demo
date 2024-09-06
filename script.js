@@ -242,8 +242,8 @@ navigator.geolocation.watchPosition(position => {
         const alpha = event.alpha;
         const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(alpha);
-        directionElement.textContent = bearingToTarget;
-        const directionToTurn = (bearingToTarget - alpha +180 + 360) % 360; // 180 derece ekleyin
+        directionElement.textContent = bearingToTarget+180;
+        const directionToTurn = (bearingToTarget - alpha + 360) % 360; // 180 derece ekleyin
         showArrow(directionToTurn);
 
         lastAlpha = alpha;
