@@ -218,7 +218,7 @@ navigator.geolocation.watchPosition(position => {
         const alpha = event.alpha;
         const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(alpha);
-        directionElement.textContent = bearingToTarget;
+        directionElement.textContent = (360-bearingToTarget);
         const directionToTurn = (bearingToTarget - alpha + 360) % 360; // 180 derece ekleyin
         showArrow(directionToTurn);
 
