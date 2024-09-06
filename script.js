@@ -91,29 +91,57 @@ function renderPlaces(places) {
         scene.appendChild(model);
     });
 }
-
 function degreesToRadians(degrees) {
     return degrees * Math.PI / 180;
-}
-function radiansToDegrees(radians) {
-    return radians * 180 / Math.PI;
-}
+  }
+  function calculateBearing(lat1, lon1, lat2, lon2) {
+    // Convert degrees to radians
+    const φ1 = degreesToRadians(lat1);
+    const λ1 = degreesToRadians(lon1);
+    const φ2 = degreesToRadians(lat2);
+    const λ2 = degreesToRadians(lon2);
+  
+    const y = Math.sin(λ2 - λ1) * Math.cos(φ2);
+    const x = Math.cos(φ1) * Math.sin(φ2) - 
+              Math.sin(φ1) * Math.cos(φ2) * Math.cos(λ2 - λ1);
+    const θ = Math.atan2(y, x);
+    const brng = (θ * 180 / Math.PI + 360) % 360; // in degrees
+    
+    return brng;
+  }
+
 // İki koordinat arasındaki yönü hesaplar
-function calculateBearing(lat1, lon1, lat2, lon2) {
-  // Convert degrees to radians
-  const φ1 = degreesToRadians(lat1);
-  const λ1 = degreesToRadians(lon1);
-  const φ2 = degreesToRadians(lat2);
-  const λ2 = degreesToRadians(lon2);
+function calculateBearing(latA, lonA, latB, lonB) {
+    // Convert degrees to radians
+    const toRadians = (degrees) => degrees * (Math.PI / 180);
+    const latA_rad = toRadians(latA);
+    const lonA_rad = toRadians(lonA);
+    const latB_rad = toRadians(latB);
+    const lonB_rad = toRadians(lonB);
 
-  const y = Math.sin(λ2 - λ1) * Math.cos(φ2);
-  const x = Math.cos(φ1) * Math.sin(φ2) - 
-            Math.sin(φ1) * Math.cos(φ2) * Math.cos(λ2 - λ1);
-  const θ = Math.atan2(y, x);
-  const brng = radiansToDegrees(θ);
+    // Calculate Δφ
+    const tan_latA = Math.tan(latA_rad / 2 + Math.PI / 4);
+    const tan_latB = Math.tan(latB_rad / 2 + Math.PI / 4);
+    const delta_phi = Math.log(tan_latB / tan_latA);
 
-  // Normalize the bearing to be within the range 0-360 degrees
-  return (brng + 360) % 360;
+    // Calculate Δlon
+    let delta_lon = Math.abs(lonA_rad - lonB_rad);
+    if (delta_lon > Math.PI) {
+        delta_lon -= 2 * Math.PI;
+    }
+
+    // Calculate bearing
+    const bearing_rad = Math.atan2(delta_lon, delta_phi);
+
+    // Convert bearing from radians to degrees
+    let bearing_deg = bearing_rad * (180 / Math.PI);
+
+    // Normalize bearing to [0, 360) degrees
+    if (bearing_deg < 0) {
+        bearing_deg += 360;
+    }
+
+    return bearing_deg;
 }
 
 // Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
@@ -134,14 +162,14 @@ function checkModelVisibility(model) {
 
 
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
-function showArrow(direction, directionToTurn) {
+function showArrow(direction,directionToTurn) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
-
+    
     const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
     const popup = document.querySelector('.popup'); // .popup elementini seç
-
+    
     const directionElement = document.getElementById('direction');
     directionElement.textContent = directionToTurn;
 
@@ -150,7 +178,7 @@ function showArrow(direction, directionToTurn) {
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
 
-    if (direction >= (directionToTurn - 30) && direction <= (directionToTurn + 30)) {
+    if (direction >= (directionToTurn-30) && direction <= (directionToTurn+30)) {
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
@@ -159,8 +187,8 @@ function showArrow(direction, directionToTurn) {
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
 
-
-
+       
+       
         // Animasyonun %80'inde popup'ı göster
         uiBox.addEventListener('animationstart', () => {
             const animationDuration = 5000; // Animasyon süresi (5 saniye)
@@ -234,8 +262,8 @@ navigator.geolocation.watchPosition(position => {
         const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(alpha);
         directionIndicator.innerText = `Direction: ${event.alpha.toFixed(2)}`;
-        const directionToTurn = bearingToTarget;
-        showArrow(event.alpha, directionToTurn);
+        const directionToTurn = bearingToTarget; 
+        showArrow(event.alpha,directionToTurn);
 
         lastAlpha = alpha;
     });
