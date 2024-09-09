@@ -126,10 +126,7 @@ function showArrow(direction) {
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
         
-        // Timeout varsa temizle
-        if (popupTimeout) {
-            clearTimeout(popupTimeout);
-        }
+       
         
         // 5 saniye sonra popup'ın display'i flex olacak
         popupTimeout = setTimeout(function() {
