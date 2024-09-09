@@ -99,49 +99,61 @@ function checkModelVisibility(model) {
     return modelScreenPosition.z > 0 && modelScreenPosition.x >= -1 && modelScreenPosition.x <= 1 && modelScreenPosition.y >= -1 && modelScreenPosition.y <= 1;
 }
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
-function showArrow(directionToTurn,direction) {
+function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
     const popup = document.querySelector('.popup'); // .popup elementini seç
+
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
-    if (direction <= ((directionToTurn + 50) % 360) && direction >= ((directionToTurn - 50 + 360) % 360)) {
-        // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
+
+    // Yukarı yön oku (±50 derece içinde)
+    const upperBound = (directionToTurn + 50) % 360;
+    const lowerBound = (directionToTurn - 50 + 360) % 360;
+
+    // Eğer yön directionToTurn ile ±50 derece arasındaysa
+    if ((direction <= upperBound && direction >= lowerBound) ||
+        (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
+        // Yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
         directionMatches = true;
+
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
-       
-       
-uiBox.addEventListener('animationstart', () => {
-    const animationDuration = 5000; // Animasyon süresi 5 saniye
-    const popupDisplayTime = animationDuration * 0.8; // Popup'ın gösterilme zamanı (%80)
-    const redirectDelay = 5000; // Popup göründükten sonra 1 saniye sonra yönlendirme yapılacak
 
-    // Popup'ı %80'de göster
-    popupTimeout = setTimeout(() => {
-        popup.style.display = 'flex'; // Popup'ı görünür yap
+        uiBox.addEventListener('animationstart', () => {
+            const animationDuration = 5000; // Animasyon süresi 5 saniye
+            const popupDisplayTime = animationDuration * 0.8; // Popup'ın gösterilme zamanı (%80)
+            const redirectDelay = 5000; // Popup göründükten sonra 1 saniye sonra yönlendirme yapılacak
 
-        // Popup görünür olduktan sonra yönlendirme için yeni bir timeout başlat
-        setTimeout(() => {
-            window.location.href = 'index.html'; // Yönlendirme yap
-        }, redirectDelay); // Popup göründükten sonra 1 saniye bekle ve yönlendir
+            // Popup'ı %80'de göster
+            popupTimeout = setTimeout(() => {
+                popup.style.display = 'flex'; // Popup'ı görünür yap
 
-    }, popupDisplayTime); // Animasyonun %80'inde popup'ı göster
+                // Popup görünür olduktan sonra yönlendirme için yeni bir timeout başlat
+                setTimeout(() => {
+                    window.location.href = 'index.html'; // Yönlendirme yap
+                }, redirectDelay); // Popup göründükten sonra 1 saniye bekle ve yönlendir
 
-}, { once: true });
+            }, popupDisplayTime); // Animasyonun %80'inde popup'ı göster
+
+        }, { once: true });
     } else {
-        // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
-        if (direction >= ((directionToTurn + 50) % 360) && direction <= ((directionToTurn + 180 + 360) % 360)) {
+        // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
+        const clockwise = (directionToTurn - direction + 360) % 360;
+        const counterclockwise = (direction - directionToTurn + 360) % 360;
+
+        if (clockwise <= counterclockwise) {
             // Sağ ok görünür
             leftArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
@@ -150,14 +162,16 @@ uiBox.addEventListener('animationstart', () => {
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
         }
+
         upArrow.classList.add('fade-out');
         directionMatches = false;
-        // border animasyonunu kaldır
+
+        // Border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
+
         // Popup zamanlayıcısını temizle
         clearTimeout(popupTimeout);
-        // Popup'ı gizle
-        
+        popup.style.display = 'none'; // Popup'ı gizle
     }
 }
 function getCompassDirection(alpha) {
@@ -239,10 +253,10 @@ navigator.geolocation.watchPosition(position => {
     startCompassListener(compass => {
         const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(compass);
-       
-        const directionToTurn = (bearingToTarget + 360) % 360; 
+
+        const directionToTurn = (bearingToTarget + 360) % 360;
         directionElement.textContent = directionToTurn;
-        showArrow(directionToTurn,compass);
+        showArrow(directionToTurn, compass);
     });
 
 });
