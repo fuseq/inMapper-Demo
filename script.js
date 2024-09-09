@@ -99,7 +99,7 @@ function checkModelVisibility(model) {
     return modelScreenPosition.z > 0 && modelScreenPosition.x >= -1 && modelScreenPosition.x <= 1 && modelScreenPosition.y >= -1 && modelScreenPosition.y <= 1;
 }
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
-function showArrow(direction) {
+function showArrow(directionToTurn,direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
@@ -112,7 +112,7 @@ function showArrow(direction) {
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
-    if (direction < 50 || direction > 300) {
+    if (direction <= ((directionToTurn + 50) % 360) && direction >= ((directionToTurn - 50 + 360) % 360)) {
         // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
@@ -241,7 +241,7 @@ navigator.geolocation.watchPosition(position => {
         const direction = getCompassDirection(compass);
         directionElement.textContent = direction;
         const directionToTurn = (bearingToTarget - compass + 360) % 360; // 180 derece ekleyin
-        showArrow(directionToTurn);
+        showArrow(directionToTurn,compass);
     });
 
 });
