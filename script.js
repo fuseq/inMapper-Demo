@@ -125,7 +125,7 @@ function showArrow(direction) {
 uiBox.addEventListener('animationstart', () => {
     const animationDuration = 5000; // Animasyon süresi 5 saniye
     const popupDisplayTime = animationDuration * 0.8; // Popup'ın gösterilme zamanı (%80)
-    const redirectDelay = 1000; // Popup göründükten sonra 1 saniye sonra yönlendirme yapılacak
+    const redirectDelay = 5000; // Popup göründükten sonra 1 saniye sonra yönlendirme yapılacak
 
     // Popup'ı %80'de göster
     popupTimeout = setTimeout(() => {
@@ -172,6 +172,53 @@ function getCompassDirection(alpha) {
     if (alpha >= 247.5 && alpha < 292.5) return 'W';
     if (alpha >= 292.5 && alpha < 337.5) return 'NW';
 }
+
+function startCompassListener(callback) {
+    if (!window.DeviceOrientationEvent) {
+        console.warn("DeviceOrientation API not available");
+        return;
+    }
+
+    const absoluteListener = (e) => {
+        if (!e.absolute || e.alpha == null || e.beta == null || e.gamma == null) {
+            return;
+        }
+        let compass = -(e.alpha + e.beta * e.gamma / 90);
+        compass -= Math.floor(compass / 360) * 360; // Wrap into range [0,360].
+        callback(compass);
+    };
+
+    const webkitListener = (e) => {
+        let compass = e.webkitCompassHeading;
+        if (compass != null && !isNaN(compass)) {
+            callback(compass);
+            window.removeEventListener("deviceorientation", webkitListener);
+        }
+    };
+
+    function addListeners() {
+        // Add both listeners, and if either succeeds then remove the other one.
+        window.addEventListener("deviceorientationabsolute", absoluteListener);
+        window.addEventListener("deviceorientation", webkitListener);
+    }
+
+    if (typeof DeviceOrientationEvent.requestPermission === "function") {
+        DeviceOrientationEvent.requestPermission()
+            .then(response => {
+                if (response === "granted") {
+                    addListeners();
+                } else {
+                    console.warn("Permission for DeviceOrientationEvent not granted");
+                }
+            })
+            .catch(error => {
+                console.error("Error requesting permission:", error);
+            });
+    } else {
+        addListeners();
+    }
+}
+
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
     const targetLat = parseFloat(window.coords.x1);
@@ -184,20 +231,19 @@ navigator.geolocation.watchPosition(position => {
     const distanceIndicator = document.getElementById('distance-indicator');
     const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
     positionIndicator.innerText = `Position: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-    const distance = calculateDistance(latitude, longitude, parseFloat(window.coords.x2), parseFloat(window.coords.y2));
+    const distance = calculateDistance(latitude, longitude, sourceLat, sourceLon);
     distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
     const directionFromStart = getDirectionFromBearing(bearingToSource);
     directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
-    window.addEventListener('deviceorientation', event => {
-        const alpha = event.alpha;
-        const directionElement = document.getElementById('direction');
-        const direction = getCompassDirection(alpha);
-        directionElement.textContent = direction;
-        const directionToTurn = (bearingToTarget - alpha + 180 + 360) % 360; // 180 derece ekleyin
-        showArrow(directionToTurn);
 
-        lastAlpha = alpha;
+    startCompassListener(compass => {
+        const directionElement = document.getElementById('direction');
+        const direction = getCompassDirection(compass);
+        directionElement.textContent = direction;
+        const directionToTurn = (bearingToTarget - compass + 180 + 360) % 360; // 180 derece ekleyin
+        showArrow(directionToTurn);
     });
+
 });
 // Cihazın hareketlerini izler ve koşullara göre adım sayısını artırır
 window.addEventListener('devicemotion', event => {
