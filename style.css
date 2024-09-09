@@ -583,8 +583,8 @@ label {
   top: 0;
   z-index: 0;
   width: 0;
-  -webkit-animation: progress-bar 6s forwards;
-  animation: progress-bar 6s forwards;
+  -webkit-animation: progress-bar 5s forwards;
+  animation: progress-bar 5s forwards;
 }
 
 .popup-button-container button i {
