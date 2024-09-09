@@ -104,61 +104,54 @@ function showArrow(direction) {
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
-    const uiBox = document.querySelector('.ui-box');
-    const popup = document.querySelector('.popup');
-
+    const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
+    const popup = document.querySelector('.popup'); // .popup elementini seç
+    // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
-    
-    // Tüm okların animasyonlarını temizle
+    // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
-
     if (direction < 50 || direction > 300) {
-        // Yön 50'den küçük veya 300'den büyükse sadece yukarı oku göster
+        // Eğer yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
         directionMatches = true;
-
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
-
-        // Animasyon başladığında popup'ı %80'de göster
+       
+       
         uiBox.addEventListener('animationstart', () => {
             const animationDuration = 5000; // Animasyon süresi 5 saniye
             popupTimeout = setTimeout(() => {
-                if (!upArrow.classList.contains('fade-out')) {
-                    popup.style.display = 'flex'; // Popup'ı görünür yap
-                }
-            }, animationDuration * 0.8);
-        }, { once: true });
+                popup.style.display = 'flex'; // Popup'ı görünür yap
+            }, animationDuration * 0.8); // Animasyon süresinin %80'inde popup'ı göster
 
-        // Animasyonun bitişini dinle ve popup animasyonu bittiğinde yönlendirme yap
-        popup.addEventListener('animationend', () => {
-            // Animasyon bittikten sonra index.html'e yönlendir
-            window.location.href = 'index.html';
+            // %80'de yönlendirme yap
+            setTimeout(() => {
+                window.location.href = 'index.html'; // Yönlendirme yap
+            }, animationDuration * 0.8); // %80 süreye göre yönlendir
         }, { once: true });
     } else {
-        // Eğer yön 50 ile 300 arasında ise sağ veya sol oku göster
+        // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
         if (direction > 180) {
+            // Sağ ok görünür
             leftArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
+            // Sol ok görünür
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
         }
         upArrow.classList.add('fade-out');
         directionMatches = false;
-
-        // Border animasyonunu kaldır
+        // border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
-        
         // Popup zamanlayıcısını temizle
         clearTimeout(popupTimeout);
-
         // Popup'ı gizle
-        popup.style.display = 'none';
+        
     }
 }
 function getCompassDirection(alpha) {
