@@ -139,13 +139,16 @@ uiBox.addEventListener('animationstart', () => {
     }, popupDisplayTime); // Animasyonun %80'inde popup'ı göster
 
 }, { once: true });
-    } else {
-        // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
-        if (direction > 180) {
+    }else {
+        // Yön doğru değilse sola veya sağa oklar gösterilecek
+        const rightTurnDifference = (directionToTurn + 90) % 360;
+        const leftTurnDifference = (directionToTurn - 90 + 360) % 360;
+
+        if (angleDifference > (360 - (90 - 50)) && angleDifference < (90 + 50)) {
             // Sağ ok görünür
             leftArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
-        } else {
+        } else if (angleDifference > (270 - 50) && angleDifference < (270 + 50)) {
             // Sol ok görünür
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
@@ -240,7 +243,7 @@ navigator.geolocation.watchPosition(position => {
         const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(compass);
        
-        const directionToTurn = (bearingToTarget + 360) % 360; // 180 derece ekleyin
+        const directionToTurn = (bearingToTarget + 360) % 360; 
         directionElement.textContent = directionToTurn;
         showArrow(directionToTurn,compass);
     });
