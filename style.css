@@ -88,19 +88,7 @@ label {
     right: 0;
 }
 
-button {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    z-index: 1001;
-}
+
 
 .bg,
 .button {
@@ -511,13 +499,18 @@ button {
     height: 100vh;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    display: none;
     z-index: 10000;
+    display: none;
     justify-content: center;
     align-items: center;
 }
 
-
+.popup-image {
+  
+    width: 196px; /* Adjust width as needed */
+    height: auto;
+    margin-left: 25px;
+}
 .popup-content {
     display: flex;
     flex-direction: column;
@@ -530,11 +523,14 @@ button {
 .popup-message,
 .popup-button {
     margin-bottom: 10px;
+    display:flex;
+    flex-direction: row;
 }
 
 
 .popup-message {
     font-size: 16px;
+    font-weight: 600;
     margin-bottom: 20px;
 }
 
@@ -547,6 +543,162 @@ button {
     text-decoration: none;
     border-radius: 5px;
     font-size: 16px;
+}
+
+.btn-ok,
+.btn-again {
+  border: 2px solid;
+  background: #d2d0cf;
+  border-radius: 15px;
+  box-sizing: border-box;
+  display: block;
+  overflow: hidden;
+  padding: 0.8rem 2rem;
+  position: relative;
+  text-transform: uppercase;
+  color: #fff;
+  width: 150px; 
+  text-align: center; 
+}
+.popup-button-container {
+    display: flex; 
+    gap: 40px; 
+    justify-content: center; 
+  }
+  
+.btn-ok span,
+.btn-again span {
+  font-weight: 900;
+  color: #fff; 
+  z-index: 1; 
+  position: relative;
+}
+
+.btn-ok:before {
+  background: #4CAF50;
+  content: "";
+  height: 100%;
+  right: 0;
+  position: absolute;
+  top: 0;
+  z-index: 0;
+  width: 0;
+  -webkit-animation: progress-bar 6s forwards;
+  animation: progress-bar 6s forwards;
+}
+
+.popup-button-container button i {
+    color: white; 
+    margin-right: 8px;
+    margin-top: 4px;
+    z-index: 1; 
+}
+
+.popup-button-container button {
+    display: flex;
+    align-items: center; 
+}
+
+@-webkit-keyframes progress-bar {
+  0% {
+    opacity: 1;
+    width: 0;
+  }
+  10% {
+    opacity: 1;
+    width: 10%;
+  }
+  20% {
+    opacity: 1;
+    width: 20%;
+  }
+  30% {
+    opacity: 1;
+    width: 30%;
+  }
+  40% {
+    opacity: 1;
+    width: 40%;
+  }
+  50% {
+    opacity: 1;
+    width: 50%;
+  }
+  60% {
+    opacity: 1;
+    width: 60%;
+  }
+  70% {
+    opacity: 1;
+    width: 70%;
+  }
+  80% {
+    opacity: 1;
+    width: 80%;
+  }
+  90% {
+    opacity: 1;
+    width: 90%;
+  }
+  100% {
+    opacity: 1;
+    width: 100%;
+  }
+  to {
+    opacity: 0;
+    width: 100%;
+  }
+}
+
+@keyframes progress-bar {
+  0% {
+    opacity: 1;
+    width: 0;
+  }
+  10% {
+    opacity: 1;
+    width: 10%;
+  }
+  20% {
+    opacity: 1;
+    width: 20%;
+  }
+  30% {
+    opacity: 1;
+    width: 30%;
+  }
+  40% {
+    opacity: 1;
+    width: 40%;
+  }
+  50% {
+    opacity: 1;
+    width: 50%;
+  }
+  60% {
+    opacity: 1;
+    width: 60%;
+  }
+  70% {
+    opacity: 1;
+    width: 70%;
+  }
+  80% {
+    opacity: 1;
+    width: 80%;
+  }
+  90% {
+    opacity: 1;
+    width: 90%;
+  }
+  100% {
+    opacity: 1;
+    width: 100%;
+  }
+  to {
+    opacity: 1;
+    width: 100%;
+  }
 }
 
 /* style.css */

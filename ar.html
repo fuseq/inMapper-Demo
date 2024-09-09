@@ -39,7 +39,7 @@
     <div class="distance-indicator" id="distance-indicator">Distance: 0</div>
     <div class="direction-from-start-indicator" id="direction-from-start-indicator">Direction from Start: 0</div>
     <div class="step-counter" id="step-counter">Number of Steps: 0</div>
-    <div class="ui-box"></div> 
+    <div class="ui-box"></div>
     <a-scene vr-mode-ui='enabled: false' embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
         <a-camera gps-camera='gpsMinDistance: 5' rotation-reader
@@ -73,8 +73,22 @@
 
     <div class="popup" id="popup">
         <div class="popup-content">
-            <div class="popup-message">Gideceğiniz yönü buldunuz. Harita ekranına dönülüyor...</div><br>
-            <div><a href="index.html" class="popup-button">Tamam</a></div>
+            <a href="https://imgbb.com/">
+                <img src="https://i.ibb.co/KVr3YRW/check-mark-2.png" alt="check-mark-2" class="popup-image">
+            </a>
+            <div class="popup-message">Harita Ekranına Dönmek İçin Tamam Butonuna Basabilir Veya Tekrar Butonuna Basarak
+                Hedef Noktanızı Tekrar Görebilirsiniz</div><br>
+            <div class="popup-message">Hiçbir Şey Yapmadığınız Takdirde Harita Ekranına Dönülecektir</div><br>
+            <div class="popup-button-container">
+                <button class="btn-ok">
+                    <i class="fas fa-check"></i> <!-- Onay simgesi -->
+                    <span>Tamam</span>
+                </button>
+                <button class="btn-again">
+                    <i class="fas fa-redo"></i> <!-- Tekrar simgesi -->
+                    <span>Tekrar</span>
+                </button>
+            </div>
         </div>
     </div>
 
