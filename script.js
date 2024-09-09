@@ -139,16 +139,13 @@ uiBox.addEventListener('animationstart', () => {
     }, popupDisplayTime); // Animasyonun %80'inde popup'ı göster
 
 }, { once: true });
-    }else {
-        // Yön doğru değilse sola veya sağa oklar gösterilecek
-        const rightTurnDifference = (directionToTurn + 90) % 360;
-        const leftTurnDifference = (directionToTurn - 90 + 360) % 360;
-
-        if (angleDifference > (360 - (90 - 50)) && angleDifference < (90 + 50)) {
+    } else {
+        // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
+        if (direction >= ((directionToTurn + 50) % 360) && direction <= ((directionToTurn + 180 + 360) % 360)) {
             // Sağ ok görünür
             leftArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
-        } else if (angleDifference > (270 - 50) && angleDifference < (270 + 50)) {
+        } else {
             // Sol ok görünür
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
