@@ -124,14 +124,20 @@ function showArrow(direction) {
        
         uiBox.addEventListener('animationstart', () => {
             const animationDuration = 5000; // Animasyon süresi 5 saniye
+            const popupDisplayTime = animationDuration * 0.8; // Popup'ın gösterilme zamanı (%80)
+            const redirectDelay = 5000; // Popup göründükten sonra 1 saniye sonra yönlendirme yapılacak
+        
+            // Popup'ı %80'de göster
             popupTimeout = setTimeout(() => {
                 popup.style.display = 'flex'; // Popup'ı görünür yap
-            }, animationDuration * 0.8); // Animasyon süresinin %80'inde popup'ı göster
-
-            // %80'de yönlendirme yap
-            setTimeout(() => {
-                window.location.href = 'index.html'; // Yönlendirme yap
-            }, animationDuration * 0.8); // %80 süreye göre yönlendir
+        
+                // Popup görünür olduktan sonra yönlendirme için yeni bir timeout başlat
+                setTimeout(() => {
+                    window.location.href = 'index.html'; // Yönlendirme yap
+                }, redirectDelay); // Popup göründükten sonra 1 saniye bekle ve yönlendir
+        
+            }, popupDisplayTime); // Animasyonun %80'inde popup'ı göster
+        
         }, { once: true });
     } else {
         // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
