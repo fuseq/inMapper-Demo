@@ -5,6 +5,7 @@ let directionMatches = false;
 let stepIncreaseAllowed = true;
 let direction
 let popupTimeout;
+let redirectTimeout;
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
@@ -131,6 +132,11 @@ function showArrow(direction) {
             clearTimeout(popupTimeout);
         }
         
+        if (redirectTimeout) {
+            // Yönlendirme zamanlayıcısını temizle
+            clearTimeout(redirectTimeout);
+        }
+        
         // Border animasyonunu başlat
         uiBox.addEventListener('animationstart', () => {
             const animationDuration = 5000; // Animasyon süresi 5 saniye
@@ -142,7 +148,7 @@ function showArrow(direction) {
                 popup.style.display = 'flex'; // Popup'ı görünür yap
                 
                 // Popup görünür olduktan sonra yönlendirme için yeni bir timeout başlat
-                setTimeout(() => {
+                redirectTimeout = setTimeout(() => {
                     window.location.href = 'index.html'; // Yönlendirme yap
                 }, redirectDelay); // Popup göründükten sonra 1 saniye bekle ve yönlendir
                 
