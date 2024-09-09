@@ -142,11 +142,11 @@ function showArrow(direction) {
     } else {
         // Eğer yön 50 ile 300 arasında ise, sola veya sağa oklar gösterilecek
         if (direction > 180) {
-            // Sağ ok görünür
+            clearTimeout(popupTimeout);
             leftArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
-            // Sol ok görünür
+            clearTimeout(popupTimeout);
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
         }
@@ -265,15 +265,3 @@ function onAnimationEnd() {
     popup.style.display = 'block';
 }
 
-const btnOk = document.querySelector('.btn-ok');
-btnOk.addEventListener('click', () => {
-    window.location.href = 'index.html'; 
-});
-
-
-const btnAgain = document.querySelector('.btn-again');
-const popup = document.querySelector('.popup'); 
-
-btnAgain.addEventListener('click', () => {
-    popup.style.display = 'none'; 
-});
