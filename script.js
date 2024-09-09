@@ -153,9 +153,7 @@ function showArrow(direction) {
         if (popupTimeout) {
             clearTimeout(popupTimeout);
         }
-        
-        // Popup'ı gizle
-        popup.style.display = 'none';
+
     }
 }
 function getCompassDirection(alpha) {
