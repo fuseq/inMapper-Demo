@@ -264,3 +264,16 @@ function onAnimationEnd() {
     const popup = document.getElementById('popup');
     popup.style.display = 'block';
 }
+
+const btnOk = document.querySelector('.btn-ok');
+btnOk.addEventListener('click', () => {
+    window.location.href = 'index.html'; 
+});
+
+
+const btnAgain = document.querySelector('.btn-again');
+const popup = document.querySelector('.popup'); 
+
+btnAgain.addEventListener('click', () => {
+    popup.style.display = 'none'; 
+});
