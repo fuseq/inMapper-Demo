@@ -99,7 +99,7 @@ function checkModelVisibility(model) {
     return modelScreenPosition.z > 0 && modelScreenPosition.x >= -1 && modelScreenPosition.x <= 1 && modelScreenPosition.y >= -1 && modelScreenPosition.y <= 1;
 }
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
-function showArrow(directionToTurn,direction) {
+function showArrow(direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
@@ -241,7 +241,7 @@ navigator.geolocation.watchPosition(position => {
         const direction = getCompassDirection(compass);
         directionElement.textContent = direction;
         const directionToTurn = (bearingToTarget - compass + 360) % 360; // 180 derece ekleyin
-        showArrow(directionToTurn,direction);
+        showArrow(directionToTurn);
     });
 
 });
