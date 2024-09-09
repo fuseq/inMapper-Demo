@@ -239,8 +239,9 @@ navigator.geolocation.watchPosition(position => {
     startCompassListener(compass => {
         const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(compass);
-        directionElement.textContent = compass;
+        directionElement.textContent = direction;
         const directionToTurn = (bearingToTarget - compass + 360) % 360; // 180 derece ekleyin
+        directionElement.textContent = directionToTurn;
         showArrow(directionToTurn,compass);
     });
 
