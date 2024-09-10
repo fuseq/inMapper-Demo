@@ -43,7 +43,7 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     return (brng + 360) % 360;
 }
 // Rotasyon hesaplama fonksiyonu (örnek olarak)
-function calculateRotation(latitude, longitude) {
+function calculateRotation() {
     const sourceLat = parseFloat(window.coords.x1);
     const sourceLon = parseFloat(window.coords.y1);
     const targetLat = parseFloat(window.coords.x2);
@@ -51,7 +51,7 @@ function calculateRotation(latitude, longitude) {
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
     let rotationX = 0;
     let rotationY = bearingToTarget+20;
-    let rotationZ = 0; // Sabit rotasyon
+    let rotationZ = 0; 
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
 }
@@ -80,7 +80,7 @@ function renderPlaces(places) {
     places.forEach((place) => {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
-        let rotation = calculateRotation(latitude, longitude);
+        let rotation = calculateRotation();
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
         setModel(models[modelIndex], model, rotation);
