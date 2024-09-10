@@ -2,14 +2,8 @@ let stepCount = 0;
 let lastAlpha = null;
 let movementThreshold = 2.5;
 let directionMatches = false;
-let popupVisible = false;
 let stepIncreaseAllowed = true;
-let direction;
-let popupTimeout;
-let redirectTimeout;
-let popupOn=false;
-let redirectOn=false;
-
+let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
@@ -56,8 +50,8 @@ function calculateRotation() {
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
     let rotationX = 0;
-    let rotationY = bearingToTarget + 20;
-    let rotationZ = 0;
+    let rotationY = bearingToTarget+20;
+    let rotationZ = 0; 
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
 }
@@ -141,25 +135,24 @@ function showArrow(directionToTurn, direction) {
 
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
- 
 
-            if(!popupOn)
-                popupOn=true;
+        uiBox.addEventListener('animationstart', () => {
+            const animationDuration = 5000; // Animasyon süresi 5 saniye
+            const popupDisplayTime = animationDuration * 0.8; // Popup'ın gösterilme zamanı (%80)
+            const redirectDelay = 5000; // Popup göründükten sonra 1 saniye sonra yönlendirme yapılacak
+
+            // Popup'ı %80'de göster
             popupTimeout = setTimeout(() => {
-                popup.style.display = 'flex';
-                popupVisible = true;
+                popup.style.display = 'flex'; // Popup'ı görünür yap
 
-            }, 5000); 
+                // Popup görünür olduktan sonra yönlendirme için yeni bir timeout başlat
+                setTimeout(() => {
+                    window.location.href = 'index.html'; // Yönlendirme yap
+                }, redirectDelay); // Popup göründükten sonra 1 saniye bekle ve yönlendir
 
-       
+            }, popupDisplayTime); // Animasyonun %80'inde popup'ı göster
 
-        if (popupVisible && !redirectOn) {
-            redirectOn=true;
-            redirectTimeout = setTimeout(() => {
-                popup.style.display = 'flex';
-                window.location.href = 'index.html'; 
-            }, 5000);
-        }
+        }, { once: true });
     } else {
         // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
@@ -183,9 +176,6 @@ function showArrow(directionToTurn, direction) {
 
         // Popup zamanlayıcısını temizle
         clearTimeout(popupTimeout);
-        clearTimeout(redirectTimeout);
-        redirectOn=false;
-        popupOn=false;
         popup.style.display = 'none'; // Popup'ı gizle
     }
 }
