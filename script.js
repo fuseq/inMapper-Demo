@@ -64,29 +64,30 @@ function setModel(model, entity) {
 }
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
+    const targetLat = parseFloat(window.coords.x2);
+    const targetLon = parseFloat(window.coords.y2);
+
     let scene = document.querySelector('a-scene');
-    let camera = document.querySelector('#main-camera');
     
     places.forEach((place) => {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
+
+        // Hedefe göre yön açısını hesapla
+        const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
+        const directionToTurn = (bearingToTarget + 360) % 360;
+
+        // Modeli oluştur
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-        
+
+        // Modelin yönünü ayarla (directionToTurn'u kullanarak)
+        model.setAttribute('rotation', `0 ${directionToTurn} 0`);
+
+        // Modeli sahneye ekle
         setModel(models[modelIndex], model);
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
-        
-        // Objenin rotasyonunu sabitlemek için animasyon döngüsü ekle
-        scene.addEventListener('loaded', () => {
-            scene.addEventListener('frame', () => {
-                // Kameranın rotasyonunu alın
-                let cameraRotation = camera.getAttribute('rotation');
-                
-                // Kameranın yatay eksenine göre objenin rotasyonunu sabitleyin
-                model.setAttribute('rotation', `0 ${cameraRotation.y} 0`);
-            });
-        });
     });
 }
 // İki koordinat arasındaki yönü hesaplar
@@ -265,7 +266,6 @@ navigator.geolocation.watchPosition(position => {
     startCompassListener(compass => {
         const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(compass);
-
         const directionToTurn = (bearingToTarget + 360) % 360;
         directionElement.textContent = directionToTurn;
         showArrow(directionToTurn, compass);
