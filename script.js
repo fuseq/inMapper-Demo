@@ -33,11 +33,7 @@ var models = [
 ];
 // Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
 var modelIndex = 0;
-function setModel(model, entity) {
-    const targetLat = parseFloat(window.coords.x2);
-    const targetLon = parseFloat(window.coords.y2);
-    const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
-    const directionToTurn = (bearingToTarget + 360) % 360;
+function setModel(model, entity,directionToTurn) {
     if (model.scale) {
         entity.setAttribute('scale', model.scale);
     }
@@ -68,14 +64,17 @@ function setModel(model, entity) {
 }
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
-    
+    const targetLat = parseFloat(window.coords.x2);
+    const targetLon = parseFloat(window.coords.y2);
+    const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
+    const directionToTurn = (bearingToTarget + 360) % 360;
     let scene = document.querySelector('a-scene');
     places.forEach((place) => {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-        setModel(models[modelIndex], model);
+        setModel(models[modelIndex], model,directionToTurn);
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
     });
