@@ -44,13 +44,13 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
 }
 // Rotasyon hesaplama fonksiyonu (örnek olarak)
 function calculateRotation(latitude, longitude) {
+    const sourceLat = parseFloat(window.coords.x1);
+    const sourceLon = parseFloat(window.coords.y1);
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
-    const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
-    const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
-    directionFromStartIndicator.innerText = `Direction from Start: ${bearingToTarget}`;
+    const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
     let rotationX = 0;
-    let rotationY = 250;
+    let rotationY = longitude % 360;
     let rotationZ = 0; // Sabit rotasyon
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
