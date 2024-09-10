@@ -33,13 +33,22 @@ var models = [
         position: '0 0 0',
     },
 ];
-
+function calculateBearing(lat1, lon1, lat2, lon2) {
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    lat1 = lat1 * Math.PI / 180;
+    lat2 = lat2 * Math.PI / 180;
+    const y = Math.sin(dLon) * Math.cos(lat2);
+    const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+    const brng = Math.atan2(y, x) * (180 / Math.PI);
+    return (brng + 360) % 360;
+}
 // Rotasyon hesaplama fonksiyonu (örnek olarak)
 function calculateRotation(latitude, longitude) {
-    // Burada rotasyonu hesaplayan bir algoritma uygulayın
-    // Bu örnekte, basit bir dönüşüm sağlıyoruz
-    let rotationX = latitude % 360;
-    let rotationY = longitude % 360;
+    const targetLat = parseFloat(window.coords.x2);
+    const targetLon = parseFloat(window.coords.y2);
+    const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
+    let rotationX = 0;
+    let rotationY = parseInt(bearingToTarget);
     let rotationZ = 0; // Sabit rotasyon
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
@@ -78,15 +87,7 @@ function renderPlaces(places) {
     });
 }
 // İki koordinat arasındaki yönü hesaplar
-function calculateBearing(lat1, lon1, lat2, lon2) {
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    lat1 = lat1 * Math.PI / 180;
-    lat2 = lat2 * Math.PI / 180;
-    const y = Math.sin(dLon) * Math.cos(lat2);
-    const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
-    const brng = Math.atan2(y, x) * (180 / Math.PI);
-    return (brng + 360) % 360;
-}
+
 // Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
 function getDirectionFromBearing(bearing) {
     const directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
