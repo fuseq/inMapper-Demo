@@ -6,7 +6,7 @@ let stepIncreaseAllowed = true;
 let direction
 let countdown1Time = 5;
 let countdown2Time = 5;
-let countdown1Interval, countdown2Interval;
+let countdown1Interval=false, countdown2Interval=false;
 
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
