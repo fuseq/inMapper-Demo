@@ -65,6 +65,8 @@ function setModel(model, entity) {
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
     let scene = document.querySelector('a-scene');
+    let camera = document.querySelector('#main-camera');
+    
     places.forEach((place) => {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
@@ -74,12 +76,16 @@ function renderPlaces(places) {
         setModel(models[modelIndex], model);
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
-
-        // Objenin kameraya göre sabitlenmesi
-        let camera = document.querySelector('#main-camera');
-        model.addEventListener('gps-entity-place-update', () => {
-            let cameraRotation = camera.getAttribute('rotation');
-            model.setAttribute('rotation', `0 ${cameraRotation.y} 0`);
+        
+        // Objenin rotasyonunu sabitlemek için animasyon döngüsü ekle
+        scene.addEventListener('loaded', () => {
+            scene.addEventListener('frame', () => {
+                // Kameranın rotasyonunu alın
+                let cameraRotation = camera.getAttribute('rotation');
+                
+                // Kameranın yatay eksenine göre objenin rotasyonunu sabitleyin
+                model.setAttribute('rotation', `0 ${cameraRotation.y} 0`);
+            });
         });
     });
 }
