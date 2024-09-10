@@ -42,7 +42,7 @@
     <div class="ui-box"></div>
     <a-scene vr-mode-ui='enabled: false' embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-        <a-camera gps-camera='gpsMinDistance: 5' rotation-reader
+        <a-camera id="main-camera" gps-camera='gpsMinDistance: 5' rotation-reader
             arjs-device-orientation-controls='smoothingFactor: 0.9'></a-camera>
     </a-scene>
 
@@ -81,11 +81,11 @@
             <div class="popup-message">Hiçbir Şey Yapmadığınız Takdirde Harita Ekranına Dönülecektir</div><br>
             <div class="popup-button-container">
                 <button class="btn-ok">
-                    <i class="fas fa-check"></i> 
+                    <i class="fas fa-check"></i>
                     <span>Tamam</span>
                 </button>
                 <button class="btn-again">
-                    <i class="fas fa-redo"></i> 
+                    <i class="fas fa-redo"></i>
                     <span>Tekrar</span>
                 </button>
             </div>

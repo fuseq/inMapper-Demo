@@ -75,7 +75,7 @@ function renderPlaces(places) {
         setModel(models[modelIndex], model);
 
         // Kameraya doğru bakma işlemi için `look-at` kullanıyoruz
-        model.setAttribute('look-at', '[camera]');  // Kameraya bakacak şekilde ayarla
+        model.setAttribute('look-at', '#main-camera');  // Kameraya bakacak şekilde ayarla
 
         // Ek olarak, modelin her zaman kameraya bakmasını sağlamak için bir `tick` fonksiyonu ekliyoruz
         model.setAttribute('rotation-reader', ''); // Bu, sürekli olarak kameraya dönecek
