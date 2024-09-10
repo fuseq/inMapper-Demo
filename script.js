@@ -48,7 +48,7 @@ function calculateRotation(latitude, longitude) {
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
     let rotationX = 0;
-    let rotationY = parseInt(bearingToTarget);
+    let rotationY = 250;
     let rotationZ = 0; // Sabit rotasyon
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
