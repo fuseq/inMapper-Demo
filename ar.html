@@ -80,7 +80,7 @@
                 Hedef Noktanızı Tekrar Görebilirsiniz</div><br>
             <div class="popup-message">Hiçbir Şey Yapmadığınız Takdirde Harita Ekranına Dönülecektir</div><br>
             <div class="popup-button-container">
-                <button class="btn-ok">
+                <button class="btn-ok" onclick="window.location.href='index.html';">
                     <i class="fas fa-check"></i>
                     <span>Tamam</span>
                 </button>
@@ -91,7 +91,16 @@
             </div>
         </div>
     </div>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const againButton = document.querySelector('.btn-again');
+            const popup = document.getElementById('popup');
+    
+            againButton.addEventListener('click', function() {
+                popup.style.display = 'none';
+            });
+        });
+    </script>
     <script>
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
