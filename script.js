@@ -27,7 +27,7 @@ var models = [
         url: './assets/pin/scene.gltf',
         scale: '2 2 2',
         info: '',
-        rotation: '0 90 0',
+        rotation: '0 0 0',
         position: '0 0 0',
     },
 ];
@@ -68,24 +68,13 @@ function renderPlaces(places) {
     places.forEach((place) => {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
-        
-        // Model oluştur
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
         setModel(models[modelIndex], model);
-
-        // Kameraya doğru bakma işlemi için `look-at` kullanıyoruz
-        model.setAttribute('look-at', '#main-camera');  // Kameraya bakacak şekilde ayarla
-
-        // Ek olarak, modelin her zaman kameraya bakmasını sağlamak için bir `tick` fonksiyonu ekliyoruz
-        model.setAttribute('rotation-reader', ''); // Bu, sürekli olarak kameraya dönecek
-
-        // Sahneye modeli ekle
+        model.removeAttribute('animation-mixer');
         scene.appendChild(model);
     });
 }
-
-
 // İki koordinat arasındaki yönü hesaplar
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
