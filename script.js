@@ -71,12 +71,16 @@ function renderPlaces(places) {
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
         
-        // Modelin kameraya bakmasını sağlamak için look-at ekle
-        model.setAttribute('look-at', '#main-camera');
-        
         setModel(models[modelIndex], model);
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
+
+        // Objenin kameraya göre sabitlenmesi
+        let camera = document.querySelector('#main-camera');
+        model.addEventListener('gps-entity-place-update', () => {
+            let cameraRotation = camera.getAttribute('rotation');
+            model.setAttribute('rotation', `0 ${cameraRotation.y} 0`);
+        });
     });
 }
 // İki koordinat arasındaki yönü hesaplar
