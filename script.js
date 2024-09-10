@@ -33,48 +33,29 @@ var models = [
 ];
 // Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
 var modelIndex = 0;
-function setModel(model, entity,directionToTurn) {
+function setModel(model, entity) {
     if (model.scale) {
         entity.setAttribute('scale', model.scale);
     }
     if (model.rotation) {
-        entity.setAttribute('rotation', `0 ${directionToTurn} 0`);
+        entity.setAttribute('rotation', model.rotation);
     }
     if (model.position) {
         entity.setAttribute('position', model.position);
     }
     entity.setAttribute('gltf-model', model.url);
     // Create an SVG element and convert it to a data URL
-    const svg = `
-    <svg width="500" height="400" viewBox="-25 -25 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-90deg)">
-        <circle r="90" cx="100" cy="100" fill="transparent" stroke="#e0e0e0" stroke-width="16px" stroke-dasharray="565.48px" stroke-dashoffset="0"></circle>
-        <circle r="90" cx="100" cy="100" stroke="#76e5b1" stroke-width="16px" stroke-linecap="round" stroke-dashoffset="118.692px" fill="transparent" stroke-dasharray="565.48px"></circle>
-    </svg>
-`;
-    const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
-    // Add a plane with the SVG as its texture
-    let border = document.createElement('a-image');
-    border.setAttribute('src', svgDataUrl);
-    border.setAttribute('width', '24'); // Increase width to make the SVG larger
-    border.setAttribute('height', '12'); // Increase height to make the SVG larger
-    border.setAttribute('position', '0 2 0'); // Adjust position
-    border.setAttribute('rotation', '0 0 0'); // Adjust rotation
-    // Append the border to the entity
-    entity.appendChild(border);
+   
 }
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
-    const targetLat = parseFloat(window.coords.x2);
-    const targetLon = parseFloat(window.coords.y2);
-    const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
-    const directionToTurn = (bearingToTarget + 360) % 360;
     let scene = document.querySelector('a-scene');
     places.forEach((place) => {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-        setModel(models[modelIndex], model,directionToTurn);
+        setModel(models[modelIndex], model);
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
     });
