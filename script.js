@@ -68,14 +68,32 @@ function renderPlaces(places) {
     places.forEach((place) => {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
+        
+        // Model oluştur
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
         setModel(models[modelIndex], model);
-        model.setAttribute('look-at', '[gps-camera]');  
-        model.removeAttribute('animation-mixer');
+
+        // Kameraya doğru bakma işlemi için `look-at` kullanıyoruz
+        model.setAttribute('look-at', '[camera]');  // Kameraya bakacak şekilde ayarla
+
+        // Ek olarak, modelin her zaman kameraya bakmasını sağlamak için bir `tick` fonksiyonu ekliyoruz
+        model.setAttribute('rotation-reader', ''); // Bu, sürekli olarak kameraya dönecek
+
+        // Sahneye modeli ekle
         scene.appendChild(model);
     });
 }
+
+// Rotation reader bileşeni
+AFRAME.registerComponent('rotation-reader', {
+    tick: function () {
+        var camera = document.querySelector('a-camera');
+        if (camera) {
+            this.el.object3D.lookAt(camera.object3D.position); // Kameraya doğru bakmayı sağla
+        }
+    }
+});
 // İki koordinat arasındaki yönü hesaplar
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
