@@ -47,6 +47,8 @@ function calculateRotation(latitude, longitude) {
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
+    const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
+    directionFromStartIndicator.innerText = `Direction from Start: ${bearingToTarget}`;
     let rotationX = 0;
     let rotationY = 250;
     let rotationZ = 0; // Sabit rotasyon
