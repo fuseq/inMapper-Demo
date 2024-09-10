@@ -3,11 +3,7 @@ let lastAlpha = null;
 let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
-let direction;
-let popupVisible=false;
-let popupTimeout;
-let redirectTimeout;
-
+let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
@@ -140,23 +136,6 @@ function showArrow(directionToTurn, direction) {
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
 
-        uiBox.addEventListener('animationstart', () => {
-            const animationDuration = 5000; // Animasyon süresi 5 saniye
-            const popupDisplayTime = animationDuration * 0.8; // Popup'ın gösterilme zamanı (%80)
-            const redirectDelay = 5000; // Popup göründükten sonra 1 saniye sonra yönlendirme yapılacak
-
-            if(!popupVisible)
-            popupTimeout = setTimeout(() => {
-                popup.style.display = 'flex'; 
-                popupVisible=true;
-                
-               redirectTimeout=setTimeout(() => {
-                    window.location.href = 'index.html'; 
-                }, redirectDelay); 
-
-            }, popupDisplayTime); 
-
-        }, { once: true });
     } else {
         // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
@@ -178,11 +157,6 @@ function showArrow(directionToTurn, direction) {
         // Border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
 
-        // Popup zamanlayıcısını temizle
-        clearTimeout(popupTimeout);
-        clearTimeout(displayTimeout);
-        popupVisible=false;
-        popup.style.display = 'none'; // Popup'ı gizle
     }
 }
 function getCompassDirection(alpha) {
