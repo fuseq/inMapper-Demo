@@ -141,9 +141,7 @@ function showArrow(directionToTurn, direction) {
 
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
-
-            const animationDuration = 5000; 
-            const popupDisplayTime = animationDuration * 0.8; 
+ 
 
             if(!popupOn)
                 popupOn=true;
@@ -151,7 +149,7 @@ function showArrow(directionToTurn, direction) {
                 popup.style.display = 'flex';
                 popupVisible = true;
 
-            }, popupDisplayTime); 
+            }, 5000); 
 
        
 
