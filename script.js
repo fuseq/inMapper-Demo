@@ -71,6 +71,7 @@ function renderPlaces(places) {
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
         setModel(models[modelIndex], model);
+        model.setAttribute('look-at', '[gps-camera]');  
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
     });
@@ -155,10 +156,12 @@ function showArrow(directionToTurn, direction) {
 
         if (clockwise <= counterclockwise) {
             // Sağ ok görünür
+            clearTimeout(popupTimeout);
             leftArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
             // Sol ok görünür
+            clearTimeout(popupTimeout);
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
         }
@@ -169,9 +172,7 @@ function showArrow(directionToTurn, direction) {
         // Border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
 
-        // Popup zamanlayıcısını temizle
-        clearTimeout(popupTimeout);
-        popup.style.display = 'none'; // Popup'ı gizle
+      
     }
 }
 function getCompassDirection(alpha) {
@@ -192,13 +193,12 @@ function startCompassListener(callback) {
         console.warn("DeviceOrientation API not available");
         return;
     }
-
     const absoluteListener = (e) => {
         if (!e.absolute || e.alpha == null || e.beta == null || e.gamma == null) {
             return;
         }
         let compass = -(e.alpha + e.beta * e.gamma / 90);
-        compass -= Math.floor(compass / 360) * 360; // Wrap into range [0,360].
+        compass -= Math.floor(compass / 360) * 360;
         callback(compass);
     };
 
@@ -211,7 +211,6 @@ function startCompassListener(callback) {
     };
 
     function addListeners() {
-        // Add both listeners, and if either succeeds then remove the other one.
         window.addEventListener("deviceorientationabsolute", absoluteListener);
         window.addEventListener("deviceorientation", webkitListener);
     }
