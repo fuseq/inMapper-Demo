@@ -219,8 +219,15 @@ function onRepeatButtonClick() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Tekrar butonuna referans ekleyin
+    const repeatButton = document.querySelector('.btn-again');
+    if (repeatButton) {
+        repeatButton.addEventListener('click', onRepeatButtonClick);
+    }
+});
 
-document.querySelector('.btn-again').addEventListener('click', onRepeatButtonClick);
+
 function getCompassDirection(alpha) {
     // Assuming alpha is in degrees and ranges from 0 to 360
     // You can adjust these conditions based on your specific requirements
