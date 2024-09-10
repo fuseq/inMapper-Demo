@@ -27,7 +27,7 @@ var models = [
         url: './assets/pin/scene.gltf',
         scale: '2 2 2',
         info: '',
-        rotation: '0 0 0',
+        rotation: '0 250 0',
         position: '0 0 0',
     },
 ];
