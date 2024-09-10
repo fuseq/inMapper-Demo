@@ -4,9 +4,10 @@ let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 let direction;
-let popupVisible = false; 
-let popupTimeoutId = null; 
-let redirectTimeoutId = null; 
+let popupVisible=false;
+let popupTimeout;
+let redirectTimeout;
+
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
@@ -112,8 +113,8 @@ function showArrow(directionToTurn, direction) {
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
-    const uiBox = document.querySelector('.ui-box');
-    const popup = document.getElementById('popup');
+    const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
+    const popup = document.querySelector('.popup'); // .popup elementini seç
 
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
@@ -127,19 +128,10 @@ function showArrow(directionToTurn, direction) {
     const upperBound = (directionToTurn + 50) % 360;
     const lowerBound = (directionToTurn - 50 + 360) % 360;
 
-    // Timeout'ları temizle
-    if (popupTimeoutId !== null) {
-        clearTimeout(popupTimeoutId);
-        popupTimeoutId = null;
-    }
-    if (redirectTimeoutId !== null) {
-        clearTimeout(redirectTimeoutId);
-        redirectTimeoutId = null;
-    }
-
     // Eğer yön directionToTurn ile ±50 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
+        // Yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
@@ -148,35 +140,34 @@ function showArrow(directionToTurn, direction) {
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
 
-        // Popup'ın görünür olma süresi
-        const animationDuration = 5000; // Animasyon süresi 5 saniye
-        const popupDisplayTime = animationDuration * 0.8; // Popup'ın gösterilme zamanı (%80)
+        uiBox.addEventListener('animationstart', () => {
+            const animationDuration = 5000; // Animasyon süresi 5 saniye
+            const popupDisplayTime = animationDuration * 0.8; // Popup'ın gösterilme zamanı (%80)
+            const redirectDelay = 5000; // Popup göründükten sonra 1 saniye sonra yönlendirme yapılacak
 
-        if (!popupVisible) {
-            popupVisible = true; // Popup'ın görünür olduğunu işaretle
+            if(!popupVisible)
+            popupTimeout = setTimeout(() => {
+                popup.style.display = 'flex'; 
+                popupVisible=true;
+                
+               redirectTimeout=setTimeout(() => {
+                    window.location.href = 'index.html'; 
+                }, redirectDelay); 
 
-            // Popup'ı %80'de göster
-            popupTimeoutId = setTimeout(() => {
-                popup.style.display = 'flex'; // Popup'ı görünür yap
+            }, popupDisplayTime); 
 
-                // Popup'ın göründüğünde yönlendirme zamanlayıcısını başlat
-                redirectTimeoutId = setTimeout(() => {
-                    if (popupVisible) { // Popup hala görünürse
-                        // Yönlendirme yapılacak yer
-                        window.location.href = 'index.html'; // veya yönlendirmek istediğiniz URL
-                    }
-                }, 5000); // Yönlendirme için 5 saniye bekle
-            }, popupDisplayTime);
-        }
+        }, { once: true });
     } else {
         // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
         const counterclockwise = (direction - directionToTurn + 360) % 360;
 
         if (clockwise <= counterclockwise) {
+            // Sağ ok görünür
             leftArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
+            // Sol ok görünür
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
         }
@@ -187,47 +178,13 @@ function showArrow(directionToTurn, direction) {
         // Border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
 
-        // Popup zamanlayıcısını temizle ve popup'ı gizle
-        if (popupVisible) {
-            popup.style.display = 'none'; // Popup'ı gizle
-            popupVisible = false; // Popup'ın görünür olmadığını işaretle
-        }
-    }
-}
-
-// Tekrar butonuna basıldığında çağrılacak fonksiyon
-function onRepeatButtonClick() {
-    // Popup'ı gizle
-    const popup = document.getElementById('popup');
-    if (popupVisible) {
+        // Popup zamanlayıcısını temizle
+        clearTimeout(popupTimeout);
+        clearTimeout(displayTimeout);
+        popupVisible=false;
         popup.style.display = 'none'; // Popup'ı gizle
-        popupVisible = false; // Popup'ın görünür olmadığını işaretle
-
-        // Timeout'ları temizle
-        if (popupTimeoutId !== null) {
-            clearTimeout(popupTimeoutId);
-            popupTimeoutId = null;
-        }
-        if (redirectTimeoutId !== null) {
-            clearTimeout(redirectTimeoutId);
-            redirectTimeoutId = null;
-        }
-
-        // Border animasyonunu sıfırla
-        const uiBox = document.querySelector('.ui-box');
-        uiBox.classList.remove('border-animation');
     }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Tekrar butonuna referans ekleyin
-    const repeatButton = document.querySelector('.btn-again');
-    if (repeatButton) {
-        repeatButton.addEventListener('click', onRepeatButtonClick);
-    }
-});
-
-
 function getCompassDirection(alpha) {
     // Assuming alpha is in degrees and ranges from 0 to 360
     // You can adjust these conditions based on your specific requirements
