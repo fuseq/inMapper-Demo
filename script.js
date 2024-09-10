@@ -85,15 +85,7 @@ function renderPlaces(places) {
     });
 }
 
-// Rotation reader bileşeni
-AFRAME.registerComponent('rotation-reader', {
-    tick: function () {
-        var camera = document.querySelector('a-camera');
-        if (camera) {
-            this.el.object3D.lookAt(camera.object3D.position); // Kameraya doğru bakmayı sağla
-        }
-    }
-});
+
 // İki koordinat arasındaki yönü hesaplar
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
