@@ -7,8 +7,14 @@ let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
+    if (models.length > 0) {
+        models[0].rotation = '0 90 0'; // Burada yeni rotasyon değerini belirleyin
+        console.log('Model rotation updated to:', models[0].rotation);
+    }
     renderPlaces(places);
     startDistanceCheck(window.coords);
+
+
 };
 // Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükler
 function staticLoadPlaces() {
@@ -31,6 +37,7 @@ var models = [
         position: '0 0 0',
     },
 ];
+
 // Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
 var modelIndex = 0;
 function setModel(model, entity) {
