@@ -7,6 +7,9 @@ let stepIncreaseAllowed = true;
 let direction;
 let popupTimeout;
 let redirectTimeout;
+let popupOn=false;
+let redirectOn=false;
+
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
@@ -145,6 +148,8 @@ function showArrow(directionToTurn, direction) {
             // Popup göründükten sonra 1 saniye sonra yönlendirme yapılacak
 
             // Popup'ı %80'de göster
+            if(!popupOn)
+                popupOn=true;
             popupTimeout = setTimeout(() => {
                 popup.style.display = 'flex';
                 popupVisible = true;
@@ -153,7 +158,8 @@ function showArrow(directionToTurn, direction) {
 
         }, { once: true });
 
-        if (popupVisible) {
+        if (popupVisible && !redirectOn) {
+            redirectOn=true;
             redirectTimeout = setTimeout(() => {
                 popup.style.display = 'flex';
                 window.location.href = 'index.html'; 
@@ -183,6 +189,8 @@ function showArrow(directionToTurn, direction) {
         // Popup zamanlayıcısını temizle
         clearTimeout(popupTimeout);
         clearTimeout(redirectTimeout);
+        redirectOn=false;
+        popupOn=false;
         popup.style.display = 'none'; // Popup'ı gizle
     }
 }
