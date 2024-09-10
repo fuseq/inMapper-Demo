@@ -833,7 +833,7 @@ label {
     left: 0;
     width: 100%;
     height: 100%;
-    border: 3px solid transparent; /* Başlangıçta görünmez */
+    border: 4px solid transparent; /* Başlangıçta görünmez */
     box-sizing: border-box;
     border-radius: 3px;
     
@@ -848,48 +848,48 @@ label {
         width: 0;
         height: 0;
         border-radius: 3px;
-        border-top-color: #82de94;
+        border-top-color: #33cccc;
         border-right-color: transparent;
         border-bottom-color: transparent;
-        border-left-color: #82de94;
+        border-left-color: #33cccc;
     }
 
     25% {
         width: 0;
         height: 100%;
         border-radius: 3px;
-        border-top-color: #82de94;
+        border-top-color: #33cccc;
         border-right-color: transparent;
-        border-bottom-color: #82de94;
-        border-left-color: #82de94;
+        border-bottom-color: #33cccc;
+        border-left-color: #33cccc;
     }
 
     50% {
         width: 100%;
         height: 100%;
         border-radius: 3px;
-        border-top-color: #82de94;
+        border-top-color: #33cccc;
         border-right-color: transparent;
-        border-bottom-color: #82de94;
-        border-left-color: #82de94;
+        border-bottom-color: #33cccc;
+        border-left-color: #33cccc;
     }
     75% {
         width: 100%;
         height: 100%;
         border-radius: 3px;
-        border-top-color: #82de94;
-        border-right-color: #82de94;
-        border-bottom-color: #82de94;
-        border-left-color: #82de94;
+        border-top-color: #33cccc;
+        border-right-color: #33cccc;
+        border-bottom-color: #33cccc;
+        border-left-color: #33cccc;
     }
     100% {
         width: 100%;
         height: 100%;
         border-radius: 3px;
-        border-top-color: #82de94;
-        border-right-color: #82de94;
-        border-bottom-color: #82de94;
-        border-left-color: #82de94;
+        border-top-color: #33cccc;
+        border-right-color: #33cccc;
+        border-bottom-color: #33cccc;
+        border-left-color: #33cccc;
     }
     
 }
