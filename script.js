@@ -7,15 +7,10 @@ let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
-    if (models.length > 0) {
-        models[0].rotation = '0 90 0'; // Burada yeni rotasyon değerini belirleyin
-        console.log('Model rotation updated to:', models[0].rotation);
-    }
     renderPlaces(places);
     startDistanceCheck(window.coords);
-
-
 };
+
 // Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükler
 function staticLoadPlaces() {
     return [
@@ -28,6 +23,7 @@ function staticLoadPlaces() {
         },
     ];
 }
+
 var models = [
     {
         url: './assets/pin/scene.gltf',
@@ -38,13 +34,26 @@ var models = [
     },
 ];
 
+// Rotasyon hesaplama fonksiyonu (örnek olarak)
+function calculateRotation(latitude, longitude) {
+    // Burada rotasyonu hesaplayan bir algoritma uygulayın
+    // Bu örnekte, basit bir dönüşüm sağlıyoruz
+    let rotationX = latitude % 360;
+    let rotationY = longitude % 360;
+    let rotationZ = 0; // Sabit rotasyon
+
+    return `${rotationX} ${rotationY} ${rotationZ}`;
+}
+
 // Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
 var modelIndex = 0;
-function setModel(model, entity) {
+function setModel(model, entity, rotation) {
     if (model.scale) {
         entity.setAttribute('scale', model.scale);
     }
-    if (model.rotation) {
+    if (rotation) {
+        entity.setAttribute('rotation', rotation);
+    } else if (model.rotation) {
         entity.setAttribute('rotation', model.rotation);
     }
     if (model.position) {
@@ -52,17 +61,18 @@ function setModel(model, entity) {
     }
     entity.setAttribute('gltf-model', model.url);
     // Create an SVG element and convert it to a data URL
-   
 }
+
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
     let scene = document.querySelector('a-scene');
     places.forEach((place) => {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
+        let rotation = calculateRotation(latitude, longitude);
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-        setModel(models[modelIndex], model);
+        setModel(models[modelIndex], model, rotation);
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
     });
