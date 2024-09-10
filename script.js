@@ -4,7 +4,9 @@ let movementThreshold = 2.5;
 let directionMatches = false;
 let popupVisible = false;
 let stepIncreaseAllowed = true;
-let direction
+let direction;
+let popupTimeout;
+let redirectTimeout;
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
