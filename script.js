@@ -70,6 +70,10 @@ function renderPlaces(places) {
         let longitude = place.location.lng;
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        
+        // Modelin kameraya bakmasını sağlamak için look-at ekle
+        model.setAttribute('look-at', '#main-camera');
+        
         setModel(models[modelIndex], model);
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
