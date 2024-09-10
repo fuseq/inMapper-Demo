@@ -156,12 +156,10 @@ function showArrow(directionToTurn, direction) {
 
         if (clockwise <= counterclockwise) {
             // Sağ ok görünür
-            clearTimeout(popupTimeout);
             leftArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
             // Sol ok görünür
-            clearTimeout(popupTimeout);
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
         }
@@ -172,7 +170,9 @@ function showArrow(directionToTurn, direction) {
         // Border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
 
-      
+        // Popup zamanlayıcısını temizle
+        clearTimeout(popupTimeout);
+        popup.style.display = 'none'; // Popup'ı gizle
     }
 }
 function getCompassDirection(alpha) {
