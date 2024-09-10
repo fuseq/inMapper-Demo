@@ -74,11 +74,11 @@
     <div class="popup" id="popup">
         <div class="popup-content">
             <a href="https://imgbb.com/">
-                <img src="https://i.ibb.co/KVr3YRW/check-mark-2.png" alt="check-mark-2" class="popup-image">
+                <img src="assets/location.gif" alt="location" class="popup-image">
             </a>
             <div class="popup-message">Harita Ekranına Dönmek İçin Tamam Butonuna Basabilir Veya Tekrar Butonuna Basarak
                 Hedef Noktanızı Tekrar Görebilirsiniz</div><br>
-            <div class="popup-message">Hiçbir Şey Yapmadığınız Takdirde Harita Ekranına Dönülecektir</div><br>
+            
             <div class="popup-button-container">
                 <button class="btn-ok" onclick="window.location.href='index.html';">
                     <i class="fas fa-check"></i>
@@ -91,6 +91,18 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const againButton = document.querySelector('.btn-again');
+            const popup = document.getElementById('popup');
+            const uiBox = document.querySelector('.ui-box');
+    
+            againButton.addEventListener('click', function() {
+                popup.style.display = 'none';
+                uiBox.classList.remove('border-animation')
+            });
+        });
+    </script>
     <script>
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
