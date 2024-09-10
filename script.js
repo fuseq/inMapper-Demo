@@ -142,21 +142,18 @@ function showArrow(directionToTurn, direction) {
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
 
-        uiBox.addEventListener('animationstart', () => {
-            const animationDuration = 5000; // Animasyon süresi 5 saniye
-            const popupDisplayTime = animationDuration * 0.8; // Popup'ın gösterilme zamanı (%80)
-            // Popup göründükten sonra 1 saniye sonra yönlendirme yapılacak
+            const animationDuration = 5000; 
+            const popupDisplayTime = animationDuration * 0.8; 
 
-            // Popup'ı %80'de göster
             if(!popupOn)
                 popupOn=true;
             popupTimeout = setTimeout(() => {
                 popup.style.display = 'flex';
                 popupVisible = true;
-                // Popup'ı görünür yap
-            }, popupDisplayTime); // Animasyonun %80'inde popup'ı göster
 
-        }, { once: true });
+            }, popupDisplayTime); 
+
+       
 
         if (popupVisible && !redirectOn) {
             redirectOn=true;
