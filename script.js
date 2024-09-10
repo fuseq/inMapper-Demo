@@ -33,48 +33,39 @@ var models = [
 ];
 // Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
 var modelIndex = 0;
-function setModel(model, entity, latitude, longitude, targetLat, targetLon) {
-    // Hedefe göre yön açısını hesapla
+function setModel(model, entity) {
+    const targetLat = parseFloat(window.coords.x2);
+    const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
     const directionToTurn = (bearingToTarget + 360) % 360;
-
-    // Modelin ölçeğini ayarla
     if (model.scale) {
         entity.setAttribute('scale', model.scale);
     }
-
-    // Modelin rotasyonunu directionToTurn ile ayarla
-    entity.setAttribute('rotation', `0 ${directionToTurn} 0`);
-
-    // Modelin pozisyonunu ayarla
+    if (model.rotation) {
+        entity.setAttribute('rotation', `0 ${directionToTurn} 0`);
+    }
     if (model.position) {
         entity.setAttribute('position', model.position);
     }
-
-    // Modeli sahneye ekle
     entity.setAttribute('gltf-model', model.url);
-
-    // SVG çerçeve ekle
+    // Create an SVG element and convert it to a data URL
     const svg = `
     <svg width="500" height="400" viewBox="-25 -25 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-90deg)">
         <circle r="90" cx="100" cy="100" fill="transparent" stroke="#e0e0e0" stroke-width="16px" stroke-dasharray="565.48px" stroke-dashoffset="0"></circle>
         <circle r="90" cx="100" cy="100" stroke="#76e5b1" stroke-width="16px" stroke-linecap="round" stroke-dashoffset="118.692px" fill="transparent" stroke-dasharray="565.48px"></circle>
     </svg>
-    `;
+`;
     const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(svg);
-
-    // SVG'yi bir texture olarak ekle
+    // Add a plane with the SVG as its texture
     let border = document.createElement('a-image');
     border.setAttribute('src', svgDataUrl);
-    border.setAttribute('width', '24');
-    border.setAttribute('height', '12');
-    border.setAttribute('position', '0 2 0');
-    border.setAttribute('rotation', '0 0 0');
-    
-    // SVG'yi entity'e ekle
+    border.setAttribute('width', '24'); // Increase width to make the SVG larger
+    border.setAttribute('height', '12'); // Increase height to make the SVG larger
+    border.setAttribute('position', '0 2 0'); // Adjust position
+    border.setAttribute('rotation', '0 0 0'); // Adjust rotation
+    // Append the border to the entity
     entity.appendChild(border);
 }
-
 // Yerleri sahnede render eder (görüntüler)
 function renderPlaces(places) {
     
