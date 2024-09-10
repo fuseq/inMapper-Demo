@@ -4,6 +4,10 @@ let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 let direction
+let countdown1Time = 5;
+let countdown2Time = 5;
+let countdown1Interval, countdown2Interval;
+
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
@@ -103,50 +107,74 @@ function checkModelVisibility(model) {
     const modelScreenPosition = modelPosition.clone().project(camera);
     return modelScreenPosition.z > 0 && modelScreenPosition.x >= -1 && modelScreenPosition.x <= 1 && modelScreenPosition.y >= -1 && modelScreenPosition.y <= 1;
 }
+
+// Countdown başlatıcı fonksiyonlar
+function startCountdown1() {
+    countdown1Interval = setInterval(() => {
+        countdown1Time--;
+        if (countdown1Time === 0) {
+            clearInterval(countdown1Interval);
+            popup.style.display = 'block'; // Popup görünür
+            startCountdown2();  // İkinci countdown başlar
+        }
+    }, 1000);
+}
+
+function startCountdown2() {
+    countdown2Interval = setInterval(() => {
+        countdown2Time--;
+        if (countdown2Time === 0) {
+            clearInterval(countdown2Interval);
+            window.location.href = 'index.html';  // index.html'e yönlendirme
+        }
+    }, 1000);
+}
+
+// Countdown'ları sıfırlama
+function resetCountdowns() {
+    clearInterval(countdown1Interval);
+    clearInterval(countdown2Interval);
+    countdown1Time = 5;
+    countdown2Time = 5;
+    popup.style.display = 'none'; // Popup gizlenir
+}
+
+
+
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
 function showArrow(directionToTurn, direction) {
-    const leftArrow = document.getElementById('left-arrow');
-    const rightArrow = document.getElementById('right-arrow');
-    const upArrow = document.getElementById('up-arrow');
-    const directionIndicator = document.getElementById('direction-indicator');
-    const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
-    const popup = document.querySelector('.popup'); // .popup elementini seç
-
-    // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
+    // Tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
 
-    // Yukarı yön oku (±50 derece içinde)
     const upperBound = (directionToTurn + 50) % 360;
     const lowerBound = (directionToTurn - 50 + 360) % 360;
 
-    // Eğer yön directionToTurn ile ±50 derece arasındaysa
-    if ((direction <= upperBound && direction >= lowerBound) ||
-        (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-        // Yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
+    if ((direction <= upperBound && direction >= lowerBound) || (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
+        // Yön eşleşti, up-arrow göster ve border animasyonunu başlat
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
         directionMatches = true;
-
-        // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
 
+        // İlk countdown sadece ilk seferde başlatılır
+        if (!countdown1Interval && !countdown2Interval) {
+            startCountdown1();
+        }
+
     } else {
-        // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
+        // Yön eşleşmedi, okları göster ve border animasyonunu kaldır
         const clockwise = (directionToTurn - direction + 360) % 360;
         const counterclockwise = (direction - directionToTurn + 360) % 360;
 
         if (clockwise <= counterclockwise) {
-            // Sağ ok görünür
             leftArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
-            // Sol ok görünür
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
         }
@@ -154,9 +182,9 @@ function showArrow(directionToTurn, direction) {
         upArrow.classList.add('fade-out');
         directionMatches = false;
 
-        // Border animasyonunu kaldır
+        // Countdown'ları sıfırla ve popup'ı gizle
+        resetCountdowns();
         uiBox.classList.remove('border-animation');
-
     }
 }
 function getCompassDirection(alpha) {
