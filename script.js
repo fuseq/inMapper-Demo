@@ -50,8 +50,8 @@ function calculateRotation() {
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
     let rotationX = 0;
-    let rotationY = bearingToTarget+20;
-    let rotationZ = 0; 
+    let rotationY = bearingToTarget + 20;
+    let rotationZ = 0;
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
 }
@@ -137,23 +137,17 @@ function showArrow(directionToTurn, direction) {
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
 
-        uiBox.addEventListener('animationstart', () => {
-            const animationDuration = 5000; // Animasyon süresi 5 saniye
-            const popupDisplayTime = animationDuration * 0.8; // Popup'ın gösterilme zamanı (%80)
-            // Popup'ı %80'de göster
-            popupTimeout = setTimeout(() => {
-                popup.style.display = 'flex'; // Popup'ı görünür yap
-
-            }, popupDisplayTime); // Animasyonun %80'inde popup'ı göster
-
+        uiBox.addEventListener('animationend', () => {
+            // Popup'ı hemen göster
+            popup.style.display = 'flex';
         }, { once: true });
-         // Çemberi büyüt
-         container.classList.add('grow');
+        // Çemberi büyüt
+        container.classList.add('grow');
 
-         // Büyüme tamamlandıktan sonra progress bar'ı başlat
-         setTimeout(() => {
-             progressCircle.style.strokeDashoffset = '0';
-         }, 1000); // 1 saniye sonra yükleme başlasın
+        // Büyüme tamamlandıktan sonra progress bar'ı başlat
+        setTimeout(() => {
+            progressCircle.style.strokeDashoffset = '0';
+        }, 1000); // 1 saniye sonra yükleme başlasın
     } else {
         // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
@@ -174,7 +168,15 @@ function showArrow(directionToTurn, direction) {
 
         // Border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
+        // Önce progress bar'ı anında sıfırla
+        progressCircle.style.transition = 'none';  // Anında sıfırlama için animasyonu kaldır
+        progressCircle.style.strokeDashoffset = '283'; // Progress bar'ı direkt sıfırla
 
+        // Daha sonra yeniden transition ekleyip, çemberi küçült
+        setTimeout(() => {
+            progressCircle.style.transition = 'stroke-dashoffset 3s linear'; // Transition'ı geri ekle
+            container.classList.remove('grow'); // Çemberi küçült
+        }, 0); // Hemen sıfırlama işlemini yap
         // Popup zamanlayıcısını temizle
         clearTimeout(popupTimeout);
         popup.style.display = 'none'; // Popup'ı gizle
