@@ -109,10 +109,10 @@ function showArrow(directionToTurn, direction) {
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
-    const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
     const popup = document.querySelector('.popup'); // .popup elementini seç
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
+    
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
@@ -134,20 +134,21 @@ function showArrow(directionToTurn, direction) {
         upArrow.classList.add('fade-in');
         directionMatches = true;
 
-        // Border animasyonunu başlat
-        uiBox.classList.add('border-animation');
-
-        uiBox.addEventListener('animationend', () => {
-            // Popup'ı hemen göster
-            popup.style.display = 'flex';
-        }, { once: true });
         // Çemberi büyüt
         container.classList.add('grow');
 
-        // Büyüme tamamlandıktan sonra progress bar'ı başlat
+        // Progress bar'ı sıfırla ve göster
+        progressCircle.style.transition = 'none';  // Anında sıfırlama için animasyonu kaldır
+        progressCircle.style.strokeDashoffset = '283'; // Progress bar'ı direkt sıfırla
         setTimeout(() => {
-            progressCircle.style.strokeDashoffset = '0';
-        }, 1000); // 1 saniye sonra yükleme başlasın
+            progressCircle.style.transition = 'stroke-dashoffset 3s linear'; // Transition'ı geri ekle
+            progressCircle.style.strokeDashoffset = '0'; // Progress bar'ı yüklemeye başla
+        }, 0); // Hemen sıfırlama işlemini yap
+
+        // Progress bar'ın yüklemesi tamamlandıktan sonra popup'ı göster
+        progressCircle.addEventListener('transitionend', () => {
+            popup.style.display = 'flex';
+        }, { once: true });
     } else {
         // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
@@ -166,8 +167,6 @@ function showArrow(directionToTurn, direction) {
         upArrow.classList.add('fade-out');
         directionMatches = false;
 
-        // Border animasyonunu kaldır
-        uiBox.classList.remove('border-animation');
         // Önce progress bar'ı anında sıfırla
         progressCircle.style.transition = 'none';  // Anında sıfırlama için animasyonu kaldır
         progressCircle.style.strokeDashoffset = '283'; // Progress bar'ı direkt sıfırla
@@ -178,7 +177,6 @@ function showArrow(directionToTurn, direction) {
             container.classList.remove('grow'); // Çemberi küçült
         }, 0); // Hemen sıfırlama işlemini yap
         // Popup zamanlayıcısını temizle
-        clearTimeout(popupTimeout);
         popup.style.display = 'none'; // Popup'ı gizle
     }
 }
