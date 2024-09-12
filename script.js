@@ -111,7 +111,7 @@ function showArrow(directionToTurn, direction) {
     const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
     const popup = document.querySelector('.popup'); // .popup elementini seç
-    const container = document.querySelector('.circle-container');
+    const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;

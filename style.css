@@ -491,8 +491,7 @@ label {
 
 .container {
     position: fixed; /* Sabit konumlandırma ile ekranın ortasında kalmasını sağlar */
-    top: 35%; /* Ekranın ortasına hizalamak için */
-    left: 40%; /* Ekranın ortasına hizalamak için */
+    top: 32.5%; /* Ekranın ortasına hizalamak için */
     width: 100px;
     height: 100px;
     display: flex;
@@ -513,13 +512,7 @@ button {
     font-size: 16px;
 }
 
-#trigger {
-    left: 10px; /* İlk buton sola kaydırıldı */
-}
 
-#reset {
-    right: 10px; /* Yeni buton sağa kaydırıldı */
-}
 .progress {
     stroke-dasharray: 283;
     stroke-dashoffset: 283;
