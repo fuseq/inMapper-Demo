@@ -41,6 +41,16 @@
     <div class="direction-from-start-indicator" id="direction-from-start-indicator">Direction from Start: 0</div>
     <div class="step-counter" id="step-counter">Number of Steps: 0</div>
     <div class="ui-box"></div>
+    <div class="container">
+        <svg class="progress-circle" width="200" height="200" viewBox="0 0 100 100" id="circle-svg">
+            <!-- Dış çember (gri arkaplan) -->
+            <circle cx="50" cy="50" r="45" fill="none" stroke="lightgray" stroke-width="5" />
+            
+            <!-- İç çember (beyaz, %90 transparan) -->
+            <circle class="progress" cx="50" cy="50" r="45" fill="white" fill-opacity="0.1" stroke="white" stroke-width="5" stroke-dasharray="283" stroke-dashoffset="283"/>
+        </svg>
+    </div>
+    
     <a-scene vr-mode-ui='enabled: false' embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
         <a-camera id="main-camera" gps-camera='gpsMinDistance: 5' rotation-reader
@@ -55,6 +65,7 @@
                 <div id="direction" class="compass-direction">NW</div>
             </div>
         </div>
+        <button id="trigger">Başlat</button>
         <div class="map-section">
             <iframe src="https://cbaines.github.io/leaflet-indoor/examples/" frameborder="0"
                 class="map-iframe"></iframe>

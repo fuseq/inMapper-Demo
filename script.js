@@ -111,7 +111,8 @@ function showArrow(directionToTurn, direction) {
     const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
     const popup = document.querySelector('.popup'); // .popup elementini seç
-
+    const container = document.querySelector('.circle-container');
+    const progressCircle = document.querySelector('.progress');
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
@@ -121,8 +122,8 @@ function showArrow(directionToTurn, direction) {
     upArrow.classList.remove('fade-in', 'fade-out');
 
     // Yukarı yön oku (±50 derece içinde)
-    const upperBound = (directionToTurn + 50) % 360;
-    const lowerBound = (directionToTurn - 50 + 360) % 360;
+    const upperBound = (directionToTurn + 10) % 360;
+    const lowerBound = (directionToTurn - 10 + 360) % 360;
 
     // Eğer yön directionToTurn ile ±50 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
@@ -146,6 +147,13 @@ function showArrow(directionToTurn, direction) {
             }, popupDisplayTime); // Animasyonun %80'inde popup'ı göster
 
         }, { once: true });
+         // Çemberi büyüt
+         container.classList.add('grow');
+
+         // Büyüme tamamlandıktan sonra progress bar'ı başlat
+         setTimeout(() => {
+             progressCircle.style.strokeDashoffset = '0';
+         }, 1000); // 1 saniye sonra yükleme başlasın
     } else {
         // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;

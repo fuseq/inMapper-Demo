@@ -489,7 +489,46 @@ label {
     }
 }
 
+.container {
+    position: fixed; /* Sabit konumlandırma ile ekranın ortasında kalmasını sağlar */
+    top: 35%; /* Ekranın ortasına hizalamak için */
+    left: 40%; /* Ekranın ortasına hizalamak için */
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.5);
+    transition: transform 1s ease;
+}
 
+.progress-circle {
+    transform: rotate(-90deg); /* Progress bar'ı yukarıdan başlat */
+}
+
+button {
+    position: absolute;
+    bottom: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#trigger {
+    left: 10px; /* İlk buton sola kaydırıldı */
+}
+
+#reset {
+    right: 10px; /* Yeni buton sağa kaydırıldı */
+}
+.progress {
+    stroke-dasharray: 283;
+    stroke-dashoffset: 283;
+    transition: stroke-dashoffset 3s linear;
+}
+
+.container.grow {
+    transform: scale(1);
+}
 
 .popup {
     position: fixed;
