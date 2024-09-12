@@ -873,7 +873,7 @@ button {
 }
 
 .border-animation::before {
-    animation: draw-border 5s forwards;
+    
 }
 /* Border'ın çizilme animasyonu */
 @keyframes draw-border {
