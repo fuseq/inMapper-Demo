@@ -27,7 +27,7 @@ function staticLoadPlaces() {
 var models = [
     {
         url: './assets/ileri.png', // PNG image
-        scale: '20 10 10',
+        scale: '25 15 15',
         info: '',
         // Adjust the rotation to tilt the image
         rotation: '-30 -45 -60', // Tilt the image 30 degrees forward (on the X-axis)
