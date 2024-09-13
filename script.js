@@ -26,11 +26,10 @@ function staticLoadPlaces() {
 
 var models = [
     {
-        url: './assets/ileri.png', // PNG image
-        scale: '25 15 15',
+        url: './assets/finish.gltf',
+        scale: '2 2 2',
         info: '',
-        // Adjust the rotation to tilt the image
-        rotation: '-30 -45 -60', // Tilt the image 30 degrees forward (on the X-axis)
+        rotation: '0 0 0',
         position: '0 0 0',
     },
 ];
@@ -50,8 +49,8 @@ function calculateRotation() {
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
-    let rotationX = 70;
-    let rotationY = bearingToTarget+50;
+    let rotationX = 0;
+    let rotationY = bearingToTarget + 20;
     let rotationZ = 0;
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
@@ -71,8 +70,8 @@ function setModel(model, entity, rotation) {
     if (model.position) {
         entity.setAttribute('position', model.position);
     }
-    // Use an <a-image> for displaying the PNG
-    entity.setAttribute('src', model.url);
+    entity.setAttribute('gltf-model', model.url);
+    // Create an SVG element and convert it to a data URL
 }
 
 // Yerleri sahnede render eder (görüntüler)
@@ -82,11 +81,10 @@ function renderPlaces(places) {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
         let rotation = calculateRotation();
-        
-        // Create an <a-image> instead of <a-entity>
-        let model = document.createElement('a-image');
+        let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
         setModel(models[modelIndex], model, rotation);
+        model.removeAttribute('animation-mixer');
         scene.appendChild(model);
     });
 }
