@@ -215,7 +215,8 @@ label {
 }
 
 .arrow-icon {
-    font-size: 60px;
+    width: 60px; /* Png resim boyutu */
+    height: auto;
 }
 
 /* Sol ok için konumlandırma */
