@@ -198,46 +198,26 @@ function startCompassListener(callback) {
         console.warn("DeviceOrientation API not available");
         return;
     }
-
-    let lastAlpha = null;
-    let alphaSmoothing = 0.1; // Yumuşatma faktörü
-
-    function smoothValue(currentValue, lastValue) {
-        return lastValue + (currentValue - lastValue) * alphaSmoothing;
-    }
-
-    const handleDeviceOrientation = (e) => {
-        if (e.alpha == null || e.beta == null || e.gamma == null) {
+    const absoluteListener = (e) => {
+        if (!e.absolute || e.alpha == null || e.beta == null || e.gamma == null) {
             return;
         }
-
-        let alpha = e.alpha;
-        if (lastAlpha !== null) {
-            alpha = smoothValue(alpha, lastAlpha);
-        }
-        lastAlpha = alpha;
-
-        // Kompas verilerini işleyin
-        let compass = -(alpha + e.beta * e.gamma / 90);
+        let compass = -(e.alpha + e.beta * e.gamma / 90);
         compass -= Math.floor(compass / 360) * 360;
         callback(compass);
     };
 
-    const handleWebKitCompass = (e) => {
+    const webkitListener = (e) => {
         let compass = e.webkitCompassHeading;
         if (compass != null && !isNaN(compass)) {
             callback(compass);
-            window.removeEventListener("deviceorientation", handleWebKitCompass);
+            window.removeEventListener("deviceorientation", webkitListener);
         }
     };
 
     function addListeners() {
-        window.addEventListener("deviceorientation", handleDeviceOrientation);
-        if (window.DeviceOrientationEvent.requestPermission) {
-            window.addEventListener("deviceorientationabsolute", handleDeviceOrientation);
-        } else {
-            window.addEventListener("deviceorientation", handleWebKitCompass);
-        }
+        window.addEventListener("deviceorientationabsolute", absoluteListener);
+        window.addEventListener("deviceorientation", webkitListener);
     }
 
     if (typeof DeviceOrientationEvent.requestPermission === "function") {
