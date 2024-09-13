@@ -206,7 +206,7 @@ label {
 /* Genel arrow stili */
 .arrow {
     position: absolute;
-    top: 50%;
+    top: 40%;
     transform: translateY(-50%);
     opacity: 0;
     /* Başlangıçta görünmez */
@@ -260,7 +260,7 @@ label {
     }
 
     50% {
-        transform: translateX(-30px);
+        transform: translateX(-25px);
     }
 
     100% {
@@ -279,7 +279,7 @@ label {
     }
 
     50% {
-        transform: translateX(30px);
+        transform: translateX(25px);
         /* Sağa doğru hareket */
     }
 
