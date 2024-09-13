@@ -27,7 +27,7 @@ function staticLoadPlaces() {
 var models = [
     {
         url: './assets/finish.gltf',
-        scale: '1 1 1',
+        scale: '2 2 2',
         info: '',
         rotation: '0 0 0',
         position: '0 0 0',
