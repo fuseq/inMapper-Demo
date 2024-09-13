@@ -26,7 +26,7 @@ function staticLoadPlaces() {
 
 var models = [
     {
-        url: './assets/pin/scene.gltf',
+        url: './assets/ileri.png', // Change the URL to the PNG image
         scale: '2 2 2',
         info: '',
         rotation: '0 0 0',
@@ -70,8 +70,8 @@ function setModel(model, entity, rotation) {
     if (model.position) {
         entity.setAttribute('position', model.position);
     }
-    entity.setAttribute('gltf-model', model.url);
-    // Create an SVG element and convert it to a data URL
+    // Use an <a-image> for displaying the PNG
+    entity.setAttribute('src', model.url);
 }
 
 // Yerleri sahnede render eder (görüntüler)
@@ -81,10 +81,11 @@ function renderPlaces(places) {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
         let rotation = calculateRotation();
-        let model = document.createElement('a-entity');
+        
+        // Create an <a-image> instead of <a-entity>
+        let model = document.createElement('a-image');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
         setModel(models[modelIndex], model, rotation);
-        model.removeAttribute('animation-mixer');
         scene.appendChild(model);
     });
 }
