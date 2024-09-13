@@ -52,9 +52,10 @@
     </div>
     
     <a-scene vr-mode-ui='enabled: false' embedded
-        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-            <a-camera id='main-camera'  arjs-device-orientation-controls='smoothingFactor: 0.1' gps-camera='gpsMinDistance: 5'> </a-camera>
-    </a-scene>
+    arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+    <a-camera id="main-camera" gps-camera='gpsMinDistance: 100' rotation-reader
+        arjs-device-orientation-controls='smoothingFactor: 1'></a-camera>
+</a-scene>
 
     <div class="bottom-container">
 
