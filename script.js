@@ -109,10 +109,9 @@ function checkModelVisibility(model) {
 function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
-    const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
-    const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
-    const popup = document.querySelector('.popup'); // .popup elementini seç
+    const uiBox = document.querySelector('.ui-box');
+    const popup = document.querySelector('.popup'); 
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
     // Direction bilgisi ekranında güncelleniyor
@@ -121,7 +120,6 @@ function showArrow(directionToTurn, direction) {
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
-    upArrow.classList.remove('fade-in', 'fade-out');
 
     // Yukarı yön oku (±50 derece içinde)
     const upperBound = (directionToTurn + 10) % 360;
@@ -133,7 +131,7 @@ function showArrow(directionToTurn, direction) {
         // Yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
-        upArrow.classList.add('fade-in');
+       
         directionMatches = true;
 
         // Border animasyonunu başlat
@@ -165,9 +163,7 @@ function showArrow(directionToTurn, direction) {
             rightArrow.classList.add('fade-out');
         }
 
-        upArrow.classList.add('fade-out');
         directionMatches = false;
-
         // Border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
         // Önce progress bar'ı anında sıfırla
