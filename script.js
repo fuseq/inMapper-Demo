@@ -52,7 +52,7 @@ function calculateRotation() {
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
     let rotationX = -30;
     let rotationY = bearingToTarget + 20;
-    let rotationZ = -60;
+    let rotationZ = 0;
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
 }
