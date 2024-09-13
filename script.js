@@ -27,7 +27,7 @@ function staticLoadPlaces() {
 var models = [
     {
         url: './assets/ileri.png', // Change the URL to the PNG image
-        scale: '5 5 5',
+        scale: '10 10 10',
         info: '',
         rotation: '0 0 0',
         position: '0 0 0',
