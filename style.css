@@ -873,14 +873,14 @@ button {
 }
 
 .border-animation::before {
-    animation: draw-border 5s forwards;
+    animation: draw-border 4s forwards;
 }
 /* Border'ın çizilme animasyonu */
 @keyframes draw-border {
     0% {
         width: 0;
         height: 0;
-        border-radius: 3px;
+        border-radius: 0px;
         border-top-color: #33cccc;
         border-right-color: transparent;
         border-bottom-color: transparent;
@@ -890,7 +890,7 @@ button {
     25% {
         width: 0;
         height: 0;
-        border-radius: 3px;
+        border-radius: 0px;
         border-top-color: #33cccc;
         border-right-color: transparent;
         border-bottom-color: #33cccc;
@@ -900,7 +900,7 @@ button {
     50% {
         width:0;
         height: 0;
-        border-radius: 3px;
+        border-radius: 0px;
         border-top-color: #33cccc;
         border-right-color: transparent;
         border-bottom-color: #33cccc;
@@ -909,7 +909,7 @@ button {
     75% {
         width: 0;
         height: 0;
-        border-radius: 3px;
+        border-radius: 0px;
         border-top-color: #33cccc;
         border-right-color: #33cccc;
         border-bottom-color: #33cccc;
