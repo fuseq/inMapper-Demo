@@ -83,6 +83,7 @@ function renderPlaces(places) {
         let rotation = calculateRotation();
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        model.setAttribute('look-controls','smoothing: 0.1')
         setModel(models[modelIndex], model, rotation);
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
