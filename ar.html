@@ -6,8 +6,12 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GeoAR.js demo</title>
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script type='text/javascript'
+        src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/three.js/build/ar-threex-location-only.js'></script>
+    <script type='text/javascript'
+        src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js'></script>
     <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
     <script>
@@ -45,17 +49,17 @@
         <svg class="progress-circle" width="200" height="200" viewBox="0 0 100 100" id="circle-svg">
             <!-- Dış çember (gri arkaplan) -->
             <circle cx="50" cy="50" r="45" fill="none" stroke="lightgray" stroke-width="5" />
-            
+
             <!-- İç çember (beyaz, %90 transparan) -->
-            <circle class="progress" cx="50" cy="50" r="45" fill="white" fill-opacity="0.1" stroke="white" stroke-width="5" stroke-dasharray="283" stroke-dashoffset="283"/>
+            <circle class="progress" cx="50" cy="50" r="45" fill="white" fill-opacity="0.1" stroke="white"
+                stroke-width="5" stroke-dasharray="283" stroke-dashoffset="283" />
         </svg>
     </div>
-    
-    <a-scene vr-mode-ui='enabled: false' embedded
-    arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-    <a-camera id="main-camera" gps-camera='gpsMinDistance: 100' rotation-reader
-        arjs-device-orientation-controls='smoothingFactor: 1'></a-camera>
-</a-scene>
+
+    <a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
+        <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera>
+        <a-entity material='color: red' geometry='primitive: box'  gps-new-entity-place="latitude: 37.425557; longitude: 31.851170"  scale="10 10 10"></a-entity>
+    </a-scene>
 
     <div class="bottom-container">
 
@@ -89,7 +93,7 @@
             </a>
             <div class="popup-message">Harita Ekranına Dönmek İçin Tamam Butonuna Basabilir Veya Tekrar Butonuna Basarak
                 Hedef Noktanızı Tekrar Görebilirsiniz</div><br>
-            
+
             <div class="popup-button-container">
                 <button class="btn-ok" onclick="window.location.href='index.html';">
                     <i class="fas fa-check"></i>
@@ -103,12 +107,12 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const againButton = document.querySelector('.btn-again');
             const popup = document.getElementById('popup');
             const uiBox = document.querySelector('.ui-box');
-    
-            againButton.addEventListener('click', function() {
+
+            againButton.addEventListener('click', function () {
                 popup.style.display = 'none';
                 uiBox.classList.remove('border-animation')
             });
