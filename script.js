@@ -77,6 +77,8 @@ function renderPlaces(places) {
         let rotation = calculateRotation();
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        model.setAttribute('billboard');
+        
         setModel(models[modelIndex], model, rotation);
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
