@@ -58,11 +58,11 @@
         </svg>
     </div>
 
-    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; sourceHeight:960; displayWidth: 1280; displayHeight: 960; videoTexture: true; debugUIEnabled: false"
+    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
         renderer="antialias: true; alpha: true">
 
         <!-- GPS Camera -->
-        <a-camera gps-new-camera="gpsMinDistance: 100"></a-camera>
+        <a-camera gps-new-camera="gpsMinDistance: 25"></a-camera>
 
         <!-- GPS-Based GLTF Model that looks at the camera -->
         <a-entity id="gltf-model" gltf-model="url(assets/finish.gltf)" scale="1 1 1" rotation="0 90 0" billboard>
