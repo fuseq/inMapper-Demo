@@ -71,9 +71,18 @@ function renderPlaces(places) {
         places.forEach((place) => {
             let latitude = place.location.lat;
             let longitude = place.location.lng;
+            let timeToDestination = place.timeToDestination; // Assuming you have this in your place data
 
             // Update the latitude and longitude of the model
             model.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+
+            // Find the text element within the model and update its content
+            let timeText = model.querySelector('#time-text');
+            if (timeText) {
+                timeText.setAttribute('value', `Time: ${timeToDestination} min`);
+            } else {
+                console.error('Text element with ID "time-text" not found in the model.');
+            }
             
             // Optionally, if you want to update multiple instances, you can clone and set attributes accordingly
             // let newModel = model.cloneNode(true); // Clone the existing model
