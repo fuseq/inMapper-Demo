@@ -50,7 +50,7 @@ function calculateRotation() {
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
     let rotationX = 0;
-    let rotationY = bearingToTarget + 20;
+    let rotationY = 0;
     let rotationZ = 0;
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
