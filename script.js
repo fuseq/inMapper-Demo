@@ -29,7 +29,7 @@ var models = [
         url: './assets/finish.gltf',
         scale: '1.5 1.5 1.5',
         info: '',
-        rotation: '0 180 0',
+        rotation: '0 0 0',
         position: '0 0 0',
     },
 ];
@@ -51,9 +51,9 @@ function setModel(model, entity) {
     if (model.scale) {
         entity.setAttribute('scale', model.scale);
     }
-    if (model.rotation) {
-        entity.setAttribute('rotation', '0 180 0');
-    }
+    if (rotation) {
+        entity.setAttribute('rotation', model.rotation);
+    } 
     if (model.position) {
         entity.setAttribute('position', model.position);
     }
@@ -67,10 +67,11 @@ function renderPlaces(places) {
     places.forEach((place) => {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
+        
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
         model.setAttribute('look-controls','smoothing: 1')
-        setModel(models[modelIndex], model, rotation);
+        setModel(models[modelIndex], model);
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
     });
