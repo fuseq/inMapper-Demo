@@ -63,9 +63,9 @@
     <a-camera look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 1' gps-new-camera='gpsMinDistance: 5'></a-camera>
 
     <!-- GPS-Based GLTF Model that looks at the camera with smoothing -->
-    <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.426501; longitude: 31.850792"
-        scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]" smooth-motion="positionSmoothing: 1; rotationSmoothing: 1">
-    </a-entity>
+    <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: {{ window.coords.y2 }}; longitude: {{ window.coords.x2 }}"
+  scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]" smooth-motion="positionSmoothing: 1; rotationSmoothing: 1">
+</a-entity>
 
 </a-scene>
     <script>
