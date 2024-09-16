@@ -60,14 +60,13 @@
     renderer="antialias: true; alpha: true">
 
     <!-- GPS Camera with smoothing -->
-    <a-camera look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 1' gps-new-camera='gpsMinDistance: 5'></a-camera>
+    <a-camera id="gps-camera" look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 1' gps-new-camera='gpsMinDistance: 5'></a-camera>
 
-    <!-- GPS-Based GLTF Model that looks at the camera with smoothing -->
-    <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.425557; longitude: 31.851170"
-        scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]" smooth-motion="positionSmoothing: 1; rotationSmoothing: 1">
+    <!-- Define a model with a default location that will be updated dynamically -->
+    <a-entity id="default-model" gltf-model="url(assets/finish.gltf)" scale="5 5 5" rotation="0 90 0"
+        look-at="[gps-camera]">
     </a-entity>
-
-</a-scene>
+</a-scene>>
     <script>
         AFRAME.registerComponent('smooth-motion', {
           schema: {

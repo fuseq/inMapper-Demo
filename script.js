@@ -61,7 +61,29 @@ function setModel(model, entity) {
 }
 
 // Yerleri sahnede render eder (görüntüler)
+function renderPlaces(places) {
+    let scene = document.querySelector('a-scene');
+    
+    // Get the existing model from the HTML
+    let model = document.querySelector('#default-model');
+    
+    if (model) {
+        places.forEach((place) => {
+            let latitude = place.location.lat;
+            let longitude = place.location.lng;
 
+            // Update the latitude and longitude of the model
+            model.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+            
+            // Optionally, if you want to update multiple instances, you can clone and set attributes accordingly
+            // let newModel = model.cloneNode(true); // Clone the existing model
+            // newModel.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+            // scene.appendChild(newModel);
+        });
+    } else {
+        console.error('Model with ID "default-model" not found in the scene.');
+    }
+}
 // İki koordinat arasındaki yönü hesaplar
 
 // Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
