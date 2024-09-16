@@ -11,28 +11,6 @@
     <script
         src="https://rawgit.com/blairmacintyre/aframe-look-at-billboard-component/master/dist/aframe-look-at-billboard-component.min.js"></script>
 </head>
-
-<body>
-    <a-scene 
-    embedded 
-    arjs="sourceType: webcam; videoTexture: true;" 
-    gps-projected-entity-place>
-    
-    <!-- GPS tabanlı obje: Bu obje belirli bir enlem ve boylamda görünecek -->
-    <a-entity 
-      gps-projected-entity-place="latitude: 37.425576; longitude: 31.851189" 
-      geometry="primitive: box" 
-      material="color: red" 
-      scale="1 1 1" 
-      billboard>
-    </a-entity>
-
-    <!-- Kamera -->
-    <a-entity camera gps-camera></a-entity>
-    
-  </a-scene>
-</body>
-
 <script type='text/javascript'
     src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/three.js/build/ar-threex-location-only.js'></script>
 <script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js'></script>
@@ -80,18 +58,24 @@
         </svg>
     </div>
 
-    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
-        renderer="antialias: true; alpha: true">
+    <a-scene 
+    embedded 
+    arjs="sourceType: webcam; videoTexture: true;" 
+    gps-projected-entity-place>
+    
+    <!-- GPS tabanlı obje: Bu obje belirli bir enlem ve boylamda görünecek -->
+    <a-entity 
+      gps-projected-entity-place="latitude: 37.425576; longitude: 31.851189" 
+      geometry="primitive: box" 
+      material="color: red" 
+      scale="1 1 1" 
+      billboard>
+    </a-entity>
 
-        <!-- GPS Camera -->
-        <a-camera gps-new-camera="gpsMinDistance: 5"></a-camera>
-
-        <!-- GPS-Based GLTF Model that looks at the camera -->
-        <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.426816; longitude: 31.851768"
-            scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]">
-        </a-entity>
-
-    </a-scene>
+    <!-- Kamera -->
+    <a-entity camera gps-camera></a-entity>
+    
+  </a-scene>
     <div class="bottom-container">
 
         <div class="compass-section">
