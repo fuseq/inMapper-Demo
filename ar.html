@@ -58,24 +58,17 @@
         </svg>
     </div>
 
-    <a-scene 
-    embedded 
-    arjs="sourceType: webcam; videoTexture: true;" 
-    gps-projected-entity-place>
-    
-    <!-- GPS tabanlı obje: Bu obje belirli bir enlem ve boylamda görünecek -->
-    <a-entity 
-      gps-projected-entity-place="latitude: 37.425576; longitude: 31.851189" 
-      geometry="primitive: box" 
-      material="color: red" 
-      scale="1 1 1" 
-      billboard>
-    </a-entity>
-
-    <!-- Kamera -->
-    <a-entity camera gps-camera></a-entity>
-    
-  </a-scene>
+    <a-scene>
+        <a-entity id="monster" geometry="primitive: box"
+                  billboard></a-entity>
+        <a-entity id="player" camera></a-entity>
+      
+        <a-entity id="dog" geometry="primitive: box" 
+                  look-at="src: #squirrel"></a-entity>
+        <a-entity id="squirrel">
+          <a-animation id="running" attribute="position" to="100 0 0"></a-animation>
+        </a-entity>
+      </a-scene>
     <div class="bottom-container">
 
         <div class="compass-section">
