@@ -73,9 +73,10 @@ function setModel(model, entity, rotation) {
     entity.setAttribute('gltf-model', model.url);
 
     // Objenin sürekli olarak kameraya bakmasını sağlayan `look-at` bileşeni ekleyelim
-    entity.setAttribute('look-at', '[camera]');
+    entity.setAttribute('look-at', '[camera]'); // Burada `[camera]` ile kamerayı hedef alıyoruz
 
-    // Create an SVG element and convert it to a data URL
+    // Burada animasyonları devre dışı bırakıyoruz çünkü `look-at` otomatik olarak güncellenecektir
+    entity.removeAttribute('animation-mixer');
 }
 
 // Yerleri sahnede render eder (görüntüler)
