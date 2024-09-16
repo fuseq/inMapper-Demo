@@ -202,7 +202,10 @@ label {
     }
 }
 */
-
+.arrow, .indicator, .popup, .bottom-container {
+    position: absolute; /* Veya relative */
+    z-index: 10; /* AR öğelerinin üstünde olacak şekilde ayarlayın */
+}
 /* Genel arrow stili */
 .arrow {
     position: absolute;
