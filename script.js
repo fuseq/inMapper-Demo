@@ -26,7 +26,7 @@ function staticLoadPlaces() {
 
 var models = [
     {
-        url: './assets/finish_pin.glb',
+        url: './assets/finish_pin.gltf',
         scale: '1.5 1.5 1.5',
         info: '',
         rotation: '0 0 0',
@@ -50,7 +50,7 @@ function calculateRotation() {
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
     let rotationX = 0;
-    let rotationY = 0;
+    let rotationY = bearingToTarget + 20;
     let rotationZ = 0;
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
