@@ -65,8 +65,7 @@
         <a-camera gps-new-camera="gpsMinDistance: 5"></a-camera>
 
         <!-- GPS-Based GLTF Model that looks at the camera -->
-        <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.425287; longitude: 31.852428"
-            scale="5 5 5" rotation="0 90 0" billboard>
+        <a-entity id="gltf-model" gltf-model="url(assets/finish.gltf)" scale="3 3 3" rotation="0 90 0" billboard>
         </a-entity>
 
     </a-scene>
@@ -142,6 +141,17 @@
             console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
 
             window.coords = coords;
+
+            const modelEntity = document.querySelector('#gltf-model');
+
+        if (modelEntity) {
+            // Örneğin, x1 ve y1 değerlerini GPS koordinatları olarak kullanarak güncelleyelim.
+            const latitude = parseFloat(coords.x2);
+            const longitude = parseFloat(coords.y2);
+
+            // GPS koordinatlarını güncelleyin
+            modelEntity.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+        }
         });
     </script>
 
