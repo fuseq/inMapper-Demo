@@ -6,35 +6,11 @@ let stepIncreaseAllowed = true;
 let direction;
 
 window.onload = () => {
-    // Initialize places and start distance check
-    let places = staticLoadPlaces(window.coords);
-    renderPlaces(places);
     startDistanceCheck(window.coords);
 };
 
-// Static place data
-function staticLoadPlaces() {
-    return [
-        {
-            name: 'Pin',
-            location: {
-                lat: window.coords.x2,
-                lng: window.coords.y2,
-            },
-        },
-    ];
-}
 
-// Model data
-var models = [
-    {
-        url: './assets/finish.gltf',
-        scale: '1.5 1.5 1.5',
-        info: '',
-        rotation: '0 0 0',
-        position: '0 0 0',
-    },
-];
+
 
 // Calculate bearing between two points
 function calculateBearing(lat1, lon1, lat2, lon2) {
@@ -47,51 +23,10 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     return (brng + 360) % 360;
 }
 
-// Calculate rotation based on bearing
-function calculateRotation() {
-    const sourceLat = parseFloat(window.coords.x1);
-    const sourceLon = parseFloat(window.coords.y1);
-    const targetLat = parseFloat(window.coords.x2);
-    const targetLon = parseFloat(window.coords.y2);
-    const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
-    let rotationX = 0;
-    let rotationY = bearingToTarget + 20;
-    let rotationZ = 0;
 
-    return `${rotationX} ${rotationY} ${rotationZ}`;
-}
 
-// Set model attributes
-function setModel(model, entity, rotation) {
-    if (model.scale) {
-        entity.setAttribute('scale', model.scale);
-    }
-    if (rotation) {
-        entity.setAttribute('rotation', rotation);
-    } else if (model.rotation) {
-        entity.setAttribute('rotation', model.rotation);
-    }
-    if (model.position) {
-        entity.setAttribute('position', model.position);
-    }
-    entity.setAttribute('gltf-model', model.url);
-}
 
-// Render places in the scene
-function renderPlaces(places) {
-    let scene = document.querySelector('a-scene');
-    places.forEach((place) => {
-        let latitude = place.location.lat;
-        let longitude = place.location.lng;
-        let rotation = calculateRotation();
-        let model = document.createElement('a-entity');
-        model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-        model.setAttribute('look-controls','smoothing: 1');
-        setModel(models[0], model, rotation);
-        model.setAttribute('smooth-motion', 'positionSmoothing: 1; rotationSmoothing: 1');
-        scene.appendChild(model);
-    });
-}
+
 // İki koordinat arasındaki yönü hesaplar
 
 // Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
