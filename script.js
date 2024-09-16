@@ -54,7 +54,7 @@ function setModel(model, entity) {
         entity.setAttribute('position', model.position);
     }
     entity.setAttribute('gltf-model', model.url);
-
+    entity.setAttribute('look-at', '[camera]');
     // Objenin sürekli olarak kameraya bakmasını sağlayan `always-look-at-camera` bileşenini ekleyelim
     entity.setAttribute('always-look-at-camera', '');
 
