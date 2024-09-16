@@ -6,22 +6,27 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GeoAR.js demo</title>
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
-    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
-    <script>
-        THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
-    </script>
-    <script src="https://rawgit.com/blairmacintyre/aframe-look-at-billboard-component/master/dist/aframe-look-at-billboard-component.min.js"></script>
-    <script src="https://unpkg.com/@joeyklee/compass.js@latest/dist/compass.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script src="./script.js"></script>
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"
-        integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script
+        src="https://rawgit.com/blairmacintyre/aframe-look-at-billboard-component/master/dist/aframe-look-at-billboard-component.min.js"></script>
+</head>
+<script type='text/javascript'
+    src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/three.js/build/ar-threex-location-only.js'></script>
+<script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js'></script>
+<script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
+<script>
+    THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
+</script>
+<script src="https://unpkg.com/@joeyklee/compass.js@latest/dist/compass.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="./script.js"></script>
+<link rel="stylesheet" type="text/css" href="./style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"
+    integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 </head>
 
 <body style='margin: 0; overflow: hidden;'>
@@ -46,18 +51,24 @@
         <svg class="progress-circle" width="200" height="200" viewBox="0 0 100 100" id="circle-svg">
             <!-- Dış çember (gri arkaplan) -->
             <circle cx="50" cy="50" r="45" fill="none" stroke="lightgray" stroke-width="5" />
-            
+
             <!-- İç çember (beyaz, %90 transparan) -->
-            <circle class="progress" cx="50" cy="50" r="45" fill="white" fill-opacity="0.1" stroke="white" stroke-width="5" stroke-dasharray="283" stroke-dashoffset="283"/>
+            <circle class="progress" cx="50" cy="50" r="45" fill="white" fill-opacity="0.1" stroke="white"
+                stroke-width="5" stroke-dasharray="283" stroke-dashoffset="283" />
         </svg>
     </div>
-    
-    <a-scene vr-mode-ui='enabled: false' embedded
-    arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-    <a-camera id="main-camera" gps-camera='gpsMinDistance: 100' rotation-reader
-        arjs-device-orientation-controls='smoothingFactor: 1'></a-camera>
-</a-scene>
 
+    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
+        renderer="antialias: true; alpha: true">
+
+        <!-- GPS Camera -->
+        <a-camera gps-new-camera="gpsMinDistance: 25"></a-camera>
+
+        <!-- GPS-Based GLTF Model that looks at the camera -->
+        <a-entity id="gltf-model" gltf-model="url(assets/finish.gltf)" scale="1 1 1" rotation="0 90 0" billboard>
+        </a-entity>
+
+    </a-scene>
     <div class="bottom-container">
 
         <div class="compass-section">
@@ -90,7 +101,7 @@
             </a>
             <div class="popup-message">Harita Ekranına Dönmek İçin Tamam Butonuna Basabilir Veya Tekrar Butonuna Basarak
                 Hedef Noktanızı Tekrar Görebilirsiniz</div><br>
-            
+
             <div class="popup-button-container">
                 <button class="btn-ok" onclick="window.location.href='index.html';">
                     <i class="fas fa-check"></i>
@@ -104,12 +115,12 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const againButton = document.querySelector('.btn-again');
             const popup = document.getElementById('popup');
             const uiBox = document.querySelector('.ui-box');
-    
-            againButton.addEventListener('click', function() {
+
+            againButton.addEventListener('click', function () {
                 popup.style.display = 'none';
                 uiBox.classList.remove('border-animation')
             });
@@ -128,8 +139,15 @@
         document.addEventListener('DOMContentLoaded', function () {
             const coords = getQueryParams();
             console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
-
             window.coords = coords;
+            const modelEntity = document.querySelector('#gltf-model');
+            if (modelEntity) {
+                // Örneğin, x1 ve y1 değerlerini GPS koordinatları olarak kullanarak güncelleyelim.
+                const latitude = parseFloat(coords.x2);
+                const longitude = parseFloat(coords.y2);
+                // GPS koordinatlarını güncelleyin
+                modelEntity.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+            }
         });
     </script>
 

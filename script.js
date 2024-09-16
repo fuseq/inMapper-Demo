@@ -69,6 +69,7 @@ function setModel(model, entity, rotation) {
 }
 
 // Yerleri sahnede render eder (görüntüler)
+/*
 function renderPlaces(places) {
     let scene = document.querySelector('a-scene');
     places.forEach((place) => {
@@ -84,6 +85,7 @@ function renderPlaces(places) {
         scene.appendChild(model);
     });
 }
+*/
   
 // İki koordinat arasındaki yönü hesaplar
 
