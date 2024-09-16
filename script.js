@@ -3,13 +3,16 @@ let lastAlpha = null;
 let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
-let direction
+let direction;
+
 window.onload = () => {
-    // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
+    // Initialize places and start distance check
+    let places = staticLoadPlaces(window.coords);
+    renderPlaces(places);
     startDistanceCheck(window.coords);
 };
 
-// Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükler
+// Static place data
 function staticLoadPlaces() {
     return [
         {
@@ -22,6 +25,7 @@ function staticLoadPlaces() {
     ];
 }
 
+// Model data
 var models = [
     {
         url: './assets/finish.gltf',
@@ -31,6 +35,8 @@ var models = [
         position: '0 0 0',
     },
 ];
+
+// Calculate bearing between two points
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
     lat1 = lat1 * Math.PI / 180;
@@ -40,7 +46,8 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     const brng = Math.atan2(y, x) * (180 / Math.PI);
     return (brng + 360) % 360;
 }
-// Rotasyon hesaplama fonksiyonu (örnek olarak)
+
+// Calculate rotation based on bearing
 function calculateRotation() {
     const sourceLat = parseFloat(window.coords.x1);
     const sourceLon = parseFloat(window.coords.y1);
@@ -54,12 +61,37 @@ function calculateRotation() {
     return `${rotationX} ${rotationY} ${rotationZ}`;
 }
 
-// Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
-var modelIndex = 0;
+// Set model attributes
+function setModel(model, entity, rotation) {
+    if (model.scale) {
+        entity.setAttribute('scale', model.scale);
+    }
+    if (rotation) {
+        entity.setAttribute('rotation', rotation);
+    } else if (model.rotation) {
+        entity.setAttribute('rotation', model.rotation);
+    }
+    if (model.position) {
+        entity.setAttribute('position', model.position);
+    }
+    entity.setAttribute('gltf-model', model.url);
+}
 
-
-// Yerleri sahnede render eder (görüntüler)
-
+// Render places in the scene
+function renderPlaces(places) {
+    let scene = document.querySelector('a-scene');
+    places.forEach((place) => {
+        let latitude = place.location.lat;
+        let longitude = place.location.lng;
+        let rotation = calculateRotation();
+        let model = document.createElement('a-entity');
+        model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        model.setAttribute('look-controls','smoothing: 1');
+        setModel(models[0], model, rotation);
+        model.setAttribute('smooth-motion', 'positionSmoothing: 1; rotationSmoothing: 1');
+        scene.appendChild(model);
+    });
+}
 // İki koordinat arasındaki yönü hesaplar
 
 // Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
