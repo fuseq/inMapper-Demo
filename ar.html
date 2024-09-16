@@ -13,6 +13,31 @@
     <script>
         THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
     </script>
+    <script>
+        AFRAME.registerComponent('always-look-at-camera', {
+            init: function () {
+                var el = this.el; // objeyi referans al
+                var cameraEl = document.querySelector('[camera]'); // kamerayı referans al
+
+                if (!cameraEl) {
+                    console.warn('No camera found. Please ensure that your scene has a camera.');
+                    return;
+                }
+
+                // Kameranın dönüşünü ve pozisyonunu al ve objeyi buna göre döndür
+                var updateRotation = function () {
+                    var cameraPosition = cameraEl.object3D.position;
+                    var objectPosition = el.object3D.position;
+                    var direction = new THREE.Vector3().subVectors(cameraPosition, objectPosition).normalize();
+                    el.object3D.lookAt(direction);
+                };
+
+                // Render döngüsünde her frame'de objeyi kameraya döndür
+                this.el.sceneEl.addEventListener('render-target-loaded', updateRotation);
+                this.el.sceneEl.addEventListener('renderstart', updateRotation);
+            }
+        });
+    </script>
     <script src="https://unpkg.com/@joeyklee/compass.js@latest/dist/compass.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="./script.js"></script>
@@ -45,17 +70,18 @@
         <svg class="progress-circle" width="200" height="200" viewBox="0 0 100 100" id="circle-svg">
             <!-- Dış çember (gri arkaplan) -->
             <circle cx="50" cy="50" r="45" fill="none" stroke="lightgray" stroke-width="5" />
-            
+
             <!-- İç çember (beyaz, %90 transparan) -->
-            <circle class="progress" cx="50" cy="50" r="45" fill="white" fill-opacity="0.1" stroke="white" stroke-width="5" stroke-dasharray="283" stroke-dashoffset="283"/>
+            <circle class="progress" cx="50" cy="50" r="45" fill="white" fill-opacity="0.1" stroke="white"
+                stroke-width="5" stroke-dasharray="283" stroke-dashoffset="283" />
         </svg>
     </div>
-    
+
     <a-scene vr-mode-ui='enabled: false' embedded
-    arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-    <a-camera id="main-camera" gps-camera='gpsMinDistance: 100' rotation-reader
-        arjs-device-orientation-controls='smoothingFactor: 1'></a-camera>
-</a-scene>
+        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+        <a-camera id="main-camera" gps-camera='gpsMinDistance: 100' rotation-reader
+            arjs-device-orientation-controls='smoothingFactor: 1'></a-camera>
+    </a-scene>
 
     <div class="bottom-container">
 
@@ -89,7 +115,7 @@
             </a>
             <div class="popup-message">Harita Ekranına Dönmek İçin Tamam Butonuna Basabilir Veya Tekrar Butonuna Basarak
                 Hedef Noktanızı Tekrar Görebilirsiniz</div><br>
-            
+
             <div class="popup-button-container">
                 <button class="btn-ok" onclick="window.location.href='index.html';">
                     <i class="fas fa-check"></i>
@@ -103,12 +129,12 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const againButton = document.querySelector('.btn-again');
             const popup = document.getElementById('popup');
             const uiBox = document.querySelector('.ui-box');
-    
-            againButton.addEventListener('click', function() {
+
+            againButton.addEventListener('click', function () {
                 popup.style.display = 'none';
                 uiBox.classList.remove('border-animation')
             });

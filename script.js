@@ -72,10 +72,10 @@ function setModel(model, entity, rotation) {
     }
     entity.setAttribute('gltf-model', model.url);
 
-    // Objenin sürekli olarak kameraya bakmasını sağlayan `look-at` bileşeni ekleyelim
-    entity.setAttribute('look-at', '[camera]'); // Burada `[camera]` ile kamerayı hedef alıyoruz
+    // Objenin sürekli olarak kameraya bakmasını sağlayan `always-look-at-camera` bileşenini ekleyelim
+    entity.setAttribute('always-look-at-camera', '');
 
-    // Burada animasyonları devre dışı bırakıyoruz çünkü `look-at` otomatik olarak güncellenecektir
+    // Burada animasyonları devre dışı bırakıyoruz çünkü `always-look-at-camera` otomatik olarak güncellenecektir
     entity.removeAttribute('animation-mixer');
 }
 
