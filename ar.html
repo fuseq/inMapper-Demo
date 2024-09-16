@@ -59,16 +59,17 @@
     </div>
 
     <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
-        renderer="antialias: true; alpha: true">
+    renderer="antialias: true; alpha: true">
 
-        <!-- GPS Camera -->
-        <a-camera gps-new-camera="gpsMinDistance: 5"></a-camera>
+    <!-- GPS Camera -->
+    <a-camera gps-new-camera="gpsMinDistance: 5"></a-camera>
 
-        <!-- GPS-Based GLTF Model that looks at the camera -->
-        <a-entity id="gltf-model" gltf-model="url(assets/finish.gltf)" scale="3 3 3" rotation="0 90 0" billboard>
-        </a-entity>
+    <!-- GPS-Based GLTF Model with Fixed Size -->
+    <a-entity id="gltf-model" gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.426816; longitude: 31.851768"
+        scale="3 3 3" rotation="0 90 0" billboard>
+    </a-entity>
 
-    </a-scene>
+</a-scene>
     <div class="bottom-container">
 
         <div class="compass-section">
