@@ -3,17 +3,36 @@ let lastAlpha = null;
 let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
-let direction;
-
+let direction
 window.onload = () => {
+    // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
+    let places = staticLoadPlaces(window.coords);
+    renderPlaces(places);
     startDistanceCheck(window.coords);
-    
 };
 
+// Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükler
+function staticLoadPlaces() {
+    return [
+        {
+            name: 'Pin',
+            location: {
+                lat: window.coords.x2,
+                lng: window.coords.y2,
+            },
+        },
+    ];
+}
 
-
-
-// Calculate bearing between two points
+var models = [
+    {
+        url: './assets/finish.gltf',
+        scale: '4 4 4',
+        info: '',
+        rotation: '0 0 0',
+        position: '0 0 0',
+    },
+];
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
     lat1 = lat1 * Math.PI / 180;
@@ -25,9 +44,49 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
 }
 
 
+// Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
+var modelIndex = 0;
+function setModel(model, entity) {
+    if (model.scale) {
+        entity.setAttribute('scale', model.scale);
+    }
+    if (model.rotation) {
+        entity.setAttribute('rotation', model.rotation);
+    }
+    if (model.position) {
+        entity.setAttribute('position', model.position);
+    }
+    entity.setAttribute('gltf-model', model.url);
+    // Create an SVG element and convert it to a data URL
+}
 
+// Yerleri sahnede render eder (görüntüler)
+function renderPlaces(places) {
+    let scene = document.querySelector('a-scene');
+    places.forEach((place) => {
+        let latitude = place.location.lat;
+        let longitude = place.location.lng;
+        let model = document.createElement('a-entity');
 
+        // Set GPS location
+        model.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
 
+        // Add look-controls
+        model.setAttribute('look-controls', 'smoothing: 1');
+
+        // Add look-at component
+        model.setAttribute('look-at', '[gps-camera]'); // or specify another target if needed
+
+        // Set the model
+        setModel(models[modelIndex], model);
+
+        // Remove animation-mixer attribute
+        model.removeAttribute('animation-mixer');
+
+        // Append model to scene
+        scene.appendChild(model);
+    });
+}
 // İki koordinat arasındaki yönü hesaplar
 
 // Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
