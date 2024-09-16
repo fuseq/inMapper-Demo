@@ -60,11 +60,11 @@
     renderer="antialias: true; alpha: true">
 
     <!-- GPS Camera with smoothing -->
-    <a-camera glook-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 0.5' gps-new-camera='gpsMinDistance: 5'></a-camera>
+    <a-camera glook-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 1' gps-new-camera='gpsMinDistance: 5'></a-camera>
 
     <!-- GPS-Based GLTF Model that looks at the camera with smoothing -->
     <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.425557; longitude: 31.851170"
-        scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]" smooth-motion="positionSmoothing: 0.5; rotationSmoothing: 0.5">
+        scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]" smooth-motion="positionSmoothing: 1; rotationSmoothing: 1">
     </a-entity>
 
 </a-scene>
