@@ -62,12 +62,12 @@
     <!-- GPS Camera with smoothing -->
     <a-camera look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 1' gps-new-camera='gpsMinDistance: 5'></a-camera>
 
-    <!-- GPS-Based GLTF Model that looks at the camera with smoothing -->
-    <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: ; longitude: "
+    <!-- GPS-Based GLTF Model with dynamic latitude and longitude -->
+    <a-entity id="gps-model" gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.425557; longitude: 31.851170"
         scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]" smooth-motion="positionSmoothing: 1; rotationSmoothing: 1">
     </a-entity>
 
-</a-scene>
+    </a-scene>
     <script>
         AFRAME.registerComponent('smooth-motion', {
           schema: {
@@ -97,9 +97,35 @@
             this.lastRotation.copy(smoothedRotation);
           }
         });
-        </script>
-    <div class="bottom-container">
 
+        function updateEntityCoordinates(lat, lon) {
+            const entity = document.querySelector('#gps-model');
+            if (entity) {
+                entity.setAttribute('gps-new-entity-place', `latitude: ${lat}; longitude: ${lon}`);
+            }
+        }
+
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                x1: params.get('x1'),
+                y1: params.get('y1'),
+                x2: params.get('x2'),
+                y2: params.get('y2')
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const coords = getQueryParams();
+            console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
+            
+            // Update entity coordinates with the coordinates from the URL
+            if (coords.x2 && coords.y2) {
+                updateEntityCoordinates(coords.y2, coords.x2);
+            }
+        });
+    </script>
+    <div class="bottom-container">
         <div class="compass-section">
             <div class="compass-circle">
                 <div class="compass-arrow"></div>
@@ -113,7 +139,6 @@
 
         <!-- First Section (Info) -->
         <div class="info-section">
-
             <div class="destination"><a style="color: black;" href="index.html"><i style="font-size: 32px;"
                         class="fa-regular fa-circle-xmark"></i></a> Destination Name</div>
             <div class="time-info">
@@ -129,52 +154,11 @@
                 <img src="assets/location.gif" alt="location" class="popup-image">
             </a>
             <div class="popup-message">Harita Ekranına Dönmek İçin Tamam Butonuna Basabilir Veya Tekrar Butonuna Basarak
-                Hedef Noktanızı Tekrar Görebilirsiniz</div><br>
-
-            <div class="popup-button-container">
-                <button class="btn-ok" onclick="window.location.href='index.html';">
-                    <i class="fas fa-check"></i>
-                    <span>Tamam</span>
-                </button>
-                <button class="btn-again">
-                    <i class="fas fa-redo"></i>
-                    <span>Tekrar</span>
-                </button>
-            </div>
+                Hedef Noktanızı Tekrar Görebilirsiniz</div>
+            <button class="popup-button" id="confirm-btn">Tamam</button>
+            <button class="popup-button" id="retry-btn">Tekrar</button>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const againButton = document.querySelector('.btn-again');
-            const popup = document.getElementById('popup');
-            const uiBox = document.querySelector('.ui-box');
-
-            againButton.addEventListener('click', function () {
-                popup.style.display = 'none';
-                uiBox.classList.remove('border-animation')
-            });
-        });
-    </script>
-    <script>
-        function getQueryParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                x1: params.get('x1'),
-                y1: params.get('y1'),
-                x2: params.get('x2'),
-                y2: params.get('y2')
-            };
-        }
-        document.addEventListener('DOMContentLoaded', function () {
-            const coords = getQueryParams();
-            console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
-            model.setAttribute('gps-new-entity-place', `latitude: ${coords.x2}; longitude: ${coords.y2}`);
-            window.coords = coords;
-        });
-    </script>
-
-    <!-- Font Awesome for icons -->
-
 </body>
 
 </html>
