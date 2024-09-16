@@ -91,10 +91,10 @@ function renderPlaces(places) {
         // Text için bir arka plan oluştur (dikdörtgen)
         let background = document.createElement('a-plane');
         background.setAttribute('color', '#000');  // Arka plan rengi
-        background.setAttribute('width', '2');     // Dikdörtgenin genişliği
-        background.setAttribute('height', '0.5');  // Dikdörtgenin yüksekliği
-        background.setAttribute('radius', '0.1');  // Köşeleri yuvarlatmak için
-        background.setAttribute('position', '0 -1 0'); // Modelin altında pozisyonlandır
+        background.setAttribute('width', '10');     // Dikdörtgenin genişliği
+        background.setAttribute('height', '5');  // Dikdörtgenin yüksekliği
+        background.setAttribute('radius', '0.5');  // Köşeleri yuvarlatmak için
+        background.setAttribute('position', '0 -5 0'); // Modelin altında pozisyonlandır
 
         // Kaç dakika kaldığını göstermek için text elementi
         let text = document.createElement('a-text');
