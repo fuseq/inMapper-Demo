@@ -58,17 +58,18 @@
         </svg>
     </div>
 
-    <a-scene>
-        <a-entity id="monster" geometry="primitive: box"
-                  billboard></a-entity>
-        <a-entity id="player" camera></a-entity>
-      
-        <a-entity id="dog" geometry="primitive: box" 
-                  look-at="src: #squirrel"></a-entity>
-        <a-entity id="squirrel">
-          <a-animation id="running" attribute="position" to="100 0 0"></a-animation>
+    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
+        renderer="antialias: true; alpha: true">
+
+        <!-- GPS Camera -->
+        <a-camera gps-new-camera="gpsMinDistance: 5"></a-camera>
+
+        <!-- GPS-Based GLTF Model that looks at the camera -->
+        <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.426816; longitude: 31.851768"
+            scale="5 5 5" rotation="0 90 0" billboard>
         </a-entity>
-      </a-scene>
+
+    </a-scene>
     <div class="bottom-container">
 
         <div class="compass-section">
