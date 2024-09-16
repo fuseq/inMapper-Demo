@@ -1,9 +1,3 @@
-let stepCount = 0;
-let lastAlpha = null;
-let movementThreshold = 2.5;
-let directionMatches = false;
-let stepIncreaseAllowed = true;
-let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
@@ -27,7 +21,7 @@ function staticLoadPlaces() {
 var models = [
     {
         url: './assets/finish.gltf',
-        scale: '4 4 4',
+        scale: '1.5 1.5 1.5',
         info: '',
         rotation: '0 0 0',
         position: '0 0 0',
@@ -42,15 +36,29 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     const brng = Math.atan2(y, x) * (180 / Math.PI);
     return (brng + 360) % 360;
 }
+// Rotasyon hesaplama fonksiyonu (örnek olarak)
+function calculateRotation() {
+    const sourceLat = parseFloat(window.coords.x1);
+    const sourceLon = parseFloat(window.coords.y1);
+    const targetLat = parseFloat(window.coords.x2);
+    const targetLon = parseFloat(window.coords.y2);
+    const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
+    let rotationX = 0;
+    let rotationY = bearingToTarget + 20;
+    let rotationZ = 0;
 
+    return `${rotationX} ${rotationY} ${rotationZ}`;
+}
 
 // Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
 var modelIndex = 0;
-function setModel(model, entity) {
+function setModel(model, entity, rotation) {
     if (model.scale) {
         entity.setAttribute('scale', model.scale);
     }
-    if (model.rotation) {
+    if (rotation) {
+        entity.setAttribute('rotation', rotation);
+    } else if (model.rotation) {
         entity.setAttribute('rotation', model.rotation);
     }
     if (model.position) {
@@ -61,34 +69,20 @@ function setModel(model, entity) {
 }
 
 // Yerleri sahnede render eder (görüntüler)
-/*
 function renderPlaces(places) {
     let scene = document.querySelector('a-scene');
     places.forEach((place) => {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
+        let rotation = calculateRotation();
         let model = document.createElement('a-entity');
-
-        // Set GPS location
-        model.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-
-        // Add look-controls
-        model.setAttribute('look-controls', 'smoothing: 1');
-
-        // Add look-at component
-        model.setAttribute('look-at', '[gps-camera]'); // or specify another target if needed
-
-        // Set the model
-        setModel(models[modelIndex], model);
-
-        // Remove animation-mixer attribute
+        model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        setModel(models[modelIndex], model, rotation);
         model.removeAttribute('animation-mixer');
-
-        // Append model to scene
         scene.appendChild(model);
     });
 }
-    */
+  
 // İki koordinat arasındaki yönü hesaplar
 
 // Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
