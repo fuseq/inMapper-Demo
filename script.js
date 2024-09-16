@@ -61,32 +61,7 @@ function setModel(model, entity) {
 }
 
 // Yerleri sahnede render eder (görüntüler)
-function renderPlaces(places) {
-    let scene = document.querySelector('a-scene');
-    places.forEach((place) => {
-        let latitude = place.location.lat;
-        let longitude = place.location.lng;
-        let model = document.createElement('a-entity');
 
-        // Set GPS location
-        model.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-
-        // Add look-controls
-        model.setAttribute('look-controls', 'smoothing: 1');
-
-        // Add look-at component
-        model.setAttribute('look-at', '[gps-camera]'); // or specify another target if needed
-
-        // Set the model
-        setModel(models[modelIndex], model);
-
-        // Remove animation-mixer attribute
-        model.removeAttribute('animation-mixer');
-
-        // Append model to scene
-        scene.appendChild(model);
-    });
-}
 // İki koordinat arasındaki yönü hesaplar
 
 // Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
