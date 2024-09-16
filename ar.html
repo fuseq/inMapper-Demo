@@ -57,18 +57,47 @@
     </div>
 
     <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
-        renderer="antialias: true; alpha: true">
+    renderer="antialias: true; alpha: true">
 
-        <!-- GPS Camera -->
-        <a-camera gps-new-camera="gpsMinDistance: 5"></a-camera>
+    <!-- GPS Camera with smoothing -->
+    <a-camera gps-new-camera="gpsMinDistance: 5; smoothing: 0.5"></a-camera>
 
-        <!-- GPS-Based GLTF Model that looks at the camera -->
-        <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.425557; longitude: 31.851170"
-            scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]">
-        </a-entity>
+    <!-- GPS-Based GLTF Model that looks at the camera with smoothing -->
+    <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.425557; longitude: 31.851170"
+        scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]" smooth-motion="positionSmoothing: 0.1; rotationSmoothing: 0.1">
+    </a-entity>
 
-    </a-scene>
-
+</a-scene>
+    <script>
+        AFRAME.registerComponent('smooth-motion', {
+          schema: {
+            positionSmoothing: { type: 'number', default: 0.1 },
+            rotationSmoothing: { type: 'number', default: 0.1 }
+          },
+        
+          init: function () {
+            this.lastPosition = new THREE.Vector3();
+            this.lastRotation = new THREE.Euler();
+          },
+        
+          tick: function (time, timeDelta) {
+            var el = this.el;
+            var data = this.data;
+        
+            // Smooth position
+            var position = el.object3D.position;
+            var smoothedPosition = this.lastPosition.clone().lerp(position, data.positionSmoothing);
+            el.object3D.position.copy(smoothedPosition);
+            this.lastPosition.copy(smoothedPosition);
+        
+            // Smooth rotation
+            var rotation = el.object3D.rotation;
+            var smoothedRotation = this.lastRotation.clone().lerp(rotation, data.rotationSmoothing);
+            el.object3D.rotation.copy(smoothedRotation);
+            this.lastRotation.copy(smoothedRotation);
+          }
+        });
+        </script>
     <div class="bottom-container">
 
         <div class="compass-section">
