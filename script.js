@@ -50,7 +50,7 @@ function calculateRotation() {
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
     let rotationX = 0;
-    let rotationY = bearingToTarget + 20;
+    let rotationY = 0;
     let rotationZ = 0;
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
@@ -83,29 +83,10 @@ function renderPlaces(places) {
         let rotation = calculateRotation();
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-        model.setAttribute('look-controls', 'smoothing: 1');
+        model.setAttribute('look-controls','smoothing: 1')
         setModel(models[modelIndex], model, rotation);
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
-
-        // Text için bir arka plan oluştur (dikdörtgen)
-        let background = document.createElement('a-plane');
-        background.setAttribute('color', '#000');  // Arka plan rengi
-        background.setAttribute('width', '10');     // Dikdörtgenin genişliği
-        background.setAttribute('height', '5');  // Dikdörtgenin yüksekliği
-        background.setAttribute('radius', '0.5');  // Köşeleri yuvarlatmak için
-        background.setAttribute('position', '0 -5 0'); // Modelin altında pozisyonlandır
-
-        // Kaç dakika kaldığını göstermek için text elementi
-        let text = document.createElement('a-text');
-        text.setAttribute('value', '5 minutes remaining');  // Statik text (Dinamik olarak da hesaplanabilir)
-        text.setAttribute('color', '#FFF');                 // Metin rengi
-        text.setAttribute('align', 'center');               // Ortala
-        text.setAttribute('position', '0 0 0.1');           // Arka planın üstünde olacak şekilde ayarla
-
-        // Dikdörtgenin içine text ekle
-        background.appendChild(text);
-        model.appendChild(background);
     });
 }
 // İki koordinat arasındaki yönü hesaplar
