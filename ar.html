@@ -8,6 +8,7 @@
     <title>GeoAR.js demo</title>
     <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://supereggbert.github.io/aframe-htmlembed-component/dist/build.js"></script>
     <script type='text/javascript'
         src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/three.js/build/ar-threex-location-only.js'></script>
     <script type='text/javascript'
@@ -64,7 +65,9 @@
 
     <!-- GPS-Based GLTF Model that looks at the camera with smoothing -->
     <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.426501; longitude: 31.850792"
-        scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]" smooth-motion="positionSmoothing: 1; rotationSmoothing: 1">
+        scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]" smooth-motion="positionSmoothing: 1; rotationSmoothing: 1" htmlembed>
+        <a href="#home" class="button">Home</a>
+        <div id="clickme" onclick="console.log('do something')">Click Me</div>
     </a-entity>
 
 </a-scene>
