@@ -57,47 +57,49 @@
     </div>
 
     <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
-    renderer="antialias: true; alpha: true">
+        renderer="antialias: true; alpha: true">
 
-    <!-- GPS Camera with smoothing -->
-    <a-camera look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 1' gps-new-camera='gpsMinDistance: 5'></a-camera>
+        <!-- GPS Camera with smoothing -->
+        <a-camera look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 1'
+            gps-new-camera='gpsMinDistance: 5'></a-camera>
 
-    <!-- GPS-Based GLTF Model that looks at the camera with smoothing -->
-    <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.426824; longitude: 31.852423"
-        scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]" smooth-motion="positionSmoothing: 1; rotationSmoothing: 1">
-    </a-entity>
+        <!-- GPS-Based GLTF Model that looks at the camera with smoothing -->
+        <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.426824; longitude: 31.852423"
+            scale="5 5 5"  look-at="[gps-camera]"
+            smooth-motion="positionSmoothing: 1; rotationSmoothing: 1">
+        </a-entity>
 
-</a-scene>
+    </a-scene>
     <script>
         AFRAME.registerComponent('smooth-motion', {
-          schema: {
-            positionSmoothing: { type: 'number', default: 0.5 },
-            rotationSmoothing: { type: 'number', default: 0.5 }
-          },
-        
-          init: function () {
-            this.lastPosition = new THREE.Vector3();
-            this.lastRotation = new THREE.Euler();
-          },
-        
-          tick: function (time, timeDelta) {
-            var el = this.el;
-            var data = this.data;
-        
-            // Smooth position
-            var position = el.object3D.position;
-            var smoothedPosition = this.lastPosition.clone().lerp(position, data.positionSmoothing);
-            el.object3D.position.copy(smoothedPosition);
-            this.lastPosition.copy(smoothedPosition);
-        
-            // Smooth rotation
-            var rotation = el.object3D.rotation;
-            var smoothedRotation = this.lastRotation.clone().lerp(rotation, data.rotationSmoothing);
-            el.object3D.rotation.copy(smoothedRotation);
-            this.lastRotation.copy(smoothedRotation);
-          }
+            schema: {
+                positionSmoothing: { type: 'number', default: 0.5 },
+                rotationSmoothing: { type: 'number', default: 0.5 }
+            },
+
+            init: function () {
+                this.lastPosition = new THREE.Vector3();
+                this.lastRotation = new THREE.Euler();
+            },
+
+            tick: function (time, timeDelta) {
+                var el = this.el;
+                var data = this.data;
+
+                // Smooth position
+                var position = el.object3D.position;
+                var smoothedPosition = this.lastPosition.clone().lerp(position, data.positionSmoothing);
+                el.object3D.position.copy(smoothedPosition);
+                this.lastPosition.copy(smoothedPosition);
+
+                // Smooth rotation
+                var rotation = el.object3D.rotation;
+                var smoothedRotation = this.lastRotation.clone().lerp(rotation, data.rotationSmoothing);
+                el.object3D.rotation.copy(smoothedRotation);
+                this.lastRotation.copy(smoothedRotation);
+            }
         });
-        </script>
+    </script>
     <div class="bottom-container">
 
         <div class="compass-section">
@@ -155,26 +157,26 @@
             });
         });
     </script>
-<script>
-    function getQueryParams() {
-        const params = new URLSearchParams(window.location.search);
-        return {
-            x1: params.get('x1'),
-            y1: params.get('y1'),
-            x2: params.get('x2'),
-            y2: params.get('y2')
-        };
-    }
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                x1: params.get('x1'),
+                y1: params.get('y1'),
+                x2: params.get('x2'),
+                y2: params.get('y2')
+            };
+        }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const coords = getQueryParams();
-        console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
-        window.coords = coords;
-        const modelEntity = document.querySelector('#gltf-model');
+        document.addEventListener('DOMContentLoaded', function () {
+            const coords = getQueryParams();
+            console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
+            window.coords = coords;
+            const modelEntity = document.querySelector('#gltf-model');
 
             modelEntity.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-    });
-</script>
+        });
+    </script>
 
     <!-- Font Awesome for icons -->
 
