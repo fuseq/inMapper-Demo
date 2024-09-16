@@ -65,8 +65,9 @@
         <a-camera gps-new-camera="gpsMinDistance: 25"></a-camera>
 
         <!-- GPS-Based GLTF Model that looks at the camera -->
-        <a-entity id="gltf-model" gltf-model="url(assets/finish.gltf)"  rotation="0 90 0" billboard>
-            <a-text value="Now Interactable" geometry="primitive:plane" position="0 -5 0"></a-text>
+        <a-entity id="gltf-model" gltf-model="url(assets/finish.gltf)" rotation="0 90 0" billboard>
+            <!-- Text entity -->
+            <a-text value="Your Text Here" color="#FFFFFF" align="center" width="6" position="0 2 0"></a-text>
         </a-entity>
 
     </a-scene>
