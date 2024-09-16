@@ -173,7 +173,7 @@
         window.coords = coords;
         const modelEntity = document.querySelector('#gltf-model');
 
-            modelEntity.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+            modelEntity.setAttribute('gps-new-entity-place', `latitude: ${coords.x2}; longitude: ${coords.y2}`);
     });
 </script>
 
