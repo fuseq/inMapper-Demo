@@ -163,7 +163,8 @@
                 // GPS koordinatlarını güncelleyin
                 modelEntity.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
     
-                modelEntity.setAttribute('scale', `20 20 20`);
+                const scaleFactor = distance / 100; // Adjust scaling factor as needed
+                modelEntity.setAttribute('scale', `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
             }
         });
     </script>
