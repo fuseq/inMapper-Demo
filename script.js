@@ -50,7 +50,7 @@ function calculateRotation() {
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
     let rotationX = 0;
-    let rotationY = 180;
+    let rotationY = 0;
     let rotationZ = 0;
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
@@ -71,6 +71,10 @@ function setModel(model, entity, rotation) {
         entity.setAttribute('position', model.position);
     }
     entity.setAttribute('gltf-model', model.url);
+
+    // Objenin sürekli olarak kameraya bakmasını sağlayan `look-at` bileşeni ekleyelim
+    entity.setAttribute('look-at', '[camera]');
+
     // Create an SVG element and convert it to a data URL
 }
 
