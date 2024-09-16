@@ -55,31 +55,23 @@
                 stroke-width="5" stroke-dasharray="283" stroke-dashoffset="283" />
         </svg>
     </div>
-    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false" renderer="antialias: true; alpha: true">
+    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
+    renderer="antialias: true; alpha: true">
 
-        <!-- GPS Camera with smoothing -->
-        <a-camera id="gps-camera" look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 1' gps-new-camera='gpsMinDistance: 5'></a-camera>
-    
-        <!-- Define a model with a default location that will be updated dynamically -->
-        <a-entity id="default-model" gltf-model="url(assets/finish.gltf)" scale="3 3 3" rotation="0 100 0"
-            look-at="[gps-camera]">
-            
-            <!-- Add a black transparent background with rounded corners using SVG -->
-            <a-image src="#rounded-rect" height="2" width="6" position="0 -5 0">
-                <!-- Add a text element to display the time to reach the destination -->
-                <a-text id="time-text" value="Time: 0 min" color="white"
-                        position="0 0 0" scale="4 4 1" align="center" side="double">
-                </a-text>
-            </a-image>
+    <!-- GPS Camera with smoothing -->
+    <a-camera id="gps-camera" look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 1' gps-new-camera='gpsMinDistance: 5'></a-camera>
+
+    <!-- Define a model with a default location that will be updated dynamically -->
+    <a-entity id="default-model" gltf-model="url(assets/finish.gltf)" scale="3 3 3" rotation="0 100 0"
+        look-at="[gps-camera]">
+        
+        <!-- Rounded black background with text -->
+        <a-entity position="0 2 0" scale="3 1 1">
+            <a-plane color="#000000" height="1" width="3" position="0 0 0" radius="0.2" opacity="0.8"></a-plane>
+            <a-text value="Your Text Here" color="#FFFFFF" align="center" position="0 0.2 0" width="2"></a-text>
         </a-entity>
-    
-        <!-- Define an SVG asset with rounded corners -->
-        <a-assets>
-            <svg id="rounded-rect" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" width="100" height="50">
-                <rect x="0" y="0" width="100" height="50" rx="15" ry="15" fill="black" fill-opacity="0.8" />
-            </svg>
-        </a-assets>
-    </a-scene>
+    </a-entity>
+</a-scene>
     <script>
         AFRAME.registerComponent('smooth-motion', {
           schema: {
