@@ -8,23 +8,47 @@
     <title>GeoAR.js demo</title>
     <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    <script type='text/javascript'
-        src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/three.js/build/ar-threex-location-only.js'></script>
-    <script type='text/javascript'
-        src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js'></script>
-    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
-    <script>
-        THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
-    </script>
-    <script src="https://unpkg.com/@joeyklee/compass.js@latest/dist/compass.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script src="./script.js"></script>
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"
-        integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <script
+        src="https://rawgit.com/blairmacintyre/aframe-look-at-billboard-component/master/dist/aframe-look-at-billboard-component.min.js"></script>
+</head>
+
+<body>
+    <a-scene 
+    embedded 
+    arjs="sourceType: webcam; videoTexture: true;" 
+    gps-projected-entity-place>
+    
+    <!-- GPS tabanlı obje: Bu obje belirli bir enlem ve boylamda görünecek -->
+    <a-entity 
+      gps-projected-entity-place="latitude: 37.425576; longitude: 31.851189" 
+      geometry="primitive: box" 
+      material="color: red" 
+      scale="1 1 1" 
+      billboard>
+    </a-entity>
+
+    <!-- Kamera -->
+    <a-entity camera gps-camera></a-entity>
+    
+  </a-scene>
+</body>
+
+<script type='text/javascript'
+    src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/three.js/build/ar-threex-location-only.js'></script>
+<script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js'></script>
+<script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
+<script>
+    THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
+</script>
+<script src="https://unpkg.com/@joeyklee/compass.js@latest/dist/compass.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="./script.js"></script>
+<link rel="stylesheet" type="text/css" href="./style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"
+    integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 </head>
 
 <body style='margin: 0; overflow: hidden;'>
@@ -68,36 +92,6 @@
         </a-entity>
 
     </a-scene>
-    <script>
-        AFRAME.registerComponent('smooth-motion', {
-          schema: {
-            positionSmoothing: { type: 'number', default: 0.1 },
-            rotationSmoothing: { type: 'number', default: 0.1 }
-          },
-        
-          init: function () {
-            this.lastPosition = new THREE.Vector3();
-            this.lastRotation = new THREE.Euler();
-          },
-        
-          tick: function (time, timeDelta) {
-            var el = this.el;
-            var data = this.data;
-        
-            // Smooth position
-            var position = el.object3D.position;
-            var smoothedPosition = this.lastPosition.clone().lerp(position, data.positionSmoothing);
-            el.object3D.position.copy(smoothedPosition);
-            this.lastPosition.copy(smoothedPosition);
-        
-            // Smooth rotation
-            var rotation = el.object3D.rotation;
-            var smoothedRotation = this.lastRotation.clone().lerp(rotation, data.rotationSmoothing);
-            el.object3D.rotation.copy(smoothedRotation);
-            this.lastRotation.copy(smoothedRotation);
-          }
-        });
-        </script>
     <div class="bottom-container">
 
         <div class="compass-section">
