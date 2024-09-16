@@ -27,7 +27,7 @@ function staticLoadPlaces() {
 var models = [
     {
         url: './assets/finish_pin.gltf',
-        scale: '5 10 5',
+        scale: '10 5 5',
         info: '',
         rotation: '0 0 0',
         position: '0 0 0',
