@@ -6,7 +6,19 @@ let stepIncreaseAllowed = true;
 let direction;
 
 window.onload = () => {
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the model entity
+        var model = document.querySelector('#model');
+        
+        // Define new latitude and longitude values
+        var newLatitude = 37.436705; // Replace with your desired latitude
+        var newLongitude = 31.851846; // Replace with your desired longitude
+        
+        // Update the gps-new-entity-place attribute
+        model.setAttribute('gps-new-entity-place', `latitude: ${newLatitude}; longitude: ${newLongitude}`);
+      });
     startDistanceCheck(window.coords);
+
 };
 
 
