@@ -29,6 +29,7 @@ var models = [
         url: './assets/finish.gltf',
         scale: '1.5 1.5 1.5',
         info: '',
+        rotation: '0 0 0',
         position: '0 0 0',
     },
 ];
@@ -42,24 +43,35 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     return (brng + 360) % 360;
 }
 // Rotasyon hesaplama fonksiyonu (örnek olarak)
+function calculateRotation() {
+    const sourceLat = parseFloat(window.coords.x1);
+    const sourceLon = parseFloat(window.coords.y1);
+    const targetLat = parseFloat(window.coords.x2);
+    const targetLon = parseFloat(window.coords.y2);
+    const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
+    let rotationX = 0;
+    let rotationY = bearingToTarget + 20;
+    let rotationZ = 0;
 
+    return `${rotationX} ${rotationY} ${rotationZ}`;
+}
 
 // Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
 var modelIndex = 0;
-function setModel(model, entity) {
+function setModel(model, entity, rotation) {
     if (model.scale) {
         entity.setAttribute('scale', model.scale);
+    }
+    if (rotation) {
+        entity.setAttribute('rotation', rotation);
+    } else if (model.rotation) {
+        entity.setAttribute('rotation', model.rotation);
     }
     if (model.position) {
         entity.setAttribute('position', model.position);
     }
     entity.setAttribute('gltf-model', model.url);
-    entity.setAttribute('look-at', '[camera]');
-    // Objenin sürekli olarak kameraya bakmasını sağlayan `always-look-at-camera` bileşenini ekleyelim
-    entity.setAttribute('always-look-at-camera', '');
-
-    // Burada animasyonları devre dışı bırakıyoruz çünkü `always-look-at-camera` otomatik olarak güncellenecektir
-    entity.removeAttribute('animation-mixer');
+    // Create an SVG element and convert it to a data URL
 }
 
 // Yerleri sahnede render eder (görüntüler)
@@ -68,10 +80,11 @@ function renderPlaces(places) {
     places.forEach((place) => {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
+        let rotation = calculateRotation();
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
         model.setAttribute('look-controls','smoothing: 1')
-        setModel(models[modelIndex], model);
+        setModel(models[modelIndex], model, rotation);
         model.removeAttribute('animation-mixer');
         scene.appendChild(model);
     });
