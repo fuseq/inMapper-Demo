@@ -61,38 +61,7 @@ function setModel(model, entity) {
 }
 
 // Yerleri sahnede render eder (görüntüler)
-function renderPlaces(places) {
-    let scene = document.querySelector('a-scene');
-    
-    // Get the existing model from the HTML
-    let model = document.querySelector('#default-model');
-    
-    if (model) {
-        places.forEach((place) => {
-            let latitude = place.location.lat;
-            let longitude = place.location.lng;
-            let timeToDestination = place.timeToDestination; // Assuming you have this in your place data
 
-            // Update the latitude and longitude of the model
-            model.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-
-            // Find the text element within the model and update its content
-            let timeText = model.querySelector('#time-text');
-            if (timeText) {
-                timeText.setAttribute('value', `5 min`);
-            } else {
-                console.error('Text element with ID "time-text" not found in the model.');
-            }
-            
-            // Optionally, if you want to update multiple instances, you can clone and set attributes accordingly
-            // let newModel = model.cloneNode(true); // Clone the existing model
-            // newModel.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-            // scene.appendChild(newModel);
-        });
-    } else {
-        console.error('Model with ID "default-model" not found in the scene.');
-    }
-}
 // İki koordinat arasındaki yönü hesaplar
 
 // Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
