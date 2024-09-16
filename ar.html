@@ -62,17 +62,24 @@
     <a-camera id="gps-camera" look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 1' gps-new-camera='gpsMinDistance: 5'></a-camera>
 
     <!-- Define a model with a default location that will be updated dynamically -->
-    <a-entity id="default-model" gltf-model="url(assets/finish.gltf)" scale="5 5 5" rotation="0 100 0"
+    <a-entity id="default-model" gltf-model="url(assets/finish.gltf)" scale="3 3 3" rotation="0 100 0"
         look-at="[gps-camera]">
         
-        <!-- Add a black transparent background -->
-        <a-plane color="#000000" opacity="0.5" height="2" width="6" position="0 -5 0">
+        <!-- Add a black transparent background with rounded corners using SVG -->
+        <a-image src="#rounded-rect" height="2" width="6" position="0 -5 0">
             <!-- Add a text element to display the time to reach the destination -->
             <a-text id="time-text" value="Time: 0 min" color="white"
                     position="0 0 0" scale="4 4 1" align="center" side="double">
             </a-text>
-        </a-plane>
+        </a-image>
     </a-entity>
+
+    <!-- Define an SVG asset with rounded corners -->
+    <a-assets>
+        <svg id="rounded-rect" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" width="600" height="300">
+            <rect x="10" y="10" width="80" height="30" rx="10" ry="10" fill="black" fill-opacity="0.8" />
+        </svg>
+    </a-assets>
 </a-scene>
     <script>
         AFRAME.registerComponent('smooth-motion', {
