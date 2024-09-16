@@ -79,7 +79,7 @@ function renderPlaces(places) {
             // Find the text element within the model and update its content
             let timeText = model.querySelector('#time-text');
             if (timeText) {
-                timeText.setAttribute('value', `Time: ${timeToDestination} min`);
+                timeText.setAttribute('value', `5 min`);
             } else {
                 console.error('Text element with ID "time-text" not found in the model.');
             }
