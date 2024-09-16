@@ -14,6 +14,7 @@
         src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js'></script>
     <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
+    <script src="https://supereggbert.github.io/aframe-htmlembed-component/dist/build.js"></script>
     <script>
         THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
     </script>
@@ -62,9 +63,9 @@
     <a-camera id="gps-camera" look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 1' gps-new-camera='gpsMinDistance: 5'></a-camera>
 
     <!-- Define a model with a default location that will be updated dynamically -->
-    <a-entity id="default-model" gltf-model="url(assets/finish_pin.gltf)" scale="15 15 3" rotation="0 100 0"
+    <a-entity htmlembed  id="default-model" gltf-model="url(assets/finish_pin.gltf)" scale="15 15 3" rotation="0 100 0"
         look-at="[gps-camera]">
-        
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
        
     </a-entity>
 </a-scene>
