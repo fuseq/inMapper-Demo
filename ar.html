@@ -63,7 +63,7 @@
     <a-camera look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 1' gps-new-camera='gpsMinDistance: 5'></a-camera>
 
     <!-- GPS-Based GLTF Model that looks at the camera with smoothing -->
-    <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: 37.425557; longitude: 31.851170"
+    <a-entity gltf-model="url(assets/finish.gltf)" gps-new-entity-place="latitude: ; longitude: "
         scale="5 5 5" rotation="0 90 0" look-at="[gps-camera]" smooth-motion="positionSmoothing: 1; rotationSmoothing: 1">
     </a-entity>
 
@@ -168,7 +168,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const coords = getQueryParams();
             console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
-
+            model.setAttribute('gps-new-entity-place', `latitude: ${coords.x2}; longitude: ${coords.y2}`);
             window.coords = coords;
         });
     </script>
