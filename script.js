@@ -7,6 +7,7 @@ let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
+    renderPlaces(places);
     startDistanceCheck(window.coords);
 };
 
@@ -74,7 +75,20 @@ function setModel(model, entity, rotation) {
 }
 
 // Yerleri sahnede render eder (görüntüler)
-
+function renderPlaces(places) {
+    let scene = document.querySelector('a-scene');
+    places.forEach((place) => {
+        let latitude = place.location.lat;
+        let longitude = place.location.lng;
+        let rotation = calculateRotation();
+        let model = document.createElement('a-entity');
+        model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        model.setAttribute('look-controls','smoothing: 1')
+        setModel(models[modelIndex], model, rotation);
+        model.removeAttribute('animation-mixer');
+        scene.appendChild(model);
+    });
+}
 // İki koordinat arasındaki yönü hesaplar
 
 // Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
