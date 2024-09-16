@@ -29,7 +29,7 @@ var models = [
         url: './assets/finish.gltf',
         scale: '1.5 1.5 1.5',
         info: '',
-        rotation: '0 0 0',
+        rotation: '0 180 0',
         position: '0 0 0',
     },
 ];
@@ -43,29 +43,16 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     return (brng + 360) % 360;
 }
 // Rotasyon hesaplama fonksiyonu (örnek olarak)
-function calculateRotation() {
-    const sourceLat = parseFloat(window.coords.x1);
-    const sourceLon = parseFloat(window.coords.y1);
-    const targetLat = parseFloat(window.coords.x2);
-    const targetLon = parseFloat(window.coords.y2);
-    const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
-    let rotationX = 0;
-    let rotationY = 0;
-    let rotationZ = 0;
 
-    return `${rotationX} ${rotationY} ${rotationZ}`;
-}
 
 // Modelin özelliklerini (ölçek, döndürme, pozisyon) ayarlar ve AR sahnesinde görüntüler
 var modelIndex = 0;
-function setModel(model, entity, rotation) {
+function setModel(model, entity) {
     if (model.scale) {
         entity.setAttribute('scale', model.scale);
     }
-    if (rotation) {
-        entity.setAttribute('rotation', rotation);
-    } else if (model.rotation) {
-        entity.setAttribute('rotation', model.rotation);
+    if (model.rotation) {
+        entity.setAttribute('rotation', '0 180 0');
     }
     if (model.position) {
         entity.setAttribute('position', model.position);
@@ -80,7 +67,6 @@ function renderPlaces(places) {
     places.forEach((place) => {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
-        let rotation = calculateRotation();
         let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
         model.setAttribute('look-controls','smoothing: 1')
