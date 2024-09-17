@@ -66,7 +66,7 @@
         <a-camera gps-new-camera="gpsMinDistance: 25"></a-camera>
 
         <!-- GPS-Based GLTF Model that looks at the camera -->
-        <a-entity id="gltf-model" htmlembed position="0 -0.5 0" billboard> <!-- Metni gltf modelinin altına yerleştiriyoruz -->
+        <a-entity id="gltf-model" htmlembed  billboard> <!-- Metni gltf modelinin altına yerleştiriyoruz -->
             <div class="text-bubble">
                 <h2>Gaffar Okkan Cd.</h2>
                 <p>179 m uzakta</p>
@@ -168,7 +168,7 @@
                 // GPS koordinatlarını güncelleyin
                 modelEntity.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
     
-                const scaleFactor = distance / 8; // Adjust scaling factor as needed
+                const scaleFactor = distance / 25; // Adjust scaling factor as needed
                 modelEntity.setAttribute('scale', `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
             }
         });
