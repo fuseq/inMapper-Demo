@@ -66,15 +66,13 @@
         <a-camera gps-new-camera="gpsMinDistance: 25"></a-camera>
 
         <!-- GPS-Based GLTF Model that looks at the camera -->
-        <a-entity id="gltf-model" gltf-model="url(assets/finish_pin.gltf)" rotation="0 90 0" position="0 1 0" billboard>
-        </a-entity>
-        
-        <!-- Text entity (Gltf modelin altına yerleştirilecek) -->
-        <a-entity htmlembed position="0 -0.5 0"> <!-- Metni gltf modelinin altına yerleştiriyoruz -->
-            <div class="text-bubble">
-                <h2>Gaffar Okkan Cd.</h2>
-                <p>179 m uzakta</p>
-            </div>
+        <a-entity id="gltf-model" gltf-model="url(assets/finish_pin.gltf)" rotation="0 90 0" billboard>
+            <!-- Text entity -->
+            <a-entity htmlembed position="0 -0.5 0"> <!-- Metni gltf modelinin altına yerleştiriyoruz -->
+                <div class="text-bubble">
+                    <h2>Gaffar Okkan Cd.</h2>
+                    <p>179 m uzakta</p>
+                </div>
         </a-entity>
 
     </a-scene>
