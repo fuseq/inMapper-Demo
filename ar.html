@@ -63,7 +63,7 @@
         renderer="antialias: true; alpha: true">
 
         <!-- GPS Camera -->
-        <a-camera gps-new-camera="gpsMinDistance: 25"></a-camera>
+        <a-camera look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 0.5' gps-new-camera='gpsMinDistance: 5'></a-camera>
 
         <!-- GPS-Based GLTF Model that looks at the camera -->
         <a-entity id="gltf-model" htmlembed  billboard> <!-- Metni gltf modelinin altına yerleştiriyoruz -->
