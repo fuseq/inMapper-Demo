@@ -202,6 +202,31 @@ label {
     }
 }
 */
+.text-bubble {
+    background-color: #007BFF; /* Mavi arka plan rengi */
+    color: white; /* Metin rengi beyaz */
+    padding: 20px 20px; /* İç boşluk */
+    border-radius: 10px; /* Yuvarlatılmış köşeler */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+    display: flex; /* Flexbox ile düzenleme */
+    flex-direction: column; /* Dikey hizalama için */
+    align-items: center; /* Yatayda ortalama */
+    text-align: center; /* Metni ortalama */
+    font-family: Arial, sans-serif; /* Yazı tipi */
+    width: 300px; /* Genişlik */
+}
+
+.text-bubble h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.text-bubble p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.8; /* Alt metin için hafif şeffaflık */
+}
+
 .arrow, .indicator, .popup, .bottom-container,.container {
     position: absolute; /* Veya relative */
     z-index: 10; /* AR öğelerinin üstünde olacak şekilde ayarlayın */
