@@ -246,6 +246,10 @@ label {
     width: 60px; /* Png resim boyutu */
     height: auto;
 }
+.arrow-img {
+    width: 60px; /* Resmin genişliğini ayarlayın */
+    height: auto;
+}
 
 /* Sol ok için konumlandırma */
 .left {
@@ -264,7 +268,6 @@ label {
 .up {
     left: 50%;
     color: #36a2eb;
-    top: 65%;
     transform: translate(-50%, -50%);
 }
 

@@ -106,6 +106,7 @@ function checkModelVisibility(model) {
 function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
+    const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.querySelector('.ui-box');
     const popup = document.querySelector('.popup'); 
@@ -128,7 +129,7 @@ function showArrow(directionToTurn, direction) {
         // Yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
-       
+            
         directionMatches = true;
 
         // Border animasyonunu başlat
@@ -140,7 +141,7 @@ function showArrow(directionToTurn, direction) {
         }, { once: true });
         // Çemberi büyüt
         container.classList.add('grow');
-
+        upArrow.classList.add('fade-in')
         // Büyüme tamamlandıktan sonra progress bar'ı başlat
         setTimeout(() => {
             progressCircle.style.strokeDashoffset = '0';
@@ -153,10 +154,12 @@ function showArrow(directionToTurn, direction) {
         if (clockwise <= counterclockwise) {
             // Sağ ok görünür
             leftArrow.classList.add('fade-out');
+            upArrow.classList.add('fade-out')
             rightArrow.classList.add('fade-in');
         } else {
             // Sol ok görünür
             leftArrow.classList.add('fade-in');
+            upArrow.classList.add('fade-out')
             rightArrow.classList.add('fade-out');
         }
 
