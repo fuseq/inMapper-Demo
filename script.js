@@ -1,3 +1,6 @@
+
+let isBetaAbove45 = false;
+
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
@@ -104,6 +107,9 @@ function checkModelVisibility(model) {
 }
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
 function showArrow(directionToTurn, direction) {
+    if (!isBetaAbove45) {
+        return;
+    }
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
@@ -238,17 +244,19 @@ function handleOrientation(event) {
     const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
     const bottomContainer = document.querySelector('.bottom-container');
     const mapSection = document.querySelector('.map-section');
-    const infoSection  = document.querySelector('.info-section');
-    
+    const infoSection = document.querySelector('.info-section');
+
     // Eğer beta değeri 45 dereceden büyükse
     if (beta > 45) {
         bottomContainer.style.height = '30%';
-        mapSection.style.height = '80%'; 
-        infoSection.style.height = '20%'; 
+        mapSection.style.height = '80%';
+        infoSection.style.height = '20%';
+        isBetaAbove45 = true;  // Beta 45'ten büyükse true yap
     } else {
         bottomContainer.style.height = '100%';
-        mapSection.style.height = '94%'; 
-        infoSection.style.height = '6%'; 
+        mapSection.style.height = '94%';
+        infoSection.style.height = '6%';
+        isBetaAbove45 = false; // Beta 45'ten küçükse false yap
     }
 }
 navigator.geolocation.watchPosition(position => {
