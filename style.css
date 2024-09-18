@@ -298,21 +298,20 @@ label {
 
 /* Yukarıya (ileriye) bakan ok için animasyon + shake effect */
 .up-arrow {
-    animation: jump 1s ease infinite;
+    animation: zoomIn 1s ease infinite;
     transform-origin: 50% 50%;
+    perspective: 500px; /* Derinlik etkisi için perspektif */
 }
 
-@keyframes jump {
+@keyframes zoomIn {
     0% {
-        transform: translateY(0);
+        transform: translateZ(0); /* Normal pozisyon */
     }
-
     50% {
-        transform: translateY(-10px);
+        transform: translateZ(20px); /* Ekranın içine doğru gitme efekti */
     }
-
     100% {
-        transform: translateY(0);
+        transform: translateZ(0); /* Başlangıç pozisyonuna geri dönme */
     }
 }
 
