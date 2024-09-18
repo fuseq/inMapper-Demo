@@ -1,13 +1,14 @@
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
+    const bottomContainer = document.querySelector('.bottom-container');
+    const mapSection = document.querySelector('.map-section');
+    const infoSection = document.querySelector('.info-section');
     let places = staticLoadPlaces(window.coords);
     renderPlaces(places);
     startDistanceCheck(window.coords);
-    if (window.DeviceOrientationEvent) {
-        window.addEventListener('deviceorientation', initialOrientation);
-    } else {
-        console.warn("DeviceOrientation API not available");
-    }
+    bottomContainer.style.height = '100%';
+    mapSection.style.height = '94%';
+    infoSection.style.height = '6%';
 };
 
 
