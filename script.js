@@ -160,7 +160,7 @@ function showArrow(directionToTurn, direction) {
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
         }
-        upArrow.classList.remove('fade-out');
+        upArrow.classList.add('fade-out');
         directionMatches = false;
         // Border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
