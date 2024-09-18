@@ -1,15 +1,46 @@
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
-    const bottomContainer = document.querySelector('.bottom-container');
-    const mapSection = document.querySelector('.map-section');
-    const infoSection = document.querySelector('.info-section');
     let places = staticLoadPlaces(window.coords);
     renderPlaces(places);
     startDistanceCheck(window.coords);
+
+    // Sayfa yüklendiğinde varsayılan stil ayarlarını yap
+    const bottomContainer = document.querySelector('.bottom-container');
+    const mapSection = document.querySelector('.map-section');
+    const infoSection = document.querySelector('.info-section');
+
+    // Varsayılan stil ayarlarını uygula
     bottomContainer.style.height = '100%';
     mapSection.style.height = '94%';
     infoSection.style.height = '6%';
+
+    // Cihazın eğim açısını kontrol et ve gerekli ayarları yap
+    if (window.DeviceOrientationEvent) {
+        window.addEventListener('deviceorientation', (event) => {
+            const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
+            adjustLayoutBasedOnOrientation(beta);
+        });
+    } else {
+        console.warn("DeviceOrientation API not available");
+    }
 };
+
+function adjustLayoutBasedOnOrientation(beta) {
+    const bottomContainer = document.querySelector('.bottom-container');
+    const mapSection = document.querySelector('.map-section');
+    const infoSection = document.querySelector('.info-section');
+
+    // Eğim açısına göre stil ayarlarını yap
+    if (beta > 45) {
+        bottomContainer.style.height = '30%';
+        mapSection.style.height = '80%';
+        infoSection.style.height = '20%';
+    } else {
+        bottomContainer.style.height = '100%';
+        mapSection.style.height = '94%';
+        infoSection.style.height = '6%';
+    }
+}
 
 
 function initialOrientation(event) {
