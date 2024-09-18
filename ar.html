@@ -4,7 +4,8 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=portrait">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=portrait">
     <title>GeoAR.js demo</title>
     <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
@@ -34,7 +35,7 @@
 
 
 
-    
+
     <div class="centered instructions"></div>
     <div class="centered instructions"></div>
     <div class="arrow left" id="left-arrow">
@@ -46,11 +47,11 @@
     <div class="arrow up" id="up-arrow">
         <img src="assets/ileri.png" alt="Up Arrow" class="arrow-icon up-arrow">
     </div>
- <!--   <div class="position-indicator" id="position-indicator">Position: 0</div> -->
- <!--   <div class="direction-indicator" id="direction-indicator">Direction: 0</div> -->
- <!--   <div class="distance-indicator" id="distance-indicator">Distance: 0</div> -->
-<!--  <div class="direction-from-start-indicator" id="direction-from-start-indicator">Direction from Start: 0</div> -->
-<!--<div class="step-counter" id="step-counter">Number of Steps: 0</div> -->
+    <!--   <div class="position-indicator" id="position-indicator">Position: 0</div> -->
+    <!--   <div class="direction-indicator" id="direction-indicator">Direction: 0</div> -->
+    <!--   <div class="distance-indicator" id="distance-indicator">Distance: 0</div> -->
+    <!--  <div class="direction-from-start-indicator" id="direction-from-start-indicator">Direction from Start: 0</div> -->
+    <!--<div class="step-counter" id="step-counter">Number of Steps: 0</div> -->
     <div class="ui-box"></div>
     <div class="container">
         <svg class="progress-circle" width="200" height="200" viewBox="0 0 100 100" id="circle-svg">
@@ -62,22 +63,14 @@
                 stroke-width="5" stroke-dasharray="283" stroke-dashoffset="283" />
         </svg>
     </div>
-    
+
     <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
         renderer="antialias: true; alpha: true">
-
-        <!-- GPS Camera -->
-        <a-camera look-controls-enabled='false' arjs-device-orientation-controls='smoothingFactor: 0.5' gps-new-camera='gpsMinDistance: 5'></a-camera>
-
-        <!-- GPS-Based GLTF Model that looks at the camera -->
-        <a-entity id="gltf-model"  billboard> <!-- Metni gltf modelinin altına yerleştiriyoruz -->
-            
-        </a-entity>
 
     </a-scene>
     <div class="bottom-container">
 
-     <!--    <div class="compass-section">
+        <!--    <div class="compass-section">
             <div class="compass-circle">
                 <div class="compass-arrow"></div>
                 <div id="direction" class="compass-direction">NW</div>
@@ -133,20 +126,7 @@
         });
     </script>
     <script>
-        function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371e3; // Radius of Earth in meters
-            const φ1 = lat1 * Math.PI / 180;
-            const φ2 = lat2 * Math.PI / 180;
-            const Δφ = (lat2 - lat1) * Math.PI / 180;
-            const Δλ = (lon2 - lon1) * Math.PI / 180;
 
-            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-                Math.cos(φ1) * Math.cos(φ2) *
-                Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-            return R * c; // Distance in meters
-        }
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             return {
@@ -160,18 +140,19 @@
             const coords = getQueryParams();
             console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
             window.coords = coords;
-            const distance = calculateDistance(coords.x1, coords.y1, coords.x2, coords.y2);
-            const modelEntity = document.querySelector('#gltf-model');
-            if (modelEntity) {
-                // Örneğin, x1 ve y1 değerlerini GPS koordinatları olarak kullanarak güncelleyelim.
-                const latitude = parseFloat(coords.x2);
-                const longitude = parseFloat(coords.y2);
-                // GPS koordinatlarını güncelleyin
-                modelEntity.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-    
-                const scaleFactor = distance / 4; // Adjust scaling factor as needed
-                modelEntity.setAttribute('scale', `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
-            }
+            /*  const distance = calculateDistance(coords.x1, coords.y1, coords.x2, coords.y2);
+              const modelEntity = document.querySelector('#gltf-model');
+              if (modelEntity) {
+                  // Örneğin, x1 ve y1 değerlerini GPS koordinatları olarak kullanarak güncelleyelim.
+                  const latitude = parseFloat(coords.x2);
+                  const longitude = parseFloat(coords.y2);
+                  // GPS koordinatlarını güncelleyin
+                  modelEntity.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+      
+                  const scaleFactor = distance / 4; // Adjust scaling factor as needed
+                  modelEntity.setAttribute('scale', `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
+              }
+                  */
         });
     </script>
 
