@@ -239,10 +239,11 @@ navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
-    const sourceLat = parseFloat(window.coords.x1);
+ /* const sourceLat = parseFloat(window.coords.x1);
     const sourceLon = parseFloat(window.coords.y1);
+    */
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
-    const bearingToSource = calculateBearing(latitude, longitude, sourceLat, sourceLon);
+   /* const bearingToSource = calculateBearing(latitude, longitude, sourceLat, sourceLon);
     const positionIndicator = document.getElementById('position-indicator');
     const distanceIndicator = document.getElementById('distance-indicator');
     const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
@@ -251,7 +252,7 @@ navigator.geolocation.watchPosition(position => {
     distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
     const directionFromStart = getDirectionFromBearing(bearingToSource);
     directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
-
+*/
     startCompassListener(compass => {
         const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(compass);
