@@ -107,13 +107,13 @@ function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
-    const directionIndicator = document.getElementById('direction-indicator');
+   // const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.querySelector('.ui-box');
     const popup = document.querySelector('.popup'); 
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
     // Direction bilgisi ekranında güncelleniyor
-    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+   // directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
@@ -244,11 +244,11 @@ navigator.geolocation.watchPosition(position => {
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
     const bearingToSource = calculateBearing(latitude, longitude, sourceLat, sourceLon);
    // const positionIndicator = document.getElementById('position-indicator');
-    const distanceIndicator = document.getElementById('distance-indicator');
+   // const distanceIndicator = document.getElementById('distance-indicator');
     const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
    // positionIndicator.innerText = `Position: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-    const distance = calculateDistance(latitude, longitude, sourceLat, sourceLon);
-    distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
+   // const distance = calculateDistance(latitude, longitude, sourceLat, sourceLon);
+   // distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
     const directionFromStart = getDirectionFromBearing(bearingToSource);
     directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
@@ -305,25 +305,4 @@ function startDistanceCheck(coords) {
     } else {
         console.log("Geolocation is not supported by this browser.");
     }
-}
-function onAnimationEnd() {
-    const popup = document.getElementById('popup');
-    popup.style.display = 'block';
-}
-directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
-if (direction < 30 || direction > 320) {
-    leftArrow.style.display = 'none';
-    rightArrow.style.display = 'none';
-    progressFrame.style.display = 'block';
-    document.getElementById('progress-frame').addEventListener('animationend', onAnimationEnd);
-    directionMatches = true;
-} else {
-    leftArrow.style.display = direction > 180 ? 'none' : 'block';
-    rightArrow.style.display = direction > 180 ? 'block' : 'none';
-    progressFrame.style.display = 'none';
-    directionMatches = false;
-}
-function onAnimationEnd() {
-    const popup = document.getElementById('popup');
-    popup.style.display = 'block';
 }
