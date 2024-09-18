@@ -340,3 +340,8 @@ function startDistanceCheck(coords) {
         console.log("Geolocation is not supported by this browser.");
     }
 }
+
+function showPopupOnAnimationEnd() {
+    const popup = document.querySelector('.popup');
+    popup.style.display = 'flex';
+}
