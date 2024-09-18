@@ -3,66 +3,8 @@ window.onload = () => {
     let places = staticLoadPlaces(window.coords);
     renderPlaces(places);
     startDistanceCheck(window.coords);
-
-    // Sayfa yüklendiğinde varsayılan stil ayarlarını yap
-    const bottomContainer = document.querySelector('.bottom-container');
-    const mapSection = document.querySelector('.map-section');
-    const infoSection = document.querySelector('.info-section');
-
-    // Varsayılan stil ayarlarını uygula
-    bottomContainer.style.height = '100%';
-    mapSection.style.height = '94%';
-    infoSection.style.height = '6%';
-
-    // Cihazın eğim açısını kontrol et ve gerekli ayarları yap
-    if (window.DeviceOrientationEvent) {
-        window.addEventListener('deviceorientation', (event) => {
-            const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
-            adjustLayoutBasedOnOrientation(beta);
-        });
-    } else {
-        console.warn("DeviceOrientation API not available");
-    }
 };
 
-function adjustLayoutBasedOnOrientation(beta) {
-    const bottomContainer = document.querySelector('.bottom-container');
-    const mapSection = document.querySelector('.map-section');
-    const infoSection = document.querySelector('.info-section');
-
-    // Eğim açısına göre stil ayarlarını yap
-    if (beta > 45) {
-        bottomContainer.style.height = '30%';
-        mapSection.style.height = '80%';
-        infoSection.style.height = '20%';
-    } else {
-        bottomContainer.style.height = '100%';
-        mapSection.style.height = '94%';
-        infoSection.style.height = '6%';
-    }
-}
-
-
-function initialOrientation(event) {
-    const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
-    const bottomContainer = document.querySelector('.bottom-container');
-    const mapSection = document.querySelector('.map-section');
-    const infoSection = document.querySelector('.info-section');
-
-    // Eğim açısına göre stil ayarlarını yap
-    if (beta > 45) {
-        bottomContainer.style.height = '30%';
-        mapSection.style.height = '80%';
-        infoSection.style.height = '20%';  // Container yüksekliğini %30 yap
-    } else {
-        bottomContainer.style.height = '100%';
-        mapSection.style.height = '94%';
-        infoSection.style.height = '6%';
-    }
-
-    // İlk dinleyiciyi kaldır
-    window.removeEventListener('deviceorientation', initialOrientation);
-}
 // Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükler
 function staticLoadPlaces() {
     return [
@@ -296,16 +238,17 @@ function handleOrientation(event) {
     const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
     const bottomContainer = document.querySelector('.bottom-container');
     const mapSection = document.querySelector('.map-section');
-    const infoSection = document.querySelector('.info-section');
+    const infoSection  = document.querySelector('.info-section');
+    
     // Eğer beta değeri 45 dereceden büyükse
     if (beta > 45) {
         bottomContainer.style.height = '30%';
-        mapSection.style.height = '80%';
-        infoSection.style.height = '20%';  // Container yüksekliğini %30 yap
+        mapSection.style.height = '80%'; 
+        infoSection.style.height = '20%'; 
     } else {
         bottomContainer.style.height = '100%';
-        mapSection.style.height = '94%';
-        infoSection.style.height = '6%';
+        mapSection.style.height = '94%'; 
+        infoSection.style.height = '6%'; 
     }
 }
 navigator.geolocation.watchPosition(position => {
@@ -328,10 +271,10 @@ navigator.geolocation.watchPosition(position => {
     window.addEventListener('deviceorientation', handleOrientation);
 
     startCompassListener(compass => {
-        /* const directionElement = document.getElementById('direction');
-         const direction = getCompassDirection(compass); */
+       /* const directionElement = document.getElementById('direction');
+        const direction = getCompassDirection(compass); */
         const directionToTurn = (bearingToTarget + 360) % 360;
-        //  directionElement.textContent = direction;
+       //  directionElement.textContent = direction;
         showArrow(directionToTurn, compass);
     });
 

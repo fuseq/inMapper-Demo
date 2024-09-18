@@ -819,6 +819,12 @@ button {
     height: 100%;
 }
 
+.bottom-container,
+.map-section,
+.info-section {
+    transition: height 0.5s ease; /* Geçiş süresi ve zaman fonksiyonu */
+}
+
 .info-section {
     height: 20%;
     display: flex;
