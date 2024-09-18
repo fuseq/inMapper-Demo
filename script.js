@@ -107,9 +107,7 @@ function checkModelVisibility(model) {
 }
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
 function showArrow(directionToTurn, direction) {
-    if (!isBetaAbove45) {
-        return;
-    }
+
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
@@ -120,6 +118,16 @@ function showArrow(directionToTurn, direction) {
     const progressCircle = document.querySelector('.progress');
     // Direction bilgisi ekranında güncelleniyor
     // directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+
+    if (!isBetaAbove45) {
+        // Popup'ı gizle, animasyonları durdur
+        popup.style.display = 'none';
+        container.classList.remove('grow');
+        uiBox.classList.remove('border-animation');
+        // animationend olayını kaldır
+        uiBox.removeEventListener('animationend', showPopupOnAnimationEnd);
+        return;
+    }
 
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
