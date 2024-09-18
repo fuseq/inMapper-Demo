@@ -210,7 +210,7 @@ label {
 /* Genel arrow stili */
 .arrow {
     position: absolute;
-    top: 35%;
+    top: 37%;
     transform: translateY(-50%);
     opacity: 0;
     /* Başlangıçta görünmez */
