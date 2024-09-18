@@ -234,18 +234,16 @@ function startCompassListener(callback) {
         addListeners();
     }
 }
-function handleOrientation(event) {
-    const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
+        function handleOrientation(event) {
+            const beta = event.beta; // Y eksenine göre eğim açısı (0: yatay, 90: dikey)
+            const scene = document.querySelector('a-scene');
 
-    // Eğer beta değeri 45 dereceden büyükse
-    if (beta > 45) {
-        document.querySelector('a-scene').setAttribute('visible', true);
-        document.querySelector('.map-section').style.display = 'none'; // Haritayı gizle
-    } else {
-        document.querySelector('a-scene').setAttribute('visible', false);
-        document.querySelector('.map-section').style.display = 'block'; // Haritayı göster
-    }
-}
+            if (beta > 45) {
+                scene.style.display = 'block';
+            } else {
+                scene.style.display = 'none';
+            }
+        }
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
     const targetLat = parseFloat(window.coords.x2);
