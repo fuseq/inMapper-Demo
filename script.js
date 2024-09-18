@@ -239,16 +239,24 @@ function handleOrientation(event) {
     const bottomContainer = document.querySelector('.bottom-container');
     const mapSection = document.querySelector('.map-section');
     const infoSection  = document.querySelector('.info-section');
-    
+    const leftArrow = document.getElementById('left-arrow');
+    const rightArrow = document.getElementById('right-arrow');
+    const upArrow = document.getElementById('up-arrow');
     // Eğer beta değeri 45 dereceden büyükse
     if (beta > 45) {
         bottomContainer.style.height = '30%';
         mapSection.style.height = '80%'; 
         infoSection.style.height = '20%'; 
+        
+
     } else {
         bottomContainer.style.height = '100%';
         mapSection.style.height = '94%'; 
-        infoSection.style.height = '6%'; 
+        infoSection.style.height = '6%';
+        leftArrow.classList.remove('fade-in', 'fade-out');
+        rightArrow.classList.remove('fade-in', 'fade-out');
+        upArrow.classList.remove('fade-in', 'fade-out');
+         
     }
 }
 navigator.geolocation.watchPosition(position => {
