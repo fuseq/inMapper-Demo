@@ -86,7 +86,7 @@ function renderPlaces(places) {
     });
 }
 */
-  
+
 // İki koordinat arasındaki yönü hesaplar
 
 // Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
@@ -107,13 +107,13 @@ function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
-   // const directionIndicator = document.getElementById('direction-indicator');
+    // const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.querySelector('.ui-box');
-    const popup = document.querySelector('.popup'); 
+    const popup = document.querySelector('.popup');
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
     // Direction bilgisi ekranında güncelleniyor
-   // directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+    // directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
@@ -239,18 +239,18 @@ navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
-    const sourceLat = parseFloat(window.coords.x1);
-    const sourceLon = parseFloat(window.coords.y1);
+    // const sourceLat = parseFloat(window.coords.x1);
+    // const sourceLon = parseFloat(window.coords.y1);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
-    const bearingToSource = calculateBearing(latitude, longitude, sourceLat, sourceLon);
-   // const positionIndicator = document.getElementById('position-indicator');
-   // const distanceIndicator = document.getElementById('distance-indicator');
-    const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
-   // positionIndicator.innerText = `Position: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-   // const distance = calculateDistance(latitude, longitude, sourceLat, sourceLon);
-   // distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
-    const directionFromStart = getDirectionFromBearing(bearingToSource);
-    directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
+    // const bearingToSource = calculateBearing(latitude, longitude, sourceLat, sourceLon);
+    // const positionIndicator = document.getElementById('position-indicator');
+    // const distanceIndicator = document.getElementById('distance-indicator');
+    // const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
+    // positionIndicator.innerText = `Position: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+    // const distance = calculateDistance(latitude, longitude, sourceLat, sourceLon);
+    // distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
+    // const directionFromStart = getDirectionFromBearing(bearingToSource);
+    // directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
     startCompassListener(compass => {
         const directionElement = document.getElementById('direction');
