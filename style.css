@@ -772,7 +772,7 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    z-index: 1;
+    
 }
 
 .map-section {
@@ -802,13 +802,13 @@ button {
     align-items: center;
     justify-content: space-between; /* Yatayda ortala */
     padding: 10px;
-    background-color: rgba(248, 248, 248, 0.7); /* %60 transparan arka plan rengi */
+    background-color: rgba(248, 248, 248, 0.8); /* %60 transparan arka plan rengi */
     border-radius: 10px;
     position: fixed; /* Sabit konumlandırma */
     bottom: 3px; /* Alttan biraz yükselt */
     left: 50%; /* Ortala */
     transform: translateX(-50%); /* Sol kenardan %50 kaydır */
-    z-index: 2;
+    
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Gölge efekti */
 }
 
