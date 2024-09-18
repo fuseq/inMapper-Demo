@@ -797,7 +797,7 @@ button {
 
 .info-section {
     
-    width: 80%;
+    width: 95%;
     margin: 0 auto; /* Yatayda ortala */
     display: flex;
     align-items: center;
@@ -806,7 +806,7 @@ button {
     background-color: #f8f8f8;
     border-radius: 10px;
     position: fixed; /* Sabit konumlandırma */
-    bottom: 10px; /* Alttan biraz yükselt */
+    bottom: 3px; /* Alttan biraz yükselt */
     left: 50%; /* Ortala */
     transform: translateX(-50%); /* Sol kenardan %50 kaydır */
     z-index: 2;
