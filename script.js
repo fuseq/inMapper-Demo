@@ -238,27 +238,22 @@ function handleOrientation(event) {
     const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
     const bottomContainer = document.querySelector('.bottom-container');
     const mapSection = document.querySelector('.map-section');
-    const infoSection  = document.querySelector('.info-section');
-    const leftArrow = document.getElementById('left-arrow');
-    const rightArrow = document.getElementById('right-arrow');
-    const upArrow = document.getElementById('up-arrow');
+    const infoSection = document.querySelector('.info-section');
+
     // Eğer beta değeri 45 dereceden büyükse
     if (beta > 45) {
         bottomContainer.style.height = '30%';
-        mapSection.style.height = '80%'; 
-        infoSection.style.height = '20%'; 
-        
-
+        mapSection.style.height = '80%';
+        infoSection.style.height = '20%';
+        return true;  // Beta 45'ten büyükse true dön
     } else {
         bottomContainer.style.height = '100%';
-        mapSection.style.height = '94%'; 
+        mapSection.style.height = '94%';
         infoSection.style.height = '6%';
-        leftArrow.classList.remove('fade-in', 'fade-out');
-        rightArrow.classList.remove('fade-in', 'fade-out');
-        upArrow.classList.remove('fade-in', 'fade-out');
-         
+        return false; // Beta 45'ten küçükse false dön
     }
 }
+
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
     const targetLat = parseFloat(window.coords.x2);
@@ -276,16 +271,17 @@ navigator.geolocation.watchPosition(position => {
     // const directionFromStart = getDirectionFromBearing(bearingToSource);
     // directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
-    window.addEventListener('deviceorientation', handleOrientation);
+    window.addEventListener('deviceorientation', (event) => {
+        const isBetaAbove45 = handleOrientation(event);  // Fonksiyonun sonucunu al
 
-    startCompassListener(compass => {
-       /* const directionElement = document.getElementById('direction');
-        const direction = getCompassDirection(compass); */
-        const directionToTurn = (bearingToTarget + 360) % 360;
-       //  directionElement.textContent = direction;
-        showArrow(directionToTurn, compass);
+        // Eğer beta 45'ten büyükse, showArrow fonksiyonunu çağır
+        if (isBetaAbove45) {
+            startCompassListener(compass => {
+                const directionToTurn = (bearingToTarget + 360) % 360;
+                showArrow(directionToTurn, compass);
+            });
+        }
     });
-
 });
 /* Cihazın hareketlerini izler ve koşullara göre adım sayısını artırır
 window.addEventListener('devicemotion', event => {
