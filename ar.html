@@ -42,11 +42,7 @@
     <div class="arrow up" id="up-arrow">
         <img src="assets/ileri.png" alt="Up Arrow" class="arrow-icon up-arrow">
     </div>
-    <div class="position-indicator" id="position-indicator">Position: 0</div>
-    <div class="direction-indicator" id="direction-indicator">Direction: 0</div>
-    <div class="distance-indicator" id="distance-indicator">Distance: 0</div>
-    <div class="direction-from-start-indicator" id="direction-from-start-indicator">Direction from Start: 0</div>
-    <div class="step-counter" id="step-counter">Number of Steps: 0</div>
+    
     <div class="ui-box"></div>
     <div class="container">
         <svg class="progress-circle" width="200" height="200" viewBox="0 0 100 100" id="circle-svg">
@@ -73,12 +69,7 @@
     </a-scene>
     <div class="bottom-container">
 
-        <div class="compass-section">
-            <div class="compass-circle">
-                <div class="compass-arrow"></div>
-                <div id="direction" class="compass-direction">NW</div>
-            </div>
-        </div>
+        
         <div class="map-section">
             <iframe src="https://cbaines.github.io/leaflet-indoor/examples/" frameborder="0"
                 class="map-iframe"></iframe>
@@ -109,24 +100,11 @@
                     <i class="fas fa-check"></i>
                     <span>Tamam</span>
                 </button>
-                <button class="btn-again">
-                    <i class="fas fa-redo"></i>
-                    <span>Tekrar</span>
-                </button>
+             
             </div>
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const againButton = document.querySelector('.btn-again');
-            const popup = document.getElementById('popup');
-            const uiBox = document.querySelector('.ui-box');
-
-            againButton.addEventListener('click', function () {
-                popup.style.display = 'none';
-                uiBox.classList.remove('border-animation')
-            });
-        });
     </script>
     <script>
         function calculateDistance(lat1, lon1, lat2, lon2) {
