@@ -239,10 +239,10 @@ function handleOrientation(event) {
 
     // Eğer beta değeri 45 dereceden büyükse
     if (beta > 45) {
-        document.querySelector('a-camera').setAttribute('visible', true);
+        document.querySelector('a-scene').setAttribute('visible', true);
         document.querySelector('.map-section').style.display = 'none'; // Haritayı gizle
     } else {
-        document.querySelector('a-camera').setAttribute('visible', false);
+        document.querySelector('a-scene').setAttribute('visible', false);
         document.querySelector('.map-section').style.display = 'block'; // Haritayı göster
     }
 }
