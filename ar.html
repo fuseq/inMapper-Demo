@@ -69,7 +69,12 @@
     </a-scene>
     <div class="bottom-container">
 
-        
+        <div class="compass-section">
+            <div class="compass-circle">
+                <div class="compass-arrow"></div>
+                <div id="direction" class="compass-direction">NW</div>
+            </div>
+        </div>
         <div class="map-section">
             <iframe src="https://cbaines.github.io/leaflet-indoor/examples/" frameborder="0"
                 class="map-iframe"></iframe>
@@ -100,11 +105,15 @@
                     <i class="fas fa-check"></i>
                     <span>Tamam</span>
                 </button>
-             
+                <button class="btn-again">
+                    <i class="fas fa-redo"></i>
+                    <span>Tekrar</span>
+                </button>
             </div>
         </div>
     </div>
     <script>
+
     </script>
     <script>
         function calculateDistance(lat1, lon1, lat2, lon2) {
