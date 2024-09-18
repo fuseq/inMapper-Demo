@@ -253,8 +253,8 @@ navigator.geolocation.watchPosition(position => {
     // directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
     startCompassListener(compass => {
-        const directionElement = document.getElementById('direction');
-        const direction = getCompassDirection(compass);
+       /* const directionElement = document.getElementById('direction');
+        const direction = getCompassDirection(compass); */
         const directionToTurn = (bearingToTarget + 360) % 360;
         directionElement.textContent = direction;
         showArrow(directionToTurn, compass);
