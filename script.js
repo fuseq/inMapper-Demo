@@ -149,10 +149,7 @@ function showArrow(directionToTurn, direction) {
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
 
-        uiBox.addEventListener('animationend', () => {
-            // Popup'ı hemen göster
-            popup.style.display = 'flex';
-        }, { once: true });
+        uiBox.addEventListener('animationend', showPopupOnAnimationEnd, { once: true });
         // Çemberi büyüt
         container.classList.add('grow');
 
