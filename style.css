@@ -218,8 +218,12 @@ label {
     /* Opaklık değişimi için geçiş */
 }
 
-.arrow-icon {
+.arrow-left-right-icon {
     width: 60px; /* Png resim boyutu */
+    height: auto;
+}
+.arrow-up-icon {
+    width: 80px; /* Png resim boyutu */
     height: auto;
 }
 .arrow-img {
@@ -249,10 +253,12 @@ label {
 
 .fade-in {
     opacity: 1;
+    transition: opacity 0.5s ease-in; 
 }
 
 .fade-out {
     opacity: 0;
+    transition: opacity 0.5s ease-out; 
 }
 
 /* Sola giden ok için animasyon */
@@ -761,7 +767,7 @@ button {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 30%;
+    height: 100%;
     background-color: rgba(255, 255, 255, 0);
     display: flex;
     flex-direction: column;
@@ -807,7 +813,7 @@ button {
 }
 
 .map-section {
-    height: 80%;
+    height: 94%;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -822,11 +828,11 @@ button {
 .bottom-container,
 .map-section,
 .info-section {
-    transition: height 0.5s ease; /* Geçiş süresi ve zaman fonksiyonu */
+    transition: height 0.8s ease; /* Geçiş süresi ve zaman fonksiyonu */
 }
 
 .info-section {
-    height: 20%;
+    height: 6%;
     display: flex;
     align-items: center;
     justify-content: space-between;
