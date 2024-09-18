@@ -240,8 +240,6 @@ navigator.geolocation.watchPosition(position => {
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
-   
-
     startCompassListener(compass => {
         const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(compass);
