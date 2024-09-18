@@ -234,7 +234,18 @@ function startCompassListener(callback) {
         addListeners();
     }
 }
+function handleOrientation(event) {
+    const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
 
+    // Eğer beta değeri 45 dereceden büyükse
+    if (beta > 45) {
+        document.querySelector('a-camera').setAttribute('visible', true);
+        document.querySelector('.map-section').style.display = 'none'; // Haritayı gizle
+    } else {
+        document.querySelector('a-camera').setAttribute('visible', false);
+        document.querySelector('.map-section').style.display = 'block'; // Haritayı göster
+    }
+}
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
     const targetLat = parseFloat(window.coords.x2);
@@ -251,6 +262,8 @@ navigator.geolocation.watchPosition(position => {
     // distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
     // const directionFromStart = getDirectionFromBearing(bearingToSource);
     // directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
+
+    window.addEventListener('deviceorientation', handleOrientation);
 
     startCompassListener(compass => {
        /* const directionElement = document.getElementById('direction');
