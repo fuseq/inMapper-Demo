@@ -3,8 +3,34 @@ window.onload = () => {
     let places = staticLoadPlaces(window.coords);
     renderPlaces(places);
     startDistanceCheck(window.coords);
+    if (window.DeviceOrientationEvent) {
+        window.addEventListener('deviceorientation', initialOrientation);
+    } else {
+        console.warn("DeviceOrientation API not available");
+    }
 };
 
+
+function initialOrientation(event) {
+    const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
+    const bottomContainer = document.querySelector('.bottom-container');
+    const mapSection = document.querySelector('.map-section');
+    const infoSection = document.querySelector('.info-section');
+
+    // Eğim açısına göre stil ayarlarını yap
+    if (beta > 45) {
+        bottomContainer.style.height = '30%';
+        mapSection.style.height = '80%';
+        infoSection.style.height = '20%';  // Container yüksekliğini %30 yap
+    } else {
+        bottomContainer.style.height = '100%';
+        mapSection.style.height = '94%';
+        infoSection.style.height = '6%';
+    }
+
+    // İlk dinleyiciyi kaldır
+    window.removeEventListener('deviceorientation', initialOrientation);
+}
 // Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükler
 function staticLoadPlaces() {
     return [
