@@ -256,7 +256,7 @@ navigator.geolocation.watchPosition(position => {
        /* const directionElement = document.getElementById('direction');
         const direction = getCompassDirection(compass); */
         const directionToTurn = (bearingToTarget + 360) % 360;
-        directionElement.textContent = direction;
+       //  directionElement.textContent = direction;
         showArrow(directionToTurn, compass);
     });
 
