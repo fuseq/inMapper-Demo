@@ -237,12 +237,17 @@ function startCompassListener(callback) {
 function handleOrientation(event) {
     const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
     const bottomContainer = document.querySelector('.bottom-container');
-    
+    const mapSection = document.querySelector('.map-section');
+    const infoSection = document.querySelector('.info-section');
     // Eğer beta değeri 45 dereceden büyükse
     if (beta > 45) {
-        bottomContainer.style.height = '30%'; // Container yüksekliğini %30 yap
+        bottomContainer.style.height = '30%';
+        mapSection.style.height = '80%';
+        infoSection.style.height = '20%';  // Container yüksekliğini %30 yap
     } else {
-        bottomContainer.style.height = '100%'; // Container yüksekliğini %100 yap
+        bottomContainer.style.height = '100%';
+        mapSection.style.height = '94%';
+        infoSection.style.height = '6%';
     }
 }
 navigator.geolocation.watchPosition(position => {
@@ -265,10 +270,10 @@ navigator.geolocation.watchPosition(position => {
     window.addEventListener('deviceorientation', handleOrientation);
 
     startCompassListener(compass => {
-       /* const directionElement = document.getElementById('direction');
-        const direction = getCompassDirection(compass); */
+        /* const directionElement = document.getElementById('direction');
+         const direction = getCompassDirection(compass); */
         const directionToTurn = (bearingToTarget + 360) % 360;
-       //  directionElement.textContent = direction;
+        //  directionElement.textContent = direction;
         showArrow(directionToTurn, compass);
     });
 
