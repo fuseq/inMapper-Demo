@@ -119,7 +119,6 @@ function showArrow(directionToTurn, direction) {
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
-
     // Yukarı yön oku (±50 derece içinde)
     const upperBound = (directionToTurn + 10) % 360;
     const lowerBound = (directionToTurn - 10 + 360) % 360;
@@ -161,7 +160,7 @@ function showArrow(directionToTurn, direction) {
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
         }
-        upArrow.classList.add('fade-out');
+        upArrow.classList.remove('fade-out');
         directionMatches = false;
         // Border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
