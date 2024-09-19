@@ -261,6 +261,7 @@ function disableCamera() {
       }
     }
   }
+/*
 function handleOrientation(event) {
     const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
     const bottomContainer = document.querySelector('.bottom-container');
@@ -281,6 +282,7 @@ function handleOrientation(event) {
         isBetaAbove45 = false; // Beta 45'ten küçükse false yap
     }
 }
+    */
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
     const targetLat = parseFloat(window.coords.x2);
@@ -298,7 +300,7 @@ navigator.geolocation.watchPosition(position => {
     // const directionFromStart = getDirectionFromBearing(bearingToSource);
     // directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
-    window.addEventListener('deviceorientation', handleOrientation);
+   /* window.addEventListener('deviceorientation', handleOrientation); */
 
     startCompassListener(compass => {
        /* const directionElement = document.getElementById('direction');
