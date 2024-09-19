@@ -794,13 +794,10 @@ button {
 .info-section {
     transition: height 0.5s ease;
 }
-a-scene {
-    display: none; /* A-Frame kamera başlangıçta gizli */
-  
-}
+
 .info-section {
     width: 90%;
-    margin: 0 auto; 
+    margin: 0 auto; /* Yatayda ortala */
     display: flex;
     align-items: center;
     justify-content: space-between; /* Yatayda ortala */

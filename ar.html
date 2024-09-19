@@ -65,9 +65,9 @@
     </div>
 
     <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
-    renderer="antialias: true; alpha: true">
-    <a-camera id="ar-camera" gps-camera rotation-reader></a-camera>
-</a-scene>
+        renderer="antialias: true; alpha: true">
+
+    </a-scene>
     <div class="bottom-container">
 
         <!--    <div class="compass-section">
@@ -96,14 +96,14 @@
                 </div>
             </div>
             <div class="icon-buttons-container">
-               
-                   <button style="right: 100px;" onclick="openCamera()">Aç</button>
-
-              
-                    <button style="right: 10px;" onclick="closeCamera()">Kapat</button>
-                
+                <a  class="circular-icon-button">
+                    <i class="fa-solid fa-question"></i>
+                </a>
+                <a href="index.html" class="circular-icon-button">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
             </div>
-
+            
         </div>
     </div>
 
@@ -128,16 +128,6 @@
         </div>
     </div>
     <script>
-
-        function openCamera() {
-            const camera = document.getElementById('ar-camera');
-            camera.setAttribute('camera', 'active', true); // Kamerayı aktif hale getir
-        }
-
-        function closeCamera() {
-            const camera = document.getElementById('ar-camera');
-            camera.setAttribute('camera', 'active', false); // Kamerayı pasif hale getir
-        }
         document.addEventListener('DOMContentLoaded', function () {
             const againButton = document.querySelector('.btn-again');
             const popup = document.getElementById('popup');
