@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
                     .then(function (stream) {
                         videoElement.srcObject = stream;
-                        videoElement.style.display = 'block'; // Kamerayı görünür yap
+                        videoElement.style.display = 'block'; 
                         bottomContainer.style.height = '30%';
                     })
                     .catch(function (error) {

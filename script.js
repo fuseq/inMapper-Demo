@@ -121,7 +121,6 @@ function showArrow(directionToTurn, direction) {
     // directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
     if (videoElement.style.display === 'none') {
-        // Popup'ı gizle, animasyonları durdur
         popup.style.display = 'none';
         container.classList.remove('grow');
         uiBox.classList.remove('border-animation');
