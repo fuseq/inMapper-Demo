@@ -109,13 +109,13 @@ function checkModelVisibility(model) {
 function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
-    const directionIndicator = document.getElementById('direction-indicator');
+   // const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.querySelector('.ui-box');
     const popup = document.querySelector('.popup'); 
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
     // Direction bilgisi ekranında güncelleniyor
-    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+   // directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
