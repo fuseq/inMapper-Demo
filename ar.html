@@ -64,10 +64,7 @@
         </svg>
     </div>
 
-    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
-        renderer="antialias: true; alpha: true">
-
-    </a-scene>
+    <video id="camera-stream" autoplay playsinline style="width: 100vw; height: 100vh; object-fit: cover; display: none;"></video>
     <div class="bottom-container">
 
         <!--    <div class="compass-section">
@@ -96,7 +93,7 @@
                 </div>
             </div>
             <div class="icon-buttons-container">
-                <a  class="circular-icon-button">
+                <a id="question-button" class="circular-icon-button">
                     <i class="fa-solid fa-question"></i>
                 </a>
                 <a href="index.html" class="circular-icon-button">
@@ -140,6 +137,23 @@
         });
     </script>
     <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+            const videoElement = document.getElementById('camera-stream');
+            const questionButton = document.getElementById('question-button');
+
+            questionButton.addEventListener('click', function () {
+                // Kamera akışını başlat (arka kamera)
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                    .then(function (stream) {
+                        videoElement.srcObject = stream;
+                        videoElement.style.display = 'block'; // Kamerayı görünür yap
+                    })
+                    .catch(function (error) {
+                        console.error("Kamera akışı başlatılamadı:", error);
+                    });
+            });
+        });
 
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
