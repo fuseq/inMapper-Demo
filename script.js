@@ -245,6 +245,22 @@ function startCompassListener(callback) {
         addListeners();
     }
 }
+function disableCamera() {
+    var sceneEl = document.querySelector('#arScene');
+    var arSystem = sceneEl.systems["arjs"]; // Access the AR.js system
+
+    if (arSystem) {
+      // Stop the AR.js system
+      arSystem.stop();
+      
+      // Stop the webcam stream
+      if (arSystem.arToolkitSource.domElement && arSystem.arToolkitSource.domElement.srcObject) {
+        let stream = arSystem.arToolkitSource.domElement.srcObject;
+        let tracks = stream.getTracks();
+        tracks.forEach(track => track.stop()); // Stop all tracks (video/audio)
+      }
+    }
+  }
 function handleOrientation(event) {
     const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
     const bottomContainer = document.querySelector('.bottom-container');
@@ -256,7 +272,8 @@ function handleOrientation(event) {
         bottomContainer.style.height = '30%';
         mapSection.style.height = '100%';
         
-        isBetaAbove45 = true;  // Beta 45'ten büyükse true yap
+        isBetaAbove45 = true;  // Beta 45'ten büyükse true yap  
+        disableCamera();
     } else {
         bottomContainer.style.height = '100%';
         mapSection.style.height = '100%';
