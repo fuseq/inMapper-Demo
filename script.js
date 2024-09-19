@@ -111,6 +111,7 @@ function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
+    const videoElement = document.getElementById('camera-stream');
     // const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.querySelector('.ui-box');
     const popup = document.querySelector('.popup');
@@ -119,7 +120,7 @@ function showArrow(directionToTurn, direction) {
     // Direction bilgisi ekranında güncelleniyor
     // directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    if (!isBetaAbove45) {
+    if (videoElement.style.display === 'none') {
         // Popup'ı gizle, animasyonları durdur
         popup.style.display = 'none';
         container.classList.remove('grow');
