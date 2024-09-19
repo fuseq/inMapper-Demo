@@ -249,19 +249,16 @@ function handleOrientation(event) {
     const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
     const bottomContainer = document.querySelector('.bottom-container');
     const mapSection = document.querySelector('.map-section');
-    const camera = document.querySelector('.camera-scene');
     const infoSection = document.querySelector('.info-section');
 
     // Eğer beta değeri 45 dereceden büyükse
     if (beta > 45) {
         bottomContainer.style.height = '30%';
         mapSection.style.height = '100%';
-        camera.style.display='block'
         
         isBetaAbove45 = true;  // Beta 45'ten büyükse true yap
     } else {
-        bottomContainer.style.height = '30%';
-        camera.style.display='none'
+        bottomContainer.style.height = '100%';
         mapSection.style.height = '100%';
         
         isBetaAbove45 = false; // Beta 45'ten küçükse false yap
