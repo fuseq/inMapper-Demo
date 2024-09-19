@@ -107,16 +107,27 @@ function checkModelVisibility(model) {
 }
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
 function showArrow(directionToTurn, direction) {
+
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
-   // const directionIndicator = document.getElementById('direction-indicator');
+    // const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.querySelector('.ui-box');
-    const popup = document.querySelector('.popup'); 
+    const popup = document.querySelector('.popup');
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
     // Direction bilgisi ekranında güncelleniyor
-  //  directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+    // directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+
+    if (!isBetaAbove45) {
+        // Popup'ı gizle, animasyonları durdur
+        popup.style.display = 'none';
+        container.classList.remove('grow');
+        uiBox.classList.remove('border-animation');
+        // animationend olayını kaldır
+        uiBox.removeEventListener('animationend', showPopupOnAnimationEnd);
+        return;
+    }
 
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
@@ -138,10 +149,7 @@ function showArrow(directionToTurn, direction) {
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
 
-        uiBox.addEventListener('animationend', () => {
-            // Popup'ı hemen göster
-            popup.style.display = 'flex';
-        }, { once: true });
+        uiBox.addEventListener('animationend', showPopupOnAnimationEnd, { once: true });
         // Çemberi büyüt
         container.classList.add('grow');
 
@@ -237,22 +245,6 @@ function startCompassListener(callback) {
         addListeners();
     }
 }
-function disableCamera() {
-    var sceneEl = document.querySelector('#arScene');
-    var arSystem = sceneEl.systems["arjs"]; // Access the AR.js system
-
-    if (arSystem) {
-      // Stop the AR.js system
-      arSystem.stop();
-      
-      // Stop the webcam stream
-      if (arSystem.arToolkitSource.domElement && arSystem.arToolkitSource.domElement.srcObject) {
-        let stream = arSystem.arToolkitSource.domElement.srcObject;
-        let tracks = stream.getTracks();
-        tracks.forEach(track => track.stop()); // Stop all tracks (video/audio)
-      }
-    }
-  }
 function handleOrientation(event) {
     const beta = event.beta; // Y eksenine göre eğim açısı (0 ile 180 derece arasında)
     const bottomContainer = document.querySelector('.bottom-container');
@@ -261,17 +253,13 @@ function handleOrientation(event) {
 
     // Eğer beta değeri 45 dereceden büyükse
     if (beta > 45) {
-       /* bottomContainer.style.height = '30%';
+        bottomContainer.style.height = '30%';
         mapSection.style.height = '100%';
-        */
         
-        isBetaAbove45 = true;  // Beta 45'ten büyükse true yap  
-        disableCamera();
+        isBetaAbove45 = true;  // Beta 45'ten büyükse true yap
     } else {
-        /*
         bottomContainer.style.height = '100%';
         mapSection.style.height = '100%';
-        */
         
         isBetaAbove45 = false; // Beta 45'ten küçükse false yap
     }
