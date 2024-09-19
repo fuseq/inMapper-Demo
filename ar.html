@@ -102,7 +102,7 @@
 
             questionButton.addEventListener('click', function () {
                 // Kamera akışını başlat
-                navigator.mediaDevices.getUserMedia({ video: true })
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
                     .then(function (stream) {
                         videoElement.srcObject = stream;
                         videoElement.style.display = 'block'; // Kamerayı görünür yap
