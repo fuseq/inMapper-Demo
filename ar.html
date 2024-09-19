@@ -106,7 +106,7 @@
                     .then(function (stream) {
                         videoElement.srcObject = stream;
                         videoElement.style.display = 'block'; // Kamerayı görünür yap
-                        
+                        bottomContainer.style.height = '30%';
                     })
                     .catch(function (error) {
                         console.error("Kamera akışı başlatılamadı:", error);
