@@ -99,13 +99,14 @@
         document.addEventListener('DOMContentLoaded', function () {
             const videoElement = document.getElementById('camera-stream');
             const questionButton = document.getElementById('question-button');
-
+            const bottomContainer = document.querySelector('.bottom-container');
             questionButton.addEventListener('click', function () {
                 // Kamera akışını başlat
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
                     .then(function (stream) {
                         videoElement.srcObject = stream;
                         videoElement.style.display = 'block'; // Kamerayı görünür yap
+                        bottomContainer.style.height = '30%';
                     })
                     .catch(function (error) {
                         console.error("Kamera akışı başlatılamadı:", error);
