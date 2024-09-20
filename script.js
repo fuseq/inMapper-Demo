@@ -118,7 +118,15 @@ function showArrow(directionToTurn, direction) {
     // Direction bilgisi ekranında güncelleniyor
     // directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-
+    if (!document.querySelector('a-scene')) {
+        // Popup'ı gizle, animasyonları durdur
+        popup.style.display = 'none';
+        container.classList.remove('grow');
+        uiBox.classList.remove('border-animation');
+        // animationend olayını kaldır
+        uiBox.removeEventListener('animationend', showPopupOnAnimationEnd);
+        return;
+    }
 
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
@@ -170,14 +178,16 @@ function showArrow(directionToTurn, direction) {
         progressCircle.style.transition = 'none';  // Anında sıfırlama için animasyonu kaldır
         progressCircle.style.strokeDashoffset = '283'; // Progress bar'ı direkt sıfırla
 
+        uiBox.removeEventListener('animationend', showPopupOnAnimationEnd);
+        popup.style.display = 'none'; // Popup'ı gizle
+
         // Daha sonra yeniden transition ekleyip, çemberi küçült
         setTimeout(() => {
             progressCircle.style.transition = 'stroke-dashoffset 3s linear'; // Transition'ı geri ekle
             container.classList.remove('grow'); // Çemberi küçült
         }, 0); // Hemen sıfırlama işlemini yap
         // Popup zamanlayıcısını temizle
-        clearTimeout(popupTimeout);
-        popup.style.display = 'none'; // Popup'ı gizle
+
     }
 }
 function getCompassDirection(alpha) {
@@ -245,7 +255,7 @@ function handleOrientation(event) {
     // Eğer beta değeri 45 dereceden büyükse
     if (beta > 45) {
         isBetaAbove45 = true;  // Beta 45'ten büyükse true yap
-    } else { 
+    } else {
         isBetaAbove45 = false; // Beta 45'ten küçükse false yap
     }
 }
@@ -269,10 +279,10 @@ navigator.geolocation.watchPosition(position => {
     window.addEventListener('deviceorientation', handleOrientation);
 
     startCompassListener(compass => {
-       /* const directionElement = document.getElementById('direction');
-        const direction = getCompassDirection(compass); */
+        /* const directionElement = document.getElementById('direction');
+         const direction = getCompassDirection(compass); */
         const directionToTurn = (bearingToTarget + 360) % 360;
-       //  directionElement.textContent = direction;
+        //  directionElement.textContent = direction;
         showArrow(directionToTurn, compass);
     });
 
