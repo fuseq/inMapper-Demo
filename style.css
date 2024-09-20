@@ -762,26 +762,26 @@ button {
   }
 }
 
-
+/* style.css */
 .bottom-container {
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 100%;
+    background-color: rgba(255, 255, 255, 0);
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    
 }
 
 .map-section {
-    flex: 0 0 84%; /* Set this section to take 80% of the height */
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.bottom-container,
-.map-section,
-.info-section {
-    transition: height 0.5s ease;
+    position: relative;
 }
 
 .map-iframe {
@@ -789,139 +789,38 @@ button {
     height: 100%;
 }
 
+.bottom-container,
+.map-section,
 .info-section {
-    flex: 0 0 16%; /* Set this section to take 20% of the height */
-    width: 100%;
-    margin: 0 auto;
-    padding: 10px;
-    background-color: rgba(248, 248, 248, 0.9);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: height 0.5s ease;
 }
 
-.content-wrapper {
-    margin-left: 30px;
-}
-
-.line {
-    width: 3px;
-    height: 15px;
-    margin-left: 14px;
-    background-color: #3291e0;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-}
-
-.line::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: 0;
-    width: 100%;
-    height: 200%;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
-    animation: shine 1.5s infinite;
-}
-
-@keyframes shine {
-    0% {
-        transform: translateY(-100%);
-    }
-    100% {
-        transform: translateY(100%);
-    }
-}
-
-.content {
+.info-section {
+    width: 90%;
+    margin: 0 auto; 
     display: flex;
     align-items: center;
-    padding-bottom: 5px;
+    justify-content: space-between; /* Yatayda ortala */
+    padding: 10px;
+    background-color: rgba(248, 248, 248, 0.8); /* %60 transparan arka plan rengi */
+    border-radius: 10px;
+    position: fixed; /* Sabit konumlandırma */
+    bottom: 3px; /* Alttan biraz yükselt */
+    left: 50%; /* Ortala */
+    transform: translateX(-50%); /* Sol kenardan %50 kaydır */
     
-}
-
-.text {
-    margin-left: 10px;
-    flex: 1;
-}
-
-.heading {
-    font-weight: bold;
-    font-size: 15px;
-}
-
-.main-heading {
-    margin-left: 5px;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.subheading {
-    color: #909092;
-    font-size: 12px;
-}
-
-.logo {
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
-    border: 0.8px solid #cfc9c9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Gölge efekti */
 }
 
 
 
-.hidden {
-    visibility: hidden; /* Öğeyi gizle */
-}
 .icon-button {
     background: none;
     border: none;
     font-size: 24px;
     cursor: pointer;
 }
-.compass-section {
-    position: relative; /* To position buttons within this section */
-    display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center;
-    height: 0px;
-    
-     
-}
 
-.button-container {
-    display: flex;
-    justify-content: space-between; /* Distributes space between items */
-    width: 100%; /* Full width of the container */
-    margin-top: 10px; /* Space between compass and buttons */
-    
-}
-
-.center-button {
-    background-color: rgba(255, 255, 255, 1); /* Transparent background */
-    color: #3291e0; /* Text color */
-    border: none; /* No border */
-    padding: 10px 20px; /* Padding */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor */
-    position: absolute; /* Use absolute positioning */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Offset to truly center */
-  
-}
-
-.right-button {
-    background-color: rgba(255, 255, 255, 1); /* Transparent background */
-    color: #3291e0; /* Text color */
-    border: none; /* No border */
-    padding: 5px 10px; /* Padding */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer;
-    right: 2%; /* Pointer cursor */
-    margin-bottom: 5px;
-  
-}
 .destination {
     display: flex;
     align-items: center;
@@ -935,12 +834,12 @@ button {
     gap: 5px; /* Resim ve yazı arasına boşluk ekle */
 }
 
-.time-info-small{
-    padding-right: 30px;
-
+.time-info {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333; /* Koyu gri renk */
 }
-
-
 .image-button {
     display: inline-flex;
     justify-content: center;

@@ -7,21 +7,37 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=portrait">
     <title>GeoAR.js demo</title>
+    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://supereggbert.github.io/aframe-htmlembed-component/dist/build.js"></script>
+    <script
+        src="https://rawgit.com/blairmacintyre/aframe-look-at-billboard-component/master/dist/aframe-look-at-billboard-component.min.js"></script>
 </head>
 <script type='text/javascript'
     src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/three.js/build/ar-threex-location-only.js'></script>
 <script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js'></script>
 <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
+<script>
+    THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
+</script>
+<script src="https://unpkg.com/@joeyklee/compass.js@latest/dist/compass.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script src="./script.js"></script>
 <link rel="stylesheet" type="text/css" href="./style.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"
     integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 </head>
 
 <body style='margin: 0; overflow: hidden;'>
+
+
+
+
+    <div class="centered instructions"></div>
+    <div class="centered instructions"></div>
     <div class="arrow left" id="left-arrow">
         <img src="assets/left_arrow.png" alt="Left Arrow" class="arrow-left-right-icon left-arrow">
     </div>
@@ -31,6 +47,11 @@
     <div class="arrow up" id="up-arrow">
         <img src="assets/ileri.png" alt="Up Arrow" class="arrow-up-icon up-arrow">
     </div>
+    <!--   <div class="position-indicator" id="position-indicator">Position: 0</div> -->
+    <!--   <div class="direction-indicator" id="direction-indicator">Direction: 0</div> -->
+    <!--   <div class="distance-indicator" id="distance-indicator">Distance: 0</div> -->
+    <!--  <div class="direction-from-start-indicator" id="direction-from-start-indicator">Direction from Start: 0</div> -->
+    <!--<div class="step-counter" id="step-counter">Number of Steps: 0</div> -->
     <div class="ui-box"></div>
     <div class="container">
         <svg class="progress-circle" width="200" height="200" viewBox="0 0 100 100" id="circle-svg">
@@ -43,51 +64,47 @@
         </svg>
     </div>
 
-    <video id="camera-stream" autoplay playsinline
-        style="width: 100vw; height: 100vh; object-fit: cover; display: none; "></video>
+    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
+        renderer="antialias: true; alpha: true">
+
+    </a-scene>
     <div class="bottom-container">
 
-
-
+        <!--    <div class="compass-section">
+            <div class="compass-circle">
+                <div class="compass-arrow"></div>
+                <div id="direction" class="compass-direction">NW</div>
+            </div>
+        </div> -->
         <div class="map-section">
             <iframe src="https://cbaines.github.io/leaflet-indoor/examples/" frameborder="0"
                 class="map-iframe"></iframe>
         </div>
-        <div class="compass-section">
-            <div class="compass-circle">
-                <div class="compass-arrow"></div>
 
-            </div>
-
-            <div class="button-container">
-                <button id="center-button" class="center-button">View in AR</button>
-                <button id="right-button" class="right-button">Stop</button>
-            </div>
-        </div>
         <!-- First Section (Info) -->
         <div class="info-section">
-            <div class="content-wrapper"> <!-- Yeni div eklendi -->
-                <div id="main-heading" class="main-heading">Going To</div>
-                <div id="line" class="line"></div>
-                <div class="content" id="content">
-                    <img class="logo" src="https://i.ibb.co/PjjtDkp/inmapper-1.png" alt="Logo">
-                    <div class="text" id="destinationText">
-                        <div class="heading" id="destinationHeading">Destination</div>
-                        <div class="subheading" id="destinationSubheading">
-                            <div class="time-info-big" id="timeInfoBig">
-                                <i class="fa-solid fa-person-running"></i>
-                                5 minutes
-                            </div>
-                        </div>
-                    </div>
-                    <div class="time-info-small hidden" id="timeInfoSmall">
+            <div class="destination">
+                <a href="index.html" class="image-button">
+                    <img src="https://i.ibb.co/PjjtDkp/inmapper-1.png" alt="Icon" />
+                </a>
+                <div class="destination-details">
+                    <div class="destination-name">Destination Name</div>
+                    <div class="time-info">
                         <i class="fa-solid fa-person-running"></i>
                         5 minutes
                     </div>
                 </div>
             </div>
+            <div class="icon-buttons-container">
+                <a  class="circular-icon-button">
+                    <i class="fa-solid fa-question"></i>
+                </a>
+                <a href="index.html" class="circular-icon-button">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            </div>
+            
         </div>
-
     </div>
 
     <div class="popup" id="popup">
@@ -124,59 +141,6 @@
     </script>
     <script>
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const videoElement = document.getElementById('camera-stream');
-            const centerButton = document.getElementById('center-button');
-            const rightButton = document.getElementById('right-button');
-            const bottomContainer = document.querySelector('.bottom-container');
-            const mainHeading = document.getElementById('main-heading');
-            const timeInfoBig = document.getElementById("timeInfoBig");
-            const timeInfoSmall = document.getElementById("timeInfoSmall");
-            const destinationText = document.getElementById("destinationText");
-            const line = document.getElementById('line');
-            let stream;
-
-            function toggleVisibility(isVisible) {
-                mainHeading.style.display = isVisible ? 'block' : 'none';
-                line.style.display = isVisible ? 'block' : 'none';
-            }
-
-            centerButton.addEventListener('click', function () {
-                // Duruma göre öğeleri göster/gizle
-               
-                    timeInfoBig.style.visibility = "hidden";
-                    timeInfoSmall.style.visibility = "visible";
-                    destinationText.style.display = "flex"; //
-                
-                // Start camera stream (rear camera)
-                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-                    .then(function (mediaStream) {
-                        stream = mediaStream;
-                        videoElement.srcObject = stream;
-                        videoElement.style.display = 'block';
-                        bottomContainer.style.height = '40%';
-                        toggleVisibility(false); // Hide the heading and line
-                    })
-                    .catch(function (error) {
-                        console.error("Camera stream could not be started:", error);
-                    });
-            });
-
-            rightButton.addEventListener('click', function () {
-                // Stop the stream and hide the video element
-                if (stream) {
-                    const tracks = stream.getTracks();
-                    tracks.forEach(track => track.stop());
-                }
-                timeInfoSmall.style.visibility = "hidden";
-                timeInfoBig.style.visibility = "visible";
-                destinationText.style.display = "block"; 
-                videoElement.srcObject = null;
-                videoElement.style.display = 'none';
-                bottomContainer.style.height = '100%'; // Reset height
-                toggleVisibility(true); // Show the heading and line
-            });
-        });
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             return {
@@ -190,9 +154,23 @@
             const coords = getQueryParams();
             console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
             window.coords = coords;
-          
+            /*  const distance = calculateDistance(coords.x1, coords.y1, coords.x2, coords.y2);
+              const modelEntity = document.querySelector('#gltf-model');
+              if (modelEntity) {
+                  // Örneğin, x1 ve y1 değerlerini GPS koordinatları olarak kullanarak güncelleyelim.
+                  const latitude = parseFloat(coords.x2);
+                  const longitude = parseFloat(coords.y2);
+                  // GPS koordinatlarını güncelleyin
+                  modelEntity.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+      
+                  const scaleFactor = distance / 4; // Adjust scaling factor as needed
+                  modelEntity.setAttribute('scale', `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
+              }
+                  */
         });
     </script>
+
+    <!-- Font Awesome for icons -->
 
 </body>
 
