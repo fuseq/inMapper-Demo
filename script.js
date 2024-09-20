@@ -118,15 +118,7 @@ function showArrow(directionToTurn, direction) {
     // Direction bilgisi ekranında güncelleniyor
     // directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    if (!document.querySelector('a-scene')) {
-        // Popup'ı gizle, animasyonları durdur
-        popup.style.display = 'none';
-        container.classList.remove('grow');
-        uiBox.classList.remove('border-animation');
-        // animationend olayını kaldır
-        uiBox.removeEventListener('animationend', showPopupOnAnimationEnd);
-        return;
-    }
+
 
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
