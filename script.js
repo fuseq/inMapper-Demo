@@ -1,4 +1,3 @@
-
 let isBetaAbove45 = false;
 
 window.onload = () => {

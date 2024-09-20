@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html>
 
 <head>
@@ -36,8 +36,8 @@
 
 
 
- 
-   
+    <div class="centered instructions"></div>
+    <div class="centered instructions"></div>
     <div class="arrow left" id="left-arrow">
         <img src="assets/left_arrow.png" alt="Left Arrow" class="arrow-left-right-icon left-arrow">
     </div>
@@ -64,8 +64,10 @@
         </svg>
     </div>
 
-    <video id="camera" autoplay playsinline
-        style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; object-fit: cover;"></video>
+    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
+        renderer="antialias: true; alpha: true">
+
+    </a-scene>
     <div class="bottom-container">
 
         <!--    <div class="compass-section">
@@ -94,14 +96,14 @@
                 </div>
             </div>
             <div class="icon-buttons-container">
-                <a class="circular-icon-button">
+                <a  class="circular-icon-button">
                     <i class="fa-solid fa-question"></i>
                 </a>
                 <a href="index.html" class="circular-icon-button">
                     <i class="fa-solid fa-xmark"></i>
                 </a>
             </div>
-
+            
         </div>
     </div>
 
@@ -126,29 +128,6 @@
         </div>
     </div>
     <script>
-
-        async function startCamera() {
-            try {
-                // Request access to the user's camera
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: { exact: "environment" } }
-                });
-
-                // Select the video element
-                const video = document.getElementById('camera');
-
-                // Set the source of the video element to the stream
-                video.srcObject = stream;
-
-                // Play the video stream
-                video.play();
-            } catch (error) {
-                console.error('Error accessing the camera:', error);
-                alert('Camera access was denied or there was an error!');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', startCamera);
         document.addEventListener('DOMContentLoaded', function () {
             const againButton = document.querySelector('.btn-again');
             const popup = document.getElementById('popup');
