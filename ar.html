@@ -125,6 +125,27 @@
         </div>
     </div>
     <script>
+
+async function startCamera() {
+            try {
+                // Request access to the user's camera
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                
+                // Select the video element
+                const video = document.getElementById('camera');
+                
+                // Set the source of the video element to the stream
+                video.srcObject = stream;
+
+                // Play the video stream
+                video.play();
+            } catch (error) {
+                console.error('Error accessing the camera:', error);
+                alert('Camera access was denied or there was an error!');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', startCamera);
         document.addEventListener('DOMContentLoaded', function () {
             const againButton = document.querySelector('.btn-again');
             const popup = document.getElementById('popup');
