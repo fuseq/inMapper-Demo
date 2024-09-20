@@ -797,11 +797,8 @@ button {
 .button-section {
     height: 10%;
     width: 100%;
-    display: flex;
-    justify-content: space-between; /* Butonları iki uca hizala */
-    align-items: center;
     position: fixed;
-    bottom: 13%;
+    bottom: 12%;
     padding: 0 20px; /* Sağ ve soldan boşluk ekle */
 }
 
@@ -816,7 +813,7 @@ button {
 .right-button {
     margin-left: auto; /* Sağa yaslar */
     padding: 5px 10px;
-    right: 10%;
+    right: 50px;
 }
 
 /* Buton stilini düzenleyin */
