@@ -773,10 +773,15 @@ button {
 }
 
 .map-section {
-    flex-grow: 1; /* Allow this section to take up remaining space */
+    flex: 0 0 88%; /* Set this section to take 80% of the height */
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.bottom-container,
+.map-section,
+.info-section {
+    transition: height 0.5s ease;
 }
 
 .map-iframe {
@@ -785,15 +790,12 @@ button {
 }
 
 .info-section {
+    flex: 0 0 12%; /* Set this section to take 20% of the height */
     width: 100%;
     margin: 0 auto;
     padding: 10px;
     background-color: rgba(248, 248, 248, 0.9);
     border-radius: 18px;
-    position: relative; /* Changed to relative */
-    bottom: 0; /* Positioning at the bottom */
-    left: 50%;
-    transform: translateX(-50%);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
