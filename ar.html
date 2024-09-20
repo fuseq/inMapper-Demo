@@ -67,8 +67,6 @@
 
     <div class="bottom-container">
 
-      
-    
         <!-- Map Section -->
         <div class="map-section">
             <iframe src="https://cbaines.github.io/leaflet-indoor/examples/" frameborder="0"
@@ -78,7 +76,7 @@
             <button class="center-button">View In AR</button>
             <button class="right-button">Stop</button>
         </div>
-    
+
         <!-- Info Section -->
         <div class="info-section">
             <div class="destination">
@@ -137,19 +135,32 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const questionButton = document.querySelector('.center-button'); // Question buttonu buluyoruz
+            const centerButton = document.querySelector('.center-button'); // Question buttonu buluyoruz
+            const rightButton = document.querySelector('.right-button');
             const bottomContainer = document.querySelector('.bottom-container');
-            questionButton.addEventListener('click', function () {
+            centerButton.addEventListener('click', function () {
                 // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
                 if (!document.querySelector('a-scene')) {
                     const scene = document.createElement('a-scene');
                     scene.setAttribute('vr-mode-ui', 'enabled: false');
                     scene.setAttribute('arjs', 'sourceType: webcam; videoTexture: true; debugUIEnabled: false');
                     scene.setAttribute('renderer', 'antialias: true; alpha: true');
-                    bottomContainer.style.height = '30%';
-
+                    bottomContainer.style.height = '40%';
+                    centerButton.style.display = 'none';
+                    rightButton.style.display = 'block';
                     // Sahneyi body'e ekleyelim
                     document.body.appendChild(scene);
+                }
+            });
+
+            rightButton.addEventListener('click', function () {
+                // Eğer a-scene mevcutsa sil
+                const existingScene = document.querySelector('a-scene');
+                if (existingScene) {
+                    existingScene.parentNode.removeChild(existingScene);
+                    bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
+                    centerButton.style.display = 'block'; // centerButton'ı tekrar göster
+                    rightButton.style.display = 'none'; // rightButton'ı görünür tut
                 }
             });
         });
