@@ -252,14 +252,8 @@ function handleOrientation(event) {
 
     // Eğer beta değeri 45 dereceden büyükse
     if (beta > 45) {
-        bottomContainer.style.height = '30%';
-        mapSection.style.height = '100%';
-        
         isBetaAbove45 = true;  // Beta 45'ten büyükse true yap
-    } else {
-        bottomContainer.style.height = '100%';
-        mapSection.style.height = '100%';
-        
+    } else { 
         isBetaAbove45 = false; // Beta 45'ten küçükse false yap
     }
 }
