@@ -64,10 +64,7 @@
         </svg>
     </div>
 
-    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
-        renderer="antialias: true; alpha: true">
 
-    </a-scene>
     <div class="bottom-container">
 
         <!--    <div class="compass-section">
@@ -96,14 +93,14 @@
                 </div>
             </div>
             <div class="icon-buttons-container">
-                <a  class="circular-icon-button">
+                <a class="circular-icon-button">
                     <i class="fa-solid fa-question"></i>
                 </a>
                 <a href="index.html" class="circular-icon-button">
                     <i class="fa-solid fa-xmark"></i>
                 </a>
             </div>
-            
+
         </div>
     </div>
 
@@ -140,7 +137,22 @@
         });
     </script>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const questionButton = document.querySelector('.fa-question'); // Question buttonu buluyoruz
 
+            questionButton.addEventListener('click', function () {
+                // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
+                if (!document.querySelector('a-scene')) {
+                    const scene = document.createElement('a-scene');
+                    scene.setAttribute('vr-mode-ui', 'enabled: false');
+                    scene.setAttribute('arjs', 'sourceType: webcam; videoTexture: true; debugUIEnabled: false');
+                    scene.setAttribute('renderer', 'antialias: true; alpha: true');
+
+                    // Sahneyi body'e ekleyelim
+                    document.body.appendChild(scene);
+                }
+            });
+        });
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             return {
