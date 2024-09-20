@@ -65,7 +65,7 @@
     </div>
 
     <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
-    renderer="antialias: true; alpha: true; enabled: false" id="my-ar-scene">
+    renderer="antialias: true; alpha: true" class="hidden-camera">
 </a-scene>
     <div class="bottom-container">
 
@@ -128,10 +128,12 @@
     </div>
     <script>
 
-document.addEventListener('DOMContentLoaded', function () {
+         document.addEventListener('DOMContentLoaded', function () {
         const questionButton = document.querySelector('.fa-question');
         const scene = document.querySelector('a-scene');
-
+        document.querySelector('a-scene').addEventListener('loaded', function () {
+    this.camera.el.setAttribute('camera', 'active', 'false');
+});
         // Kamerayı açmak için soru işaretine tıklama olayını yakalayın
         questionButton.addEventListener('click', function () {
             scene.classList.remove('hidden-camera');  // Kamerayı görünür yap
