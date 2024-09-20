@@ -799,11 +799,10 @@ button {
     width: 100%;
     position: fixed;
     bottom: 12%;
-    padding: 0 20px; /* Sağ ve soldan boşluk ekle */
+   
 }
 
 .center-button {
-    margin: 0 auto;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
