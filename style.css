@@ -916,7 +916,9 @@ button {
     border-radius: 3px;
     
 }
-
+.hidden-camera {
+    display: none;
+}
 .border-animation::before {
     animation: draw-border 4s forwards;
 }
