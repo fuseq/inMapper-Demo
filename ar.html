@@ -136,23 +136,37 @@
     <script>
 
 document.addEventListener('DOMContentLoaded', function () {
-            const videoElement = document.getElementById('camera-stream');
-            const questionButton = document.getElementById('center-button');
-            const bottomContainer = document.querySelector('.bottom-container');
-            questionButton.addEventListener('click', function () {
-                // Kamera akışını başlat (arka kamera)
-                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-                    .then(function (stream) {
-                        videoElement.srcObject = stream;
-                        videoElement.style.display = 'block'; 
-                        bottomContainer.style.height = '40%';
-                    })
-                    .catch(function (error) {
-                        console.error("Kamera akışı başlatılamadı:", error);
-                    });
-            });
-        });
+    const videoElement = document.getElementById('camera-stream');
+    const centerButton = document.getElementById('center-button');
+    const rightButton = document.getElementById('right-button'); // Sağ buton
+    const bottomContainer = document.querySelector('.bottom-container');
+    let stream; // Akış değişkeni
 
+    centerButton.addEventListener('click', function () {
+        // Kamera akışını başlat (arka kamera)
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+            .then(function (mediaStream) {
+                stream = mediaStream; // Akışı kaydet
+                videoElement.srcObject = stream;
+                videoElement.style.display = 'block'; 
+                bottomContainer.style.height = '40%';
+            })
+            .catch(function (error) {
+                console.error("Kamera akışı başlatılamadı:", error);
+            });
+    });
+
+    rightButton.addEventListener('click', function () {
+        // Akışı durdur ve video elementini gizle
+        if (stream) {
+            const tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+        }
+        videoElement.srcObject = null; // Video kaynağını sıfırla
+        videoElement.style.display = 'none'; 
+        bottomContainer.style.height = 'auto'; // Eski yüksekliğe döndür
+    });
+});
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             return {
