@@ -67,41 +67,38 @@
     <video id="camera-stream" autoplay playsinline style="width: 100vw; height: 100vh; object-fit: cover; display: none;"></video>
     <div class="bottom-container">
 
-        <!--    <div class="compass-section">
-            <div class="compass-circle">
-                <div class="compass-arrow"></div>
-                <div id="direction" class="compass-direction">NW</div>
-            </div>
-        </div> -->
+   
+       
         <div class="map-section">
             <iframe src="https://cbaines.github.io/leaflet-indoor/examples/" frameborder="0"
                 class="map-iframe"></iframe>
         </div>
-
+        <div class="compass-section">
+            <div class="compass-circle">
+                <div class="compass-arrow"></div>
+              
+            </div>
+            
+            <div class="button-container">
+                <button class="center-button">View in AR</button>
+                <button class="right-button">Stop</button>
+            </div>
+        </div>
         <!-- First Section (Info) -->
         <div class="info-section">
-            <div class="destination">
-                <a href="index.html" class="image-button">
-                    <img src="https://i.ibb.co/PjjtDkp/inmapper-1.png" alt="Icon" />
-                </a>
-                <div class="destination-details">
-                    <div class="destination-name">Destination Name</div>
-                    <div class="time-info">
-                        <i class="fa-solid fa-person-running"></i>
-                        5 minutes
+            <div class="content-wrapper"> <!-- Yeni div eklendi -->
+                <div class="main-heading">Going To</div>
+                <div class="line"></div>
+                <div class="content">
+                    <img class="logo" src="https://i.ibb.co/PjjtDkp/inmapper-1.png" alt="W3Schools.com">
+                    <div class="text">
+                        <div class="heading">O2</div>
+                        <div class="subheading">Mobile Phones</div>
                     </div>
                 </div>
             </div>
-            <div class="icon-buttons-container">
-                <a id="question-button" class="circular-icon-button">
-                    <i class="fa-solid fa-question"></i>
-                </a>
-                <a href="index.html" class="circular-icon-button">
-                    <i class="fa-solid fa-xmark"></i>
-                </a>
-            </div>
-            
         </div>
+        
     </div>
 
     <div class="popup" id="popup">
@@ -140,7 +137,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
             const videoElement = document.getElementById('camera-stream');
-            const questionButton = document.getElementById('question-button');
+            const questionButton = document.getElementById('center-button');
             const bottomContainer = document.querySelector('.bottom-container');
             questionButton.addEventListener('click', function () {
                 // Kamera akışını başlat (arka kamera)
