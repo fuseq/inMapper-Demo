@@ -776,13 +776,12 @@ button {
 }
 
 .map-section {
-    height: 87%;
+    height: 90%; /* info-section'ın yüksekliği kadar çıkarın */
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    top: 0px;
+    position: relative; /* Relative yaparak info-section ile aynı düzlemde olmasını sağlar */
 }
 
 .map-iframe {
@@ -837,16 +836,15 @@ button:hover {
 
 .info-section {
     width: 100%;
-    height: 10%;
-    margin: 0 auto; 
+    height: 10%; /* Yükseklik aynı kalır */
     display: flex;
     align-items: center;
     justify-content: space-between; /* Yatayda ortala */
     padding: 10px;
     background-color: rgba(248, 248, 248, 0.8); /* %60 transparan arka plan rengi */
     border-radius: 10px;
-    position: fixed; /* Sabit konumlandırma */
-    bottom: 0px; /* Alttan biraz yükselt */
+    position: relative; /* Relative yaparak map-section ile aynı düzlemde olmasını sağlar */
+    /* Alttan biraz yükselt */
     left: 50%; 
     transform: translateX(-50%); /* Sol kenardan %50 kaydır */
     
