@@ -64,9 +64,8 @@
         </svg>
     </div>
 
-    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
-    renderer="antialias: true; alpha: true" class="hidden-camera">
-</a-scene>
+    <a-scene class="hidden-camera">
+    </a-scene>
     <div class="bottom-container">
 
         <!--    <div class="compass-section">
@@ -95,14 +94,14 @@
                 </div>
             </div>
             <div class="icon-buttons-container">
-                <a  class="circular-icon-button">
+                <a class="circular-icon-button">
                     <i class="fa-solid fa-question"></i>
                 </a>
                 <a href="index.html" class="circular-icon-button">
                     <i class="fa-solid fa-xmark"></i>
                 </a>
             </div>
-            
+
         </div>
     </div>
 
@@ -128,15 +127,15 @@
     </div>
     <script>
 
-document.addEventListener('DOMContentLoaded', function () {
-        const questionButton = document.querySelector('.fa-question');
-        const scene = document.querySelector('a-scene');
+        document.addEventListener('DOMContentLoaded', function () {
+            const questionButton = document.querySelector('.fa-question');
+            const scene = document.querySelector('a-scene');
 
-        // Kamerayı açmak için soru işaretine tıklama olayını yakalayın
-        questionButton.addEventListener('click', function () {
-            scene.classList.remove('hidden-camera');  // Kamerayı görünür yap
+            // Kamerayı açmak için soru işaretine tıklama olayını yakalayın
+            questionButton.addEventListener('click', function () {
+                scene.classList.remove('hidden-camera');  // Kamerayı görünür yap
+            });
         });
-    });
         document.addEventListener('DOMContentLoaded', function () {
             const againButton = document.querySelector('.btn-again');
             const popup = document.getElementById('popup');
