@@ -73,7 +73,10 @@
                 class="map-iframe"></iframe>
         </div>
         <div class="button-section">
-            <button class="center-button">View In AR</button>
+            <button class="center-button">
+                <img src="assets/cube.png" alt="Cube Icon" /> <!-- Resim burada kullanılıyor -->
+                View In AR
+            </button>
             <button class="right-button">Stop</button>
         </div>
 
@@ -159,7 +162,7 @@
                 if (existingScene) {
                     existingScene.parentNode.removeChild(existingScene);
                     bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
-                    centerButton.style.display = 'block'; // centerButton'ı tekrar göster
+                    centerButton.style.display = 'flex'; // centerButton'ı tekrar göster
                     rightButton.style.display = 'none'; // rightButton'ı görünür tut
                 }
             });

@@ -803,18 +803,42 @@ button {
 }
 
 .center-button {
-    margin: 0 auto; /* Ortada hizalar */
+    margin: 0 auto;
     position: absolute;
     left: 50%;
-    transform: translateX(-50%); /* Tam ortalar */
+    transform: translateX(-50%);
     padding: 10px 20px;
+    border-radius: 25px; /* Köşeleri yuvarla */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f8f8;
+    border: 1px solid #333;
+    cursor: pointer;
+    font-size: 16px;
+    
+}
+
+.center-button img {
+    margin-right: 8px; /* Resim ile yazı arasında boşluk */
+    width: 20px; /* Resmin genişliği */
+    height: 20px; /* Resmin yüksekliği */
+}
+
+.center-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .right-button {
     margin-left: auto; /* Sağa yaslar */
     padding: 5px 10px;
     right: 80px;
+    padding: 10px 20px;
+    border-radius: 25px; /* Köşeleri yuvarla */
     display: none;
+    border: 1px solid #333;
+    cursor: pointer;
+
 }
 
 /* Buton stilini düzenleyin */
