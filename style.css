@@ -216,23 +216,19 @@ label {
     /* Başlangıçta görünmez */
     transition: opacity 1s ease-in-out;
     /* Opaklık değişimi için geçiş */
-    z-index: 9999;
 }
 
 .arrow-left-right-icon {
     width: 60px; /* Png resim boyutu */
     height: auto;
-    z-index: 9999;
 }
 .arrow-up-icon {
     width: 80px; /* Png resim boyutu */
     height: auto;
-    z-index: 9999;
 }
 .arrow-img {
     width: 60px; /* Resmin genişliğini ayarlayın */
     height: auto;
-    z-index: 9999;
 }
 
 /* Sol ok için konumlandırma */

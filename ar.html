@@ -7,37 +7,21 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=portrait">
     <title>GeoAR.js demo</title>
-    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://supereggbert.github.io/aframe-htmlembed-component/dist/build.js"></script>
-    <script
-        src="https://rawgit.com/blairmacintyre/aframe-look-at-billboard-component/master/dist/aframe-look-at-billboard-component.min.js"></script>
 </head>
 <script type='text/javascript'
     src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/three.js/build/ar-threex-location-only.js'></script>
 <script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js'></script>
 <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
-<script>
-    THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
-</script>
-<script src="https://unpkg.com/@joeyklee/compass.js@latest/dist/compass.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script src="./script.js"></script>
 <link rel="stylesheet" type="text/css" href="./style.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"
     integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 </head>
 
 <body style='margin: 0; overflow: hidden;'>
-
-
-
-
-    <div class="centered instructions"></div>
-    <div class="centered instructions"></div>
     <div class="arrow left" id="left-arrow">
         <img src="assets/left_arrow.png" alt="Left Arrow" class="arrow-left-right-icon left-arrow">
     </div>
@@ -47,11 +31,6 @@
     <div class="arrow up" id="up-arrow">
         <img src="assets/ileri.png" alt="Up Arrow" class="arrow-up-icon up-arrow">
     </div>
-    <!--   <div class="position-indicator" id="position-indicator">Position: 0</div> -->
-    <!--   <div class="direction-indicator" id="direction-indicator">Direction: 0</div> -->
-    <!--   <div class="distance-indicator" id="distance-indicator">Distance: 0</div> -->
-    <!--  <div class="direction-from-start-indicator" id="direction-from-start-indicator">Direction from Start: 0</div> -->
-    <!--<div class="step-counter" id="step-counter">Number of Steps: 0</div> -->
     <div class="ui-box"></div>
     <div class="container">
         <svg class="progress-circle" width="200" height="200" viewBox="0 0 100 100" id="circle-svg">
@@ -65,7 +44,7 @@
     </div>
 
     <video id="camera-stream" autoplay playsinline
-        style="width: 100vw; height: 100vh; object-fit: cover; display: none; z-index: 0;"></video>
+        style="width: 100vw; height: 100vh; object-fit: cover; display: none; "></video>
     <div class="bottom-container">
 
 
@@ -211,23 +190,9 @@
             const coords = getQueryParams();
             console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
             window.coords = coords;
-            /*  const distance = calculateDistance(coords.x1, coords.y1, coords.x2, coords.y2);
-              const modelEntity = document.querySelector('#gltf-model');
-              if (modelEntity) {
-                  // Örneğin, x1 ve y1 değerlerini GPS koordinatları olarak kullanarak güncelleyelim.
-                  const latitude = parseFloat(coords.x2);
-                  const longitude = parseFloat(coords.y2);
-                  // GPS koordinatlarını güncelleyin
-                  modelEntity.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-      
-                  const scaleFactor = distance / 4; // Adjust scaling factor as needed
-                  modelEntity.setAttribute('scale', `${scaleFactor} ${scaleFactor} ${scaleFactor}`);
-              }
-                  */
+          
         });
     </script>
-
-    <!-- Font Awesome for icons -->
 
 </body>
 
