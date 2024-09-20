@@ -795,7 +795,6 @@ button {
     margin: 0 auto;
     padding: 10px;
     background-color: rgba(248, 248, 248, 0.9);
-    border-radius: 18px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
