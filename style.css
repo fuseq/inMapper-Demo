@@ -773,7 +773,7 @@ button {
 }
 
 .map-section {
-    flex: 0 0 88%; /* Set this section to take 80% of the height */
+    flex: 0 0 85%; /* Set this section to take 80% of the height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -790,7 +790,7 @@ button {
 }
 
 .info-section {
-    flex: 0 0 12%; /* Set this section to take 20% of the height */
+    flex: 0 0 15%; /* Set this section to take 20% of the height */
     width: 100%;
     margin: 0 auto;
     padding: 10px;
