@@ -1,3 +1,4 @@
+
 let isBetaAbove45 = false;
 
 window.onload = () => {
@@ -110,6 +111,7 @@ function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
+    const videoElement = document.getElementById('camera-stream');
     // const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.querySelector('.ui-box');
     const popup = document.querySelector('.popup');
@@ -118,8 +120,7 @@ function showArrow(directionToTurn, direction) {
     // Direction bilgisi ekranında güncelleniyor
     // directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    if (!isBetaAbove45) {
-        // Popup'ı gizle, animasyonları durdur
+    if (videoElement.style.display === 'none') {
         popup.style.display = 'none';
         container.classList.remove('grow');
         uiBox.classList.remove('border-animation');
@@ -252,13 +253,15 @@ function handleOrientation(event) {
 
     // Eğer beta değeri 45 dereceden büyükse
     if (beta > 45) {
-        bottomContainer.style.height = '30%';
+        /*bottomContainer.style.height = '30%';
         mapSection.style.height = '100%';
+        */
         
         isBetaAbove45 = true;  // Beta 45'ten büyükse true yap
     } else {
-        bottomContainer.style.height = '100%';
+       /* bottomContainer.style.height = '100%';
         mapSection.style.height = '100%';
+        */
         
         isBetaAbove45 = false; // Beta 45'ten küçükse false yap
     }
