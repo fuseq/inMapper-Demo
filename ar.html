@@ -90,16 +90,20 @@
             <div class="content-wrapper"> <!-- Yeni div eklendi -->
                 <div id="main-heading" class="main-heading">Going To</div>
                 <div id="line" class="line"></div>
-                <div class="content">
-                    <img class="logo" src="https://i.ibb.co/PjjtDkp/inmapper-1.png" alt="W3Schools.com">
-                    <div class="text">
-                        <div class="heading">Destination</div>
-                        <div class="subheading">
-                            <div class="time-info">
+                <div class="content" id="content">
+                    <img class="logo" src="https://i.ibb.co/PjjtDkp/inmapper-1.png" alt="Logo">
+                    <div class="text" id="destinationText">
+                        <div class="heading" id="destinationHeading">Destination</div>
+                        <div class="subheading" id="destinationSubheading">
+                            <div class="time-info-big" id="timeInfoBig">
                                 <i class="fa-solid fa-person-running"></i>
                                 5 minutes
                             </div>
                         </div>
+                    </div>
+                    <div class="time-info-small hidden" id="timeInfoSmall">
+                        <i class="fa-solid fa-person-running"></i>
+                        5 minutes
                     </div>
                 </div>
             </div>
@@ -147,6 +151,9 @@
             const rightButton = document.getElementById('right-button');
             const bottomContainer = document.querySelector('.bottom-container');
             const mainHeading = document.getElementById('main-heading');
+            const timeInfoBig = document.getElementById("timeInfoBig");
+            const timeInfoSmall = document.getElementById("timeInfoSmall");
+            const destinationText = document.getElementById("destinationText");
             const line = document.getElementById('line');
             let stream;
 
@@ -156,6 +163,12 @@
             }
 
             centerButton.addEventListener('click', function () {
+                // Duruma göre öğeleri göster/gizle
+               
+                    timeInfoBig.style.visibility = "hidden";
+                    timeInfoSmall.style.visibility = "visible";
+                    destinationText.style.display = "flex"; //
+                
                 // Start camera stream (rear camera)
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
                     .then(function (mediaStream) {
@@ -176,6 +189,9 @@
                     const tracks = stream.getTracks();
                     tracks.forEach(track => track.stop());
                 }
+                timeInfoSmall.style.visibility = "hidden";
+                timeInfoBig.style.visibility = "visible";
+                destinationText.style.display = "block"; 
                 videoElement.srcObject = null;
                 videoElement.style.display = 'none';
                 bottomContainer.style.height = '100%'; // Reset height

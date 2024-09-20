@@ -838,10 +838,12 @@ button {
     display: flex;
     align-items: center;
     padding-bottom: 5px;
+    
 }
 
 .text {
     margin-left: 10px;
+    flex: 1;
 }
 
 .heading {
@@ -865,6 +867,12 @@ button {
     height: 30px;
     border-radius: 5px;
     border: 0.8px solid #cfc9c9;
+}
+
+
+
+.hidden {
+    visibility: hidden; /* Öğeyi gizle */
 }
 .icon-button {
     background: none;
@@ -927,12 +935,12 @@ button {
     gap: 5px; /* Resim ve yazı arasına boşluk ekle */
 }
 
-.time-info {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    color: #333; /* Koyu gri renk */
+.time-info-small{
+    padding-right: 30px;
+
 }
+
+
 .image-button {
     display: inline-flex;
     justify-content: center;
