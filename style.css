@@ -776,12 +776,13 @@ button {
 }
 
 .map-section {
-    height: 100%;
+    height: 87%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+    position: absolute;
+    top: 0px;
 }
 
 .map-iframe {
@@ -794,9 +795,49 @@ button {
 .info-section {
     transition: height 0.5s ease;
 }
+.button-section {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between; /* Butonları iki uca hizala */
+    align-items: center;
+    position: fixed;
+    bottom: 13%;
+    padding: 0 20px; /* Sağ ve soldan boşluk ekle */
+}
+
+.center-button {
+    margin: 0 auto; /* Ortada hizalar */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* Tam ortalar */
+    padding: 10px 20px;
+}
+
+.right-button {
+    margin-left: auto; /* Sağa yaslar */
+    padding: 5px 10px;
+    right: 10%;
+}
+
+/* Buton stilini düzenleyin */
+button {
+    background-color: #f8f8f8; /* Arka plan rengi */
+    border: 1px solid #333; /* Kenarlık */
+    border-radius: 5px; /* Köşe yuvarlama */
+   
+    cursor: pointer; /* Fare ile üzerlerine gelindiğinde işaretçi değişimi */
+    font-size: 16px; /* Yazı boyutu */
+    transition: background-color 0.3s ease; /* Hover geçişi */
+}
+
+button:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Hover arka plan rengi */
+}
 
 .info-section {
-    width: 90%;
+    width: 100%;
+    height: 10%;
     margin: 0 auto; 
     display: flex;
     align-items: center;
@@ -805,8 +846,8 @@ button {
     background-color: rgba(248, 248, 248, 0.8); /* %60 transparan arka plan rengi */
     border-radius: 10px;
     position: fixed; /* Sabit konumlandırma */
-    bottom: 3px; /* Alttan biraz yükselt */
-    left: 50%; /* Ortala */
+    bottom: 0px; /* Alttan biraz yükselt */
+    left: 50%; 
     transform: translateX(-50%); /* Sol kenardan %50 kaydır */
     
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Gölge efekti */
@@ -822,6 +863,7 @@ button {
 }
 
 .destination {
+    margin-left: 10px; 
     display: flex;
     align-items: center;
     font-weight: 600;
@@ -860,6 +902,7 @@ button {
 }
 
 .circular-icon-button {
+    margin-right: 10px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
