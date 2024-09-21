@@ -64,58 +64,65 @@
         </svg>
     </div>
 
+    <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false"
+        renderer="antialias: true; alpha: true">
 
+    </a-scene>
     <div class="bottom-container">
 
-        <!-- Map Section -->
+        <!--    <div class="compass-section">
+            <div class="compass-circle">
+                <div class="compass-arrow"></div>
+                <div id="direction" class="compass-direction">NW</div>
+            </div>
+        </div> -->
         <div class="map-section">
             <iframe src="https://cbaines.github.io/leaflet-indoor/examples/" frameborder="0"
                 class="map-iframe"></iframe>
         </div>
-        <div class="button-section">
-            <button class="center-button">
-                <img src="assets/cube_white.png" alt="Cube Icon" /> <!-- Resim burada kullanılıyor -->
-                View In AR
-            </button>
-            <button class="right-button">Stop</button>
-        </div>
 
-        <!-- Info Section -->
+        <!-- First Section (Info) -->
         <div class="info-section">
             <div class="destination">
-                <a class="image-button">
+                <a href="index.html" class="image-button">
                     <img src="https://i.ibb.co/PjjtDkp/inmapper-1.png" alt="Icon" />
                 </a>
                 <div class="destination-details">
                     <div class="destination-name">Destination Name</div>
                     <div class="time-info">
-                        <i class="fa-solid fa-person-running"></i> 5 minutes
+                        <i class="fa-solid fa-person-running"></i>
+                        5 minutes
                     </div>
                 </div>
             </div>
             <div class="icon-buttons-container">
-                <a class="circular-icon-button">
+                <a  class="circular-icon-button">
                     <i class="fa-solid fa-question"></i>
                 </a>
-                <a class="circular-icon-button">
+                <a href="index.html" class="circular-icon-button">
                     <i class="fa-solid fa-xmark"></i>
                 </a>
             </div>
+            
         </div>
     </div>
 
     <div class="popup" id="popup">
         <div class="popup-content">
-            <a>
+            <a href="https://imgbb.com/">
                 <img src="assets/location.gif" alt="location" class="popup-image">
             </a>
             <div class="popup-message">Harita Ekranına Dönmek İçin Tamam Butonuna Basabilir Veya Tekrar Butonuna Basarak
                 Hedef Noktanızı Tekrar Görebilirsiniz</div><br>
 
             <div class="popup-button-container">
-                <button class="btn-ok">
+                <button class="btn-ok" onclick="window.location.href='index.html';">
                     <i class="fas fa-check"></i>
                     <span>Tamam</span>
+                </button>
+                <button class="btn-again">
+                    <i class="fas fa-redo"></i>
+                    <span>Tekrar</span>
                 </button>
             </div>
         </div>
@@ -133,50 +140,7 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const centerButton = document.querySelector('.center-button'); // Question buttonu buluyoruz
-            const rightButton = document.querySelector('.right-button');
-            const bottomContainer = document.querySelector('.bottom-container');
-            const popup = document.querySelector('.popup');
-            centerButton.addEventListener('click', function () {
-                // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
-                if (!document.querySelector('a-scene')) {
-                    const scene = document.createElement('a-scene');
-                    scene.setAttribute('vr-mode-ui', 'enabled: false');
-                    scene.setAttribute('arjs', 'sourceType: webcam; videoTexture: true; debugUIEnabled: false');
-                    scene.setAttribute('renderer', 'antialias: true; alpha: true');
-                    bottomContainer.style.height = '40%';
-                    centerButton.style.display = 'none';
-                    rightButton.style.display = 'block';
-                    // Sahneyi body'e ekleyelim
-                    document.body.appendChild(scene);
-                }
-            });
 
-            rightButton.addEventListener('click', function () {
-                // Eğer a-scene mevcutsa sil
-                const existingScene = document.querySelector('a-scene');
-                if (existingScene) {
-                    existingScene.parentNode.removeChild(existingScene);
-                    bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
-                    centerButton.style.display = 'none'; // centerButton'ı tekrar göster
-                    rightButton.style.display = 'none'; // rightButton'ı görünür tut
-                }
-            });
-
-            document.querySelector('.btn-ok').addEventListener('click', function (event) {
-                const existingScene = document.querySelector('a-scene');
-                if (existingScene) {
-                    popup.style.display = 'none'; // Popup'ı görünmez yap
-                    existingScene.parentNode.removeChild(existingScene);
-                    bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
-                    centerButton.style.display = 'none'; // centerButton'ı tekrar göster
-                    rightButton.style.display = 'none'; // rightButton'ı görünür tut
-                    
-
-                }
-            });
-        });
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             return {
