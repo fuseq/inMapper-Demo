@@ -173,19 +173,24 @@ function showArrow(directionToTurn, direction) {
         upArrow.classList.add('fade-out');
         directionMatches = false;
         // Border animasyonunu kaldır
-        uiBox.classList.remove('border-animation');
         // Önce progress bar'ı anında sıfırla
         progressCircle.style.transition = 'none';  // Anında sıfırlama için animasyonu kaldır
         progressCircle.style.strokeDashoffset = '283'; // Progress bar'ı direkt sıfırla
 
+        popup.style.display = 'none';
+        container.classList.remove('grow');
+        uiBox.classList.remove('border-animation');
+        // animationend olayını kaldır
+        uiBox.removeEventListener('animationend', showPopupOnAnimationEnd);
+
         // Daha sonra yeniden transition ekleyip, çemberi küçült
         setTimeout(() => {
             progressCircle.style.transition = 'stroke-dashoffset 3s linear'; // Transition'ı geri ekle
-            container.classList.remove('grow'); // Çemberi küçült
+           
         }, 0); // Hemen sıfırlama işlemini yap
         // Popup zamanlayıcısını temizle
         clearTimeout(popupTimeout);
-        popup.style.display = 'none'; // Popup'ı gizle
+     
     }
 }
 function getCompassDirection(alpha) {
