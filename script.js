@@ -163,7 +163,7 @@ function showArrow(directionToTurn, direction) {
         if (!isPopupVisible) {
             popup.style.display = 'none'; // Popup sadece görünür olmadıysa gizlenir
         }
-
+ 
         setTimeout(() => {
             progressCircle.style.transition = 'stroke-dashoffset 3s linear';
             container.classList.remove('grow');
