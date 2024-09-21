@@ -116,16 +116,6 @@ function showArrow(directionToTurn, direction) {
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
 
-    if (!document.querySelector('a-scene')) {
-        // Popup'ı gizle, animasyonları durdur
-        popup.style.display = 'none';
-        container.classList.remove('grow');
-        uiBox.classList.remove('border-animation');
-        uiBox.removeEventListener('animationend', showPopupOnAnimationEnd);
-        isPopupVisible = false; // Popup gizlendi
-        return;
-    }
-
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
