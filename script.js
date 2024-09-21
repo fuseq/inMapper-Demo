@@ -133,8 +133,8 @@ function showArrow(directionToTurn, direction) {
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
     // Yukarı yön oku (±50 derece içinde)
-    const upperBound = (directionToTurn + 10) % 360;
-    const lowerBound = (directionToTurn - 10 + 360) % 360;
+    const upperBound = (directionToTurn + 20) % 360;
+    const lowerBound = (directionToTurn - 20 + 360) % 360;
 
     // Eğer yön directionToTurn ile ±50 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
