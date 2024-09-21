@@ -83,7 +83,7 @@
         <!-- Info Section -->
         <div class="info-section">
             <div class="destination">
-                <a href="index.html" class="image-button">
+                <a class="image-button">
                     <img src="https://i.ibb.co/PjjtDkp/inmapper-1.png" alt="Icon" />
                 </a>
                 <div class="destination-details">
@@ -97,7 +97,7 @@
                 <a class="circular-icon-button">
                     <i class="fa-solid fa-question"></i>
                 </a>
-                <a href="index.html" class="circular-icon-button">
+                <a class="circular-icon-button">
                     <i class="fa-solid fa-xmark"></i>
                 </a>
             </div>
@@ -106,20 +106,16 @@
 
     <div class="popup" id="popup">
         <div class="popup-content">
-            <a href="https://imgbb.com/">
+            <a>
                 <img src="assets/location.gif" alt="location" class="popup-image">
             </a>
             <div class="popup-message">Harita Ekranına Dönmek İçin Tamam Butonuna Basabilir Veya Tekrar Butonuna Basarak
                 Hedef Noktanızı Tekrar Görebilirsiniz</div><br>
 
             <div class="popup-button-container">
-                <button class="btn-ok" onclick="window.location.href='index.html';">
+                <button class="btn-ok">
                     <i class="fas fa-check"></i>
                     <span>Tamam</span>
-                </button>
-                <button class="btn-again">
-                    <i class="fas fa-redo"></i>
-                    <span>Tekrar</span>
                 </button>
             </div>
         </div>
@@ -162,7 +158,17 @@
                 if (existingScene) {
                     existingScene.parentNode.removeChild(existingScene);
                     bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
-                    centerButton.style.display = 'flex'; // centerButton'ı tekrar göster
+                    centerButton.style.display = 'none'; // centerButton'ı tekrar göster
+                    rightButton.style.display = 'none'; // rightButton'ı görünür tut
+                }
+            });
+
+            document.querySelector('.btn-ok').addEventListener('click', function (event) {
+                const existingScene = document.querySelector('a-scene');
+                if (existingScene) {
+                    existingScene.parentNode.removeChild(existingScene);
+                    bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
+                    centerButton.style.display = 'none'; // centerButton'ı tekrar göster
                     rightButton.style.display = 'none'; // rightButton'ı görünür tut
                 }
             });

@@ -568,9 +568,9 @@ button {
     
 }
 
-.popup-message,
-.popup-button {
+.popup-message{
     margin-bottom: 25px;
+    margin-top: 25px;
     display:flex;
     flex-direction: row;
 }
@@ -607,6 +607,7 @@ button {
     color: #fff;
     width: 150px; 
     text-align: center; 
+    margin-top: 35px;
 }
 .btn-again {
   border: 1px solid;
