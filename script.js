@@ -1,4 +1,5 @@
 
+let isPopupVisible = false;
 
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
@@ -110,86 +111,76 @@ function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
-    // const directionIndicator = document.getElementById('direction-indicator');
     const uiBox = document.querySelector('.ui-box');
     const popup = document.querySelector('.popup');
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
-    // Direction bilgisi ekranında güncelleniyor
-    // directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
     if (!document.querySelector('a-scene')) {
         // Popup'ı gizle, animasyonları durdur
         popup.style.display = 'none';
         container.classList.remove('grow');
         uiBox.classList.remove('border-animation');
-        // animationend olayını kaldır
         uiBox.removeEventListener('animationend', showPopupOnAnimationEnd);
+        isPopupVisible = false; // Popup gizlendi
         return;
     }
 
-    // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
-    // Yukarı yön oku (±50 derece içinde)
+
     const upperBound = (directionToTurn + 10) % 360;
     const lowerBound = (directionToTurn - 10 + 360) % 360;
 
-    // Eğer yön directionToTurn ile ±50 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-        // Yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
-        directionMatches = true;
-
+        
         // Border animasyonunu başlat
         uiBox.classList.add('border-animation');
 
         uiBox.addEventListener('animationend', showPopupOnAnimationEnd, { once: true });
-        // Çemberi büyüt
+
         container.classList.add('grow');
 
-        // Büyüme tamamlandıktan sonra progress bar'ı başlat
         setTimeout(() => {
             progressCircle.style.strokeDashoffset = '0';
-        }, 1000); // 1 saniye sonra yükleme başlasın
+        }, 1000);
+
     } else {
-        // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
         const counterclockwise = (direction - directionToTurn + 360) % 360;
 
         if (clockwise <= counterclockwise) {
-            // Sağ ok görünür
             leftArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
-            // Sol ok görünür
             leftArrow.classList.add('fade-in');
             rightArrow.classList.add('fade-out');
         }
         upArrow.classList.add('fade-out');
-        directionMatches = false;
-        // Border animasyonunu kaldır
+
         uiBox.classList.remove('border-animation');
-        // Önce progress bar'ı anında sıfırla
-        progressCircle.style.transition = 'none';  // Anında sıfırlama için animasyonu kaldır
-        progressCircle.style.strokeDashoffset = '283'; // Progress bar'ı direkt sıfırla
+
+        progressCircle.style.transition = 'none';
+        progressCircle.style.strokeDashoffset = '283';
 
         uiBox.removeEventListener('animationend', showPopupOnAnimationEnd);
-        popup.style.display = 'none'; // Popup'ı gizle
 
-        // Daha sonra yeniden transition ekleyip, çemberi küçült
+        if (!isPopupVisible) {
+            popup.style.display = 'none'; // Popup sadece görünür olmadıysa gizlenir
+        }
+
         setTimeout(() => {
-            progressCircle.style.transition = 'stroke-dashoffset 3s linear'; // Transition'ı geri ekle
-            container.classList.remove('grow'); // Çemberi küçült
-        }, 0); // Hemen sıfırlama işlemini yap
-        // Popup zamanlayıcısını temizle
-
+            progressCircle.style.transition = 'stroke-dashoffset 3s linear';
+            container.classList.remove('grow');
+        }, 0);
     }
 }
+
 function getCompassDirection(alpha) {
     // Assuming alpha is in degrees and ranges from 0 to 360
     // You can adjust these conditions based on your specific requirements
@@ -319,6 +310,8 @@ function startDistanceCheck(coords) {
 }
 
 function showPopupOnAnimationEnd() {
-    const popup = document.querySelector('.popup');
-    popup.style.display = 'flex';
+    if (!isPopupVisible) {
+        popup.style.display = 'block'; 
+        isPopupVisible = true; 
+    }
 }
