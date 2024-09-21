@@ -137,6 +137,7 @@
             const centerButton = document.querySelector('.center-button'); // Question buttonu buluyoruz
             const rightButton = document.querySelector('.right-button');
             const bottomContainer = document.querySelector('.bottom-container');
+            const popup = document.querySelector('.popup');
             centerButton.addEventListener('click', function () {
                 // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
                 if (!document.querySelector('a-scene')) {
@@ -166,10 +167,13 @@
             document.querySelector('.btn-ok').addEventListener('click', function (event) {
                 const existingScene = document.querySelector('a-scene');
                 if (existingScene) {
+                    popup.style.display = 'none'; // Popup'ı görünmez yap
                     existingScene.parentNode.removeChild(existingScene);
                     bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
                     centerButton.style.display = 'none'; // centerButton'ı tekrar göster
                     rightButton.style.display = 'none'; // rightButton'ı görünür tut
+                    
+
                 }
             });
         });
