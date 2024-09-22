@@ -65,13 +65,23 @@ body, html {
 }
 
 .container {
-    position: fixed; /* Sabit konumlandırma */
+    position: fixed; /* Sabit konumlandırma ile ekranın ortasında kalmasını sağlar */
     top: 50%; /* Ekranın ortasına hizalamak için */
     left: 50%; /* Ekranın ortasına hizalamak için */
-    transform: translate(-50%, -50%); /* Ortalamak için */
-    z-index: 4; /* Z-index ayarı */
+    transform: translate(-50%, -50%) scale(0.5); /* Ortalamak için translate kullanılıyor */
+    transition: transform 1s ease;
 }
 
 .progress-circle {
     transform: rotate(-90deg); /* Progress bar'ı yukarıdan başlat */
+}
+
+.progress {
+    stroke-dasharray: 283;
+    stroke-dashoffset: 283;
+    transition: stroke-dashoffset 3s linear;
+}
+
+.container.grow {
+    transform: translate(-50%, -50%) scale(1);
 }

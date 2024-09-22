@@ -4,7 +4,8 @@ const directionInfo = document.getElementById('directionInfo');
 const leftArrow = document.getElementById('left-arrow');
 const forwardArrow = document.getElementById('forward-arrow');
 const rightArrow = document.getElementById('right-arrow');
-
+const container = document.querySelector('.container');
+const progressCircle = document.querySelector('.progress');
 // URL'den koordinatları alma
 const urlParams = new URLSearchParams(window.location.search);
 const x1 = urlParams.get('x1');
@@ -14,10 +15,10 @@ const y2 = urlParams.get('y2');
 
 console.log(`Gelen Koordinatlar: X1=${x1}, Y1=${y1}, X2=${x2}, Y2=${y2}`);
 
-const startLat = parseFloat(x1); 
-const startLon = parseFloat(y1); 
-const targetLat = parseFloat(x2); 
-const targetLon = parseFloat(y2); 
+const startLat = parseFloat(x1);
+const startLon = parseFloat(y1);
+const targetLat = parseFloat(x2);
+const targetLon = parseFloat(y2);
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
@@ -85,14 +86,25 @@ function updateArrows(compass, directionToTurn) {
         forwardArrow.style.opacity = '1'; // İleri oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
         rightArrow.style.opacity = '0'; // Sağ oku gizle
+        container.classList.add('grow');
+        setTimeout(() => {
+            progressCircle.style.strokeDashoffset = '0';
+        }, 1000); // 1 saniye sonra yükleme başlasın
+
     } else if (angleDifference < 180) {
         rightArrow.style.opacity = '1'; // Sağ oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
         forwardArrow.style.opacity = '0'; // İleri oku gizle
+        // Sıfırlama işlemi anlık olacak
+        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlamak için
+        container.classList.remove('grow'); // Küçültmek için
     } else {
         leftArrow.style.opacity = '1'; // Sol oku görünür yap
         rightArrow.style.opacity = '0'; // Sağ oku gizle
         forwardArrow.style.opacity = '0'; // İleri oku gizle
+        // Sıfırlama işlemi anlık olacak
+        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlamak için
+        container.classList.remove('grow'); // Küçültmek için
     }
 }
 
@@ -104,9 +116,9 @@ startCompassListener(compass => {
 navigator.mediaDevices.getUserMedia({
     video: { facingMode: { exact: "environment" } }
 })
-.then(stream => {
-    video.srcObject = stream;
-})
-.catch(error => {
-    console.error("Kamera açma hatası:", error);
-});
+    .then(stream => {
+        video.srcObject = stream;
+    })
+    .catch(error => {
+        console.error("Kamera açma hatası:", error);
+    });
