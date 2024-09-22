@@ -1,13 +1,14 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Tüm yüksekliği kapsayacak şekilde ayarlayın */
     overflow: hidden;
 }
+
 #video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Video tam olarak kapsanır */
 }
 .info {
     position: absolute;
@@ -25,4 +26,18 @@ body, html {
 }
 #directionInfo {
     top: 15%;
+}
+.arrow-container {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none; /* Okların etkileşimini devre dışı bırak */
+}
+
+.arrow-container img {
+    width: 50px; /* Okların boyutunu ayarlayın */
+    height: auto;
 }

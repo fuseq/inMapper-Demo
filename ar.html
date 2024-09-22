@@ -7,14 +7,15 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
-    <video id="video" autoplay playsinline></video>
+    <div class="video-container">
+        <video id="video" autoplay playsinline></video>
+        <div class="arrow-container">
+            <img id="left-arrow" src="assets/left_arrow.png" alt="Sol Yön Ok" style="display: none;">
+            <img id="right-arrow" src="assets/right_arrow.png" alt="Sağ Yön Ok" style="display: none;">
+        </div>
+    </div>
     <div class="info" id="compassInfo">Telefonun yönü: 0°</div>
     <div class="info" id="directionInfo">Dönme yönü: 0°</div>
-
-    <div class="arrow-container">
-        <img id="left-arrow" src="assets/left_arrow.png" alt="Sol Yön Ok" style="display: none;">
-        <img id="right-arrow" src="assets/right_arrow.png" alt="Sağ Yön Ok" style="display: none;">
-    </div>
 
     <script src="script.js"></script>
 </body>
