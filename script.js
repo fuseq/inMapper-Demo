@@ -14,10 +14,10 @@ const y2 = urlParams.get('y2');
 
 console.log(`Gelen Koordinatlar: X1=${x1}, Y1=${y1}, X2=${x2}, Y2=${y2}`);
 
-const startLat = parseFloat(x1); 
-const startLon = parseFloat(y1); 
-const targetLat = parseFloat(x2); 
-const targetLon = parseFloat(y2); 
+const startLat = parseFloat(x1);
+const startLon = parseFloat(y1);
+const targetLat = parseFloat(x2);
+const targetLon = parseFloat(y2);
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
@@ -80,13 +80,15 @@ function startCompassListener(callback) {
 
 function updateArrows(compass, directionToTurn) {
     const angleDifference = (directionToTurn - compass + 360) % 360;
+    const container = document.querySelector('.container');
+    const progressCircle = document.querySelector('.progress');
 
     if (angleDifference < 10 && angleDifference > -10) {
         // 10 -10 aralığındaysak
         forwardArrow.style.opacity = '1'; // İleri oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
         rightArrow.style.opacity = '0'; // Sağ oku gizle
-        
+
         // Çemberi büyüt ve yükleme işlemini başlat
         container.classList.add('grow');
         setTimeout(() => {
@@ -112,9 +114,9 @@ startCompassListener(compass => {
 navigator.mediaDevices.getUserMedia({
     video: { facingMode: { exact: "environment" } }
 })
-.then(stream => {
-    video.srcObject = stream;
-})
-.catch(error => {
-    console.error("Kamera açma hatası:", error);
-});
+    .then(stream => {
+        video.srcObject = stream;
+    })
+    .catch(error => {
+        console.error("Kamera açma hatası:", error);
+    });
