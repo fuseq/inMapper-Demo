@@ -84,23 +84,23 @@ function updateArrows(compass, directionToTurn) {
     const progressCircle = document.querySelector('.progress');
 
     if (angleDifference < 10 && angleDifference > -10) {
-        // 10 -10 aralığındaysak
         forwardArrow.style.opacity = '1'; // İleri oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
         rightArrow.style.opacity = '0'; // Sağ oku gizle
-
-        // Çemberi büyüt ve yükleme işlemini başlat
         container.classList.add('grow');
         setTimeout(() => {
             progressCircle.style.strokeDashoffset = '0';
         }, 1000); // 1 saniye sonra yükleme başlasın
-    } else {
-        // Aksi halde sıfırlayıp küçült
+    } else if (angleDifference < 180) {
+        rightArrow.style.opacity = '1'; // Sağ oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
+        forwardArrow.style.opacity = '0'; // İleri oku gizle
+        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlamak için
+        container.classList.remove('grow'); // Küçültmek için
+    } else {
+        leftArrow.style.opacity = '1'; // Sol oku görünür yap
         rightArrow.style.opacity = '0'; // Sağ oku gizle
         forwardArrow.style.opacity = '0'; // İleri oku gizle
-
-        // Sıfırlama işlemi anlık olacak
         progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlamak için
         container.classList.remove('grow'); // Küçültmek için
     }
