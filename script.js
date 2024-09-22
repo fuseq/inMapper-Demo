@@ -2,6 +2,7 @@ const video = document.getElementById('video');
 const compassInfo = document.getElementById('compassInfo');
 const directionInfo = document.getElementById('directionInfo');
 const leftArrow = document.getElementById('left-arrow');
+const forwardArrow = document.getElementById('forward-arrow');
 const rightArrow = document.getElementById('right-arrow');
 
 // URL'den koordinatları alma
