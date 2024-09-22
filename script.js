@@ -11,10 +11,10 @@ const y2 = urlParams.get('y2');
 
 console.log(`Gelen Koordinatlar: X1=${x1}, Y1=${y1}, X2=${x2}, Y2=${y2}`);
 
-const startLat = parseFloat(y1); // Y1
-const startLon = parseFloat(x1); // X1
-const targetLat = parseFloat(y2); // Y2
-const targetLon = parseFloat(x2); // X2
+const startLat = parseFloat(x1); 
+const startLon = parseFloat(y1); 
+const targetLat = parseFloat(x2); 
+const targetLon = parseFloat(y2); 
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
