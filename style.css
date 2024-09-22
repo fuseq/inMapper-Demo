@@ -9,6 +9,8 @@ body, html {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: absolute; /* Video konumunu ayarlayın */
+    z-index: 1; /* Video alt katmanda kalacak */
 }
 
 .info {
@@ -21,6 +23,7 @@ body, html {
     background: rgba(0, 0, 0, 0.7);
     padding: 10px;
     border-radius: 5px;
+    z-index: 2; /* Bilgiler üst katmanda */
 }
 
 #compassInfo {
@@ -39,14 +42,17 @@ body, html {
     justify-content: space-between;
     transform: translateY(-50%);
     pointer-events: none; /* Okların etkileşimini devre dışı bırak */
+    z-index: 3; /* Oklar en üst katmanda */
 }
 
 #left-arrow {
-    margin-left: 90%; /* Sol kenara uzaklık */
+    margin-left: 1%; /* Sol kenara uzaklık */
+    display: none;
 }
 
 #right-arrow {
-    margin-left: 10%; /* Sağ kenara uzaklık */
+    margin-right: 1%; /* Sağ kenara uzaklık */
+    display: none;
 }
 
 .arrow-container img {
