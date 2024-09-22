@@ -70,10 +70,12 @@ body, html {
     left: 50%; /* Ekranın ortasına hizalamak için */
     transform: translate(-50%, -50%) scale(0.5); /* Ortalamak için translate kullanılıyor */
     transition: transform 1s ease;
+    z-index: 4; /* Diğer öğelerin üstünde görünmesini sağlar */
 }
 
 .progress-circle {
     transform: rotate(-90deg); /* Progress bar'ı yukarıdan başlat */
+    z-index: 4; /* En üstte görünmesi için */
 }
 
 .progress {
