@@ -3,54 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arka Kamera</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: rotateY(180deg); /* Ters çevirme efekti */
-        }
-    </style>
+    <title>Arka Kamera Aç</title>
 </head>
 <body>
+    <video id="video" autoplay playsinline></video>
+    <script>
+        const video = document.getElementById('video');
 
-<video id="video" autoplay playsinline></video>
-
-<script>
-    const video = document.getElementById('video');
-
-    async function startCamera() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: { exact: "environment" } } // Arka kamera
-            });
+        navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { exact: "environment" } } // Arka kamera
+        })
+        .then(stream => {
             video.srcObject = stream;
-        } catch (error) {
-            console.error("Kamera açılırken hata oluştu:", error);
-        }
-    }
-
-    // Tam ekran modu
-    function openFullscreen() {
-        if (video.requestFullscreen) {
-            video.requestFullscreen();
-        } else if (video.webkitRequestFullscreen) { // Safari
-            video.webkitRequestFullscreen();
-        } else if (video.msRequestFullscreen) { // IE/Edge
-            video.msRequestFullscreen();
-        }
-    }
-
-    video.addEventListener('loadedmetadata', openFullscreen);
-    startCamera();
-</script>
-
+        })
+        .catch(error => {
+            console.error("Kamera açma hatası:", error);
+        });
+    </script>
 </body>
 </html>
