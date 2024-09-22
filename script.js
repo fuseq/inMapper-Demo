@@ -16,10 +16,10 @@ const y2 = urlParams.get('y2');
 
 console.log(`Gelen Koordinatlar: X1=${x1}, Y1=${y1}, X2=${x2}, Y2=${y2}`);
 
-const startLat = parseFloat(x1);
-const startLon = parseFloat(y1);
-const targetLat = parseFloat(x2);
-const targetLon = parseFloat(y2);
+const startLat = parseFloat(x1); 
+const startLon = parseFloat(y1); 
+const targetLat = parseFloat(x2); 
+const targetLon = parseFloat(y2); 
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
@@ -87,7 +87,7 @@ function updateArrows(compass, directionToTurn) {
         forwardArrow.style.opacity = '1'; // İleri oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
         rightArrow.style.opacity = '0'; // Sağ oku gizle
-
+        
         // Daireyi büyüt
         if (!isCircleGrowing) {
             isCircleGrowing = true;
@@ -97,10 +97,7 @@ function updateArrows(compass, directionToTurn) {
             // Daire etrafında yükleme animasyonu başlat
             let progress = 0;
             loadingInterval = setInterval(() => {
-                progressCircle.style.background = `conic-gradient(
-                    rgba(0, 255, 0, 0.5) ${progress * 3.6}deg,
-                    rgba(255, 255, 255, 0.5) ${progress * 3.6}deg
-                )`;
+                progressCircle.style.border = `5px solid rgba(0, 255, 0, ${progress / 100})`; // Border rengini ayarla
                 progress += 1; // Her döngüde yüzdeyi artır
                 if (progress > 100) {
                     clearInterval(loadingInterval); // Yüzde 100'e ulaştığında durdur
@@ -114,7 +111,7 @@ function updateArrows(compass, directionToTurn) {
             progressCircle.style.width = '50px'; // Küçült
             progressCircle.style.height = '50px'; // Küçült
             clearInterval(loadingInterval); // Yükleme animasyonunu durdur
-            progressCircle.style.background = 'rgba(255, 255, 255, 0.5)'; // Temizle
+            progressCircle.style.border = '5px solid rgba(255, 255, 255, 0.5)'; // Temizle
         }
 
         if (angleDifference < 180) {
@@ -137,9 +134,9 @@ startCompassListener(compass => {
 navigator.mediaDevices.getUserMedia({
     video: { facingMode: { exact: "environment" } }
 })
-    .then(stream => {
-        video.srcObject = stream;
-    })
-    .catch(error => {
-        console.error("Kamera açma hatası:", error);
-    });
+.then(stream => {
+    video.srcObject = stream;
+})
+.catch(error => {
+    console.error("Kamera açma hatası:", error);
+});
