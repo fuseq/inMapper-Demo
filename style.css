@@ -45,17 +45,14 @@ body, html {
     z-index: 3; /* Oklar en üst katmanda */
 }
 
-#left-arrow {
-    margin-left: 1%; /* Sol kenara uzaklık */
-    display: none;
-}
-
-#right-arrow {
-    margin-right: 1%; /* Sağ kenara uzaklık */
-    display: none;
+#left-arrow, #right-arrow {
+    width: 50px; /* Okların boyutunu ayarlayın */
+    height: auto;
+    opacity: 0; /* Başlangıçta görünmez */
+    transition: opacity 0.5s; /* Görünürlük geçişi için animasyon */
 }
 
 .arrow-container img {
-    width: 50px; /* Okların boyutunu ayarlayın */
+    width: 100%; /* Okların boyutunu ayarlayın */
     height: auto;
 }

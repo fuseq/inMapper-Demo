@@ -81,11 +81,11 @@ function updateArrows(compass, directionToTurn) {
     const angleDifference = (directionToTurn - compass + 360) % 360;
 
     if (angleDifference < 180) {
-        rightArrow.style.display = 'block';
-        leftArrow.style.display = 'none';
+        rightArrow.style.opacity = '1'; // Sağ oku görünür yap
+        leftArrow.style.opacity = '0'; // Sol oku gizle
     } else {
-        leftArrow.style.display = 'block';
-        rightArrow.style.display = 'none';
+        leftArrow.style.opacity = '1'; // Sol oku görünür yap
+        rightArrow.style.opacity = '0'; // Sağ oku gizle
     }
 }
 
