@@ -1,6 +1,8 @@
 const video = document.getElementById('video');
 const compassInfo = document.getElementById('compassInfo');
 const directionInfo = document.getElementById('directionInfo');
+const leftArrow = document.getElementById('left-arrow');
+const rightArrow = document.getElementById('right-arrow');
 
 // URL'den koordinatları alma
 const urlParams = new URLSearchParams(window.location.search);
@@ -9,9 +11,7 @@ const y1 = urlParams.get('y1');
 const x2 = urlParams.get('x2');
 const y2 = urlParams.get('y2');
 
-console.log(`Gelen Koordinatlar: X1=${x1}, Y1=${y1}, X2=${x2}, Y2=${y2}`);
-
-const startLat = parseFloat(x1); 
+const startLat = parseFloat(y1); 
 const startLon = parseFloat(y1); 
 const targetLat = parseFloat(x2); 
 const targetLon = parseFloat(y2); 
@@ -75,8 +75,21 @@ function startCompassListener(callback) {
     }
 }
 
+function updateArrows(compass, directionToTurn) {
+    const angleDifference = (directionToTurn - compass + 360) % 360;
+
+    if (angleDifference < 180) {
+        rightArrow.style.display = 'block';
+        leftArrow.style.display = 'none';
+    } else {
+        leftArrow.style.display = 'block';
+        rightArrow.style.display = 'none';
+    }
+}
+
 startCompassListener(compass => {
     compassInfo.textContent = `Telefonun yönü: ${compass.toFixed(2)}°`;
+    updateArrows(compass, directionToTurn);
 });
 
 navigator.mediaDevices.getUserMedia({
