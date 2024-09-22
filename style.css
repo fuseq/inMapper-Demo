@@ -63,3 +63,17 @@ body, html {
     width: 100%; /* Okların boyutunu ayarlayın */
     height: auto;
 }
+
+#progress-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px; /* Küçük boyut */
+    height: 50px;
+    border-radius: 50%; /* Daire şekli */
+    background-color: rgba(255, 255, 255, 0.5); /* Yarı saydam beyaz */
+    transform: translate(-50%, -50%); /* Ortaya yerleştirme */
+    transition: width 0.5s, height 0.5s; /* Boyut geçiş animasyonu */
+    z-index: 4; /* En üst katmanda */
+    border: 5px solid rgba(255, 255, 255, 0.8); /* Daire etrafında sınır */
+}
