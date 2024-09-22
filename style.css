@@ -64,33 +64,44 @@ body, html {
     height: auto;
 }
 
-#progress-circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 50px; /* Küçük boyut */
+@property --progress-value {
+    syntax: '<integer>';
+    inherits: false;
+    initial-value: 0;
+  }
+  
+  @keyframes html-progress {
+    to { --progress-value: 100; }
+  }
+  
+  @keyframes increase-size {
+    0% { width: 50px; height: 50px; }
+    100% { width: 100px; height: 100px; }
+  }
+  
+  @keyframes decrease-size {
+    0% { width: 100px; height: 100px; }
+    100% { width: 50px; height: 50px; }
+  }
+  
+  .progress {
+    position: absolute; /* Ekranın ortasına yerleştirmek için konumlandır */
+    top: 50%; /* Dikeyde ortalama */
+    left: 50%; /* Yatayda ortalama */
+    transform: translate(-50%, -50%); /* Gerçekten ortalamak için */
+    width: 50px;
     height: 50px;
-    border-radius: 50%; /* Daire şekli */
-    background-color: transparent; /* Arka planı saydam yap */
-    border: 5px solid transparent; /* Başlangıçta saydam sınır */
-    transform: translate(-50%, -50%); /* Ortaya yerleştirme */
-    z-index: 4; /* En üst katmanda */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: 
+      radial-gradient(closest-side, white 79%, transparent 80% 100%),
+      conic-gradient(black calc(var(--progress-value) * 1%), darkgrey 0);
 }
-
-@keyframes loading {
-    0% {
-        border-color: rgba(0, 255, 0, 0);
-        border-width: 5px;
-        box-shadow: 0 0 0 transparent;
-    }
-    50% {
-        border-color: rgba(0, 255, 0, 1);
-        border-width: 5px;
-        box-shadow: 0 0 10px rgba(0, 255, 0, 1);
-    }
-    100% {
-        border-color: rgba(0, 255, 0, 1);
-        border-width: 5px;
-        box-shadow: 0 0 10px rgba(0, 255, 0, 1);
-    }
-}
+  
+  progress {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+  }

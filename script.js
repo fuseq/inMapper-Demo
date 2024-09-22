@@ -81,34 +81,26 @@ function startCompassListener(callback) {
 
 function updateArrows(compass, directionToTurn) {
     const angleDifference = (directionToTurn - compass + 360) % 360;
-
+    const progressBar = document.querySelector('.progress');
+    const progress = document.getElementById('progress-bar-html');
     if (angleDifference < 10 && angleDifference > -10) {
         forwardArrow.style.opacity = '1'; // İleri oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
         rightArrow.style.opacity = '0'; // Sağ oku gizle
-        
-        // Daire animasyonu
-        if (!isCircleLoading) {
-            isCircleLoading = true;
-            progressCircle.style.animation = 'loading 1s ease infinite'; // Animasyonu başlat
-        }
+        progress.style.setProperty('--progress-value', '0'); // Reset progress
+        progressBar.style.animation = 'increase-size 0.5s forwards, html-progress 2s 1 forwards'; // Growth animation
+    } else if (angleDifference < 180) {
+        rightArrow.style.opacity = '1'; // Sağ oku görünür yap
+        leftArrow.style.opacity = '0'; // Sol oku gizle
+        forwardArrow.style.opacity = '0'; // İleri oku gizle
+        progress.style.setProperty('--progress-value', '0'); // Reset progress
+        progressBar.style.animation = 'decrease-size 0.5s forwards'; // Shrink animation
     } else {
-        // Daire animasyonunu durdur
-        if (isCircleLoading) {
-            isCircleLoading = false;
-            progressCircle.style.animation = 'none'; // Animasyonu durdur
-            progressCircle.style.border = '5px solid transparent'; // Temizle
-        }
-
-        if (angleDifference < 180) {
-            rightArrow.style.opacity = '1'; // Sağ oku görünür yap
-            leftArrow.style.opacity = '0'; // Sol oku gizle
-            forwardArrow.style.opacity = '0'; // İleri oku gizle
-        } else {
-            leftArrow.style.opacity = '1'; // Sol oku görünür yap
-            rightArrow.style.opacity = '0'; // Sağ oku gizle
-            forwardArrow.style.opacity = '0'; // İleri oku gizle
-        }
+        leftArrow.style.opacity = '1'; // Sol oku görünür yap
+        rightArrow.style.opacity = '0'; // Sağ oku gizle
+        forwardArrow.style.opacity = '0'; // İleri oku gizle
+        progress.style.setProperty('--progress-value', '0'); // Reset progress
+        progressBar.style.animation = 'decrease-size 0.5s forwards'; // Shrink animation
     }
 }
 
