@@ -72,8 +72,25 @@ body, html {
     height: 50px;
     border-radius: 50%; /* Daire şekli */
     background-color: transparent; /* Arka planı saydam yap */
-    border: 5px solid rgba(255, 255, 255, 0.5); /* Daire etrafında başlangıç sınırı */
+    border: 5px solid transparent; /* Başlangıçta saydam sınır */
     transform: translate(-50%, -50%); /* Ortaya yerleştirme */
-    transition: width 0.5s, height 0.5s; /* Boyut geçiş animasyonu */
     z-index: 4; /* En üst katmanda */
+}
+
+@keyframes loading {
+    0% {
+        border-color: rgba(0, 255, 0, 0);
+        border-width: 5px;
+        box-shadow: 0 0 0 transparent;
+    }
+    50% {
+        border-color: rgba(0, 255, 0, 1);
+        border-width: 5px;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 1);
+    }
+    100% {
+        border-color: rgba(0, 255, 0, 1);
+        border-width: 5px;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 1);
+    }
 }

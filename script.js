@@ -5,8 +5,7 @@ const leftArrow = document.getElementById('left-arrow');
 const forwardArrow = document.getElementById('forward-arrow');
 const rightArrow = document.getElementById('right-arrow');
 let progressCircle = document.getElementById('progress-circle');
-let isCircleGrowing = false;
-let loadingInterval;
+let isCircleLoading = false;
 // URL'den koordinatları alma
 const urlParams = new URLSearchParams(window.location.search);
 const x1 = urlParams.get('x1');
@@ -88,30 +87,17 @@ function updateArrows(compass, directionToTurn) {
         leftArrow.style.opacity = '0'; // Sol oku gizle
         rightArrow.style.opacity = '0'; // Sağ oku gizle
         
-        // Daireyi büyüt
-        if (!isCircleGrowing) {
-            isCircleGrowing = true;
-            progressCircle.style.width = '100px'; // Büyüklüğü ayarlayın
-            progressCircle.style.height = '100px'; // Büyüklüğü ayarlayın
-
-            // Daire etrafında yükleme animasyonu başlat
-            let progress = 0;
-            loadingInterval = setInterval(() => {
-                progressCircle.style.border = `5px solid rgba(0, 255, 0, ${progress / 100})`; // Border rengini ayarla
-                progress += 1; // Her döngüde yüzdeyi artır
-                if (progress > 100) {
-                    clearInterval(loadingInterval); // Yüzde 100'e ulaştığında durdur
-                }
-            }, 100); // 100 ms aralıkla güncelle
+        // Daire animasyonu
+        if (!isCircleLoading) {
+            isCircleLoading = true;
+            progressCircle.style.animation = 'loading 1s ease infinite'; // Animasyonu başlat
         }
     } else {
-        // Daireyi küçült
-        if (isCircleGrowing) {
-            isCircleGrowing = false;
-            progressCircle.style.width = '50px'; // Küçült
-            progressCircle.style.height = '50px'; // Küçült
-            clearInterval(loadingInterval); // Yükleme animasyonunu durdur
-            progressCircle.style.border = '5px solid rgba(255, 255, 255, 0.5)'; // Temizle
+        // Daire animasyonunu durdur
+        if (isCircleLoading) {
+            isCircleLoading = false;
+            progressCircle.style.animation = 'none'; // Animasyonu durdur
+            progressCircle.style.border = '5px solid transparent'; // Temizle
         }
 
         if (angleDifference < 180) {
