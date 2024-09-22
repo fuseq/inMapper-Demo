@@ -42,11 +42,11 @@ body, html {
 }
 
 #left-arrow {
-    margin-left: 10%; /* Sol kenara uzaklık */
+    margin-left: 90%; /* Sol kenara uzaklık */
 }
 
 #right-arrow {
-    margin-right: 10%; /* Sağ kenara uzaklık */
+    margin-left: 10%; /* Sağ kenara uzaklık */
 }
 
 .arrow-container img {
