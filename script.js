@@ -11,7 +11,9 @@ const y1 = urlParams.get('y1');
 const x2 = urlParams.get('x2');
 const y2 = urlParams.get('y2');
 
-const startLat = parseFloat(y1); 
+console.log(`Gelen Koordinatlar: X1=${x1}, Y1=${y1}, X2=${x2}, Y2=${y2}`);
+
+const startLat = parseFloat(x1); 
 const startLon = parseFloat(y1); 
 const targetLat = parseFloat(x2); 
 const targetLon = parseFloat(y2); 
