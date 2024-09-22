@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="./style.css" />
-    <title>AR Uygulaması</title>
+    <title>AR Test</title>
 </head>
 <body>
     <video id="video" autoplay playsinline></video>
@@ -17,10 +17,14 @@
         <img id="right-arrow" src="assets/right_arrow.png" alt="Sağ Ok">
     </div>
 
-    <div class="progress-bar-container">
-        <div class="progress">
-            <progress id="progress-bar-html"></progress>
-        </div>
+    <div class="container">
+        <svg class="progress-circle" width="50" height="50" viewBox="0 0 100 100" id="circle-svg">
+            <!-- Dış çember (gri arkaplan) -->
+            <circle cx="50" cy="50" r="45" fill="none" stroke="lightgray" stroke-width="5" />
+            <!-- İç çember (beyaz, %90 transparan) -->
+            <circle class="progress" cx="50" cy="50" r="45" fill="white" fill-opacity="0.1" stroke="white"
+                stroke-width="5" stroke-dasharray="283" stroke-dashoffset="283" />
+        </svg>
     </div>
 
     <script src="./script.js"></script>

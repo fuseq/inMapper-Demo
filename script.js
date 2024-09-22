@@ -4,8 +4,7 @@ const directionInfo = document.getElementById('directionInfo');
 const leftArrow = document.getElementById('left-arrow');
 const forwardArrow = document.getElementById('forward-arrow');
 const rightArrow = document.getElementById('right-arrow');
-let progressCircle = document.getElementById('progress-circle');
-let isCircleLoading = false;
+
 // URL'den koordinatları alma
 const urlParams = new URLSearchParams(window.location.search);
 const x1 = urlParams.get('x1');
@@ -81,26 +80,27 @@ function startCompassListener(callback) {
 
 function updateArrows(compass, directionToTurn) {
     const angleDifference = (directionToTurn - compass + 360) % 360;
-    const progressBar = document.querySelector('.progress');
-    const progress = document.getElementById('progress-bar-html');
+
     if (angleDifference < 10 && angleDifference > -10) {
+        // 10 -10 aralığındaysak
         forwardArrow.style.opacity = '1'; // İleri oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
         rightArrow.style.opacity = '0'; // Sağ oku gizle
-        progress.style.setProperty('--progress-value', '0'); // Reset progress
-        progressBar.style.animation = 'increase-size 0.5s forwards, html-progress 2s 1 forwards'; // Growth animation
-    } else if (angleDifference < 180) {
-        rightArrow.style.opacity = '1'; // Sağ oku görünür yap
-        leftArrow.style.opacity = '0'; // Sol oku gizle
-        forwardArrow.style.opacity = '0'; // İleri oku gizle
-        progress.style.setProperty('--progress-value', '0'); // Reset progress
-        progressBar.style.animation = 'decrease-size 0.5s forwards'; // Shrink animation
+        
+        // Çemberi büyüt ve yükleme işlemini başlat
+        container.classList.add('grow');
+        setTimeout(() => {
+            progressCircle.style.strokeDashoffset = '0';
+        }, 1000); // 1 saniye sonra yükleme başlasın
     } else {
-        leftArrow.style.opacity = '1'; // Sol oku görünür yap
+        // Aksi halde sıfırlayıp küçült
+        leftArrow.style.opacity = '0'; // Sol oku gizle
         rightArrow.style.opacity = '0'; // Sağ oku gizle
         forwardArrow.style.opacity = '0'; // İleri oku gizle
-        progress.style.setProperty('--progress-value', '0'); // Reset progress
-        progressBar.style.animation = 'decrease-size 0.5s forwards'; // Shrink animation
+
+        // Sıfırlama işlemi anlık olacak
+        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlamak için
+        container.classList.remove('grow'); // Küçültmek için
     }
 }
 
