@@ -52,6 +52,13 @@ body, html {
     transition: opacity 0.5s; /* Görünürlük geçişi için animasyon */
 }
 
+#forward-arrow {
+    width: 50px; /* Okların boyutunu ayarlayın */
+    height: auto;
+    opacity: 0; /* Başlangıçta görünmez */
+    transition: opacity 0.5s; /* Görünürlük geçişi için animasyon */
+}
+
 .arrow-container img {
     width: 100%; /* Okların boyutunu ayarlayın */
     height: auto;

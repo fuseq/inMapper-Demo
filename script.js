@@ -80,12 +80,18 @@ function startCompassListener(callback) {
 function updateArrows(compass, directionToTurn) {
     const angleDifference = (directionToTurn - compass + 360) % 360;
 
-    if (angleDifference < 180) {
+    if (angleDifference < 10 && angleDifference > -10) {
+        forwardArrow.style.opacity = '1'; // İleri oku görünür yap
+        leftArrow.style.opacity = '0'; // Sol oku gizle
+        rightArrow.style.opacity = '0'; // Sağ oku gizle
+    } else if (angleDifference < 180) {
         rightArrow.style.opacity = '1'; // Sağ oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
+        forwardArrow.style.opacity = '0'; // İleri oku gizle
     } else {
         leftArrow.style.opacity = '1'; // Sol oku görünür yap
         rightArrow.style.opacity = '0'; // Sağ oku gizle
+        forwardArrow.style.opacity = '0'; // İleri oku gizle
     }
 }
 
