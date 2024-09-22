@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Sayfası</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <title>AR Uygulaması</title>
 </head>
 <body>
-    <div class="video-container">
-        <video id="video" autoplay playsinline></video>
-        <div class="arrow-container">
-            <img id="left-arrow" src="assets/left_arrow.png" alt="Sol Yön Ok" style="display: none;">
-            <img id="right-arrow" src="assets/right_arrow.png" alt="Sağ Yön Ok" style="display: none;">
-        </div>
+    <video id="video" autoplay playsinline></video>
+    <div class="info" id="compassInfo"></div>
+    <div class="info" id="directionInfo"></div>
+    <div class="arrow-container">
+        <img id="left-arrow" src="assets/left_arrow.png" alt="Sol Yön Oku" style="display: none;">
+        <img id="right-arrow" src="assets/right_arrow.png" alt="Sağ Yön Oku" style="display: none;">
     </div>
-    <div class="info" id="compassInfo">Telefonun yönü: 0°</div>
-    <div class="info" id="directionInfo">Dönme yönü: 0°</div>
 
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>
