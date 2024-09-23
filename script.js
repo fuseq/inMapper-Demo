@@ -142,7 +142,7 @@ function showArrow(directionToTurn, direction) {
 
         setTimeout(() => {
             if (isLoading) { // Yalnızca yükleme devam ediyorsa mesajı göster
-                statusMessage.style.display = 'block'; // Yükleme tamamlandıktan sonra mesajı göster
+                popup.style.display = 'block'; // Yükleme tamamlandıktan sonra mesajı göster
             }
         }, 3000); 
 
