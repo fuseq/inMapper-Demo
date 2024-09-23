@@ -111,15 +111,18 @@ function showArrow(directionToTurn, direction) {
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
-    
+
     const popup = document.querySelector('.popup');
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
+
     // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
+    // Okların görünürlüğünü sıfırlama
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
+    upArrow.classList.remove('fade-in', 'fade-out');
 
     const upperBound = (directionToTurn + 10) % 360;
     const lowerBound = (directionToTurn - 10 + 360) % 360;
@@ -135,7 +138,6 @@ function showArrow(directionToTurn, direction) {
         directionMatches = true;
 
         // Border animasyonunu başlat
-       
         // Çemberi büyüt
         container.classList.add('grow');
 
@@ -160,9 +162,10 @@ function showArrow(directionToTurn, direction) {
             rightArrow.classList.add('fade-out');
         }
         directionMatches = false;
+
         // Border animasyonunu kaldır
         // Önce progress bar'ı anında sıfırla
-        progressCircle.style.transition = 'none';  // Anında sıfırlama için animasyonu kaldır
+        progressCircle.style.transition = 'none'; // Anında sıfırlama için animasyonu kaldır
         progressCircle.style.strokeDashoffset = '283'; // Progress bar'ı direkt sıfırla
 
         // Daha sonra yeniden transition ekleyip, çemberi küçült
@@ -170,6 +173,7 @@ function showArrow(directionToTurn, direction) {
             progressCircle.style.transition = 'stroke-dashoffset 3s linear'; // Transition'ı geri ekle
             container.classList.remove('grow'); // Çemberi küçült
         }, 0); // Hemen sıfırlama işlemini yap
+
         // Popup zamanlayıcısını temizle
         clearTimeout(popupTimeout);
         popup.style.display = 'none'; // Popup'ı gizle
