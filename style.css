@@ -180,7 +180,7 @@ label {
     left: 50%;
     color: #36a2eb;
     top: 40%; /* Yüksekliği artırarak görünürlüğü artırabilirsiniz */
-    transform: translate(-50%, -50%); /* Yatay ve dikey olarak ortalar */
+    transform: translate(-50%, -50%) scale(1.5); /* Yatay ve dikey olarak ortalar */
 }
 
 /* Opaklık geçiş sınıfları */
