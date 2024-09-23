@@ -21,6 +21,7 @@ function showArrow(directionToTurn, direction, beta) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
+    const upPerspectiveArrow = document.getElementById('up-perspective');
     const directionIndicator = document.getElementById('direction-indicator');
     const popup = document.querySelector('.popup');
 
@@ -28,7 +29,7 @@ function showArrow(directionToTurn, direction, beta) {
     const progressCircle = document.querySelector('.progress');
 
     // Direction bilgisi ekranında güncelleniyor
-    directionIndicator.innerText = `Direction: ${beta.toFixed(2)}`;
+    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
     // Okların görünürlüğünü sıfırlama
     leftArrow.classList.remove('fade-in', 'fade-out');
@@ -44,7 +45,14 @@ function showArrow(directionToTurn, direction, beta) {
         // Yön doğru, up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
-        upArrow.classList.add('fade-in');
+
+        if (beta < 30) {
+            // up-perspective oku görünecek
+            upPerspectiveArrow.classList.add('fade-in');
+        } else {
+            // up-arrow görünecek
+            upArrow.classList.add('fade-in');
+        }
         directionMatches = true;
         container.classList.add('grow');
         isLoading = true; // Yükleme başladı
