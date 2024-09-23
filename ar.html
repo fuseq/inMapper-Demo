@@ -34,7 +34,7 @@
     <div class="arrow up" id="up-arrow">
         <img src="assets/ileri.png" alt="Up Arrow" class="arrow-icon up-arrow">
     </div>
-    <div class="position-indicator" id="position-indicator">Position: 0</div>
+    <div class="direction-indicator" id="direction-indicator">Direction: 0</div>
     <div class="container">
         <svg class="progress-circle" width="200" height="200" viewBox="0 0 100 100" id="circle-svg">
             <!-- Dış çember (gri arkaplan) -->
@@ -130,10 +130,10 @@
             });
 
             rightButton.addEventListener('click', function () {
-                bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
-                centerButton.style.display = 'none'; // centerButton'ı tekrar göster
-                rightButton.style.display = 'none'; // rightButton'ı görünür tut
-
+                    bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
+                    centerButton.style.display = 'none'; // centerButton'ı tekrar göster
+                    rightButton.style.display = 'none'; // rightButton'ı görünür tut
+                
             });
 
         });
