@@ -107,13 +107,13 @@ function startCompassListener(callback) {
         }
         let compass = -(e.alpha + e.beta * e.gamma / 90);
         compass -= Math.floor(compass / 360) * 360;
-        callback(compass);
+        callback(compass, e.beta); // beta değerini gönder
     };
 
     const webkitListener = (e) => {
         let compass = e.webkitCompassHeading;
         if (compass != null && !isNaN(compass)) {
-            callback(compass);
+            callback(compass, e.beta); // beta değerini gönder
             window.removeEventListener("deviceorientation", webkitListener);
         }
     };
@@ -146,11 +146,10 @@ navigator.geolocation.watchPosition(position => {
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
 
-    startCompassListener(compass => {
+    startCompassListener((compass, beta) => {
         const directionToTurn = (bearingToTarget + 360) % 360;
-        showArrow(directionToTurn, compass);
+        showArrow(directionToTurn, compass, beta); // beta değerini gönder
     });
-
 });
 
 
