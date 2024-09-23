@@ -3,7 +3,6 @@ let lastAlpha = null;
 let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
-let isLoading = false;
 let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
@@ -113,7 +112,6 @@ function showArrow(directionToTurn, direction) {
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
 
-    const popup = document.querySelector('.popup');
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
 
@@ -140,11 +138,6 @@ function showArrow(directionToTurn, direction) {
         isLoading = true; // Yükleme başladı
         progressCircle.style.strokeDashoffset = '0';
 
-        setTimeout(() => {
-            if (isLoading) { // Yalnızca yükleme devam ediyorsa mesajı göster
-                popup.style.display = 'block'; // Yükleme tamamlandıktan sonra mesajı göster
-            }
-        }, 3000); 
 
 
     } else {
@@ -165,7 +158,6 @@ function showArrow(directionToTurn, direction) {
         }
         directionMatches = false;
         container.classList.remove('grow');
-        isLoading = false; // Yükleme durumu sıfırlandı
         progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
        
     }
@@ -283,10 +275,7 @@ function startDistanceCheck(coords) {
         console.log("Geolocation is not supported by this browser.");
     }
 }
-function onAnimationEnd() {
-    const popup = document.getElementById('popup');
-    popup.style.display = 'block';
-}
+
 directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 if (direction < 30 || direction > 320) {
     leftArrow.style.display = 'none';
@@ -299,8 +288,4 @@ if (direction < 30 || direction > 320) {
     rightArrow.style.display = direction > 180 ? 'block' : 'none';
     progressFrame.style.display = 'none';
     directionMatches = false;
-}
-function onAnimationEnd() {
-    const popup = document.getElementById('popup');
-    popup.style.display = 'block';
 }
