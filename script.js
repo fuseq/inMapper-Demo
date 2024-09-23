@@ -80,30 +80,33 @@ function startCompassListener(callback) {
 }
 
 function updateArrows(compass, directionToTurn) {
+    const tolerans = 10; // ±10 derecelik aralık
     const angleDifference = (directionToTurn - compass + 360) % 360;
 
-    if (angleDifference < 10 && angleDifference > -10) {
+    // Eğer ±10 derecelik aralıktaysak
+    if (angleDifference <= tolerans || angleDifference >= 360 - tolerans) {
         forwardArrow.style.opacity = '1'; // İleri oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
         rightArrow.style.opacity = '0'; // Sağ oku gizle
         container.classList.add('grow');
         setTimeout(() => {
-            progressCircle.style.strokeDashoffset = '0';
-        }, 1000); // 1 saniye sonra yükleme başlasın
+            progressCircle.style.strokeDashoffset = '0'; // Yüklemeyi başlat
+        }, 1000); // 1 saniye sonra başlasın
 
     } else if (angleDifference < 180) {
+        // Sağ yöne dönmek daha kısa
         rightArrow.style.opacity = '1'; // Sağ oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
         forwardArrow.style.opacity = '0'; // İleri oku gizle
-        // Sıfırlama işlemi anlık olacak
-        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlamak için
+        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırla
         container.classList.remove('grow'); // Küçültmek için
+
     } else {
+        // Sol yöne dönmek daha kısa
         leftArrow.style.opacity = '1'; // Sol oku görünür yap
         rightArrow.style.opacity = '0'; // Sağ oku gizle
         forwardArrow.style.opacity = '0'; // İleri oku gizle
-        // Sıfırlama işlemi anlık olacak
-        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlamak için
+        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırla
         container.classList.remove('grow'); // Küçültmek için
     }
 }
