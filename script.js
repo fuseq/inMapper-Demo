@@ -17,11 +17,10 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
 }
 
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
-function showArrow(directionToTurn, direction, beta) {
+function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
-    const upPerspectiveArrow = document.getElementById('up-perspective');
     const directionIndicator = document.getElementById('direction-indicator');
     const popup = document.querySelector('.popup');
 
@@ -35,7 +34,6 @@ function showArrow(directionToTurn, direction, beta) {
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
-    upPerspectiveArrow.classList.remove('fade-in', 'fade-out');
 
     const upperBound = (directionToTurn + 10) % 360;
     const lowerBound = (directionToTurn - 10 + 360) % 360;
@@ -43,18 +41,10 @@ function showArrow(directionToTurn, direction, beta) {
     // Eğer yön directionToTurn ile ±10 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-        
-        // Yön doğruysa, beta açısına göre doğru oku göster
-        if (beta < 30) {
-            // up-perspective oku görünecek
-            upPerspectiveArrow.classList.add('fade-in');
-        } else {
-            // up-arrow görünecek
-            upArrow.classList.add('fade-in');
-        }
-        
+        // Yön doğru, up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
+        upArrow.classList.add('fade-in');
         directionMatches = true;
         container.classList.add('grow');
         isLoading = true; // Yükleme başladı
@@ -62,8 +52,9 @@ function showArrow(directionToTurn, direction, beta) {
 
         // Burada animasyonun bitişini dinleyelim
         progressCircle.addEventListener('transitionend', () => {
+            // strokeDashoffset kontrolü ile sadece animasyon beyaza döndüğünde tetiklenir
             if (progressCircle.style.strokeDashoffset === '0') {
-                console.log('Animasyon tamamlandı ve popup açıldı!');
+                console.log('Animasyon tamamlandı ve beyaza döndü!');
                 popup.style.display = 'block';
             }
         });
@@ -77,13 +68,11 @@ function showArrow(directionToTurn, direction, beta) {
             // Sağ ok görünür
             leftArrow.classList.add('fade-out');
             upArrow.classList.add('fade-out');
-            upPerspectiveArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
             // Sol ok görünür
             leftArrow.classList.add('fade-in');
             upArrow.classList.add('fade-out');
-            upPerspectiveArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-out');
         }
         directionMatches = false;
@@ -92,8 +81,6 @@ function showArrow(directionToTurn, direction, beta) {
         progressCircle.removeEventListener('transitionend', null); // Eğer animasyon başlamadıysa olayı dinleme
     }
 }
-
-
 
 
 function startCompassListener(callback) {
@@ -107,13 +94,13 @@ function startCompassListener(callback) {
         }
         let compass = -(e.alpha + e.beta * e.gamma / 90);
         compass -= Math.floor(compass / 360) * 360;
-        callback(compass, e.beta); // beta değerini gönder
+        callback(compass);
     };
 
     const webkitListener = (e) => {
         let compass = e.webkitCompassHeading;
         if (compass != null && !isNaN(compass)) {
-            callback(compass, e.beta); // beta değerini gönder
+            callback(compass);
             window.removeEventListener("deviceorientation", webkitListener);
         }
     };
@@ -146,10 +133,11 @@ navigator.geolocation.watchPosition(position => {
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
 
-    startCompassListener((compass, beta) => {
+    startCompassListener(compass => {
         const directionToTurn = (bearingToTarget + 360) % 360;
-        showArrow(directionToTurn, compass, beta); // beta değerini gönder
+        showArrow(directionToTurn, compass);
     });
+
 });
 
 
