@@ -142,8 +142,6 @@ function showArrow(directionToTurn, direction) {
             progressCircle.style.strokeDashoffset = '0';
             statusMessage.style.display = 'none'; // Yükleme başlamadan önce mesajı gizle
 
-            // Önceki zamanlayıcıyı temizle
-            clearTimeout(loadingTimeout);
             loadingTimeout = setTimeout(() => {
                 if (isLoading) { // Yalnızca yükleme devam ediyorsa mesajı göster
                     popup.style.display = 'block'; // Yükleme tamamlandıktan sonra mesajı göster
@@ -287,10 +285,7 @@ function startDistanceCheck(coords) {
         console.log("Geolocation is not supported by this browser.");
     }
 }
-function onAnimationEnd() {
-    const popup = document.getElementById('popup');
-    popup.style.display = 'block';
-}
+
 directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 if (direction < 30 || direction > 320) {
     leftArrow.style.display = 'none';
