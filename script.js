@@ -35,6 +35,7 @@ function showArrow(directionToTurn, direction, beta) {
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
+    upPerspectiveArrow.classList.remove('fade-in', 'fade-out');
 
     const upperBound = (directionToTurn + 10) % 360;
     const lowerBound = (directionToTurn - 10 + 360) % 360;
@@ -42,18 +43,18 @@ function showArrow(directionToTurn, direction, beta) {
     // Eğer yön directionToTurn ile ±10 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-        // Yön doğru, up-arrow görünecek
-        leftArrow.classList.add('fade-out');
-        rightArrow.classList.add('fade-out');
-
+        // Yön doğru, okları kontrol et
         if (beta < 30) {
             // up-perspective oku görünecek
-            
             upPerspectiveArrow.classList.add('fade-in');
+            upArrow.classList.remove('fade-in');
         } else {
             // up-arrow görünecek
             upArrow.classList.add('fade-in');
+            upPerspectiveArrow.classList.remove('fade-in');
         }
+        leftArrow.classList.add('fade-out');
+        rightArrow.classList.add('fade-out');
         directionMatches = true;
         container.classList.add('grow');
         isLoading = true; // Yükleme başladı
@@ -76,12 +77,14 @@ function showArrow(directionToTurn, direction, beta) {
         if (clockwise <= counterclockwise) {
             // Sağ ok görünür
             leftArrow.classList.add('fade-out');
-            upArrow.classList.add('fade-out');
+            upArrow.classList.remove('fade-in');
+            upPerspectiveArrow.classList.remove('fade-in');
             rightArrow.classList.add('fade-in');
         } else {
             // Sol ok görünür
             leftArrow.classList.add('fade-in');
-            upArrow.classList.add('fade-out');
+            upArrow.classList.remove('fade-in');
+            upPerspectiveArrow.classList.remove('fade-in');
             rightArrow.classList.add('fade-out');
         }
         directionMatches = false;
