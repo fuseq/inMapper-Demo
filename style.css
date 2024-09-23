@@ -237,7 +237,7 @@ label {
         transform: translateY(0);
     }
     50% {
-        transform: translateY(-20px); /* Yukarı hareket */
+        transform: translateY(-10px); /* Yukarı hareket */
     }
     100% {
         transform: translateY(0); /* Eski yerine geri döner */
@@ -247,6 +247,10 @@ label {
 /* Yukarı ok için görünürlüğü artırmak için geçiş süresi eklenebilir */
 .up.fade-in {
     opacity: 1; /* Yukarı ok görünür hale getirilir */
+}
+
+.up.fade-out {
+    opacity: 0; /* Yukarı ok görünür hale getirilir */
 }
 
 .direction-indicator {
