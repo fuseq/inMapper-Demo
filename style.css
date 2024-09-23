@@ -151,16 +151,15 @@ label {
 /* Genel arrow stili */
 .arrow {
     position: absolute;
-    top: 40%;
+    top: 40%; /* Genel pozisyon */
     transform: translateY(-50%);
-    opacity: 0;
-    /* Başlangıçta görünmez */
-    transition: opacity 1s ease-in-out;
-    /* Opaklık değişimi için geçiş */
+    opacity: 0; /* Başlangıçta görünmez */
+    transition: opacity 1s ease-in-out; /* Opaklık değişimi için geçiş */
 }
 
+/* Ok simgesi boyutu */
 .arrow-icon {
-    width: 60px; /* Png resim boyutu */
+    width: 60px; /* PNG resim boyutu */
     height: auto;
 }
 
@@ -168,7 +167,6 @@ label {
 .left {
     left: 25px;
     color: #ff6384;
-
 }
 
 /* Sağ ok için konumlandırma */
@@ -181,33 +179,31 @@ label {
 .up {
     left: 50%;
     color: #36a2eb;
-    top: 65%;
-    transform: translate(-50%, -50%);
+    top: 65%; /* Yüksekliği artırarak görünürlüğü artırabilirsiniz */
+    transform: translate(-50%, -50%); /* Yatay ve dikey olarak ortalar */
 }
 
+/* Opaklık geçiş sınıfları */
 .fade-in {
-    opacity: 1;
+    opacity: 1; /* Görünür hale getir */
 }
 
 .fade-out {
-    opacity: 0;
+    opacity: 0; /* Görünmez hale getir */
 }
 
 /* Sola giden ok için animasyon */
 .left-arrow {
     animation: moveLeftArrow 1.5s ease-in-out infinite;
-
 }
 
 @keyframes moveLeftArrow {
     0% {
         transform: translateX(0);
     }
-
     50% {
         transform: translateX(-25px);
     }
-
     100% {
         transform: translateX(0);
     }
@@ -222,15 +218,11 @@ label {
     0% {
         transform: translateX(0);
     }
-
     50% {
-        transform: translateX(25px);
-        /* Sağa doğru hareket */
+        transform: translateX(25px); /* Sağa doğru hareket */
     }
-
     100% {
-        transform: translateX(0);
-        /* Eski yerine geri döner */
+        transform: translateX(0); /* Eski yerine geri döner */
     }
 }
 
@@ -244,14 +236,17 @@ label {
     0% {
         transform: translateY(0);
     }
-
     50% {
-        transform: translateY(-20px);
+        transform: translateY(-20px); /* Yukarı hareket */
     }
-
     100% {
-        transform: translateY(0);
+        transform: translateY(0); /* Eski yerine geri döner */
     }
+}
+
+/* Yukarı ok için görünürlüğü artırmak için geçiş süresi eklenebilir */
+.up.fade-in {
+    opacity: 1; /* Yukarı ok görünür hale getirilir */
 }
 
 .direction-indicator {
