@@ -4,15 +4,11 @@ body, html {
     height: 100%;
     overflow: hidden;
 }
-
 #video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    position: absolute; /* Video konumunu ayarlayın */
-    z-index: 1; /* Video alt katmanda kalacak */
 }
-
 .info {
     position: absolute;
     left: 50%;
@@ -23,67 +19,10 @@ body, html {
     background: rgba(0, 0, 0, 0.7);
     padding: 10px;
     border-radius: 5px;
-    z-index: 2; /* Bilgiler üst katmanda */
 }
-
 #compassInfo {
     top: 5%;
 }
-
 #directionInfo {
     top: 15%;
-}
-
-.arrow-container {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    transform: translateY(-50%);
-    pointer-events: none; /* Okların etkileşimini devre dışı bırak */
-    z-index: 3; /* Oklar en üst katmanda */
-}
-
-#left-arrow, #right-arrow {
-    width: 50px; /* Okların boyutunu ayarlayın */
-    height: auto;
-    opacity: 0; /* Başlangıçta görünmez */
-    transition: opacity 0.5s; /* Görünürlük geçişi için animasyon */
-}
-
-#forward-arrow {
-    width: 50px; /* Okların boyutunu ayarlayın */
-    height: auto;
-    opacity: 0; /* Başlangıçta görünmez */
-    transition: opacity 0.5s; /* Görünürlük geçişi için animasyon */
-}
-
-.arrow-container img {
-    width: 100%; /* Okların boyutunu ayarlayın */
-    height: auto;
-}
-
-.container {
-    position: fixed; /* Sabit konumlandırma ile ekranın ortasında kalmasını sağlar */
-    top: 50%; /* Ekranın ortasına hizalamak için */
-    left: 50%; /* Ekranın ortasına hizalamak için */
-    transform: translate(-50%, -50%) scale(0.5); /* Ortalamak için translate kullanılıyor */
-    transition: transform 1s ease;
-    z-index: 4; /* Diğer öğelerin üstünde görünmesini sağlar */
-}
-
-.progress-circle {
-    transform: rotate(-90deg); /* Progress bar'ı yukarıdan başlat */
-    z-index: 4; /* En üstte görünmesi için */
-}
-
-.progress {
-    stroke-dasharray: 283;
-    stroke-dashoffset: 283;
-    transition: stroke-dashoffset 3s linear;
-}
-
-.container.grow {
-    transform: translate(-50%, -50%) scale(1);
 }
