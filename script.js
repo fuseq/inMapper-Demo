@@ -48,9 +48,11 @@ function showArrow(directionToTurn, direction, beta) {
 
         if (beta < 30) {
             // up-perspective oku görünecek
+            upArrow.classList.add('fade-out');
             upPerspectiveArrow.classList.add('fade-in');
         } else {
             // up-arrow görünecek
+            upPerspectiveArrow.classList.add('fade-out');
             upArrow.classList.add('fade-in');
         }
         directionMatches = true;
@@ -76,11 +78,13 @@ function showArrow(directionToTurn, direction, beta) {
             // Sağ ok görünür
             leftArrow.classList.add('fade-out');
             upArrow.classList.add('fade-out');
+            upPerspectiveArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
             // Sol ok görünür
             leftArrow.classList.add('fade-in');
             upArrow.classList.add('fade-out');
+            upPerspectiveArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-out');
         }
         directionMatches = false;

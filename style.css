@@ -251,7 +251,7 @@ label {
 .up-perspective {
     left: 50%;
     color: #ffcd56;
-    transform: translate(-50%, -50%) scale(2); /* Yatay ve dikey ortalar */
+    transform: translate(-50%, -50%) scale(1.6); /* Yatay ve dikey ortalar */
     transition: opacity 0.3s ease-in-out;
    
 }
