@@ -627,30 +627,45 @@ button {
 }
 
 .compass-section {
-    position: relative; /* İçerik konumlandırmasını güncelle */
+    height: 20%;
     display: flex;
-    justify-content: center; /* Ortadaki butonu ortalar */
-    align-items: center;
-    z-index: 10;
+    justify-content: end;
+    align-items: end;
     background-color: rgba(255, 255, 255, 0);
 }
 
-.button-container {
+.compass-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #000;
     display: flex;
-    width: 100%; /* Butonların tüm genişliği kaplaması için */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 8px;
 }
 
-.center-button {
-    margin-left: 40% ; /* Ortada görünmesi için */
+.compass-arrow {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 8px solid #000;
+    position: absolute;
+    top: 8px;
 }
 
-.right-button {
-    margin-right: 100; /* Sağda yer alması için */
+.compass-direction {
+    font-size: 11px;
+    font-weight: bold;
+    margin-top: 16px;
 }
-
 
 .map-section {
-    height: 100%;
+    height: 60%;
     width: 100%;
     display: flex;
     justify-content: center;

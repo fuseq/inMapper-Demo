@@ -55,27 +55,30 @@
         arjs-device-orientation-controls='smoothingFactor: 1'></a-camera>
 </a-scene>
 
-<div class="bottom-container">
-    <div class="map-section">
-        <iframe src="https://cbaines.github.io/leaflet-indoor/examples/" frameborder="0"
-            class="map-iframe"></iframe>
-    </div>
-    <div class="compass-section">
-        <div class="button-container">
-            <button class="center-button">View in AR</button>
-            <button class="right-button">Stop</button>
+    <div class="bottom-container">
+
+        <div class="compass-section">
+            <div class="compass-circle">
+                <div class="compass-arrow"></div>
+                <div id="direction" class="compass-direction">NW</div>
+            </div>
+        </div>
+        <div class="map-section">
+            <iframe src="https://cbaines.github.io/leaflet-indoor/examples/" frameborder="0"
+                class="map-iframe"></iframe>
+        </div>
+
+        <!-- First Section (Info) -->
+        <div class="info-section">
+
+            <div class="destination"><a style="color: black;" href="index.html"><i style="font-size: 32px;"
+                        class="fa-regular fa-circle-xmark"></i></a> Destination Name</div>
+            <div class="time-info">
+                <i class="fa-solid fa-person-running"></i>
+                5 min
+            </div>
         </div>
     </div>
-    <!-- First Section (Info) -->
-    <div class="info-section">
-        <div class="destination"><a style="color: black;" href="index.html"><i style="font-size: 32px;"
-                    class="fa-regular fa-circle-xmark"></i></a> Destination Name</div>
-        <div class="time-info">
-            <i class="fa-solid fa-person-running"></i>
-            5 min
-        </div>
-    </div>
-</div>
 
     <div class="popup" id="popup">
         <div class="popup-content">
