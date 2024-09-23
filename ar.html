@@ -43,39 +43,54 @@
         <svg class="progress-circle" width="200" height="200" viewBox="0 0 100 100" id="circle-svg">
             <!-- Dış çember (gri arkaplan) -->
             <circle cx="50" cy="50" r="45" fill="none" stroke="lightgray" stroke-width="5" />
-            
+
             <!-- İç çember (beyaz, %90 transpara) -->
-            <circle class="progress" cx="50" cy="50" r="45" fill="white" fill-opacity="0.1" stroke="white" stroke-width="5" stroke-dasharray="283" stroke-dashoffset="283"/>
+            <circle class="progress" cx="50" cy="50" r="45" fill="white" fill-opacity="0.1" stroke="white"
+                stroke-width="5" stroke-dasharray="283" stroke-dashoffset="283" />
         </svg>
     </div>
-    
+
     <a-scene vr-mode-ui='enabled: false' embedded
-    arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-    <a-camera id="main-camera" gps-camera='gpsMinDistance: 100' rotation-reader
-        arjs-device-orientation-controls='smoothingFactor: 1'></a-camera>
-</a-scene>
+        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+        <a-camera id="main-camera" gps-camera='gpsMinDistance: 100' rotation-reader
+            arjs-device-orientation-controls='smoothingFactor: 1'></a-camera>
+    </a-scene>
 
     <div class="bottom-container">
 
-        <div class="compass-section">
-            <div class="compass-circle">
-                <div class="compass-arrow"></div>
-                <div id="direction" class="compass-direction">NW</div>
-            </div>
-        </div>
+        <!-- Map Section -->
         <div class="map-section">
             <iframe src="https://cbaines.github.io/leaflet-indoor/examples/" frameborder="0"
                 class="map-iframe"></iframe>
         </div>
+        <div class="button-section">
+            <button class="center-button">
+                <img src="assets/cube_white.png" alt="Cube Icon" /> <!-- Resim burada kullanılıyor -->
+                View In AR
+            </button>
+            <button class="right-button">Stop</button>
+        </div>
 
-        <!-- First Section (Info) -->
+        <!-- Info Section -->
         <div class="info-section">
-
-            <div class="destination"><a style="color: black;" href="index.html"><i style="font-size: 32px;"
-                        class="fa-regular fa-circle-xmark"></i></a> Destination Name</div>
-            <div class="time-info">
-                <i class="fa-solid fa-person-running"></i>
-                5 min
+            <div class="destination">
+                <a class="image-button">
+                    <img src="https://i.ibb.co/PjjtDkp/inmapper-1.png" alt="Icon" />
+                </a>
+                <div class="destination-details">
+                    <div class="destination-name">Destination Name</div>
+                    <div class="time-info">
+                        <i class="fa-solid fa-person-running"></i> 5 minutes
+                    </div>
+                </div>
+            </div>
+            <div class="icon-buttons-container">
+                <a class="circular-icon-button">
+                    <i class="fa-solid fa-question"></i>
+                </a>
+                <a class="circular-icon-button">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
             </div>
         </div>
     </div>
@@ -87,7 +102,7 @@
             </a>
             <div class="popup-message">Harita Ekranına Dönmek İçin Tamam Butonuna Basabilir Veya Tekrar Butonuna Basarak
                 Hedef Noktanızı Tekrar Görebilirsiniz</div><br>
-            
+
             <div class="popup-button-container">
                 <button class="btn-ok" onclick="window.location.href='index.html';">
                     <i class="fas fa-check"></i>
@@ -101,15 +116,30 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const againButton = document.querySelector('.btn-again');
+        document.addEventListener('DOMContentLoaded', function () {
+            const centerButton = document.querySelector('.center-button'); // Question buttonu buluyoruz
+            const rightButton = document.querySelector('.right-button');
+            const bottomContainer = document.querySelector('.bottom-container');
             const popup = document.getElementById('popup');
             const uiBox = document.querySelector('.ui-box');
-    
-            againButton.addEventListener('click', function() {
-                popup.style.display = 'none';
-                uiBox.classList.remove('border-animation')
+
+            centerButton.addEventListener('click', function () {
+                // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
+                bottomContainer.style.height = '40%';
+                centerButton.style.display = 'none';
+                rightButton.style.display = 'block';
+                // Sahneyi body'e ekleyelim
+                document.body.appendChild(scene);
+
             });
+
+            rightButton.addEventListener('click', function () {
+                    bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
+                    centerButton.style.display = 'none'; // centerButton'ı tekrar göster
+                    rightButton.style.display = 'none'; // rightButton'ı görünür tut
+                
+            });
+
         });
     </script>
     <script>

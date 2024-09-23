@@ -619,57 +619,21 @@ button {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 35%;
-    background-color: rgba(255, 255, 255, 0);
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9); /* Şeffaflık derecesini 0.9 yaparak arka planı neredeyse opak yapabilirsiniz */
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
-
-.compass-section {
-    height: 20%;
-    display: flex;
-    justify-content: end;
-    align-items: end;
-    background-color: rgba(255, 255, 255, 0);
-}
-
-.compass-circle {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #fff;
-    border: 2px solid #000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin: 8px;
-}
-
-.compass-arrow {
-    width: 0;
-    height: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-bottom: 8px solid #000;
-    position: absolute;
-    top: 8px;
-}
-
-.compass-direction {
-    font-size: 11px;
-    font-weight: bold;
-    margin-top: 16px;
+    transition: background-color 0.5s ease; /* Arka plan rengini geçişli hale getir */
 }
 
 .map-section {
-    height: 60%;
+    height: 90%; /* info-section'ın yüksekliği kadar çıkarın */
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative; /* Relative yaparak info-section ile aynı düzlemde olmasını sağlar */
 }
 
 .map-iframe {
@@ -677,14 +641,114 @@ button {
     height: 100%;
 }
 
+.bottom-container,
+.map-section,
 .info-section {
-    height: 20%;
+    transition: height 0.5s ease;
+}
+.button-section {
+    height: 10%;
+    width: 100%;
+    position: fixed;
+    bottom: 12%;
+   
+}
+
+.center-button {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 25px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: #f8f8f8;
+    justify-content: center;
+    background-color: #7daef1;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    overflow: hidden; /* Shine efektinin dışa taşmasını engeller */
+ 
 }
+
+.center-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: skewX(-45deg);
+    animation: shine 2s infinite; /* 2 saniyelik sürekli animasyon */
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 105%;
+    }
+}
+
+.center-button img {
+    margin-right: 8px; /* Resim ile yazı arasında boşluk */
+    width: 20px; /* Resmin genişliği */
+    height: 20px; /* Resmin yüksekliği */
+}
+
+.center-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.right-button {
+    margin-left: auto; /* Sağa yaslar */
+    padding: 5px 10px;
+    right: 20px;
+    background-color: #ee8793;
+    color: white;
+    border-radius: 25px; /* Köşeleri yuvarla */
+    display: none;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+
+}
+
+/* Buton stilini düzenleyin */
+button {
+    background-color: #f8f8f8; /* Arka plan rengi */
+    border: 1px solid #333; /* Kenarlık */
+    border-radius: 5px; /* Köşe yuvarlama */
+   
+    cursor: pointer; /* Fare ile üzerlerine gelindiğinde işaretçi değişimi */
+    font-size: 16px; /* Yazı boyutu */
+    transition: background-color 0.3s ease; /* Hover geçişi */
+}
+
+button:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Hover arka plan rengi */
+}
+
+.info-section {
+    width: 100%;
+    height: 60px; /* Yükseklik aynı kalır */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Yatayda ortala */
+    padding: 10px;
+    background-color: rgba(248, 248, 248, 0.8); /* %60 transparan arka plan rengi */
+    border-radius: 10px;
+    position: relative; /* Relative yaparak map-section ile aynı düzlemde olmasını sağlar */
+    /* Alttan biraz yükselt */
+    left: 50%; 
+    transform: translateX(-50%); /* Sol kenardan %50 kaydır */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Gölge efekti */
+}
+
+
 
 .icon-button {
     background: none;
@@ -694,25 +758,79 @@ button {
 }
 
 .destination {
+    margin-left: 10px; 
     display: flex;
     align-items: center;
-    /* Dikeyde ortala */
-    font-weight: bold;
-    font-size: 18px;
+    font-weight: 600;
+    font-size: 16px;
 }
 
-.destination i {
-    margin-right: 8px;
-    /* İkon ile metin arasına boşluk ekle */
+.destination {
+    display: flex;
+    align-items: center; /* Dikeyde ortala */
+    gap: 5px; /* Resim ve yazı arasına boşluk ekle */
 }
 
 .time-info {
     display: flex;
     align-items: center;
-    font-size: 16px;
+    font-size: 14px;
+    color: #333; /* Koyu gri renk */
 }
+.image-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px; /* Genişlik */
+    height: 40px; /* Yükseklik */
+    border-radius: 10px; /* Köşeleri yuvarlatır */
+    overflow: hidden; /* İçerik sınırlarını keser */
+    border: 0.5px solid #333;
+    border-color: #c4bfbf; /* Kenarlık rengi ve kalınlığı */
+    background-color: #f8f8f8; /* Arka plan rengi */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Hover efektleri için geçiş */
+    text-decoration: none; /* Link alt çizgisi kaldırır */
+}
+.icon-buttons-container {
+    display: flex; /* Butonları yatayda hizalar */
+    gap: 10px; /* Butonlar arasına boşluk ekler */
+}
+
+.circular-icon-button {
+    margin-right: 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px; /* Butonun genişliği */
+    height: 40px; /* Butonun yüksekliği */
+    border-radius: 50%; /* Yuvarlak yapar */
+    border: 1px solid #333; /* Kenarlık rengi ve kalınlığı */
+    background-color: #f8f8f8;
+    border-color: #c4bfbf; /* Arka plan rengi */
+    text-decoration: none; /* Alt çizgi kaldırır */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Hover efektleri için geçiş */
+    color: black; /* İkon rengi */
+}
+
+.circular-icon-button i {
+    font-size: 20px; /* İkon boyutunu küçültür */
+}
+
+.circular-icon-button:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Hover arka plan rengi */
+    border-color: #666; /* Hover kenarlık rengi */
+}
+
+.image-button img {
+    width: 100%; /* Resmin genişliğini kapsayıcıya göre ayarlar */
+    height: 100%; /* Resmin yüksekliğini kapsayıcıya göre ayarlar */
+    object-fit: cover; /* Resmin kapsayıcıyı doldurmasını sağlar */
+}
+
+
 
 .time-info i {
     margin-right: 5px;
 }
+
 
