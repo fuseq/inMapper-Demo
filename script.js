@@ -37,10 +37,10 @@ function showArrow(directionToTurn, direction) {
     const upperBound = (directionToTurn + 10) % 360;
     const lowerBound = (directionToTurn - 10 + 360) % 360;
 
-    // Eğer yön directionToTurn ile ±50 derece arasındaysa
+    // Eğer yön directionToTurn ile ±10 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-        // Yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
+        // Yön directionToTurn ile ±10 derece arasında, up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
@@ -49,10 +49,15 @@ function showArrow(directionToTurn, direction) {
         isLoading = true; // Yükleme başladı
         progressCircle.style.strokeDashoffset = '0';
 
-
+        // Burada animasyonun bitişini dinleyelim
+        progressCircle.addEventListener('transitionend', () => {
+            console.log('Animasyon tamamlandı!');
+            // Animasyon tamamlandığında yapılacak işlemler burada olacak
+            alert('Doğru yöndesiniz! Yükleme tamamlandı.');
+        });
 
     } else {
-        // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
+        // Eğer yön directionToTurn ile ±10 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
         const counterclockwise = (direction - directionToTurn + 360) % 360;
 
@@ -70,7 +75,7 @@ function showArrow(directionToTurn, direction) {
         directionMatches = false;
         container.classList.remove('grow');
         progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
-       
+        progressCircle.removeEventListener('transitionend', null); // Eğer animasyon başlamadıysa olayı dinleme
     }
 }
 
