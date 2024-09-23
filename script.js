@@ -11,7 +11,7 @@ window.onload = () => {
     startDistanceCheck(window.coords);
 };
 
-// Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükler
+// Statik yerleri, önceden tanımlanmış enlem ve boylam değerleriyle yükle
 function staticLoadPlaces() {
     return [
         {
