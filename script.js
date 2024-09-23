@@ -21,7 +21,7 @@ function showArrow(directionToTurn, direction, beta) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
-    const upPerspectiveArrow = document.getElementById('up-perspective');
+    const upPerspectiveArrow = document.getElementById('up-arrow-perspective');
     const directionIndicator = document.getElementById('direction-indicator');
     const popup = document.querySelector('.popup');
 
