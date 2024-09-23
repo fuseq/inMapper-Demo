@@ -249,6 +249,28 @@ label {
     opacity: 1; /* Yukarı ok görünür hale getirilir */
 }
 
+.up-arrow-perspective {
+    animation: jump 1s ease infinite;
+    transform-origin: 50% 50%;
+}
+
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px); /* Yukarı hareket */
+    }
+    100% {
+        transform: translateY(0); /* Eski yerine geri döner */
+    }
+}
+
+/* Yukarı ok için görünürlüğü artırmak için geçiş süresi eklenebilir */
+.up-perspective.fade-in {
+    opacity: 1; /* Yukarı ok görünür hale getirilir */
+}
+
 .direction-indicator {
     position: absolute;
     top: 5%;
