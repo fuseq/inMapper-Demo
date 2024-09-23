@@ -179,18 +179,7 @@ function showArrow(directionToTurn, direction) {
         popup.style.display = 'none'; // Popup'ı gizle
     }
 }
-function getCompassDirection(alpha) {
-    // Assuming alpha is in degrees and ranges from 0 to 360
-    // You can adjust these conditions based on your specific requirements
-    if (alpha >= 337.5 || alpha < 22.5) return 'N';
-    if (alpha >= 22.5 && alpha < 67.5) return 'NE';
-    if (alpha >= 67.5 && alpha < 112.5) return 'E';
-    if (alpha >= 112.5 && alpha < 157.5) return 'SE';
-    if (alpha >= 157.5 && alpha < 202.5) return 'S';
-    if (alpha >= 202.5 && alpha < 247.5) return 'SW';
-    if (alpha >= 247.5 && alpha < 292.5) return 'W';
-    if (alpha >= 292.5 && alpha < 337.5) return 'NW';
-}
+
 
 function startCompassListener(callback) {
     if (!window.DeviceOrientationEvent) {
@@ -254,10 +243,7 @@ navigator.geolocation.watchPosition(position => {
     directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
 
     startCompassListener(compass => {
-        const directionElement = document.getElementById('direction');
-        const direction = getCompassDirection(compass);
         const directionToTurn = (bearingToTarget + 360) % 360;
-        directionElement.textContent = direction;
         showArrow(directionToTurn, compass);
     });
 
