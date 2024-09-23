@@ -3,8 +3,7 @@ let lastAlpha = null;
 let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
-let direction;
-let loadingComplete = false;
+let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
     let places = staticLoadPlaces(window.coords);
@@ -112,14 +111,15 @@ function showArrow(directionToTurn, direction) {
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
+
     const popup = document.querySelector('.popup');
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
 
-    // Update direction info on the screen
+    // Direction bilgisi ekranında güncelleniyor
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    // Reset arrow visibility
+    // Okların görünürlüğünü sıfırlama
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
@@ -127,57 +127,52 @@ function showArrow(directionToTurn, direction) {
     const upperBound = (directionToTurn + 10) % 360;
     const lowerBound = (directionToTurn - 10 + 360) % 360;
 
+    // Eğer yön directionToTurn ile ±50 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-        
-        // Show only the up-arrow
+        // Yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
 
         directionMatches = true;
-        loadingComplete = false; // Reset loading flag
 
-        // Start border animation and grow circle
+        // Border animasyonunu başlat
+        // Çemberi büyüt
         container.classList.add('grow');
 
-        // Start progress bar after a delay
+        // Büyüme tamamlandıktan sonra progress bar'ı başlat
         setTimeout(() => {
             progressCircle.style.strokeDashoffset = '0';
-
-            // After progress is complete, show the popup
-            setTimeout(() => {
-                loadingComplete = true; // Set loading flag to true
-                popup.style.display = 'block'; // Make the popup visible
-            }, 3000); // Adjust time based on loading duration
-        }, 1000); // 1 second delay before starting the loading
-
+        }, 1000); // 1 saniye sonra yükleme başlasın
     } else {
-        // Show left or right arrow
-        loadingComplete = false;
+        // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
         const counterclockwise = (direction - directionToTurn + 360) % 360;
 
         if (clockwise <= counterclockwise) {
+            // Sağ ok görünür
             leftArrow.classList.add('fade-out');
             upArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
+            // Sol ok görünür
             leftArrow.classList.add('fade-in');
             upArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-out');
         }
         directionMatches = false;
 
-        // Reset progress bar immediately
-        progressCircle.style.transition = 'none';
-        progressCircle.style.strokeDashoffset = '283'; 
+        // Border animasyonunu kaldır
+        // Önce progress bar'ı anında sıfırla
+        progressCircle.style.transition = 'none'; // Anında sıfırlama için animasyonu kaldır
+        progressCircle.style.strokeDashoffset = '283'; // Progress bar'ı direkt sıfırla
 
-        // Reduce the circle size
+        // Daha sonra yeniden transition ekleyip, çemberi küçült
         setTimeout(() => {
-            progressCircle.style.transition = 'stroke-dashoffset 3s linear';
-            container.classList.remove('grow'); 
-        }, 0);
+            progressCircle.style.transition = 'stroke-dashoffset 3s linear'; // Transition'ı geri ekle
+            container.classList.remove('grow'); // Çemberi küçült
+        }, 0); // Hemen sıfırlama işlemini yap
     }
 }
 
