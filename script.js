@@ -3,6 +3,7 @@ let lastAlpha = null;
 let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
+let isLoading = false;
 let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
@@ -135,8 +136,16 @@ function showArrow(directionToTurn, direction) {
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
         directionMatches = true;
-     
         container.classList.add('grow');
+        isLoading = true; // Yükleme başladı
+        progressCircle.style.strokeDashoffset = '0';
+
+        setTimeout(() => {
+            if (isLoading) { // Yalnızca yükleme devam ediyorsa mesajı göster
+                statusMessage.style.display = 'block'; // Yükleme tamamlandıktan sonra mesajı göster
+            }
+        }, 3000); 
+
 
     } else {
         // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
@@ -156,9 +165,8 @@ function showArrow(directionToTurn, direction) {
         }
         directionMatches = false;
         container.classList.remove('grow');
-      
-      
-
+        isLoading = false; // Yükleme durumu sıfırlandı
+        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
        
     }
 }
