@@ -4,6 +4,7 @@ let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 let isLoading = false;
+let loadingTimeout; 
 let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
@@ -112,7 +113,6 @@ function showArrow(directionToTurn, direction) {
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
-
     const popup = document.querySelector('.popup');
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
@@ -128,27 +128,30 @@ function showArrow(directionToTurn, direction) {
     const upperBound = (directionToTurn + 10) % 360;
     const lowerBound = (directionToTurn - 10 + 360) % 360;
 
-    // Eğer yön directionToTurn ile ±50 derece arasındaysa
+    // Eğer yön directionToTurn ile ±10 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
         // Yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
-        directionMatches = true;
         container.classList.add('grow');
-        isLoading = true; // Yükleme başladı
-        progressCircle.style.strokeDashoffset = '0';
 
-        setTimeout(() => {
-            if (isLoading) { // Yalnızca yükleme devam ediyorsa mesajı göster
-                popup.style.display = 'block'; // Yükleme tamamlandıktan sonra mesajı göster
-            }
-        }, 3000); 
+        if (!isLoading) { // Yükleme başlamadıysa
+            isLoading = true; // Yükleme başladı
+            progressCircle.style.strokeDashoffset = '0';
+            statusMessage.style.display = 'none'; // Yükleme başlamadan önce mesajı gizle
 
-
+            // Önceki zamanlayıcıyı temizle
+            clearTimeout(loadingTimeout);
+            loadingTimeout = setTimeout(() => {
+                if (isLoading) { // Yalnızca yükleme devam ediyorsa mesajı göster
+                    popup.style.display = 'block'; // Yükleme tamamlandıktan sonra mesajı göster
+                }
+            }, 3000); // 3 saniye (yükleme süresi)
+        }
     } else {
-        // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
+        // Eğer yön directionToTurn ile ±10 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
         const counterclockwise = (direction - directionToTurn + 360) % 360;
 
@@ -163,11 +166,11 @@ function showArrow(directionToTurn, direction) {
             upArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-out');
         }
-        directionMatches = false;
         container.classList.remove('grow');
         isLoading = false; // Yükleme durumu sıfırlandı
         progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
-       
+        popup.style.display = 'none'; // Mesajı gizle
+        clearTimeout(loadingTimeout); // Zamanlayıcıyı temizle
     }
 }
 
@@ -227,6 +230,7 @@ navigator.geolocation.watchPosition(position => {
     const positionIndicator = document.getElementById('position-indicator');
     const distanceIndicator = document.getElementById('distance-indicator');
     const directionFromStartIndicator = document.getElementById('direction-from-start-indicator');
+    
     positionIndicator.innerText = `Position: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
     const distance = calculateDistance(latitude, longitude, sourceLat, sourceLon);
     distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
