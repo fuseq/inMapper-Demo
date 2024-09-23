@@ -165,14 +165,11 @@ function showArrow(directionToTurn, direction) {
 
         // Border animasyonunu kaldır
         // Önce progress bar'ı anında sıfırla
+        container.classList.remove('grow');
         progressCircle.style.transition = 'none'; // Anında sıfırlama için animasyonu kaldır
         progressCircle.style.strokeDashoffset = '283'; // Progress bar'ı direkt sıfırla
 
-        // Daha sonra yeniden transition ekleyip, çemberi küçült
-        setTimeout(() => {
-            progressCircle.style.transition = 'stroke-dashoffset 3s linear'; // Transition'ı geri ekle
-            container.classList.remove('grow'); // Çemberi küçült
-        }, 0); // Hemen sıfırlama işlemini yap
+       
     }
 }
 
