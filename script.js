@@ -40,7 +40,7 @@ function showArrow(directionToTurn, direction) {
     // Eğer yön directionToTurn ile ±10 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-        // Yön directionToTurn ile ±10 derece arasında, up-arrow görünecek
+        // Yön doğru, up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
@@ -51,9 +51,11 @@ function showArrow(directionToTurn, direction) {
 
         // Burada animasyonun bitişini dinleyelim
         progressCircle.addEventListener('transitionend', () => {
-            console.log('Animasyon tamamlandı!');
-            // Animasyon tamamlandığında yapılacak işlemler burada olacak
-            alert('Doğru yöndesiniz! Yükleme tamamlandı.');
+            // strokeDashoffset kontrolü ile sadece animasyon beyaza döndüğünde tetiklenir
+            if (progressCircle.style.strokeDashoffset === '0') {
+                console.log('Animasyon tamamlandı ve beyaza döndü!');
+                alert('Doğru yöndesiniz! Yükleme tamamlandı.');
+            }
         });
 
     } else {
