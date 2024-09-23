@@ -82,7 +82,18 @@ function startCompassListener(callback) {
 function updateArrows(compass, directionToTurn) {
     const angleDifference = (directionToTurn - compass + 360) % 360;
 
-    if (angleDifference < 10 && angleDifference > -10) {
+    // Belirli bir tolerans aralığı tanımlıyoruz, örneğin 10 derece
+    const tolerance = 10;
+
+    // `directionToTurn` 90 ise 80-100 aralığı
+    const lowerBound = (directionToTurn - tolerance + 360) % 360;
+    const upperBound = (directionToTurn + tolerance) % 360;
+
+    const inForwardRange = lowerBound < upperBound 
+        ? (angleDifference >= lowerBound && angleDifference <= upperBound)
+        : (angleDifference >= lowerBound || angleDifference <= upperBound); // 0'ı geçtiğinde
+
+    if (inForwardRange) {
         forwardArrow.style.opacity = '1'; // İleri oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
         rightArrow.style.opacity = '0'; // Sağ oku gizle
@@ -90,7 +101,6 @@ function updateArrows(compass, directionToTurn) {
         setTimeout(() => {
             progressCircle.style.strokeDashoffset = '0';
         }, 1000); // 1 saniye sonra yükleme başlasın
-
     } else if (angleDifference < 180) {
         rightArrow.style.opacity = '1'; // Sağ oku görünür yap
         leftArrow.style.opacity = '0'; // Sol oku gizle
