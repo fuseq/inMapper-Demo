@@ -26,11 +26,10 @@ function staticLoadPlaces() {
 
 var models = [
     {
-        url: './assets/ileri.png', // PNG image
-        scale: '20 10 10',
+        url: './assets/finish.gltf',
+        scale: '1.5 1.5 1.5',
         info: '',
-        // Adjust the rotation to tilt the image
-        rotation: '-30 -45 -60', // Tilt the image 30 degrees forward (on the X-axis)
+        rotation: '0 0 0',
         position: '0 0 0',
     },
 ];
@@ -50,8 +49,8 @@ function calculateRotation() {
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
-    let rotationX = 50;
-    let rotationY = bearingToTarget+70;
+    let rotationX = 0;
+    let rotationY = bearingToTarget + 20;
     let rotationZ = 0;
 
     return `${rotationX} ${rotationY} ${rotationZ}`;
@@ -71,8 +70,8 @@ function setModel(model, entity, rotation) {
     if (model.position) {
         entity.setAttribute('position', model.position);
     }
-    // Use an <a-image> for displaying the PNG
-    entity.setAttribute('src', model.url);
+    entity.setAttribute('gltf-model', model.url);
+    // Create an SVG element and convert it to a data URL
 }
 
 // Yerleri sahnede render eder (görüntüler)
@@ -82,11 +81,10 @@ function renderPlaces(places) {
         let latitude = place.location.lat;
         let longitude = place.location.lng;
         let rotation = calculateRotation();
-        
-        // Create an <a-image> instead of <a-entity>
-        let model = document.createElement('a-image');
+        let model = document.createElement('a-entity');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
         setModel(models[modelIndex], model, rotation);
+        model.removeAttribute('animation-mixer');
         scene.appendChild(model);
     });
 }
@@ -109,10 +107,9 @@ function checkModelVisibility(model) {
 function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
-    const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
-    const uiBox = document.querySelector('.ui-box'); // .ui-box elementini seç
-    const popup = document.querySelector('.popup'); // .popup elementini seç
+    const uiBox = document.querySelector('.ui-box');
+    const popup = document.querySelector('.popup'); 
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
     // Direction bilgisi ekranında güncelleniyor
@@ -121,7 +118,6 @@ function showArrow(directionToTurn, direction) {
     // Animasyonları kaldırmak için önce tüm okların animasyon sınıflarını temizle
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
-    upArrow.classList.remove('fade-in', 'fade-out');
 
     // Yukarı yön oku (±50 derece içinde)
     const upperBound = (directionToTurn + 10) % 360;
@@ -133,7 +129,7 @@ function showArrow(directionToTurn, direction) {
         // Yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
-        upArrow.classList.add('fade-in');
+       
         directionMatches = true;
 
         // Border animasyonunu başlat
@@ -165,9 +161,7 @@ function showArrow(directionToTurn, direction) {
             rightArrow.classList.add('fade-out');
         }
 
-        upArrow.classList.add('fade-out');
         directionMatches = false;
-
         // Border animasyonunu kaldır
         uiBox.classList.remove('border-animation');
         // Önce progress bar'ı anında sıfırla

@@ -206,7 +206,7 @@ label {
 /* Genel arrow stili */
 .arrow {
     position: absolute;
-    top: 50%;
+    top: 40%;
     transform: translateY(-50%);
     opacity: 0;
     /* Başlangıçta görünmez */
@@ -215,19 +215,20 @@ label {
 }
 
 .arrow-icon {
-    font-size: 60px;
+    width: 60px; /* Png resim boyutu */
+    height: auto;
 }
 
 /* Sol ok için konumlandırma */
 .left {
-    left: 20px;
+    left: 25px;
     color: #ff6384;
 
 }
 
 /* Sağ ok için konumlandırma */
 .right {
-    right: 20px;
+    right: 25px;
     color: #ff6384;
 }
 
@@ -249,7 +250,7 @@ label {
 
 /* Sola giden ok için animasyon */
 .left-arrow {
-    animation: moveLeftArrow 2s ease-in-out infinite;
+    animation: moveLeftArrow 1.5s ease-in-out infinite;
 
 }
 
@@ -259,7 +260,7 @@ label {
     }
 
     50% {
-        transform: translateX(-20px);
+        transform: translateX(-25px);
     }
 
     100% {
@@ -269,7 +270,7 @@ label {
 
 /* Sağa giden ok için animasyon */
 .right-arrow {
-    animation: moveRightArrow 2s ease-in-out infinite;
+    animation: moveRightArrow 1.5s ease-in-out infinite;
 }
 
 @keyframes moveRightArrow {
@@ -278,7 +279,7 @@ label {
     }
 
     50% {
-        transform: translateX(20px);
+        transform: translateX(25px);
         /* Sağa doğru hareket */
     }
 

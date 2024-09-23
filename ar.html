@@ -27,10 +27,10 @@
     <div class="centered instructions"></div>
     <div class="centered instructions"></div>
     <div class="arrow left" id="left-arrow">
-        <i class="fas fa-arrow-circle-left arrow-icon left-arrow"></i>
+        <img src="assets/left_arrow.png" alt="Left Arrow" class="arrow-icon left-arrow">
     </div>
     <div class="arrow right" id="right-arrow">
-        <i class="fas fa-arrow-circle-right arrow-icon right-arrow"></i>
+        <img src="assets/right_arrow.png" alt="Right Arrow" class="arrow-icon right-arrow">
     </div>
     <div class="arrow up" id="up-arrow">
         <i class="fas fa-arrow-circle-up arrow-icon up-arrow"></i>
@@ -52,10 +52,10 @@
     </div>
     
     <a-scene vr-mode-ui='enabled: false' embedded
-        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-        <a-camera id="main-camera" gps-camera='gpsMinDistance: 5' rotation-reader
-            arjs-device-orientation-controls='smoothingFactor: 0.9'></a-camera>
-    </a-scene>
+    arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+    <a-camera id="main-camera" gps-camera='gpsMinDistance: 100' rotation-reader
+        arjs-device-orientation-controls='smoothingFactor: 1'></a-camera>
+</a-scene>
 
     <div class="bottom-container">
 
