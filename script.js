@@ -107,6 +107,7 @@ function checkModelVisibility(model) {
     return modelScreenPosition.z > 0 && modelScreenPosition.x >= -1 && modelScreenPosition.x <= 1 && modelScreenPosition.y >= -1 && modelScreenPosition.y <= 1;
 }
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
+
 function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
@@ -136,9 +137,10 @@ function showArrow(directionToTurn, direction) {
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
         directionMatches = true;
-        
+
         if (!isLoading) { // Yükleme başladıysa sadece bir kez başlat
             isLoading = true; // Yükleme başladı
+            container.classList.add('grow'); // Grow animasyonunu başlat
             progressCircle.style.strokeDashoffset = '0';
 
             loadingTimeout = setTimeout(() => {
@@ -147,7 +149,6 @@ function showArrow(directionToTurn, direction) {
                 }
             }, 3000); 
         }
-        container.classList.add('grow');
     } else {
         // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
@@ -165,17 +166,16 @@ function showArrow(directionToTurn, direction) {
             rightArrow.classList.add('fade-out');
         }
         directionMatches = false;
-        container.classList.remove('grow');
-        
+
         if (isLoading) { // Eğer yükleme varsa, durumu sıfırla
             clearTimeout(loadingTimeout); // Önceki zamanlayıcıyı temizle
             isLoading = false; // Yükleme durumu sıfırlandı
+            container.classList.remove('grow'); // Grow animasyonunu durdur
             progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
             popup.style.display = 'none'; // Popup'ı gizle
         }
     }
 }
-
 
 function startCompassListener(callback) {
     if (!window.DeviceOrientationEvent) {
