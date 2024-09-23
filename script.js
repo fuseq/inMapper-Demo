@@ -111,7 +111,7 @@ function showArrow(directionToTurn, direction) {
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
-    const uiBox = document.querySelector('.ui-box');
+    
     const popup = document.querySelector('.popup');
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
@@ -137,12 +137,7 @@ function showArrow(directionToTurn, direction) {
         directionMatches = true;
 
         // Border animasyonunu başlat
-        uiBox.classList.add('border-animation');
-
-        uiBox.addEventListener('animationend', () => {
-            // Popup'ı hemen göster
-            popup.style.display = 'flex';
-        }, { once: true });
+       
         // Çemberi büyüt
         container.classList.add('grow');
 
@@ -166,10 +161,8 @@ function showArrow(directionToTurn, direction) {
             upArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-out');
         }
-
         directionMatches = false;
         // Border animasyonunu kaldır
-        uiBox.classList.remove('border-animation');
         // Önce progress bar'ı anında sıfırla
         progressCircle.style.transition = 'none';  // Anında sıfırlama için animasyonu kaldır
         progressCircle.style.strokeDashoffset = '283'; // Progress bar'ı direkt sıfırla

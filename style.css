@@ -147,61 +147,6 @@ label {
     }
 }
 
-/*
-.arrow {
-    position: absolute;
-    top: 50%;
-    margin: 30px;
-    padding: 30px;
-    transform: translateY(-50%);
-    cursor: pointer;
-}
-
-.arrow.left {
-    left: 10px;
-    transform: translateY(-50%) rotate(90deg);
-}
-
-.arrow.right {
-    right: 20px;
-    transform: translateY(-50%) rotate(270deg);
-}
-
-.arrow span {
-    display: block;
-    width: 1.5vw;
-    height: 1.5vw;
-    border-bottom: 5px solid white;
-    border-right: 5px solid white;
-    transform: rotate(45deg);
-    margin: -10px;
-    animation: animate 2s infinite;
-}
-
-.arrow span:nth-child(2) {
-    animation-delay: -0.2s;
-}
-
-.arrow span:nth-child(3) {
-    animation-delay: -0.4s;
-}
-
-@keyframes animate {
-    0% {
-        opacity: 0;
-        transform: rotate(45deg) translate(-20px, -20px);
-    }
-
-    50% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-        transform: rotate(45deg) translate(20px, 20px);
-    }
-}
-*/
 
 /* Genel arrow stili */
 .arrow {
@@ -235,11 +180,9 @@ label {
 /* Yukarı (ileri) ok için konumlandırma */
 .up {
     left: 50%;
+    color: #36a2eb;
     top: 65%;
     transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-    z-index: 10; /* Ensure it stays on top */
 }
 
 .fade-in {
@@ -368,22 +311,7 @@ label {
 
 @media (max-width: 768px) {
 
-    /*
-    .arrow.left {
-        left: 5px;
-    }
 
-    .arrow.right {
-        right: 5px;
-    }
-
-    .arrow span {
-        width: 5vw;
-        height: 5vw;
-        border-bottom: 3px solid white;
-        border-right: 3px solid white;
-    }
-*/
     .direction-indicator {
         font-size: 0.75em;
         padding: 5px;
@@ -410,67 +338,7 @@ label {
     }
 }
 
-/*
-.progress-frame {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    display: none;
-    
-}
 
-  .progress-frame:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 4px;
-    background: linear-gradient(120deg, #00F260, #0575E6, #00F260);
-    background-size: 300% 300%;
-    clip-path: polygon(0% 100%, 3px 100%, 3px 3px, calc(100% - 3px) 3px, calc(100% - 3px) calc(100% - 3px), 3px calc(100% - 3px), 3px 100%, 100% 100%, 100% 0%, 0% 0%);
-  }
-  
-  .progress-frame.in:after {
-    animation: frame-enter 1s forwards ease-in-out reverse, gradient-animation 4s ease-in-out infinite;
-  }
-  
- 
-  @keyframes gradient-animation {
-    0% {
-      background-position: 15% 0%;
-    }
-    50% {
-      background-position: 85% 100%;
-    }
-    100% {
-      background-position: 15% 0%;
-    }
-  }
-  
-  @keyframes frame-enter {
-    0% {
-      clip-path: polygon(0% 100%, 3px 100%, 3px 3px, calc(100% - 3px) 3px, calc(100% - 3px) calc(100% - 3px), 3px calc(100% - 3px), 3px 100%, 100% 100%, 100% 0%, 0% 0%);
-    }
-    25% {
-      clip-path: polygon(0% 100%, 3px 100%, 3px 3px, calc(100% - 3px) 3px, calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) 100%, 100% 100%, 100% 0%, 0% 0%);
-    }
-    50% {
-      clip-path: polygon(0% 100%, 3px 100%, 3px 3px, calc(100% - 3px) 3px, calc(100% - 3px) 3px, calc(100% - 3px) 3px, calc(100% - 3px) 3px, calc(100% - 3px) 3px, 100% 0%, 0% 0%);
-    }
-    75% {
-      -webkit-clip-path: polygon(0% 100%, 3px 100%, 3px 3px, 3px 3px, 3px 3px, 3px 3px, 3px 3px, 3px 3px, 3px 0%, 0% 0%);
-    }
-    100% {
-      -webkit-clip-path: polygon(0% 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 0% 100%);
-    }
-   
-  }
-  */
 .progress-frame {
     position: fixed;
     top: 0;
@@ -853,52 +721,3 @@ button {
     margin-right: 5px;
 }
 
-.ui-box {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 71.5%;
-    z-index: 9999;
-}
-
-.ui-box::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 4px solid transparent; /* Başlangıçta görünmez */
-    box-sizing: border-box;
-    border-radius: 3px;
-    
-}
-
-.border-animation::before {
-    animation: draw-border 4s forwards;
-}
-/* Border'ın çizilme animasyon */
-@keyframes draw-border {
-    0% {
-    
-        
-    }
-
-    25% {
-       
-        
-    }
-
-    50% {
-       
-        
-    }
-    75% {
-      
-    }
-    100% {
-       
-    }
-    
-}
