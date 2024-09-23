@@ -49,7 +49,6 @@ function startCompassListener(callback) {
         let compass = e.webkitCompassHeading;
         if (compass != null && !isNaN(compass)) {
             callback(compass);
-            window.removeEventListener("deviceorientation", webkitListener);
         }
     };
 
