@@ -134,17 +134,10 @@ function showArrow(directionToTurn, direction) {
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
-
         directionMatches = true;
-
-        // Border animasyonunu başlat
-        // Çemberi büyüt
+     
         container.classList.add('grow');
 
-        // Büyüme tamamlandıktan sonra progress bar'ı başlat
-        setTimeout(() => {
-            progressCircle.style.strokeDashoffset = '0';
-        }, 1000); // 1 saniye sonra yükleme başlasın
     } else {
         // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
@@ -163,11 +156,8 @@ function showArrow(directionToTurn, direction) {
         }
         directionMatches = false;
 
-        // Border animasyonunu kaldır
-        // Önce progress bar'ı anında sıfırla
-        container.classList.remove('grow');
-        progressCircle.style.transition = 'none'; // Anında sıfırlama için animasyonu kaldır
-        progressCircle.style.strokeDashoffset = '283'; // Progress bar'ı direkt sıfırla
+      
+      
 
        
     }
