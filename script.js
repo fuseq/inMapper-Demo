@@ -3,6 +3,7 @@ let lastAlpha = null;
 let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
+let isLoading = false;
 let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
@@ -115,10 +116,10 @@ function showArrow(directionToTurn, direction) {
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
 
-    // Direction bilgisi ekranında güncelleniyor
+    // Update the direction info on the screen
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    // Okların görünürlüğünü sıfırlama
+    // Reset arrow visibility
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
@@ -126,40 +127,50 @@ function showArrow(directionToTurn, direction) {
     const upperBound = (directionToTurn + 10) % 360;
     const lowerBound = (directionToTurn - 10 + 360) % 360;
 
-    // Eğer yön directionToTurn ile ±50 derece arasındaysa
+    // If direction is within ±10 degrees of directionToTurn
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-        // Yön 50'den küçük veya 300'den büyükse, sadece up-arrow görünecek
+        // Show only the up arrow if direction is valid
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
-        directionMatches = true;
+
+        // If loading hasn't started yet
+        if (!isLoading) {
+            isLoading = true; // Start loading
+            progressCircle.style.strokeDashoffset = '0';
+
+            // Show alert when loading is complete
+            setTimeout(() => {
+                alert("Loading complete!");
+                isLoading = false; // Reset loading status
+            }, 3000); // 3 seconds to complete loading
+        }
+
         container.classList.add('grow');
-        isLoading = true; // Yükleme başladı
-        progressCircle.style.strokeDashoffset = '0';
-
-
-
     } else {
-        // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
+        // If direction is outside the ±10 degrees
         const clockwise = (directionToTurn - direction + 360) % 360;
         const counterclockwise = (direction - directionToTurn + 360) % 360;
 
         if (clockwise <= counterclockwise) {
-            // Sağ ok görünür
+            // Show right arrow
             leftArrow.classList.add('fade-out');
             upArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-in');
         } else {
-            // Sol ok görünür
+            // Show left arrow
             leftArrow.classList.add('fade-in');
             upArrow.classList.add('fade-out');
             rightArrow.classList.add('fade-out');
         }
-        directionMatches = false;
+
+        if (isLoading) {
+            progressCircle.style.strokeDashoffset = '283'; // Instant reset
+            isLoading = false; // Stop loading
+        }
+
         container.classList.remove('grow');
-        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
-       
     }
 }
 
