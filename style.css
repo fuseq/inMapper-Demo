@@ -249,10 +249,6 @@ label {
     opacity: 1; /* Yukarı ok görünür hale getirilir */
 }
 
-.up.fade-out {
-    opacity: 0; /* Yukarı ok görünür hale getirilir */
-}
-
 .direction-indicator {
     position: absolute;
     top: 5%;
