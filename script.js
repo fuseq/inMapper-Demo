@@ -3,7 +3,7 @@ let lastAlpha = null;
 let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
-let isLoading = false;
+let loadingTimeout; 
 let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
@@ -136,17 +136,18 @@ function showArrow(directionToTurn, direction) {
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
         directionMatches = true;
+        
+        if (!isLoading) { // Yükleme başladıysa sadece bir kez başlat
+            isLoading = true; // Yükleme başladı
+            progressCircle.style.strokeDashoffset = '0';
+
+            loadingTimeout = setTimeout(() => {
+                if (isLoading) { // Yalnızca yükleme devam ediyorsa mesajı göster
+                    popup.style.display = 'block'; // Yükleme tamamlandıktan sonra mesajı göster
+                }
+            }, 3000); 
+        }
         container.classList.add('grow');
-        isLoading = true; // Yükleme başladı
-        progressCircle.style.strokeDashoffset = '0';
-
-        setTimeout(() => {
-            if (isLoading) { // Yalnızca yükleme devam ediyorsa mesajı göster
-                popup.style.display = 'block'; // Yükleme tamamlandıktan sonra mesajı göster
-            }
-        }, 3000); 
-
-
     } else {
         // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
@@ -165,9 +166,13 @@ function showArrow(directionToTurn, direction) {
         }
         directionMatches = false;
         container.classList.remove('grow');
-        isLoading = false; // Yükleme durumu sıfırlandı
-        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
-       
+        
+        if (isLoading) { // Eğer yükleme varsa, durumu sıfırla
+            clearTimeout(loadingTimeout); // Önceki zamanlayıcıyı temizle
+            isLoading = false; // Yükleme durumu sıfırlandı
+            progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
+            popup.style.display = 'none'; // Popup'ı gizle
+        }
     }
 }
 
