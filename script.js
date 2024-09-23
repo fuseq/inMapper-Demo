@@ -20,7 +20,8 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
 function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
-    const upArrow = document.getElementById('up-arrow-perspective');
+    const upArrow = document.getElementById('up-arrow');
+    const upArrowPerspective = document.getElementById('up-arrow-perspective');
     const directionIndicator = document.getElementById('direction-indicator');
     const popup = document.querySelector('.popup');
 
