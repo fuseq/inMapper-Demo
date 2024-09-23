@@ -154,7 +154,7 @@ label {
     top: 33%; /* Genel pozisyon */
     transform: translateY(-50%);
     opacity: 1; /* Başlangıçta görünmez */
-    transition: opacity 1s ease-in-out; /* Opaklık değişimi için geçiş */
+    transition: opacity 0.2s ease-in-out; /* Opaklık değişimi için daha hızlı geçiş */
 }
 
 /* Ok simgesi boyutu */
