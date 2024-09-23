@@ -104,7 +104,7 @@
                     <i class="fas fa-check"></i>
                     <span>Tamam</span>
                 </button>
-             
+
             </div>
         </div>
     </div>
@@ -112,6 +112,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const centerButton = document.querySelector('.center-button'); // Question buttonu buluyoruz
             const rightButton = document.querySelector('.right-button');
+            const okButton = document.querySelector('.btn-ok');
             const bottomContainer = document.querySelector('.bottom-container');
             const popup = document.getElementById('popup');
             const uiBox = document.querySelector('.ui-box');
@@ -121,16 +122,24 @@
                 bottomContainer.style.height = '40%';
                 centerButton.style.display = 'none';
                 rightButton.style.display = 'block';
-                // Sahneyi body'e ekleyelim
-                document.body.appendChild(scene);
 
             });
 
             rightButton.addEventListener('click', function () {
-                    bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
-                    centerButton.style.display = 'none'; // centerButton'ı tekrar göster
-                    rightButton.style.display = 'none'; // rightButton'ı görünür tut
-                
+                bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
+                centerButton.style.display = 'none'; // centerButton'ı tekrar göster
+                rightButton.style.display = 'none'; // rightButton'ı görünür tut
+
+            });
+
+            okButton.addEventListener('click', function () {
+               
+                popup.style.display = 'none';
+                bottomContainer.style.height = '100%';
+                centerButton.style.display = 'none';
+                rightButton.style.display = 'none';
+
+                // İsteğe bağlı olarak başka işlemler yapılabilir
             });
 
         });
