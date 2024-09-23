@@ -22,6 +22,7 @@ function showArrow(directionToTurn, direction) {
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const directionIndicator = document.getElementById('direction-indicator');
+    const popup = document.querySelector('.popup');
 
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
@@ -54,7 +55,7 @@ function showArrow(directionToTurn, direction) {
             // strokeDashoffset kontrolü ile sadece animasyon beyaza döndüğünde tetiklenir
             if (progressCircle.style.strokeDashoffset === '0') {
                 console.log('Animasyon tamamlandı ve beyaza döndü!');
-                alert('Doğru yöndesiniz! Yükleme tamamlandı.');
+                popup.style.display = 'block';
             }
         });
 
