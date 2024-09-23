@@ -155,7 +155,7 @@ function showArrow(directionToTurn, direction) {
             rightArrow.classList.add('fade-out');
         }
         directionMatches = false;
-
+        container.classList.remove('grow');
       
       
 
