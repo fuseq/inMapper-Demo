@@ -15,27 +15,8 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     const brng = Math.atan2(y, x) * (180 / Math.PI);
     return (brng + 360) % 360;
 }
-// Rotasyon hesaplama fonksiyonu (örnek olarak)
-function calculateRotation() {
-    const sourceLat = parseFloat(window.coords.x1);
-    const sourceLon = parseFloat(window.coords.y1);
-    const targetLat = parseFloat(window.coords.x2);
-    const targetLon = parseFloat(window.coords.y2);
-    const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
-    let rotationX = 0;
-    let rotationY = bearingToTarget + 20;
-    let rotationZ = 0;
-
-    return `${rotationX} ${rotationY} ${rotationZ}`;
-}
 
 
-// Yön açısına göre pusula yönünü döndürür (örn: N, NE, E vb.)
-function getDirectionFromBearing(bearing) {
-    const directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
-    const index = Math.round(bearing / 22.5) % 16;
-    return directions[index];
-}
 function checkModelVisibility(model) {
     // A-Frame'ın 'gps-entity-place' bileşenini kullanarak görünürlük kontrolü yapın
     const modelPosition = model.object3D.position;
@@ -160,8 +141,7 @@ navigator.geolocation.watchPosition(position => {
     positionIndicator.innerText = `Position: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
     const distance = calculateDistance(latitude, longitude, sourceLat, sourceLon);
     distanceIndicator.innerText = `Distance: ${distance.toFixed(2)} meters`;
-    const directionFromStart = getDirectionFromBearing(bearingToSource);
-    directionFromStartIndicator.innerText = `Direction from Start: ${directionFromStart}`;
+
 
     startCompassListener(compass => {
         const directionToTurn = (bearingToTarget + 360) % 360;
