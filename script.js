@@ -3,7 +3,7 @@ let lastAlpha = null;
 let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
-let loadingTimeout; 
+let isLoading = false;
 let direction
 window.onload = () => {
     // Sayfa yüklendiğinde yerleri yükler ve mesafe kontrolünü başlatır
@@ -107,7 +107,6 @@ function checkModelVisibility(model) {
     return modelScreenPosition.z > 0 && modelScreenPosition.x >= -1 && modelScreenPosition.x <= 1 && modelScreenPosition.y >= -1 && modelScreenPosition.y <= 1;
 }
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
-
 function showArrow(directionToTurn, direction) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
@@ -137,18 +136,17 @@ function showArrow(directionToTurn, direction) {
         rightArrow.classList.add('fade-out');
         upArrow.classList.add('fade-in');
         directionMatches = true;
+        container.classList.add('grow');
+        isLoading = true; // Yükleme başladı
+        progressCircle.style.strokeDashoffset = '0';
 
-        if (!isLoading) { // Yükleme başladıysa sadece bir kez başlat
-            isLoading = true; // Yükleme başladı
-            container.classList.add('grow'); // Grow animasyonunu başlat
-            progressCircle.style.strokeDashoffset = '0';
+        setTimeout(() => {
+            if (isLoading) { // Yalnızca yükleme devam ediyorsa mesajı göster
+                popup.style.display = 'block'; // Yükleme tamamlandıktan sonra mesajı göster
+            }
+        }, 3000); 
 
-            loadingTimeout = setTimeout(() => {
-                if (isLoading) { // Yalnızca yükleme devam ediyorsa mesajı göster
-                    popup.style.display = 'block'; // Yükleme tamamlandıktan sonra mesajı göster
-                }
-            }, 3000); 
-        }
+
     } else {
         // Eğer yön directionToTurn ile ±50 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
@@ -166,16 +164,13 @@ function showArrow(directionToTurn, direction) {
             rightArrow.classList.add('fade-out');
         }
         directionMatches = false;
-
-        if (isLoading) { // Eğer yükleme varsa, durumu sıfırla
-            clearTimeout(loadingTimeout); // Önceki zamanlayıcıyı temizle
-            isLoading = false; // Yükleme durumu sıfırlandı
-            container.classList.remove('grow'); // Grow animasyonunu durdur
-            progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
-            popup.style.display = 'none'; // Popup'ı gizle
-        }
+        container.classList.remove('grow');
+        isLoading = false; // Yükleme durumu sıfırlandı
+        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
+       
     }
 }
+
 
 function startCompassListener(callback) {
     if (!window.DeviceOrientationEvent) {
