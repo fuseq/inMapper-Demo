@@ -235,9 +235,11 @@ label {
 /* Yukarı (ileri) ok için konumlandırma */
 .up {
     left: 50%;
-    color: #36a2eb;
     top: 65%;
     transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 10; /* Ensure it stays on top */
 }
 
 .fade-in {
