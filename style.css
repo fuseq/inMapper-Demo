@@ -179,7 +179,7 @@ label {
 .up {
     left: 50%;
     color: #36a2eb;
-    top: 65%; /* Yüksekliği artırarak görünürlüğü artırabilirsiniz */
+    top: 40%; /* Yüksekliği artırarak görünürlüğü artırabilirsiniz */
     transform: translate(-50%, -50%); /* Yatay ve dikey olarak ortalar */
 }
 
