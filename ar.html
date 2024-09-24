@@ -48,10 +48,6 @@
         </svg>
     </div>
 
-    <a-scene vr-mode-ui='enabled: false' embedded
-        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-
-    </a-scene>
 
     <div class="bottom-container">
 
@@ -154,7 +150,7 @@
                 bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
                 centerButton.style.display = 'none'; // centerButton'ı tekrar göster
                 rightButton.style.display = 'none'; // rightButton'ı görünür tut
-         
+                removeARScene();
 
             });
 
