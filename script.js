@@ -65,7 +65,7 @@ function showArrow(directionToTurn, direction, beta) {
         progressCircle.addEventListener('webkitTransitionEnd', onTransitionEnd);
 
     } else {
-        // Eğer yön directionToTurn ile ±10 derece dışında ise sola veya sağa oklar gösterilecek
+        // Eğer yön directionToTurn ile ±10 derece dışında ise sola veya sağa oklar gösterilece
         const clockwise = (directionToTurn - direction + 360) % 360;
         const counterclockwise = (direction - directionToTurn + 360) % 360;
 
