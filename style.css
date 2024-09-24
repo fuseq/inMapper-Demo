@@ -179,7 +179,7 @@ label {
 .up {
     left: 50%;
     color: #36a2eb;
-    transform: translate(-50%, -50%) scale(1.3); /* Yatay ve dikey olarak ortalar */
+    transform: translate(-50%, -50%) scale(1.6); /* Yatay ve dikey olarak ortalar */
 }
 
 /* Opaklık geçiş sınıfları */
