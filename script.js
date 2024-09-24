@@ -16,7 +16,6 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     return (brng + 360) % 360;
 }
 
-// Yönlendirme oklarını ve doğru yön indikatörünü gösterir
 function showArrow(directionToTurn, direction, beta) {
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
@@ -43,6 +42,7 @@ function showArrow(directionToTurn, direction, beta) {
     // Eğer yön directionToTurn ile ±10 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
+        
         // Yön doğru, okları kontrol et
         if (beta < 30) {
             // up-perspective oku görünecek
@@ -60,12 +60,24 @@ function showArrow(directionToTurn, direction, beta) {
         isLoading = true; // Yükleme başladı
         progressCircle.style.strokeDashoffset = '0';
 
-        // Burada animasyonun bitişini dinleyelim
-        progressCircle.addEventListener('transitionend', onTransitionEnd);
-        progressCircle.addEventListener('webkitTransitionEnd', onTransitionEnd);
+        // Animasyonu requestAnimationFrame ile takip ediyoruz
+        const monitorAnimation = () => {
+            const currentOffset = parseFloat(getComputedStyle(progressCircle).strokeDashoffset);
+            
+            if (currentOffset === 0) {
+                console.log('Animasyon tamamlandı ve beyaza döndü!');
+                popup.style.display = 'block';
+            } else {
+                // Animasyon bitene kadar requestAnimationFrame ile devam et
+                requestAnimationFrame(monitorAnimation);
+            }
+        };
+
+        // Animasyonun başlangıcında requestAnimationFrame ile kontrol başlat
+        requestAnimationFrame(monitorAnimation);
 
     } else {
-        // Eğer yön directionToTurn ile ±10 derece dışında ise sola veya sağa oklar gösterilece
+        // Eğer yön directionToTurn ile ±10 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
         const counterclockwise = (direction - directionToTurn + 360) % 360;
 
@@ -85,10 +97,9 @@ function showArrow(directionToTurn, direction, beta) {
         directionMatches = false;
         container.classList.remove('grow');
         progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
-        progressCircle.removeEventListener('transitionend', onTransitionEnd);
-        progressCircle.removeEventListener('webkitTransitionEnd', onTransitionEnd); // Eğer animasyon başlamadıysa olayı dinleme
     }
 }
+
 
 function onTransitionEnd() {
     const progressCircle = document.querySelector('.progress');
