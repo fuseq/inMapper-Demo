@@ -18,6 +18,12 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
 
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
 function showArrow(directionToTurn, direction, beta) {
+
+    const arScene = document.querySelector('a-scene');
+    if (!arScene) {
+        return;
+    }
+
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
