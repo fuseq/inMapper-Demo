@@ -153,7 +153,7 @@ label {
     position: absolute;
     top: 33%; /* Genel pozisyon */
     transform: translateY(-50%);
-    opacity: 1; /* Başlangıçta görünmez */
+    opacity: 0; /* Başlangıçta görünmez */
     transition: opacity 0.2s ease-in-out; /* Opaklık değişimi için daha hızlı geçiş */
 }
 
