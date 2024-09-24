@@ -61,13 +61,8 @@ function showArrow(directionToTurn, direction, beta) {
         progressCircle.style.strokeDashoffset = '0';
 
         // Burada animasyonun bitişini dinleyelim
-        progressCircle.addEventListener('transitionend', () => {
-            // strokeDashoffset kontrolü ile sadece animasyon beyaza döndüğünde tetiklenir
-            if (progressCircle.style.strokeDashoffset === '0') {
-                console.log('Animasyon tamamlandı ve beyaza döndü!');
-                popup.style.display = 'block';
-            }
-        });
+        progressCircle.addEventListener('transitionend', onTransitionEnd);
+        progressCircle.addEventListener('webkitTransitionEnd', onTransitionEnd);
 
     } else {
         // Eğer yön directionToTurn ile ±10 derece dışında ise sola veya sağa oklar gösterilecek
@@ -90,9 +85,22 @@ function showArrow(directionToTurn, direction, beta) {
         directionMatches = false;
         container.classList.remove('grow');
         progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
-        progressCircle.removeEventListener('transitionend', null); // Eğer animasyon başlamadıysa olayı dinleme
+        progressCircle.removeEventListener('transitionend', onTransitionEnd);
+        progressCircle.removeEventListener('webkitTransitionEnd', onTransitionEnd); // Eğer animasyon başlamadıysa olayı dinleme
     }
 }
+
+function onTransitionEnd() {
+    const progressCircle = document.querySelector('.progress');
+    const popup = document.querySelector('.popup');
+
+    // strokeDashoffset kontrolü ile sadece animasyon beyaza döndüğünde tetiklenir
+    if (progressCircle.style.strokeDashoffset === '0') {
+        console.log('Animasyon tamamlandı ve beyaza döndü!');
+        popup.style.display = 'block';
+    }
+}
+
 
 
 function startCompassListener(callback) {
