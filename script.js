@@ -74,7 +74,7 @@ function showArrow(directionToTurn, direction, beta) {
             }
         };
 
-        // Animasyonun başlangıcında requestAnimationFrame ile kontrol başlat
+        // Animasyonun başlangıcında requestAnimationFrame ile kontrol başla
         requestAnimationFrame(monitorAnimation);
 
     } else {
