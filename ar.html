@@ -112,7 +112,7 @@
             const okButton = document.querySelector('.btn-ok');
             const bottomContainer = document.querySelector('.bottom-container');
             const popup = document.getElementById('popup');
-            const uiBox = document.querySelector('.ui-box');
+            const aScene = document.querySelector('a-scene');
 
             centerButton.addEventListener('click', function () {
                 // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
@@ -123,6 +123,9 @@
             });
 
             rightButton.addEventListener('click', function () {
+                if (aScene) {
+                    aScene.remove();
+                }
                 bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
                 centerButton.style.display = 'none'; // centerButton'ı tekrar göster
                 rightButton.style.display = 'none'; // rightButton'ı görünür tut
@@ -130,7 +133,7 @@
             });
 
             okButton.addEventListener('click', function () {
-               
+
                 popup.style.display = 'none';
                 bottomContainer.style.height = '100%';
                 centerButton.style.display = 'none';
