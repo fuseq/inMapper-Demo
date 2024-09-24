@@ -136,7 +136,10 @@
                 if (aScene) {
                     aScene.remove();
                 }
-                popup.style.display = 'none';
+                // Popup'ı tamamen kaldır
+                if (popup) {
+                    popup.remove();
+                }
                 bottomContainer.style.height = '100%';
                 centerButton.style.display = 'none';
                 rightButton.style.display = 'none';
