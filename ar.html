@@ -133,7 +133,9 @@
             });
 
             okButton.addEventListener('click', function () {
-
+                if (aScene) {
+                    aScene.remove();
+                }
                 popup.style.display = 'none';
                 bottomContainer.style.height = '100%';
                 centerButton.style.display = 'none';
