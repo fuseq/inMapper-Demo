@@ -4,8 +4,6 @@ let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 let isLoading = false;
-let lastMotionTime = 0;
-let motionTimeout = 500; // Hareket kontrolü için zaman aşımı (ms)
 
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
@@ -37,7 +35,7 @@ function showArrow(directionToTurn, direction, beta) {
     const progressCircle = document.querySelector('.progress');
 
     // Direction bilgisi ekranında güncelleniyor
-    directionIndicator.innerText = `Direction: ${stepCount.toFixed(2)}`;
+    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
     // Okların görünürlüğünü sıfırlama
     leftArrow.classList.remove('fade-in', 'fade-out');
@@ -180,36 +178,19 @@ navigator.geolocation.watchPosition(position => {
     });
 });
 
-function startStepCounter() {
-    if (!window.DeviceMotionEvent) {
-        console.warn("DeviceMotion API not available");
-        return;
-    }
-
-    window.addEventListener("devicemotion", (event) => {
-        const acceleration = event.accelerationIncludingGravity;
-        if (acceleration) {
-            const totalAcceleration = Math.sqrt(
-                acceleration.x * acceleration.x +
-                acceleration.y * acceleration.y +
-                acceleration.z * acceleration.z
-            );
-
-            // Eğer ivme movementThreshold sınırını geçerse ve yön doğruysa
-            if (totalAcceleration > movementThreshold && directionMatches) {
-                if (!isLoading) { // Aynı anda birden fazla adım saymamak için
-                    stepCount++;
-                    console.log("Step count:", stepCount);
-                    isLoading = true;
-
-                    // Bir süre sonra isLoading'i false yaparak yeni adım sayımına izin ver
-                    setTimeout(() => {
-                        isLoading = false;
-                    }, 500); // Yarım saniye sonra adım sayma tekrar aktif olacak
-                }
-            }
+window.addEventListener('devicemotion', event => {
+    if (directionMatches && event.acceleration && lastAlpha !== null && stepIncreaseAllowed) {
+        const acc = event.acceleration;
+        const totalAcc = Math.sqrt(acc.x ** 2 + acc.y ** 2 + acc.z ** 2);
+        if (totalAcc > movementThreshold) {
+            stepCount++;
+            console.log(`Adım sayısı: ${stepCount}`);
+            document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
+            stepIncreaseAllowed = false;
+            setTimeout(() => {
+                stepIncreaseAllowed = true;
+            }, 1000);
         }
-    });
-}
+    }
+});
 
-startStepCounter();
