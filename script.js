@@ -25,19 +25,13 @@ function showArrow(directionToTurn, direction, beta) {
     if (!arScene) {
         return;
     }
-
     const leftArrow = document.getElementById('left-arrow');
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const upPerspectiveArrow = document.getElementById('up-arrow-perspective');
-    const directionIndicator = document.getElementById('direction-indicator');
     const popup = document.querySelector('.popup');
-
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
-
-    // Direction bilgisi ekranında güncelleniyor
-    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
     // Okların görünürlüğünü sıfırlama
     leftArrow.classList.remove('fade-in', 'fade-out');
@@ -51,7 +45,7 @@ function showArrow(directionToTurn, direction, beta) {
     // Eğer yön directionToTurn ile ±10 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-        
+
         // Yön doğru, okları kontrol et
         if (beta < 30) {
             // up-perspective oku görünecek
@@ -72,7 +66,7 @@ function showArrow(directionToTurn, direction, beta) {
         // Animasyonu requestAnimationFrame ile takip ediyoruz
         const monitorAnimation = () => {
             const currentOffset = parseFloat(getComputedStyle(progressCircle).strokeDashoffset);
-            
+
             if (currentOffset === 0) {
                 console.log('Animasyon tamamlandı ve beyaza döndü!');
                 popup.style.display = 'block';
