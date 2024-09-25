@@ -33,7 +33,7 @@ function showArrow(directionToTurn, direction, beta) {
     const progressCircle = document.querySelector('.progress');
 
     // Update the direction on the UI
-    directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
+    directionIndicator.innerText = `Direction: ${stepCount.toFixed(2)}`;
 
     // Reset the visibility of the arrows
     leftArrow.classList.remove('fade-in', 'fade-out');
