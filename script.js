@@ -1,6 +1,6 @@
 let stepCount = 0;
 let lastAlpha = null;
-let movementThreshold = 2.5;
+let movementThreshold = 5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 let isLoading = false;
@@ -186,15 +186,28 @@ function startStepCounter() {
         return;
     }
 
-    window.addEventListener("devicemotion", (e) => {
-        const acceleration = e.accelerationIncludingGravity;
-        const totalAcceleration = Math.sqrt(acceleration.x * acceleration.x + acceleration.y * acceleration.y + acceleration.z * acceleration.z);
-        
-        const now = Date.now();
-        if (directionMatches && stepIncreaseAllowed && totalAcceleration > movementThreshold && now - lastMotionTime > motionTimeout) {
-            stepCount++;
-            console.log(`Adım Sayısı: ${stepCount}`);
-            lastMotionTime = now;
+    window.addEventListener("devicemotion", (event) => {
+        const acceleration = event.accelerationIncludingGravity;
+        if (acceleration) {
+            const totalAcceleration = Math.sqrt(
+                acceleration.x * acceleration.x +
+                acceleration.y * acceleration.y +
+                acceleration.z * acceleration.z
+            );
+
+            // Eğer ivme movementThreshold sınırını geçerse ve yön doğruysa
+            if (totalAcceleration > movementThreshold && directionMatches) {
+                if (!isLoading) { // Aynı anda birden fazla adım saymamak için
+                    stepCount++;
+                    console.log("Step count:", stepCount);
+                    isLoading = true;
+
+                    // Bir süre sonra isLoading'i false yaparak yeni adım sayımına izin ver
+                    setTimeout(() => {
+                        isLoading = false;
+                    }, 500); // Yarım saniye sonra adım sayma tekrar aktif olacak
+                }
+            }
         }
     });
 }
