@@ -204,6 +204,13 @@ function detectStep(acceleration) {
           document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
           console.log(`Adım Sayısı: ${stepCount}`);
           isMoving = true; // Hareket başladı
+          
+          if (stepCount > 10) {
+            const iconButtonsContainer = document.querySelector('.icon-buttons-container');
+            if (iconButtonsContainer) {
+              iconButtonsContainer.remove(); // Öğeyi DOM'dan kaldır
+            }
+          }
         }
       } else {
         isMoving = false; // Hareket durdu
