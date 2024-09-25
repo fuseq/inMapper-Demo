@@ -252,7 +252,7 @@ navigator.geolocation.watchPosition(position => {
 
     // Kullanıcının kaynaktan ne kadar uzaklaştığını kontrol et
     const distanceFromSource = calculateDistance(sourceLat, sourceLon, latitude, longitude);
-    const distanceThreshold = 15; 
+    const distanceThreshold = 10; 
 
     // Eğer belirlenen mesafeden uzaklaştıysa centerButton'ı gizle
     if (distanceFromSource > distanceThreshold) {
