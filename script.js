@@ -18,7 +18,6 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
 
 // Yönlendirme oklarını ve doğru yön indikatörünü gösterir
 function showArrow(directionToTurn, direction, beta) {
-
     const arScene = document.querySelector('a-scene');
     if (!arScene) {
         return;
@@ -30,14 +29,13 @@ function showArrow(directionToTurn, direction, beta) {
     const upPerspectiveArrow = document.getElementById('up-arrow-perspective');
     const directionIndicator = document.getElementById('direction-indicator');
     const popup = document.querySelector('.popup');
-
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
 
-    // Direction bilgisi ekranında güncelleniyor
+    // Update the direction on the UI
     directionIndicator.innerText = `Direction: ${direction.toFixed(2)}`;
 
-    // Okların görünürlüğünü sıfırlama
+    // Reset the visibility of the arrows
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
@@ -46,17 +44,15 @@ function showArrow(directionToTurn, direction, beta) {
     const upperBound = (directionToTurn + 10) % 360;
     const lowerBound = (directionToTurn - 10 + 360) % 360;
 
-    // Eğer yön directionToTurn ile ±10 derece arasındaysa
+    // Check if the direction is within ±10 degrees of the target direction
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-        
-        // Yön doğru, okları kontrol et
+
+        // The direction is correct, show the appropriate arrow
         if (beta < 30) {
-            // up-perspective oku görünecek
             upPerspectiveArrow.classList.add('fade-in');
             upArrow.classList.remove('fade-in');
         } else {
-            // up-arrow görünecek
             upArrow.classList.add('fade-in');
             upPerspectiveArrow.classList.remove('fade-in');
         }
@@ -64,49 +60,45 @@ function showArrow(directionToTurn, direction, beta) {
         rightArrow.classList.add('fade-out');
         directionMatches = true;
         container.classList.add('grow');
-        isLoading = true; // Yükleme başladı
+        isLoading = true; // Start loading animation
         progressCircle.style.strokeDashoffset = '0';
 
-        // Animasyonu requestAnimationFrame ile takip ediyoruz
+        // Start monitoring the animation to show popup when complete
         const monitorAnimation = () => {
             const currentOffset = parseFloat(getComputedStyle(progressCircle).strokeDashoffset);
-            
             if (currentOffset === 0) {
-                console.log('Animasyon tamamlandı ve beyaza döndü!');
+                console.log('Animation completed, showing popup!');
                 popup.style.display = 'block';
             } else {
-                // Animasyon bitene kadar requestAnimationFrame ile devam et
                 requestAnimationFrame(monitorAnimation);
             }
         };
-
-        // Animasyonun başlangıcında requestAnimationFrame ile kontrol başla
         requestAnimationFrame(monitorAnimation);
 
+        // Start listening for motion events when the direction is correct
+        startMotionListener();
+
     } else {
-        // Eğer yön directionToTurn ile ±10 derece dışında ise sola veya sağa oklar gösterilecek
+        // The direction is incorrect, show left or right arrows
         const clockwise = (directionToTurn - direction + 360) % 360;
         const counterclockwise = (direction - directionToTurn + 360) % 360;
 
         if (clockwise <= counterclockwise) {
-            // Sağ ok görünür
+            rightArrow.classList.add('fade-in');
             leftArrow.classList.add('fade-out');
             upArrow.classList.remove('fade-in');
             upPerspectiveArrow.classList.remove('fade-in');
-            rightArrow.classList.add('fade-in');
         } else {
-            // Sol ok görünür
             leftArrow.classList.add('fade-in');
+            rightArrow.classList.add('fade-out');
             upArrow.classList.remove('fade-in');
             upPerspectiveArrow.classList.remove('fade-in');
-            rightArrow.classList.add('fade-out');
         }
         directionMatches = false;
         container.classList.remove('grow');
-        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
+        progressCircle.style.strokeDashoffset = '283'; // Reset the loading circle
     }
 }
-
 function onTransitionEnd() {
     const progressCircle = document.querySelector('.progress');
     const popup = document.querySelector('.popup');
@@ -162,6 +154,27 @@ function startCompassListener(callback) {
     } else {
         addListeners();
     }
+}
+
+function startMotionListener() {
+    window.addEventListener('devicemotion', (event) => {
+        const acc = event.acceleration;
+        if (acc && directionMatches) { // Sadece doğru yöne dönülmüşse
+            const speed = Math.sqrt(acc.x ** 2 + acc.y ** 2 + acc.z ** 2);
+
+            // Eğer hız belirlenen eşikten büyükse ve adım artırılmasına izin veriliyorsa
+            if (speed > speedThreshold && stepIncreaseAllowed) {
+                stepCount++;
+                console.log(`Adım Sayısı: ${stepCount}`);
+
+                // Adım artırıldıktan sonra kısa bir süre artırmayı engelle
+                stepIncreaseAllowed = false;
+                setTimeout(() => {
+                    stepIncreaseAllowed = true;
+                }, 500); // 0.5 saniye sonra tekrar izin ver
+            }
+        }
+    });
 }
 
 navigator.geolocation.watchPosition(position => {
