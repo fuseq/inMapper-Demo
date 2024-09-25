@@ -224,19 +224,51 @@ function startCompassListener(callback) {
     }
 }
 
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371e3; // Dünya'nın yarıçapı (metre)
+    const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
+    const φ2 = lat2 * Math.PI / 180;
+    const Δφ = (lat2 - lat1) * Math.PI / 180;
+    const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+        Math.cos(φ1) * Math.cos(φ2) *
+        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c; // Mesafe (metre cinsinden)
+    return distance;
+}
+
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude } = position.coords;
     const sourceLat = parseFloat(window.coords.x1);
     const sourceLon = parseFloat(window.coords.y1);
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
+
+    // Kaynaktan hedefe olan yönü hesapla
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
 
+    // Kullanıcının kaynaktan ne kadar uzaklaştığını kontrol et
+    const distanceFromSource = calculateDistance(sourceLat, sourceLon, latitude, longitude);
+    const distanceThreshold = 10; // 10 metre
+
+    // Eğer belirlenen mesafeden uzaklaştıysa centerButton'ı gizle
+    if (distanceFromSource > distanceThreshold) {
+        const centerButton = document.querySelector('.center-button');
+        if (centerButton) {
+            centerButton.style.display = 'none';
+        }
+    }
+    // Pusula yönünü dinleyerek okları göster
     startCompassListener((compass, beta) => {
         const directionToTurn = (bearingToTarget + 360) % 360;
         showArrow(directionToTurn, compass, beta); // beta değerini gönder
     });
-});
+}, error => {
+    console.error('Geolocation hatası:', error);
+}, { enableHighAccuracy: true });
 
 
 
