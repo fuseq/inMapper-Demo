@@ -196,7 +196,7 @@ function detectStep(acceleration) {
       let deltaZ = Math.abs(previousAcceleration.z - acceleration.z);
   
       // Eğer ivme değişikliği belirli bir eşiğin üzerindeyse ve son adım 1 saniye önce atıldıysa
-      if ((deltaX > stepThreshold || deltaY > stepThreshold || deltaZ > stepThreshold) && 
+      if (directionMatches && (deltaX > stepThreshold || deltaY > stepThreshold || deltaZ > stepThreshold) && 
           (currentTime - lastStepTime > stepCooldown)) {
         if (!isMoving) {
           stepCount++;
@@ -204,7 +204,7 @@ function detectStep(acceleration) {
           document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
           console.log(`Adım Sayısı: ${stepCount}`);
           isMoving = true; // Hareket başladı
-          
+
           if (stepCount > 10) {
             const iconButtonsContainer = document.querySelector('.icon-buttons-container');
             if (iconButtonsContainer) {
