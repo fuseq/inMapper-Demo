@@ -6,7 +6,7 @@ let stepIncreaseAllowed = true;
 let isLoading = false;
 let isMoving = false;
 let previousAcceleration = { x: null, y: null, z: null };
-const stepThreshold = 1.2;
+const stepThreshold = 2.5;
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
