@@ -6,8 +6,9 @@ let stepIncreaseAllowed = true;
 let isLoading = false;
 let isMoving = false;
 let previousAcceleration = { x: null, y: null, z: null };
-const stepThreshold = 2.2;
-
+let lastStepTime = 0; // Son adımın zamanı
+const stepThreshold = 2; // Hareketteki ivme farkı eşik değeri
+const stepCooldown = 1000; // 1 saniye (1000 ms) adım artırma aralığı
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
     lat1 = lat1 * Math.PI / 180;
@@ -182,6 +183,8 @@ navigator.geolocation.watchPosition(position => {
 
 
 function detectStep(acceleration) {
+    const currentTime = Date.now(); // Mevcut zaman (milisaniye)
+  
     if (
       previousAcceleration.x !== null &&
       previousAcceleration.y !== null &&
@@ -192,10 +195,12 @@ function detectStep(acceleration) {
       let deltaY = Math.abs(previousAcceleration.y - acceleration.y);
       let deltaZ = Math.abs(previousAcceleration.z - acceleration.z);
   
-      // Eğer ivme değişikliği belirli bir eşiğin üzerindeyse, adım tespit edilir
-      if (deltaX > stepThreshold || deltaY > stepThreshold || deltaZ > stepThreshold) {
+      // Eğer ivme değişikliği belirli bir eşiğin üzerindeyse ve son adım 1 saniye önce atıldıysa
+      if ((deltaX > stepThreshold || deltaY > stepThreshold || deltaZ > stepThreshold) && 
+          (currentTime - lastStepTime > stepCooldown)) {
         if (!isMoving) {
           stepCount++;
+          lastStepTime = currentTime; // Son adımın zamanını güncelle
           document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
           console.log(`Adım Sayısı: ${stepCount}`);
           isMoving = true; // Hareket başladı
