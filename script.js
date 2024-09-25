@@ -1,12 +1,76 @@
-let stepCount = 0;
-let lastAlpha = null;
-let movementThreshold = 2.5;
 let directionMatches = false;
-let stepIncreaseAllowed = true;
 let isLoading = false;
-let isMoving = false;
-let previousAcceleration = { x: null, y: null, z: null };
-const stepThreshold = 1.2;
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const centerButton = document.querySelector('.center-button');
+    const rightButton = document.querySelector('.right-button');
+    const okButton = document.querySelector('.btn-ok');
+    const bottomContainer = document.querySelector('.bottom-container');
+    const popup = document.getElementById('popup');
+    const aScene = document.querySelector('a-scene');
+
+    centerButton.addEventListener('click', function () {
+        // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
+        const aScene = document.createElement('a-scene');
+        aScene.setAttribute('vr-mode-ui', 'enabled: false');
+        aScene.style.position = 'absolute';
+        aScene.style.top = '0';
+        aScene.style.left = '0';
+        aScene.style.width = '100%';
+        aScene.style.height = '100%';
+        aScene.style.zIndex = '1'; // Z-index ayarlama
+        document.body.appendChild(aScene);
+        bottomContainer.style.height = '40%';
+        centerButton.style.display = 'none';
+        rightButton.style.display = 'block';
+    });
+
+    rightButton.addEventListener('click', function () {
+        if (aScene) {
+            aScene.remove();
+        }
+        if (popup) {
+            popup.remove();
+        }
+        bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
+        centerButton.style.display = 'none'; // centerButton'ı tekrar göster
+        rightButton.style.display = 'none'; // rightButton'ı görünür tut
+    });
+
+    okButton.addEventListener('click', function () {
+        if (aScene) {
+            aScene.remove();
+        }
+        // Popup'ı tamamen kaldır
+        if (popup) {
+            popup.remove();
+        }
+        bottomContainer.style.height = '100%';
+        centerButton.style.display = 'none';
+        rightButton.style.display = 'none';
+        // İsteğe bağlı olarak başka işlemler yapılabilir
+    });
+});
+
+function getQueryParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+        x1: params.get('x1'),
+        y1: params.get('y1'),
+        x2: params.get('x2'),
+        y2: params.get('y2')
+    };
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const coords = getQueryParams();
+    console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
+    window.coords = coords;
+});
+
+
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
