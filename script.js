@@ -246,7 +246,7 @@ navigator.geolocation.watchPosition(position => {
     const sourceLon = parseFloat(window.coords.y1);
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
-    alert(`Telefon konumu:\nEnlem: ${latitude}\nBoylam: ${longitude}`);
+
     // Kaynaktan hedefe olan yönü hesapla
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
 
