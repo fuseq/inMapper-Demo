@@ -196,6 +196,7 @@ function detectStep(acceleration) {
       if (deltaX > stepThreshold || deltaY > stepThreshold || deltaZ > stepThreshold) {
         if (!isMoving) {
           stepCount++;
+          document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
           console.log(`Adım Sayısı: ${stepCount}`);
           isMoving = true; // Hareket başladı
         }
