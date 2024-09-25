@@ -1,6 +1,6 @@
 let stepCount = 0;
 let lastAlpha = null;
-let movementThreshold = 5;
+let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 let isLoading = false;
