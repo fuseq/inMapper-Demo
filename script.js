@@ -54,8 +54,7 @@ function showArrow(directionToTurn, direction, beta) {
     if ((direction <= upperBoundForMotion && direction >= lowerBoundForMotion) ||
         (lowerBoundForMotion > upperBoundForMotion && (direction >= lowerBoundForMotion || direction <= upperBoundForMotion))) {
         directionMatches = true;
-    }
-
+    
     // Eğer yön directionToTurn ile ±10 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
@@ -93,7 +92,7 @@ function showArrow(directionToTurn, direction, beta) {
         // Animasyonun başlangıcında requestAnimationFrame ile kontrol başla
         requestAnimationFrame(monitorAnimation);
 
-    } else {
+    }} else {
         // Eğer yön directionToTurn ile ±10 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
         const counterclockwise = (direction - directionToTurn + 360) % 360;
