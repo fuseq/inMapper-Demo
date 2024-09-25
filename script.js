@@ -4,7 +4,7 @@ let movementThreshold = 2.5;
 let directionMatches = false;
 let stepIncreaseAllowed = true;
 let isLoading = false;
-
+let directionToTurn;
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
@@ -49,7 +49,7 @@ function showArrow(directionToTurn, direction, beta) {
     // Eğer yön directionToTurn ile ±10 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-        
+
         // Yön doğru, okları kontrol et
         if (beta < 30) {
             // up-perspective oku görünecek
@@ -70,7 +70,7 @@ function showArrow(directionToTurn, direction, beta) {
         // Animasyonu requestAnimationFrame ile takip ediyoruz
         const monitorAnimation = () => {
             const currentOffset = parseFloat(getComputedStyle(progressCircle).strokeDashoffset);
-            
+
             if (currentOffset === 0) {
                 console.log('Animasyon tamamlandı ve beyaza döndü!');
                 popup.style.display = 'block';
@@ -164,17 +164,27 @@ function startCompassListener(callback) {
     }
 }
 
-navigator.geolocation.watchPosition(position => {
-    const { latitude, longitude } = position.coords;
+function calculateDirectionToTarget() {
+    const sourceLat = parseFloat(window.coords.x1);
+    const sourceLon = parseFloat(window.coords.y1);
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
-    const bearingToTarget = calculateBearing(latitude, longitude, targetLat, targetLon);
 
+    // bearingToTarget bir kez hesaplanıyor
+    const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
+    directionToTurn = (bearingToTarget + 360) % 360;
+}
+
+// Sürekli compass ve beta değerlerini dinlemek için bir loop başlatıyoruz
+function startLoop() {
+    // Kompas verilerini almak için listener'ı başlatıyoruz
     startCompassListener((compass, beta) => {
-        const directionToTurn = (bearingToTarget + 360) % 360;
-        showArrow(directionToTurn, compass, beta); // beta değerini gönder
+        // directionToTurn daha önce hesaplanmıştı
+        showArrow(directionToTurn, compass, beta); // Okları gösteriyoruz
     });
-});
+}
 
-
+// sayfa yüklendiğinde veya uygun zamanda `calculateDirectionToTarget` bir kez çağrılır
+calculateDirectionToTarget();  // Yön hesaplanıyor
+startLoop(); // Kompas verilerini dinleyip, okları gösteren loop başlıyor
 
