@@ -50,7 +50,7 @@
         </svg>
     </div>
 
-    <a-scene vr-mode-ui='enabled: false'></a-scene>
+
     <div class="bottom-container">
 
         <!-- Map Section -->
@@ -118,6 +118,9 @@
 
             centerButton.addEventListener('click', function () {
                 // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
+                const aScene = document.createElement('a-scene');
+                aScene.setAttribute('vr-mode-ui', 'enabled: false');
+                document.body.appendChild(aScene);
                 bottomContainer.style.height = '40%';
                 centerButton.style.display = 'none';
                 rightButton.style.display = 'block';
