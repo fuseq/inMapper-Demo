@@ -49,10 +49,17 @@ function showArrow(directionToTurn, direction, beta) {
     const upperBound = (directionToTurn + 10) % 360;
     const lowerBound = (directionToTurn - 10 + 360) % 360;
 
+    const upperBoundForMotion = (directionToTurn + 50) % 360;
+    const lowerBoundForMotion = (directionToTurn - 50 + 360) % 360;
+    if ((direction <= upperBoundForMotion && direction >= lowerBoundForMotion) ||
+        (lowerBoundForMotion > upperBoundForMotion && (direction >= lowerBoundForMotion || direction <= upperBoundForMotion))) {
+        directionMatches = true;
+    }
+
     // Eğer yön directionToTurn ile ±10 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-        
+
         // Yön doğru, okları kontrol et
         if (beta < 30) {
             // up-perspective oku görünecek
@@ -65,7 +72,7 @@ function showArrow(directionToTurn, direction, beta) {
         }
         leftArrow.classList.add('fade-out');
         rightArrow.classList.add('fade-out');
-        directionMatches = true;
+
         container.classList.add('grow');
         isLoading = true; // Yükleme başladı
         progressCircle.style.strokeDashoffset = '0';
@@ -73,7 +80,7 @@ function showArrow(directionToTurn, direction, beta) {
         // Animasyonu requestAnimationFrame ile takip ediyoruz
         const monitorAnimation = () => {
             const currentOffset = parseFloat(getComputedStyle(progressCircle).strokeDashoffset);
-            
+
             if (currentOffset === 0) {
                 console.log('Animasyon tamamlandı ve beyaza döndü!');
                 popup.style.display = 'block';
@@ -184,50 +191,50 @@ navigator.geolocation.watchPosition(position => {
 
 function detectStep(acceleration) {
     const currentTime = Date.now(); // Mevcut zaman (milisaniye)
-  
-    if (
-      previousAcceleration.x !== null &&
-      previousAcceleration.y !== null &&
-      previousAcceleration.z !== null
-    ) {
-      // İvme değişimini hesapla
-      let deltaX = Math.abs(previousAcceleration.x - acceleration.x);
-      let deltaY = Math.abs(previousAcceleration.y - acceleration.y);
-      let deltaZ = Math.abs(previousAcceleration.z - acceleration.z);
-  
-      // Eğer ivme değişikliği belirli bir eşiğin üzerindeyse ve son adım 1 saniye önce atıldıysa
-      if (directionMatches && (deltaX > stepThreshold || deltaY > stepThreshold || deltaZ > stepThreshold) && 
-          (currentTime - lastStepTime > stepCooldown)) {
-        if (!isMoving) {
-          stepCount++;
-          lastStepTime = currentTime; // Son adımın zamanını güncelle
-          document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
-          console.log(`Adım Sayısı: ${stepCount}`);
-          isMoving = true; // Hareket başladı
 
-          if (stepCount > 10) {
-            const iconButtonsContainer = document.querySelector('.icon-buttons-container');
-            if (iconButtonsContainer) {
-              iconButtonsContainer.remove(); // Öğeyi DOM'dan kaldır
+    if (
+        previousAcceleration.x !== null &&
+        previousAcceleration.y !== null &&
+        previousAcceleration.z !== null
+    ) {
+        // İvme değişimini hesapla
+        let deltaX = Math.abs(previousAcceleration.x - acceleration.x);
+        let deltaY = Math.abs(previousAcceleration.y - acceleration.y);
+        let deltaZ = Math.abs(previousAcceleration.z - acceleration.z);
+
+        // Eğer ivme değişikliği belirli bir eşiğin üzerindeyse ve son adım 1 saniye önce atıldıysa
+        if (directionMatches && (deltaX > stepThreshold || deltaY > stepThreshold || deltaZ > stepThreshold) &&
+            (currentTime - lastStepTime > stepCooldown)) {
+            if (!isMoving) {
+                stepCount++;
+                lastStepTime = currentTime; // Son adımın zamanını güncelle
+                document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
+                console.log(`Adım Sayısı: ${stepCount}`);
+                isMoving = true; // Hareket başladı
+
+                if (stepCount > 10) {
+                    const iconButtonsContainer = document.querySelector('.icon-buttons-container');
+                    if (iconButtonsContainer) {
+                        iconButtonsContainer.remove(); // Öğeyi DOM'dan kaldır
+                    }
+                }
             }
-          }
+        } else {
+            isMoving = false; // Hareket durdu
         }
-      } else {
-        isMoving = false; // Hareket durdu
-      }
     }
-  
+
     // Mevcut ivme değerlerini kaydet
     previousAcceleration.x = acceleration.x;
     previousAcceleration.y = acceleration.y;
     previousAcceleration.z = acceleration.z;
-  }
-  
-  // Devicemotion olayını dinle
-  window.addEventListener('devicemotion', function (event) {
+}
+
+// Devicemotion olayını dinle
+window.addEventListener('devicemotion', function (event) {
     let acceleration = event.accelerationIncludingGravity;
-    
+
     if (acceleration) {
-      detectStep(acceleration); // Adım tespiti yap
+        detectStep(acceleration); // Adım tespiti yap
     }
-  });
+});
