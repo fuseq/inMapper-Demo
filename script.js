@@ -6,9 +6,8 @@ let stepIncreaseAllowed = true;
 let isLoading = false;
 let isMoving = false;
 let previousAcceleration = { x: null, y: null, z: null };
-let lastStepTime = 0; // Son adımın zamanı
-const stepThreshold = 2; // Hareketteki ivme farkı eşik değeri
-const stepCooldown = 1000; // 1 saniye (1000 ms) adım artırma aralığı
+const stepThreshold = 1.2;
+
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
     lat1 = lat1 * Math.PI / 180;
@@ -182,52 +181,4 @@ navigator.geolocation.watchPosition(position => {
 });
 
 
-function detectStep(acceleration) {
-    const currentTime = Date.now(); // Mevcut zaman (milisaniye)
-  
-    if (
-      previousAcceleration.x !== null &&
-      previousAcceleration.y !== null &&
-      previousAcceleration.z !== null
-    ) {
-      // İvme değişimini hesapla
-      let deltaX = Math.abs(previousAcceleration.x - acceleration.x);
-      let deltaY = Math.abs(previousAcceleration.y - acceleration.y);
-      let deltaZ = Math.abs(previousAcceleration.z - acceleration.z);
-  
-      // Eğer ivme değişikliği belirli bir eşiğin üzerindeyse ve son adım 1 saniye önce atıldıysa
-      if (directionMatches && (deltaX > stepThreshold || deltaY > stepThreshold || deltaZ > stepThreshold) && 
-          (currentTime - lastStepTime > stepCooldown)) {
-        if (!isMoving) {
-          stepCount++;
-          lastStepTime = currentTime; // Son adımın zamanını güncelle
-          document.getElementById('step-counter').innerText = `Adım Sayısı: ${stepCount}`;
-          console.log(`Adım Sayısı: ${stepCount}`);
-          isMoving = true; // Hareket başladı
 
-          if (stepCount > 10) {
-            const iconButtonsContainer = document.querySelector('.icon-buttons-container');
-            if (iconButtonsContainer) {
-              iconButtonsContainer.remove(); // Öğeyi DOM'dan kaldır
-            }
-          }
-        }
-      } else {
-        isMoving = false; // Hareket durdu
-      }
-    }
-  
-    // Mevcut ivme değerlerini kaydet
-    previousAcceleration.x = acceleration.x;
-    previousAcceleration.y = acceleration.y;
-    previousAcceleration.z = acceleration.z;
-  }
-  
-  // Devicemotion olayını dinle
-  window.addEventListener('devicemotion', function (event) {
-    let acceleration = event.accelerationIncludingGravity;
-    
-    if (acceleration) {
-      detectStep(acceleration); // Adım tespiti yap
-    }
-  });

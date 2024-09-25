@@ -606,6 +606,7 @@ button {
     flex-direction: column;
     justify-content: center;
     transition: background-color 0.5s ease; /* Arka plan rengini geçişli hale getir */
+    z-index: 10;
 }
 
 .map-section {
@@ -615,11 +616,13 @@ button {
     justify-content: center;
     align-items: center;
     position: relative; /* Relative yaparak info-section ile aynı düzlemde olmasını sağlar */
+    z-index: 10;
 }
 
 .map-iframe {
     width: 100%;
     height: 100%;
+    z-index: 10;
 }
 
 .bottom-container,
@@ -632,6 +635,7 @@ button {
     width: 100%;
     position: fixed;
     bottom: 12%;
+    z-index: 10;
    
 }
 
@@ -650,6 +654,7 @@ button {
     font-size: 16px;
     color: white;
     overflow: hidden; /* Shine efektinin dışa taşmasını engeller */
+    z-index: 10;
  
 }
 
@@ -694,6 +699,7 @@ button {
     display: none;
     border: 1px solid #e0e0e0;
     cursor: pointer;
+    z-index: 10;
 
 }
 
@@ -727,6 +733,7 @@ button:hover {
     transform: translateX(-50%); /* Sol kenardan %50 kaydır */
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Gölge efekti */
+    z-index: 10;
 }
 
 
@@ -736,6 +743,7 @@ button:hover {
     border: none;
     font-size: 24px;
     cursor: pointer;
+    z-index: 10;
 }
 
 .destination {
@@ -771,10 +779,12 @@ button:hover {
     background-color: #f8f8f8; /* Arka plan rengi */
     transition: background-color 0.3s ease, border-color 0.3s ease; /* Hover efektleri için geçiş */
     text-decoration: none; /* Link alt çizgisi kaldırır */
+    z-index: 10;
 }
 .icon-buttons-container {
     display: flex; /* Butonları yatayda hizalar */
     gap: 10px; /* Butonlar arasına boşluk ekler */
+    z-index: 10;
 }
 
 .circular-icon-button {
@@ -791,6 +801,7 @@ button:hover {
     text-decoration: none; /* Alt çizgi kaldırır */
     transition: background-color 0.3s ease, border-color 0.3s ease; /* Hover efektleri için geçiş */
     color: black; /* İkon rengi */
+    z-index: 10;
 }
 
 .circular-icon-button i {
