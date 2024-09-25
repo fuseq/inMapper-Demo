@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const popup = document.getElementById('popup');
     const aScene = document.querySelector('a-scene');
 
+    setTimeout(() => {
+        if (centerButton) {
+            centerButton.style.display = 'none';
+        }
+    }, 10000); // 10 saniye (10000 milisaniye)
+
     centerButton.addEventListener('click', function () {
         // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
         const aScene = document.createElement('a-scene');
@@ -250,17 +256,16 @@ navigator.geolocation.watchPosition(position => {
     // Kaynaktan hedefe olan yönü hesapla
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
 
-    // Kullanıcının kaynaktan ne kadar uzaklaştığını kontrol et
-    const distanceFromSource = calculateDistance(sourceLat, sourceLon, latitude, longitude);
-    const distanceThreshold = 20; 
-
-    // Eğer belirlenen mesafeden uzaklaştıysa centerButton'ı gizle
-    if (distanceFromSource > distanceThreshold) {
-        const centerButton = document.querySelector('.center-button');
-        if (centerButton) {
-            centerButton.style.display = 'none';
+    /*  Kaynağa olan cihaz uzaklığı belli bir mesafenin üzerindeyse AR butonunu gizle
+        const distanceFromSource = calculateDistance(sourceLat, sourceLon, latitude, longitude);
+        const distanceThreshold = 20; 
+        if (distanceFromSource > distanceThreshold) {
+            const centerButton = document.querySelector('.center-button');
+            if (centerButton) {
+                centerButton.style.display = 'none';
+            }
         }
-    }
+     */
     // Pusula yönünü dinleyerek okları göster
     startCompassListener((compass, beta) => {
         const directionToTurn = (bearingToTarget + 360) % 360;
