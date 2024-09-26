@@ -11,11 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const popup = document.getElementById('popup');
     const aScene = document.querySelector('a-scene');
 
-    setTimeout(() => {
-        if (centerButton) {
-            centerButton.style.display = 'none';
-        }
-    }, 10000); // 10 saniye (10000 milisaniye)
+
 
     centerButton.addEventListener('click', function () {
         // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
