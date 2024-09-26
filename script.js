@@ -245,15 +245,10 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 let positionHistory = [];
 
 navigator.geolocation.watchPosition(position => {
-    const { latitude, longitude, accuracy } = position.coords;
+    const { latitude, longitude} = position.coords;
 
-    // Doğruluk kontrolü: Yalnızca doğruluğu 10 metreden küçük olan veriler kabul ediliyor
-    if (accuracy > 10) {
-        console.warn('Konum verisi yeterince doğru değil:', accuracy);
-        return;
-    }
 
-    // Son 5 pozisyonu sakla
+ // Son 5 pozisyonu sakla
     positionHistory.push({ latitude, longitude });
     if (positionHistory.length > 5) {
         positionHistory.shift(); // İlk elemanı çıkar
