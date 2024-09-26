@@ -281,7 +281,7 @@ navigator.geolocation.watchPosition(position => {
     const averageLat = positionHistory.reduce((sum, pos) => sum + pos.latitude, 0) / positionHistory.length;
     const averageLon = positionHistory.reduce((sum, pos) => sum + pos.longitude, 0) / positionHistory.length;
     const distanceFromSource = calculateDistance(sourceLat, sourceLon, averageLat, averageLon);
-    const distanceThreshold = 10; 
+    const distanceThreshold = 5; 
     if (distanceFromSource > distanceThreshold) {
         const centerButton = document.querySelector('.center-button');
         if (centerButton) {
