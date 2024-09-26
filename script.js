@@ -1,7 +1,25 @@
 let directionMatches = false;
 let isLoading = false;
 
+class KalmanFilter {
+    constructor(R = 1, Q = 1) {
+        this.R = R; // Gürültü kovaryansı
+        this.Q = Q; // Tahmin edilen hata kovaryansı
+        this.P = 1; // A priori tahmin kovaryansı
+        this.X = 0; // A priori tahmin
+        this.K = 0; // Kalman kazancı
+    }
 
+    filter(measurement) {
+        // Kalman kazancını hesapla
+        this.K = this.P / (this.P + this.Q);
+        // A posteriori tahminini güncelle
+        this.X = this.X + this.K * (measurement - this.X);
+        // A posteriori kovaryansı güncelle
+        this.P = (1 - this.K) * this.P + this.R;
+        return this.X;
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     const centerButton = document.querySelector('.center-button');
@@ -243,13 +261,18 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 }
 
 let positionHistory = [];
+const latKalmanFilter = new KalmanFilter(0.1, 1);  // Latitudinal noise parameters
+const lonKalmanFilter = new KalmanFilter(0.1, 1);  // Longitudinal noise parameters
 
 navigator.geolocation.watchPosition(position => {
-    const { latitude, longitude} = position.coords;
+    const { latitude, longitude } = position.coords;
 
+    // Kalman filtresiyle yeni pozisyonu filtrele
+    const filteredLat = latKalmanFilter.filter(latitude);
+    const filteredLon = lonKalmanFilter.filter(longitude);
 
- // Son 5 pozisyonu sakla
-    positionHistory.push({ latitude, longitude });
+    // Son 5 pozisyonu sakla
+    positionHistory.push({ latitude: filteredLat, longitude: filteredLon });
     if (positionHistory.length > 5) {
         positionHistory.shift(); // İlk elemanı çıkar
     }
@@ -263,8 +286,10 @@ navigator.geolocation.watchPosition(position => {
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
 
+    // Kaynaktan hedefe olan yönü hesapla
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
 
+    // Kaynaktan mevcut pozisyona olan mesafeyi hesapla
     const distanceFromSource = calculateDistance(sourceLat, sourceLon, averageLat, averageLon);
     const distanceThreshold = 15; 
     if (distanceFromSource > distanceThreshold) {
@@ -274,6 +299,7 @@ navigator.geolocation.watchPosition(position => {
         }
     }
 
+    // Pusula yönünü dinleyerek okları göster
     startCompassListener((compass, beta) => {
         const directionToTurn = (bearingToTarget + 360) % 360;
         showArrow(directionToTurn, compass, beta);
