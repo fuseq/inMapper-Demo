@@ -269,7 +269,7 @@ navigator.geolocation.watchPosition(position => {
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
 
     const distanceFromSource = calculateDistance(sourceLat, sourceLon, averageLat, averageLon);
-    const distanceThreshold = 20; 
+    const distanceThreshold = 10; 
     if (distanceFromSource > distanceThreshold) {
         const centerButton = document.querySelector('.center-button');
         if (centerButton) {
