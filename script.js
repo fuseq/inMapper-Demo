@@ -105,8 +105,8 @@ function showArrow(directionToTurn, direction, beta) {
     upArrow.classList.remove('fade-in', 'fade-out');
     upPerspectiveArrow.classList.remove('fade-in', 'fade-out');
 
-    const upperBound = (directionToTurn + 10) % 360;
-    const lowerBound = (directionToTurn - 10 + 360) % 360;
+    const upperBound = (directionToTurn + 20) % 360;
+    const lowerBound = (directionToTurn - 20 + 360) % 360;
 
     // Eğer yön directionToTurn ile ±10 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
