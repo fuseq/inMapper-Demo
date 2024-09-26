@@ -242,30 +242,46 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     return distance;
 }
 
+let positionHistory = [];
+
 navigator.geolocation.watchPosition(position => {
-    const { latitude, longitude } = position.coords;
+    const { latitude, longitude, accuracy } = position.coords;
+
+    // Doğruluk kontrolü: Yalnızca doğruluğu 10 metreden küçük olan veriler kabul ediliyor
+    if (accuracy > 10) {
+        console.warn('Konum verisi yeterince doğru değil:', accuracy);
+        return;
+    }
+
+    // Son 5 pozisyonu sakla
+    positionHistory.push({ latitude, longitude });
+    if (positionHistory.length > 5) {
+        positionHistory.shift(); // İlk elemanı çıkar
+    }
+
+    // Ortalama pozisyon hesapla
+    const averageLat = positionHistory.reduce((sum, pos) => sum + pos.latitude, 0) / positionHistory.length;
+    const averageLon = positionHistory.reduce((sum, pos) => sum + pos.longitude, 0) / positionHistory.length;
+
     const sourceLat = parseFloat(window.coords.x1);
     const sourceLon = parseFloat(window.coords.y1);
     const targetLat = parseFloat(window.coords.x2);
     const targetLon = parseFloat(window.coords.y2);
 
-    // Kaynaktan hedefe olan yönü hesapla
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
 
-    
-        const distanceFromSource = calculateDistance(sourceLat, sourceLon, latitude, longitude);
-        const distanceThreshold = 20; 
-        if (distanceFromSource > distanceThreshold) {
-            const centerButton = document.querySelector('.center-button');
-            if (centerButton) {
-                centerButton.style.display = 'none';
-            }
+    const distanceFromSource = calculateDistance(sourceLat, sourceLon, averageLat, averageLon);
+    const distanceThreshold = 20; 
+    if (distanceFromSource > distanceThreshold) {
+        const centerButton = document.querySelector('.center-button');
+        if (centerButton) {
+            centerButton.style.display = 'none';
         }
-    
-    // Pusula yönünü dinleyerek okları göster
+    }
+
     startCompassListener((compass, beta) => {
         const directionToTurn = (bearingToTarget + 360) % 360;
-        showArrow(directionToTurn, compass, beta); // beta değerini gönder
+        showArrow(directionToTurn, compass, beta);
     });
 }, error => {
     console.error('Geolocation hatası:', error);
