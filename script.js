@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
             aScene.remove();
         }
         if (popup) {
-            popup.remove();
+            popup.style.display = 'none'; // Sadece gizle
         }
         bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
         centerButton.style.display = 'block'; // centerButton'ı tekrar göster
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         // Popup'ı tamamen kaldır
         if (popup) {
-            popup.remove();
+            popup.style.display = 'none'; // Sadece gizle
         }
         bottomContainer.style.height = '100%';
         centerButton.style.display = 'block';
