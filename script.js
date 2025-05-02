@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const aScene = document.querySelector('a-scene');
 
-  
+
 
     centerButton.addEventListener('click', function () {
         // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
@@ -141,7 +141,7 @@ function showArrow(directionToTurn, direction, beta) {
 
             if (currentOffset === 0) {
                 console.log('Animasyon tamamlandı ve beyaza döndü!');
-                
+
             } else {
                 // Animasyon bitene kadar requestAnimationFrame ile devam et
                 requestAnimationFrame(monitorAnimation);
@@ -177,12 +177,12 @@ function showArrow(directionToTurn, direction, beta) {
 
 function onTransitionEnd() {
     const progressCircle = document.querySelector('.progress');
-    
+
 
     // strokeDashoffset kontrolü ile sadece animasyon beyaza döndüğünde tetiklenir
     if (progressCircle.style.strokeDashoffset === '0') {
         console.log('Animasyon tamamlandı ve beyaza döndü!');
-      
+
     }
 }
 
@@ -287,11 +287,18 @@ navigator.geolocation.watchPosition(position => {
     const averageLat = positionHistory.reduce((sum, pos) => sum + pos.latitude, 0) / positionHistory.length;
     const averageLon = positionHistory.reduce((sum, pos) => sum + pos.longitude, 0) / positionHistory.length;
     const distanceFromSource = calculateDistance(sourceLat, sourceLon, averageLat, averageLon);
-    const distanceThreshold = 10; 
-    if (distanceFromSource > distanceThreshold) {
-        const centerButton = document.querySelector('.center-button');
-        if (centerButton) {
+    const distanceThreshold = 10;
+    const centerButton = document.querySelector('.center-button'); // Butonu burada tekrar sorgulamak daha güvenli
+
+    if (centerButton) { 
+        if (distanceFromSource > distanceThreshold) {
+            
+            console.log(`Kullanıcı başlangıç noktasından ${distanceFromSource.toFixed(2)}m uzakta. Center butonu gizleniyor.`);
             centerButton.style.display = 'none';
+        } else {
+            
+            console.log(`Kullanıcı başlangıç noktasına ${distanceFromSource.toFixed(2)}m mesafede. Center butonu gösteriliyor.`);
+            centerButton.style.display = 'block';
         }
     }
 }, error => {
