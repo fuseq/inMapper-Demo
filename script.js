@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
             popup.remove();
         }
         bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
-        centerButton.style.display = 'none'; // centerButton'ı tekrar göster
+        centerButton.style.display = 'block'; // centerButton'ı tekrar göster
         rightButton.style.display = 'none'; // rightButton'ı görünür tut
     });
 
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         bottomContainer.style.height = '100%';
         centerButton.style.display = 'block';
-        rightButton.style.display = 'block';
+        rightButton.style.display = 'none';
         // İsteğe bağlı olarak başka işlemler yapılabilir
     });
 });
