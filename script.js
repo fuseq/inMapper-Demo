@@ -43,14 +43,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Event listener for switching to the next target
+    // Event listener for switching to the next target
     nextTargetButton.addEventListener('click', function () {
         console.log('Next Target Button clicked');
         if (coordinates.length < 2) {
             console.warn('Not enough coordinates to switch targets');
             return;
         }
-        // Increment target index, loop back to 1 if at the end
-        currentTargetIndex = (currentTargetIndex % (coordinates.length - 1)) + 1;
+        // Check if we're at the last target
+        if (currentTargetIndex >= coordinates.length - 1) {
+            console.log('Reached the last target: x' + (currentTargetIndex + 1));
+            nextTargetButton.disabled = true; // Disable the button
+            return;
+        }
+        // Increment target index
+        currentTargetIndex++;
         console.log(`Switched to target: x${currentTargetIndex + 1}, Coordinates: `, coordinates[currentTargetIndex]);
         // Update navigation with new target
         updateNavigation();
