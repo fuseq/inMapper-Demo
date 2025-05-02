@@ -1,20 +1,18 @@
 let directionMatches = false;
 let isLoading = false;
-
-
+let currentTargetIndex = 1; // Start with x2 as the initial target
+let coordinates = []; // Store all coordinates
 
 document.addEventListener('DOMContentLoaded', function () {
     const centerButton = document.querySelector('.center-button');
     const rightButton = document.querySelector('.right-button');
     const okButton = document.querySelector('.btn-ok');
+    const nextTargetButton = document.querySelector('.next-target-button'); // New button
     const bottomContainer = document.querySelector('.bottom-container');
 
     const aScene = document.querySelector('a-scene');
 
-
-
     centerButton.addEventListener('click', function () {
-        // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
         const aScene = document.createElement('a-scene');
         aScene.setAttribute('vr-mode-ui', 'enabled: false');
         aScene.style.position = 'absolute';
@@ -22,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
         aScene.style.left = '0';
         aScene.style.width = '100%';
         aScene.style.height = '100%';
-        aScene.style.zIndex = '1'; // Z-index ayarlama
+        aScene.style.zIndex = '1';
         document.body.appendChild(aScene);
         bottomContainer.style.height = '40%';
         centerButton.style.display = 'none';
@@ -33,21 +31,25 @@ document.addEventListener('DOMContentLoaded', function () {
         if (aScene) {
             aScene.remove();
         }
-
-        bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
-        centerButton.style.display = 'block'; // centerButton'ı tekrar göster
-        rightButton.style.display = 'none'; // rightButton'ı görünür tut
+        bottomContainer.style.height = '100%';
+        centerButton.style.display = 'block';
+        rightButton.style.display = 'none';
     });
 
     okButton.addEventListener('click', function () {
         if (aScene) {
             aScene.remove();
         }
-
         bottomContainer.style.height = '100%';
         centerButton.style.display = 'block';
         rightButton.style.display = 'none';
-        // İsteğe bağlı olarak başka işlemler yapılabilir
+    });
+
+    // New button to switch to the next target
+    nextTargetButton.addEventListener('click', function () {
+        // Increment target index, loop back to 1 if at the end
+        currentTargetIndex = (currentTargetIndex % (coordinates.length - 1)) + 1;
+        console.log(`New target: x${currentTargetIndex + 1}, Coordinates: `, coordinates[currentTargetIndex]);
     });
 });
 
@@ -55,30 +57,22 @@ function getQueryParams() {
     const params = new URLSearchParams(window.location.search);
     const encodedCoordinates = params.get('coordinates');
 
-    // Koordinatların zaten var ve geçerli formatta olduğu varsayılıyor
+    // Decode and parse coordinates
     const decodedCoordinates = decodeURIComponent(encodedCoordinates);
-    const coordinates = JSON.parse(decodedCoordinates);
+    coordinates = JSON.parse(decodedCoordinates); // Store all coordinates globally
 
-    // İlk iki noktayı (X1, Y1 ve X2, Y2) döndür
-    // ar.html'ye gelmeden önce en az 2 noktanın olduğu garanti ediliyor varsayımıyla
-    const point1 = coordinates[0]; // İlk nokta (X1, Y1)
-    const point2 = coordinates[1]; // İkinci nokta (X2, Y2)
-
+    // Return source (x1, y1) and current target (based on currentTargetIndex)
     return {
-        x1: point1.x, // İlk noktanın x değeri
-        y1: point1.y, // İlk noktanın y değeri
-        x2: point2.x, // İkinci noktanın x değeri
-        y2: point2.y  // İkinci noktanın y değeri
+        source: coordinates[0], // x1, y1 (first point)
+        target: coordinates[currentTargetIndex] // x2, x3, x4, etc.
     };
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     const coords = getQueryParams();
-    console.log(`Koordinatlar: X1=${coords.x1}, Y1=${coords.y1}, X2=${coords.x2}, Y2=${coords.y2}`);
+    console.log(`Source: x1=${coords.source.x}, y1=${coords.source.y}, Target: x${currentTargetIndex + 1}=${coords.target.x}, y${currentTargetIndex + 1}=${coords.target.y}`);
     window.coords = coords;
 });
-
-
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
     const dLon = (lon2 - lon1) * Math.PI / 180;
@@ -90,9 +84,7 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
     return (brng + 360) % 360;
 }
 
-// Yönlendirme oklarını ve doğru yön indikatörünü gösterir
 function showArrow(directionToTurn, direction, beta) {
-
     const arScene = document.querySelector('a-scene');
     if (!arScene) {
         return;
@@ -105,7 +97,6 @@ function showArrow(directionToTurn, direction, beta) {
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
 
-    // Okların görünürlüğünü sıfırlama
     leftArrow.classList.remove('fade-in', 'fade-out');
     rightArrow.classList.remove('fade-in', 'fade-out');
     upArrow.classList.remove('fade-in', 'fade-out');
@@ -114,17 +105,12 @@ function showArrow(directionToTurn, direction, beta) {
     const upperBound = (directionToTurn + 20) % 360;
     const lowerBound = (directionToTurn - 20 + 360) % 360;
 
-    // Eğer yön directionToTurn ile ±10 derece arasındaysa
     if ((direction <= upperBound && direction >= lowerBound) ||
         (lowerBound > upperBound && (direction >= lowerBound || direction <= upperBound))) {
-
-        // Yön doğru, okları kontrol et
         if (beta < 30) {
-            // up-perspective oku görünecek
             upPerspectiveArrow.classList.add('fade-in');
             upArrow.classList.remove('fade-in');
         } else {
-            // up-arrow görünecek
             upArrow.classList.add('fade-in');
             upPerspectiveArrow.classList.remove('fade-in');
         }
@@ -132,38 +118,28 @@ function showArrow(directionToTurn, direction, beta) {
         rightArrow.classList.add('fade-out');
         directionMatches = true;
         container.classList.add('grow');
-        isLoading = true; // Yükleme başladı
+        isLoading = true;
         progressCircle.style.strokeDashoffset = '0';
 
-        // Animasyonu requestAnimationFrame ile takip ediyoruz
         const monitorAnimation = () => {
             const currentOffset = parseFloat(getComputedStyle(progressCircle).strokeDashoffset);
-
             if (currentOffset === 0) {
-                console.log('Animasyon tamamlandı ve beyaza döndü!');
-
+                console.log('Animation completed and turned white!');
             } else {
-                // Animasyon bitene kadar requestAnimationFrame ile devam et
                 requestAnimationFrame(monitorAnimation);
             }
         };
-
-        // Animasyonun başlangıcında requestAnimationFrame ile kontrol başla
         requestAnimationFrame(monitorAnimation);
-
     } else {
-        // Eğer yön directionToTurn ile ±10 derece dışında ise sola veya sağa oklar gösterilecek
         const clockwise = (directionToTurn - direction + 360) % 360;
         const counterclockwise = (direction - directionToTurn + 360) % 360;
 
         if (clockwise <= counterclockwise) {
-            // Sağ ok görünür
             leftArrow.classList.add('fade-out');
             upArrow.classList.remove('fade-in');
             upPerspectiveArrow.classList.remove('fade-in');
             rightArrow.classList.add('fade-in');
         } else {
-            // Sol ok görünür
             leftArrow.classList.add('fade-in');
             upArrow.classList.remove('fade-in');
             upPerspectiveArrow.classList.remove('fade-in');
@@ -171,22 +147,16 @@ function showArrow(directionToTurn, direction, beta) {
         }
         directionMatches = false;
         container.classList.remove('grow');
-        progressCircle.style.strokeDashoffset = '283'; // Anında sıfırlama
+        progressCircle.style.strokeDashoffset = '283';
     }
 }
 
 function onTransitionEnd() {
     const progressCircle = document.querySelector('.progress');
-
-
-    // strokeDashoffset kontrolü ile sadece animasyon beyaza döndüğünde tetiklenir
     if (progressCircle.style.strokeDashoffset === '0') {
-        console.log('Animasyon tamamlandı ve beyaza döndü!');
-
+        console.log('Animation completed and turned white!');
     }
 }
-
-
 
 function startCompassListener(callback) {
     if (!window.DeviceOrientationEvent) {
@@ -199,13 +169,13 @@ function startCompassListener(callback) {
         }
         let compass = -(e.alpha + e.beta * e.gamma / 90);
         compass -= Math.floor(compass / 360) * 360;
-        callback(compass, e.beta); // beta değerini gönder
+        callback(compass, e.beta);
     };
 
     const webkitListener = (e) => {
         let compass = e.webkitCompassHeading;
         if (compass != null && !isNaN(compass)) {
-            callback(compass, e.beta); // beta değerini gönder
+            callback(compass, e.beta);
             window.removeEventListener("deviceorientation", webkitListener);
         }
     };
@@ -233,8 +203,8 @@ function startCompassListener(callback) {
 }
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371e3; // Dünya'nın yarıçapı (metre)
-    const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
+    const R = 6371e3;
+    const φ1 = lat1 * Math.PI / 180;
     const φ2 = lat2 * Math.PI / 180;
     const Δφ = (lat2 - lat1) * Math.PI / 180;
     const Δλ = (lon2 - lon1) * Math.PI / 180;
@@ -244,8 +214,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
         Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    const distance = R * c; // Mesafe (metre cinsinden)
-    return distance;
+    return R * c;
 }
 
 let positionHistory = [];
@@ -253,10 +222,12 @@ let positionHistory = [];
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude, accuracy } = position.coords;
 
-    const sourceLat = parseFloat(window.coords.x1);
-    const sourceLon = parseFloat(window.coords.y1);
-    const targetLat = parseFloat(window.coords.x2);
-    const targetLon = parseFloat(window.coords.y2);
+    // Get current coordinates
+    const coords = getQueryParams();
+    const sourceLat = parseFloat(coords.source.x);
+    const sourceLon = parseFloat(coords.source.y);
+    const targetLat = parseFloat(coords.target.x);
+    const targetLon = parseFloat(coords.target.y);
 
     const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
 
@@ -265,37 +236,20 @@ navigator.geolocation.watchPosition(position => {
         showArrow(directionToTurn, compass, beta);
     });
 
-    // Doğruluk bilgisi gelmediyse, varsayılan bir değeri kabul et
     if (typeof accuracy === 'undefined' || accuracy === null) {
-        console.warn('Doğruluk bilgisi alınamadı, varsayılan değeri kullanarak devam ediliyor.');
-        accuracy = 10; // Varsayılan bir değer atanabilir (örneğin 10 metre)
+        console.warn('Accuracy information not available, using default value.');
+        accuracy = 10;
     }
 
-    // Doğruluk kontrolü: Yalnızca doğruluğu 10 metreden küçük olan veriler kabul ediliyor
     if (accuracy > 10) {
-        console.warn('Konum verisi yeterince doğru değil:', accuracy);
+        console.warn('Position data not accurate enough:', accuracy);
         return;
     }
 
-    // Son 5 pozisyonu sakla
     positionHistory.push({ latitude, longitude });
     if (positionHistory.length > 5) {
-        positionHistory.shift(); // İlk elemanı çıkar
+        positionHistory.shift();
     }
-
-    // Ortalama pozisyon hesapla
-    // const averageLat = positionHistory.reduce((sum, pos) => sum + pos.latitude, 0) / positionHistory.length;
-    // const averageLon = positionHistory.reduce((sum, pos) => sum + pos.longitude, 0) / positionHistory.length;
-    // const distanceFromSource = calculateDistance(sourceLat, sourceLon, averageLat, averageLon);
-    // const distanceThreshold = 10; 
-    // if (distanceFromSource > distanceThreshold) {
-    //    const centerButton = document.querySelector('.center-button');
-    //    if (centerButton) {
-    //        centerButton.style.display = 'none';
-    //   }
-    // }
 }, error => {
-    console.error('Geolocation hatası:', error);
+    console.error('Geolocation error:', error);
 }, { enableHighAccuracy: true });
-
-
