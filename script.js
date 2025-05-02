@@ -6,11 +6,13 @@ let coordinates = []; // Store all coordinates
 document.addEventListener('DOMContentLoaded', function () {
     const centerButton = document.querySelector('.center-button');
     const rightButton = document.querySelector('.right-button');
-    const okButton = document.querySelector('.btn-ok');
+
     const nextTargetButton = document.querySelector('.next-target-button'); // New button
     const bottomContainer = document.querySelector('.bottom-container');
 
-    const aScene = document.querySelector('a-scene');
+    if (!nextTargetButton) {
+        console.error('Next Target Button not found in the DOM');
+    }
 
     centerButton.addEventListener('click', function () {
         const aScene = document.createElement('a-scene');
@@ -28,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     rightButton.addEventListener('click', function () {
+        const aScene = document.querySelector('a-scene');
         if (aScene) {
             aScene.remove();
         }
@@ -36,20 +39,19 @@ document.addEventListener('DOMContentLoaded', function () {
         rightButton.style.display = 'none';
     });
 
-    okButton.addEventListener('click', function () {
-        if (aScene) {
-            aScene.remove();
-        }
-        bottomContainer.style.height = '100%';
-        centerButton.style.display = 'block';
-        rightButton.style.display = 'none';
-    });
 
-    // New button to switch to the next target
+    // Event listener for switching to the next target
     nextTargetButton.addEventListener('click', function () {
+        console.log('Next Target Button clicked');
+        if (coordinates.length < 2) {
+            console.warn('Not enough coordinates to switch targets');
+            return;
+        }
         // Increment target index, loop back to 1 if at the end
         currentTargetIndex = (currentTargetIndex % (coordinates.length - 1)) + 1;
-        console.log(`New target: x${currentTargetIndex + 1}, Coordinates: `, coordinates[currentTargetIndex]);
+        console.log(`Switched to target: x${currentTargetIndex + 1}, Coordinates: `, coordinates[currentTargetIndex]);
+        // Update navigation with new target
+        updateNavigation();
     });
 });
 
@@ -57,9 +59,19 @@ function getQueryParams() {
     const params = new URLSearchParams(window.location.search);
     const encodedCoordinates = params.get('coordinates');
 
+    if (!encodedCoordinates) {
+        console.error('No coordinates found in URL');
+        return { source: null, target: null };
+    }
+
     // Decode and parse coordinates
     const decodedCoordinates = decodeURIComponent(encodedCoordinates);
     coordinates = JSON.parse(decodedCoordinates); // Store all coordinates globally
+
+    if (coordinates.length < 2) {
+        console.error('At least two coordinates are required');
+        return { source: null, target: null };
+    }
 
     // Return source (x1, y1) and current target (based on currentTargetIndex)
     return {
@@ -70,7 +82,9 @@ function getQueryParams() {
 
 document.addEventListener('DOMContentLoaded', function () {
     const coords = getQueryParams();
-    console.log(`Source: x1=${coords.source.x}, y1=${coords.source.y}, Target: x${currentTargetIndex + 1}=${coords.target.x}, y${currentTargetIndex + 1}=${coords.target.y}`);
+    if (coords.source && coords.target) {
+        console.log(`Source: x1=${coords.source.x}, y1=${coords.source.y}, Target: x${currentTargetIndex + 1}=${coords.target.x}, y${currentTargetIndex + 1}=${coords.target.y}`);
+    }
     window.coords = coords;
 });
 
@@ -217,6 +231,27 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     return R * c;
 }
 
+// New function to update navigation when target changes
+function updateNavigation() {
+    const coords = getQueryParams();
+    if (!coords.source || !coords.target) {
+        console.error('Invalid coordinates for navigation update');
+        return;
+    }
+
+    const sourceLat = parseFloat(coords.source.x);
+    const sourceLon = parseFloat(coords.source.y);
+    const targetLat = parseFloat(coords.target.x);
+    const targetLon = parseFloat(coords.target.y);
+
+    const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
+
+    startCompassListener((compass, beta) => {
+        const directionToTurn = (bearingToTarget + 360) % 360;
+        showArrow(directionToTurn, compass, beta);
+    });
+}
+
 let positionHistory = [];
 
 navigator.geolocation.watchPosition(position => {
@@ -224,6 +259,11 @@ navigator.geolocation.watchPosition(position => {
 
     // Get current coordinates
     const coords = getQueryParams();
+    if (!coords.source || !coords.target) {
+        console.error('Invalid coordinates in geolocation watch');
+        return;
+    }
+
     const sourceLat = parseFloat(coords.source.x);
     const sourceLon = parseFloat(coords.source.y);
     const targetLat = parseFloat(coords.target.x);
