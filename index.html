@@ -11,9 +11,14 @@
     <style>
         /* Simple styling for the points container */
         #points-container {
-            margin-top: 20px;
-            padding: 10px;
+
+            padding: 15px;
             border: 1px dashed #ccc;
+        }
+
+        .coordinate-input {
+            width: 100px;
+            /* Örneğin: 80px, isteğe göre 60px veya 100px yapabilirsin */
         }
 
         .point-group {
@@ -23,23 +28,22 @@
             align-items: center;
         }
 
-        .point-group label {
-            min-width: 40px;
-            /* Adjust as needed */
-        }
 
         /* Style for the initial button container */
         /* Added display: flex and gap for alignment */
         .button-container {
             margin-top: 15px;
             margin-bottom: 15px;
-            display: flex; /* Arrange buttons horizontally */
-            gap: 10px; /* Space between buttons */
+            display: flex;
+            /* Arrange buttons horizontally */
+            gap: 10px;
+            /* Space between buttons */
         }
 
         /* Optional: Style for the new remove button */
         #remove-last-point-button {
-            background-color: #ff4d4d; /* Example color */
+            background-color: #ff4d4d;
+            /* Example color */
             /* Inherits other ar-button styles */
         }
 
@@ -53,7 +57,7 @@
     <h2>Koordinatları Girin</h2>
 
     <div id="points-container">
-        </div>
+    </div>
 
     <div class="button-container">
         <a href="#" class="ar-button" id="add-point-button">
