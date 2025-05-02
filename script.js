@@ -53,11 +53,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function getQueryParams() {
     const params = new URLSearchParams(window.location.search);
+    const encodedCoordinates = params.get('coordinates');
+
+    // Koordinatların zaten var ve geçerli formatta olduğu varsayılıyor
+    const decodedCoordinates = decodeURIComponent(encodedCoordinates);
+    const coordinates = JSON.parse(decodedCoordinates);
+
+    // İlk iki noktayı (X1, Y1 ve X2, Y2) döndür
+    // ar.html'ye gelmeden önce en az 2 noktanın olduğu garanti ediliyor varsayımıyla
+    const point1 = coordinates[0]; // İlk nokta (X1, Y1)
+    const point2 = coordinates[1]; // İkinci nokta (X2, Y2)
+
     return {
-        x1: params.get('x1'),
-        y1: params.get('y1'),
-        x2: params.get('x2'),
-        y2: params.get('y2')
+        x1: point1.x, // İlk noktanın x değeri
+        y1: point1.y, // İlk noktanın y değeri
+        x2: point2.x, // İkinci noktanın x değeri
+        y2: point2.y  // İkinci noktanın y değeri
     };
 }
 
