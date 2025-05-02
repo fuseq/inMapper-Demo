@@ -59,13 +59,10 @@ document.addEventListener('DOMContentLoaded', function () {
 function getQueryParams() {
     const params = new URLSearchParams(window.location.search);
     return {
-        x1: params.get('x0'),
-        y1: params.get('y0'),
-        x2: params.get('x1'),
-        y2: params.get('y1'),
-        x3: params.get('x2'), // İleri aşamalar eklenebilir
-        y3: params.get('y2'),
-        // İhtiyaç duyarsanız daha fazla aşama ekleyebilirsiniz
+        x1: params.get('x1'),
+        y1: params.get('y1'),
+        x2: params.get('x2'),
+        y2: params.get('y2')
     };
 }
 
@@ -250,43 +247,49 @@ let positionHistory = [];
 navigator.geolocation.watchPosition(position => {
     const { latitude, longitude, accuracy } = position.coords;
 
-    // URL'den gelen koordinatlar
-    const coords = getQueryParams();
-    const stages = [
-        { lat: parseFloat(coords.x0), lon: parseFloat(coords.y0) },
-        { lat: parseFloat(coords.x1), lon: parseFloat(coords.y1) },
-        { lat: parseFloat(coords.x2), lon: parseFloat(coords.y2) }
-    ];
+    const sourceLat = parseFloat(window.coords.x1);
+    const sourceLon = parseFloat(window.coords.y1);
+    const targetLat = parseFloat(window.coords.x2);
+    const targetLon = parseFloat(window.coords.y2);
 
-    let currentStage = null;
-    let nextStage = null;
+    const bearingToTarget = calculateBearing(sourceLat, sourceLon, targetLat, targetLon);
 
-    // Koordinatların en yakınına göre aşama belirleme
-    let closestDistance = Infinity;
-
-    stages.forEach((stage, index) => {
-        const distance = calculateDistance(latitude, longitude, stage.lat, stage.lon);
-        if (distance < closestDistance) {
-            closestDistance = distance;
-            currentStage = index;
-            nextStage = stages[index + 1] || null; // Sonraki aşama
-        }
+    startCompassListener((compass, beta) => {
+        const directionToTurn = (bearingToTarget + 360) % 360;
+        showArrow(directionToTurn, compass, beta);
     });
 
-    // Eğer kullanıcı bir aşamaya çok yakınsa, yön göster
-    if (currentStage !== null && nextStage !== null) {
-        const bearingToNextStage = calculateBearing(
-            stages[currentStage].lat,
-            stages[currentStage].lon,
-            nextStage.lat,
-            nextStage.lon
-        );
+    // Doğruluk bilgisi gelmediyse, varsayılan bir değeri kabul et
+    if (typeof accuracy === 'undefined' || accuracy === null) {
+        console.warn('Doğruluk bilgisi alınamadı, varsayılan değeri kullanarak devam ediliyor.');
+        accuracy = 10; // Varsayılan bir değer atanabilir (örneğin 10 metre)
+    }
 
-        startCompassListener((compass, beta) => {
-            const directionToTurn = (bearingToNextStage + 360) % 360;
-            showArrow(directionToTurn, compass, beta);
-        });
+    // Doğruluk kontrolü: Yalnızca doğruluğu 10 metreden küçük olan veriler kabul ediliyor
+    if (accuracy > 10) {
+        console.warn('Konum verisi yeterince doğru değil:', accuracy);
+        return;
+    }
+
+    // Son 5 pozisyonu sakla
+    positionHistory.push({ latitude, longitude });
+    if (positionHistory.length > 5) {
+        positionHistory.shift(); // İlk elemanı çıkar
+    }
+
+    // Ortalama pozisyon hesapla
+    const averageLat = positionHistory.reduce((sum, pos) => sum + pos.latitude, 0) / positionHistory.length;
+    const averageLon = positionHistory.reduce((sum, pos) => sum + pos.longitude, 0) / positionHistory.length;
+    const distanceFromSource = calculateDistance(sourceLat, sourceLon, averageLat, averageLon);
+    const distanceThreshold = 5; 
+    if (distanceFromSource > distanceThreshold) {
+        const centerButton = document.querySelector('.center-button');
+        if (centerButton) {
+            centerButton.style.display = 'none';
+        }
     }
 }, error => {
     console.error('Geolocation hatası:', error);
 }, { enableHighAccuracy: true });
+
+
