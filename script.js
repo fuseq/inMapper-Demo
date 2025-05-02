@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', function () {
             popup.remove();
         }
         bottomContainer.style.height = '100%';
-        centerButton.style.display = 'none';
-        rightButton.style.display = 'none';
+        centerButton.style.display = 'block';
+        rightButton.style.display = 'block';
         // İsteğe bağlı olarak başka işlemler yapılabilir
     });
 });
