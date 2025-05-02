@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const rightButton = document.querySelector('.right-button');
     const okButton = document.querySelector('.btn-ok');
     const bottomContainer = document.querySelector('.bottom-container');
-    const popup = document.getElementById('popup');
+
     const aScene = document.querySelector('a-scene');
 
   
@@ -33,9 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (aScene) {
             aScene.remove();
         }
-        if (popup) {
-            popup.style.display = 'none'; // Sadece gizle
-        }
+
         bottomContainer.style.height = '100%'; // bottomContainer'ı %100 yap
         centerButton.style.display = 'block'; // centerButton'ı tekrar göster
         rightButton.style.display = 'none'; // rightButton'ı görünür tut
@@ -45,10 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (aScene) {
             aScene.remove();
         }
-        // Popup'ı tamamen kaldır
-        if (popup) {
-            popup.style.display = 'none'; // Sadece gizle
-        }
+
         bottomContainer.style.height = '100%';
         centerButton.style.display = 'block';
         rightButton.style.display = 'none';
@@ -95,7 +90,7 @@ function showArrow(directionToTurn, direction, beta) {
     const rightArrow = document.getElementById('right-arrow');
     const upArrow = document.getElementById('up-arrow');
     const upPerspectiveArrow = document.getElementById('up-arrow-perspective');
-    const popup = document.querySelector('.popup');
+
     const container = document.querySelector('.container');
     const progressCircle = document.querySelector('.progress');
 
@@ -135,7 +130,7 @@ function showArrow(directionToTurn, direction, beta) {
 
             if (currentOffset === 0) {
                 console.log('Animasyon tamamlandı ve beyaza döndü!');
-                popup.style.display = 'block';
+                
             } else {
                 // Animasyon bitene kadar requestAnimationFrame ile devam et
                 requestAnimationFrame(monitorAnimation);
@@ -171,12 +166,12 @@ function showArrow(directionToTurn, direction, beta) {
 
 function onTransitionEnd() {
     const progressCircle = document.querySelector('.progress');
-    const popup = document.querySelector('.popup');
+    
 
     // strokeDashoffset kontrolü ile sadece animasyon beyaza döndüğünde tetiklenir
     if (progressCircle.style.strokeDashoffset === '0') {
         console.log('Animasyon tamamlandı ve beyaza döndü!');
-        popup.style.display = 'block';
+      
     }
 }
 
