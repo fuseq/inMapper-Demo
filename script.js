@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         bottomContainer.style.height = '40%';
         centerButton.style.display = 'none';
         rightButton.style.display = 'block';
+        nextTargetButton.style.display = 'block';
     });
 
     rightButton.addEventListener('click', function () {
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
         bottomContainer.style.height = '100%';
         centerButton.style.display = 'block';
         rightButton.style.display = 'none';
+        nextTargetButton.style.display = 'none';
     });
 
 

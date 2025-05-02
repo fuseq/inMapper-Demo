@@ -620,6 +620,22 @@ button {
 
 }
 
+.next-target-button {
+    margin-left: auto;
+    /* Sağa yaslar */
+    padding: 5px 10px;
+    right: 20px;
+    background-color: #ee8793;
+    color: white;
+    border-radius: 25px;
+    /* Köşeleri yuvarla */
+    display: none;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    z-index: 10;
+
+}
+
 /* Buton stilini düzenleyin */
 button {
     background-color: #f8f8f8;
@@ -784,29 +800,3 @@ button:hover {
     margin-right: 5px;
 }
 
-.target-controls {
-    width: 100%;
-    display: flex;
-    /* İçindeki butonları yan yana dizer */
-    justify-content: center;
-    /* Ortala */
-    align-items: center;
-    padding: 10px 0;
-    /* Üstten alttan boşluk */
- 
-    /* Hafif şeffaf beyaz arka plan */
-    z-index: 10;
-    /* Diğer elemanların üstünde görünür */
-    /* display: none; /* JS tarafından block yapılacak */
-}
-
-.target-controls button {
-    margin: 0 10px;
-    padding: 5px 15px;
-    /* Diğer buton stilleri */
-}
-
-.target-controls span {
-    font-weight: bold;
-    /* Diğer metin stilleri */
-}
