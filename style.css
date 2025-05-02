@@ -635,7 +635,12 @@ button {
     z-index: 10;
 
 }
-
+.next-target-button:active,
+.next-target-button:focus {
+    background-color: #beee87 !important;
+    outline: none;
+    box-shadow: none;
+}
 /* Buton stilini düzenleyin */
 button {
     background-color: #f8f8f8;
