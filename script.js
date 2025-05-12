@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const popup = document.getElementById('popup');
     const aScene = document.querySelector('a-scene');
 
-  
+
 
     centerButton.addEventListener('click', function () {
         // Eğer sahne daha önce eklenmediyse a-scene'i oluşturup ekleyelim
@@ -281,7 +281,7 @@ navigator.geolocation.watchPosition(position => {
     const averageLat = positionHistory.reduce((sum, pos) => sum + pos.latitude, 0) / positionHistory.length;
     const averageLon = positionHistory.reduce((sum, pos) => sum + pos.longitude, 0) / positionHistory.length;
     const distanceFromSource = calculateDistance(sourceLat, sourceLon, averageLat, averageLon);
-    const distanceThreshold = 5; 
+    const distanceThreshold = 5;
     if (distanceFromSource > distanceThreshold) {
         const centerButton = document.querySelector('.center-button');
         if (centerButton) {
@@ -291,3 +291,123 @@ navigator.geolocation.watchPosition(position => {
 }, error => {
     console.error('Geolocation hatası:', error);
 }, { enableHighAccuracy: true });
+
+function calculatePosition(lines, startCoord, endCoord, speed, elapsedTime) {
+    const coordToId = new Map();
+    const idToCoord = new Map();
+    let currentId = 0;
+
+    const G = new Map();
+
+    function getId(coord) {
+        const key = coord.join(',');
+        if (!coordToId.has(key)) {
+            const id = `N${currentId++}`;
+            coordToId.set(key, id);
+            idToCoord.set(id, coord);
+        }
+        return coordToId.get(key);
+    }
+
+
+    for (const [x1, y1, x2, y2] of lines) {
+        const p1 = [x1, y1];
+        const p2 = [x2, y2];
+        const id1 = getId(p1);
+        const id2 = getId(p2);
+
+        const dist = Math.hypot(x2 - x1, y2 - y1);
+
+        if (!G.has(id1)) G.set(id1, []);
+        if (!G.has(id2)) G.set(id2, []);
+
+        G.get(id1).push({ target: id2, weight: dist });
+        G.get(id2).push({ target: id1, weight: dist });
+    }
+
+
+    function dijkstra(graph, start) {
+        const dist = new Map();
+        const prev = new Map();
+        const visited = new Set();
+        const queue = new Set(graph.keys());
+
+        for (const node of queue) {
+            dist.set(node, Infinity);
+        }
+        dist.set(start, 0);
+
+        while (queue.size > 0) {
+            let u = null;
+            let minDist = Infinity;
+            for (const node of queue) {
+                if (dist.get(node) < minDist) {
+                    minDist = dist.get(node);
+                    u = node;
+                }
+            }
+
+            if (u === null) break;
+            queue.delete(u);
+            visited.add(u);
+
+            for (const { target, weight } of graph.get(u)) {
+                if (visited.has(target)) continue;
+                const alt = dist.get(u) + weight;
+                if (alt < dist.get(target)) {
+                    dist.set(target, alt);
+                    prev.set(target, u);
+                }
+            }
+        }
+
+        return prev;
+    }
+
+    function reconstructPath(prev, start, end) {
+        const path = [];
+        let u = end;
+        while (u !== start) {
+            path.unshift(u);
+            u = prev.get(u);
+            if (u === undefined) return [];
+        }
+        path.unshift(start);
+        return path;
+    }
+
+    const startId = coordToId.get(startCoord.join(','));
+    const endId = coordToId.get(endCoord.join(','));
+
+    const prev = dijkstra(G, startId);
+    const path = reconstructPath(prev, startId, endId);
+    if (path.length === 0) return null;
+
+    const positions = path.map(id => idToCoord.get(id));
+
+    const edges = [];
+    let totalDistance = 0;
+    for (let i = 0; i < positions.length - 1; i++) {
+        const a = positions[i];
+        const b = positions[i + 1];
+        const dist = Math.hypot(b[0] - a[0], b[1] - a[1]);
+        edges.push({ a, b, dist });
+        totalDistance += dist;
+    }
+
+    const distanceTraveled = speed * elapsedTime;
+
+    let traveled = 0;
+    for (const { a, b, dist } of edges) {
+        if (traveled + dist >= distanceTraveled) {
+            const remaining = distanceTraveled - traveled;
+            const ratio = remaining / dist;
+            const x = a[0] + ratio * (b[0] - a[0]);
+            const y = a[1] + ratio * (b[1] - a[1]);
+            return [x, y];
+        }
+        traveled += dist;
+    }
+
+    return positions[positions.length - 1]; // reached or exceeded destination
+}
