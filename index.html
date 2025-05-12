@@ -1,261 +1,50 @@
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" type="text/css" href="./style.css" />
     <title>Koordinat Giriş Sayfası</title>
-    <style>
-        /* Simple styling for the points container */
-        #points-container {
 
-            padding: 15px;
-            border: 1px dashed #ccc;
-        }
-
-        .coordinate-input {
-            width: 100px;
-            /* Örneğin: 80px, isteğe göre 60px veya 100px yapabilirsin */
-        }
-
-        .point-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-            align-items: center;
-        }
-
-
-        /* Style for the initial button container */
-        /* Added display: flex and gap for alignment */
-        .button-container {
-            margin-top: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            /* Arrange buttons horizontally */
-            gap: 10px;
-            /* Space between buttons */
-        }
-
-        /* Optional: Style for the new remove button */
-        #remove-last-point-button {
-            background-color: #ff4d4d;
-            /* Example color */
-            /* Inherits other ar-button styles */
-        }
-
-        #remove-last-point-button:hover {
-            background-color: #cc0000;
-        }
-    </style>
 </head>
-
 <body>
-    <h2>Koordinatları Girin</h2>
-
-    <div id="points-container">
+    <div class="input-group">
+        <label for="x1">X1:</label>
+        <input type="number" id="x1" name="x1">
     </div>
-
-    <div class="button-container">
-        <a href="#" class="ar-button" id="add-point-button">
-            <span class="material-symbols-outlined">
-                add
-            </span>
-            Koordinat Ekle
-        </a>
-        <a href="#" class="ar-button" id="remove-last-point-button">
-            <span class="material-symbols-outlined">
-                remove
-            </span>
-            Son Koordinatı Sil
-        </a>
+    <div class="input-group">
+        <label for="y1">Y1:</label>
+        <input type="number" id="y1" name="y1">
     </div>
-
+    <div class="input-group">
+        <label for="x2">X2:</label>
+        <input type="number" id="x2" name="x2">
+    </div>
+    <div class="input-group">
+        <label for="y2">Y2:</label>
+        <input type="number" id="y2" name="y2">
+    </div>
     <div class="button-container">
         <a href="#" class="ar-button" id="ar-button">
             <span class="material-symbols-outlined">
-                visibility
+                flip
             </span>
             AR'yi Kullan
         </a>
     </div>
 
     <script>
-        // pointCount is now updated by updatePointLabels
-        let pointCount = 0;
-
-        function addPoint(x = '', y = '') {
-            const container = document.getElementById('points-container');
-            // Use current pointCount + 1 for initial index, updatePointLabels fixes later
-            const index = document.querySelectorAll('#points-container .point-group').length + 1;
-
-            const pointGroup = document.createElement('div');
-            pointGroup.classList.add('point-group');
-            pointGroup.setAttribute('data-index', index); // Add an index attribute
-
-            const labelX = document.createElement('label');
-            labelX.textContent = `X${index}:`;
-            labelX.setAttribute('for', `x_${index}`);
-
-            const inputX = document.createElement('input');
-            inputX.setAttribute('type', 'text');
-            inputX.setAttribute('id', `x_${index}`);
-            inputX.classList.add('coordinate-input');
-            inputX.value = x;
-
-            const labelY = document.createElement('label');
-            labelY.textContent = `Y${index}:`;
-            labelY.setAttribute('for', `y_${index}`);
-
-            const inputY = document.createElement('input');
-            inputY.setAttribute('type', 'text');
-            inputY.setAttribute('id', `y_${index}`);
-            inputY.classList.add('coordinate-input');
-            inputY.value = y;
-
-            // *** REMOVED PER-ROW REMOVE BUTTON CREATION ***
-
-            pointGroup.appendChild(labelX);
-            pointGroup.appendChild(inputX);
-            pointGroup.appendChild(labelY);
-            pointGroup.appendChild(inputY);
-
-            container.appendChild(pointGroup);
-
-            // pointCount is updated by updatePointLabels after this
-        }
-
-        function updatePointLabels() {
-            const pointGroups = document.querySelectorAll('#points-container .point-group');
-            const removeLastButton = document.getElementById('remove-last-point-button');
-
-            pointGroups.forEach((group, index) => {
-                const pointNumber = index + 1;
-                group.setAttribute('data-index', pointNumber);
-
-                // Update labels
-                const labelX = group.querySelector('label[for^="x_"]');
-                if (labelX) labelX.textContent = `X${pointNumber}:`;
-
-                const labelY = group.querySelector('label[for^="y_"]');
-                if (labelY) labelY.textContent = `Y${pointNumber}:`;
-
-
-                // Update input IDs
-                const inputs = group.querySelectorAll('.coordinate-input');
-                if (inputs.length >= 2) {
-                    inputs[0].id = `x_${pointNumber}`; // Assuming first input is X
-                    inputs[1].id = `y_${pointNumber}`; // Assuming second input is Y
-                }
-            });
-
-            // Manage visibility of the single remove button
-            if (removeLastButton) {
-                // Hide remove button if there is 1 or fewer points
-                if (pointGroups.length <= 1) {
-                    removeLastButton.style.display = 'none';
-                } else {
-                    // Use flex to align with the add button in the flex container
-                    removeLastButton.style.display = 'inline-flex';
-                }
-            }
-
-            // Update pointCount to reflect the number of remaining points
-            pointCount = pointGroups.length;
-        }
-
-        // Add initial points when the page loads (e.g., 2 points)
-        document.addEventListener('DOMContentLoaded', () => {
-            addPoint(); // Add the first point
-            addPoint(); // Add the second point
-            updatePointLabels(); // Ensure labels are correct and button states are set
-        });
-
-        // Add listener for the "Add Coordinate" button
-        document.getElementById('add-point-button').addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent default link behavior
-            addPoint();
-            updatePointLabels(); // Update labels and button visibility
-        });
-
-        // Add listener for the NEW "Remove Last Coordinate" button
-        const removeLastButton = document.getElementById('remove-last-point-button');
-        if (removeLastButton) { // Ensure button exists before adding listener
-            removeLastButton.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent default link behavior
-
-                const pointGroups = document.querySelectorAll('#points-container .point-group');
-
-                // Only remove if there is more than one point remaining
-                if (pointGroups.length > 1) {
-                    const lastPointGroup = pointGroups[pointGroups.length - 1];
-                    lastPointGroup.remove(); // Remove the last group
-                    updatePointLabels(); // Re-index remaining points and manage button visibility
-                } else {
-                    console.log("Cannot remove the last point (need at least 2 points).");
-                    // Optional: Provide user feedback
-                    // alert("En az iki koordinat olmalıdır.");
-                }
-            });
-        }
-
-
-        // AR button logic (mostly the same, ensures it reads current inputs)
-        document.getElementById('ar-button').addEventListener('click', function (event) {
+        document.getElementById('ar-button').addEventListener('click', function(event) {
             event.preventDefault();
-
-            const coordinates = [];
-            // Iterate through point groups to collect inputs
-            const pointGroups = document.querySelectorAll('#points-container .point-group');
-
-
-            pointGroups.forEach((group, index) => {
-                const inputs = group.querySelectorAll('.coordinate-input');
-                if (inputs.length >= 2) {
-                    const xInput = inputs[0];
-                    const yInput = inputs[1];
-
-                    const x = xInput.value.trim();
-                    const y = yInput.value.trim();
-
-                    // Check if both X and Y are not empty and are valid numbers
-                    if (x !== '' && y !== '') {
-                        const parsedX = parseFloat(x);
-                        const parsedY = parseFloat(y);
-
-                        if (!isNaN(parsedX) && !isNaN(parsedY)) {
-                            coordinates.push({ x: parsedX, y: parsedY });
-                        } else {
-                            console.warn(`Invalid numeric input for point ${index + 1}: X='${x}', Y='${y}'. Skipping.`);
-                            // Optional: alert(`Hatalı sayısal giriş: Nokta ${index + 1}`);
-                        }
-                    } else {
-                        console.warn(`Missing coordinate value for point ${index + 1}`);
-                        // Optional: alert(`Eksik koordinat girişi: Nokta ${index + 1}`);
-                    }
-                }
-            });
-
-            // Check if at least two valid points were collected
-            if (coordinates.length < 2) {
-                alert("Lütfen en az iki geçerli koordinat girin.");
-                console.warn("Not enough valid coordinates entered (need at least 2).");
-                return; // Stop the process
-            }
-
-            console.log('Collected Coordinates:', coordinates);
-
-            // Encode coordinates to pass to ar.html
-            const encodedCoordinates = encodeURIComponent(JSON.stringify(coordinates));
-
-            // Redirect to ar.html with coordinates in the URL
-            window.location.href = `ar.html?coordinates=${encodedCoordinates}`;
+            const x1 = document.getElementById('x1').value;
+            const y1 = document.getElementById('y1').value;
+            const x2 = document.getElementById('x2').value;
+            const y2 = document.getElementById('y2').value;
+            console.log(`Koordinatlar: X1=${x1}, Y1=${y1}, X2=${x2}, Y2=${y2}`);
+            window.location.href = `ar.html?x1=${x1}&y1=${y1}&x2=${x2}&y2=${y2}`;
         });
     </script>
     <script src="./script.js"></script>
 </body>
-
 </html>
